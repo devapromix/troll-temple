@@ -1,2 +1,2 @@
-# trolls
-Simple 7d roguelike game
+# Troll Caves
+Simple 7d roguelike game.
