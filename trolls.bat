@@ -1,2 +1,2 @@
-trolls.py
+trolls.py wizard
 pause
