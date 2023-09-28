@@ -1,5 +1,7 @@
 from random import *
 
+# --- UTILS --- #
+
 ALL_DIRS = []
 for dx in range(-1, 2):
     for dy in range(-1, 2):
