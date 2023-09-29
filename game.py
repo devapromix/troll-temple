@@ -200,12 +200,11 @@ class Game(object):
     def cmd_spellbook(self):
         from mobs import MAGE
         if self.player.game_class == MAGE:
-            spell = select_spell('Select a spell to use', self.player.spells)
+            spell = select_spell('Select a spell to cast', self.player.spells)
             if spell:
-                self.player.spell(spell)
+                self.player.use_spell(spell)
         else:
             message("You don't have a spell book!")
-
 
 # --- GAME --- #
 
@@ -337,7 +336,10 @@ def _draw_spellbook(title, spells):
     B.clear()
     B.color("white")
     B.print(2, 1, title)
-    
+    B.color("light grey")
+    for i, spell in enumerate(spells):
+        B.print(3, i + 3, chr(i + ord('a')))
+        B.print(5, i+3, spell.descr)
 
 def spellbook(title='Spellbook', spells=None):
     _draw_spellbook(title, spells or GAME.player.spells)

@@ -1,6 +1,7 @@
 import tcod as T
 from utils import *
 from game import *
+from spells import *
 
 # --- ITEM --- #
 
@@ -141,17 +142,9 @@ class Potion(Item):
 
 class Scroll(Item):
     ABSTRACT = True
-    mana = 6
 
     def on_use(self, player):
-        m = self.mana - player.game_class
-        if player.mp >= m:
-            message('You read the %s (mana -%d).' % (self.name, m))
-            player.items.remove(self)
-            player.mp -= m
-        else:
-            message('Need more mana!')
-    
+        self.spell.on_use(self.spell(), player)
 
 # --- LIGHT SOURCES --- # 
 
@@ -404,13 +397,9 @@ class PotionOfMana(Potion):
 class ScrollHealing(Scroll):
     glyph = '?', T.pink
     name = 'scroll of health'
+    spell = Heal
     dungeons = 1, 12
     rarity = 1
-    
-    def on_use(self, player):
-        super(ScrollHealing, self).on_use(player)
-        message('You feel healed.')
-        player.hp = player.max_hp
 
 if __name__ == '__main__':
     d = [random_by_level(1, Item.ALL)().descr for i in range(20)]

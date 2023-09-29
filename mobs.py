@@ -102,6 +102,7 @@ class Player(Mob):
         self.mp = self.max_mp
 
         import items as item
+        import spells as spell
         self.spells = []
         self.items = [item.Torch(), item.PotionHealing()]
         if self.game_class == FIGHTER:
@@ -112,7 +113,7 @@ class Player(Mob):
             self.items += [item.PotionHealing(), item.Dagger()]
         else:
             self.items += [item.PotionOfMana(), item.ScrollHealing(), item.Club()]
-            self.spells += []
+            self.spells += [spell.Heal()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -207,7 +208,8 @@ class Player(Mob):
             self.equip(item)
             
     def use_spell(self, spell):
-        pass
+        spell.on_use(self)
+        self.use_energy()
 
     def unequip(self, item):
         message('You unequip the %s.' % item.descr)
