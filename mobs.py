@@ -79,8 +79,8 @@ class Mob(object):
 # --- CONSTANTS --- #
 
 FIGHTER = 1
-ARCHER = 2
-THIEF = 3
+THIEF = 2
+ARCHER = 3
 MAGE = 4
 
 # --- PLAYER --- #
@@ -107,10 +107,10 @@ class Player(Mob):
         self.items = [item.Torch(), item.PotionHealing()]
         if self.game_class == FIGHTER:
             self.items += [item.PotionHealing(), item.ShortSword()]
-        elif self.game_class == ARCHER:
-            pass
         elif self.game_class == THIEF:
             self.items += [item.PotionHealing(), item.Dagger()]
+        elif self.game_class == ARCHER:
+            self.items += [item.PotionHealing()]
         else:
             self.items += [item.PotionOfMana(), item.ScrollHealing(), item.Club()]
             self.spells += [spell.Heal()]
@@ -147,10 +147,24 @@ class Player(Mob):
             self.advance()
 
     def hp_inc(self):
-        return 4
+        if self.game_class == FIGHTER:
+            return 4
+        elif self.game_class == THIEF:
+            return 3
+        elif self.game_class == ARCHER:
+            return 3
+        else:
+            return 2
 
     def mp_inc(self):
-        return 3
+        if self.game_class == FIGHTER:
+            return 1
+        elif self.game_class == THIEF:
+            return 2
+        elif self.game_class == ARCHER:
+            return 3
+        else:
+            return 5
 
     def advance(self):
         self.level += 1

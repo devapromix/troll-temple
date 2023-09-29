@@ -288,19 +288,19 @@ class WarSword(Weapon):
 
 class RuneSword(EliteWeapon):
     name = 'rune sword'
-    glyph = '/', T.light_gray
+    glyph = '(', T.light_gray
     dice = 2, 6, 5
     dungeons = 7, 9
 
 class MithrilSword(EliteWeapon):
     name = 'mithril sword'
-    glyph = '/', T.blue
+    glyph = '(', T.blue
     dice = 2, 7, 7
     dungeons = 9, 11
 
 class AncientSword(UniqueWeapon):
     name = 'ancient sword'
-    glyph = '/', T.cyan
+    glyph = '(', T.cyan
     dice = 2, 8, 11
     dungeons = 11, 12
 
@@ -312,6 +312,42 @@ class HandAxe(Weapon):
     dice = 1, 4, 1
     dungeons = 1, 3
 
+class DoubleAxe(Weapon):
+    name = 'double axe'
+    glyph = '(', T.grey
+    dice = 1, 5, 2
+    dungeons = 4, 6
+
+class WarAxe(Weapon):
+    name = 'war axe'
+    glyph = '(', T.grey
+    dice = 2, 5, 3
+    dungeons = 7, 9
+
+class BattleAxe(Weapon):
+    name = 'battle axe'
+    glyph = '(', T.grey
+    dice = 2, 6, 4
+    dungeons = 10, 12
+
+class GreatAxe(EliteWeapon):
+    name = 'great axe'
+    glyph = '(', T.light_gray
+    dice = 2, 6, 4
+    dungeons = 7, 9
+
+class GiantAxe(EliteWeapon):
+    name = 'giant axe'
+    glyph = '(', T.blue
+    dice = 2, 6, 8
+    dungeons = 9, 11
+
+class GloriousAxe(UniqueWeapon):
+    name = 'glorious axe'
+    glyph = '(', T.cyan
+    dice = 2, 7, 14
+    dungeons = 11, 12
+
 # --- SPEARS --- #
 
 class Spear(Weapon):
@@ -319,6 +355,42 @@ class Spear(Weapon):
     glyph = '/', T.light_orange
     dice = 1, 3, 1
     dungeons = 1, 3
+
+class Pilum(Weapon):
+    name = 'pilum'
+    glyph = '/', T.light_orange
+    dice = 1, 5, 3
+    dungeons = 4, 6
+
+class Harpoon(Weapon):
+    name = 'harpoon'
+    glyph = '/', T.light_orange
+    dice = 2, 5, 4
+    dungeons = 7, 9
+
+class WarSpear(Weapon):
+    name = 'war spear'
+    glyph = '/', T.light_orange
+    dice = 2, 6, 6
+    dungeons = 10, 12
+
+class GhostSpear(EliteWeapon):
+    name = 'ghost spear'
+    glyph = '/', T.light_grey
+    dice = 2, 7, 2
+    dungeons = 7, 9
+
+class MithrilMancatcher(EliteWeapon):
+    name = 'mithril mancatcher'
+    glyph = '/', T.light_red
+    dice = 2, 8, 5
+    dungeons = 9, 11
+
+class AncientPike(UniqueWeapon):
+    name = 'ancient pike'
+    glyph = '/', T.lighter_orange
+    dice = 2, 9, 10
+    dungeons = 11, 12
 
 # --- BOOTS --- #
 

@@ -9,8 +9,8 @@ class Spell(object, metaclass=Register):
     ABSTRACT = True
 
     @property
-    def descr(self):
-        return self.name + ' (mana -%d)' % (self.mana)
+    def descr(self, player):
+        return self.name + ' (mana -%d)' % (self.mana - player.game_class)
     
     def on_use(self, player):
         m = self.mana - player.game_class
@@ -26,7 +26,7 @@ class Spell(object, metaclass=Register):
 
 class Heal(Spell):
     name = 'heal'
-    mana = 8
+    mana = 10
 
     def on_use(self, player):
         f = super(Heal, self).on_use(player)
