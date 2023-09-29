@@ -311,6 +311,11 @@ class Player(Mob):
         self.hp = self.max_hp
         self.mp = self.max_mp
 
+    def heal(self, hp):
+        self.hp += hp
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
+
 # --- MONSTER --- #
 
 class Monster(Mob, metaclass=Register):

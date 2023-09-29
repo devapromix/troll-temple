@@ -184,9 +184,12 @@ class Game(object):
         if not isinstance(self.player.tile, StairDownTile):
             message('Stand on a down stairway to descend.')
             return
-        message('You climb downwards...')
+
+        self.player.heal(int(self.player.max_hp / 2))
+        message('You take a moment to rest, and recover your strength.')
         self.turns += 1
         self.start_map(self.map.level + 1)
+        message('After a rare moment of peace, you descend deeper into the heart of the dungeon...')
 
     def cmd_quit(self):
         if prompt('Quit? (Y/N)', [B.TK_Y, B.TK_N]) == B.TK_Y:
