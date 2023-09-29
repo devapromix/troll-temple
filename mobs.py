@@ -91,7 +91,7 @@ class Player(Mob):
     hp_regen = 0
     mp_regen = 1
     magic = 0
-    game_class = MAGE
+    game_class = FIGHTER
 
     def __init__(self, wizard):
         super(Player, self).__init__()

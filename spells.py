@@ -8,15 +8,17 @@ class Spell(object, metaclass=Register):
     ALL = []
     ABSTRACT = True
 
+    def __init__(self):
+        pass
+
     @property
-    def descr(self, player):
-        return self.name + ' (mana -%d)' % (self.mana - player.game_class)
+    def descr(self):
+        return self.name + ' (mana -%d)' % self.mana
     
     def on_use(self, player):
-        m = self.mana - player.game_class
-        if player.mp >= m:
-            message('You read the spell %s (mana -%d).' % (self.name, m))
-            player.mp -= m
+        if player.mp >= self.mana:
+            message('You read the spell %s (mana -%d).' % (self.name, self.mana))
+            player.mp -= self.mana
             return True
         else:
             message('Need more mana!')
@@ -26,11 +28,11 @@ class Spell(object, metaclass=Register):
 
 class Heal(Spell):
     name = 'heal'
-    mana = 10
+    mana = 8
 
     def on_use(self, player):
-        f = super(Heal, self).on_use(player)
-        if f:
+        cast = super(Heal, self).on_use(player)
+        if cast:
             message('You feel healed.')
             player.hp = player.max_hp
 
