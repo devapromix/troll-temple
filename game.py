@@ -8,12 +8,12 @@ from random import choice
 VERSION = '0.4'
 
 SCREEN_W = 100
-SCREEN_H = 25
+SCREEN_H = 30
 
 MAP_W = 60 - 2
 MAP_H = SCREEN_H - 2
 
-BUFFER_H = 11
+BUFFER_H = SCREEN_H // 2 + 1
 
 TITLE = 'Troll Caves'
 
@@ -107,7 +107,7 @@ class Game(object):
                         if prompt('Die? (Y/N)', [B.TK_Y, B.TK_N]) == B.TK_N:
                             new_ui_turn()
                             self.player.resurrect()
-                            message('You are resurrected!')
+                            message('You are resurrected!', T.pink)
                             draw_all()
                             continue
                     prompt(
@@ -270,6 +270,8 @@ def _draw_status():
         deads = " Deads: " + str(GAME.player.deads)
     B.print(60, 7, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deads)
 
+# --- MESSAGES --- #
+
 def _draw_messages():
     n = len(MESSAGES)
     if n == 0:
@@ -281,6 +283,15 @@ def _draw_messages():
             color *= 0.6
         set_color(color)
         B.print(60, i - start + 13, s)
+
+def message(s, color = T.white):
+    s = s[0].upper() + s[1:]
+    print(s)
+    MESSAGES.append((True, s, color))
+    _draw_messages()
+    B.refresh()
+
+# --- INVENTORY --- #
 
 def _draw_items(title, items):
     B.clear()
@@ -306,6 +317,8 @@ def draw_inventory(title='Inventory', items=None):
     _draw_messages()
     _draw_status()
     B.refresh()
+
+# --- UI --- #
 
 def draw_all():
     B.clear()
@@ -335,32 +348,32 @@ def title_screen():
     B.print(35, 17,  ' v.' + VERSION)
 
     B.color("dark red")
-    B.print(10, 20,  'by Apromix <maxwof@ukr.net>')
+    B.print(10, 22,  'by Apromix <maxwof@ukr.net>')
 
     B.color("darker orange")
-    B.print(45, 2,  '                           /\ ')
-    B.print(45, 3,  '                         _/--\ ')
-    B.print(45, 4,  '                        /     O ')
-    B.print(45, 5,  '                  /\   /       \ ')
-    B.print(45, 6,  '                _/| \_/      _  \ ')
-    B.print(45, 7,  '               /     /     _/ \  \ ')
-    B.print(45, 8,  '            __/  ___/     /    \  ) ')
-    B.print(45, 9,  '           y       Λ     |      | | ')
-    B.print(45, 10, '          ,       / \   /       | | ')
-    B.print(45, 11, '         /        \  \  |        \( ')
-    B.print(45, 12, '        /             \|          | \ ')
-    B.print(45, 13, '       ,___|_  _|-----`__ |-|- __|__,---')
-    B.print(45, 14, '      ._/ /                 \____/      \, ')
-    B.print(45, 15, '     /  \ \                  \```\        \, ')
-    B.print(45, 16, '    (__   _\                 |```|         L_, ')
-    B.print(45, 17, '    /   ./ /       /\         \```\       /  _\ ')
-    B.print(45, 18, '   |   /  /       /  \        |```|       \,   | ')
-    B.print(45, 19, '  /  (                |       \```\       /  _/ \ ')
-    B.print(45, 20, ' /                            |```|           _,| ')
-    B.print(45, 21, ' |_                           \```\             \ ')
+    B.print(45, 4,  '                           /\ ')
+    B.print(45, 5,  '                         _/--\ ')
+    B.print(45, 6,  '                        /     O ')
+    B.print(45, 7,  '                  /\   /       \ ')
+    B.print(45, 8,  '                _/| \_/      _  \ ')
+    B.print(45, 9,  '               /     /     _/ \  \ ')
+    B.print(45, 10, '            __/  ___/     /    \  ) ')
+    B.print(45, 11, '           y       Λ     |      | | ')
+    B.print(45, 12, '          ,       / \   /       | | ')
+    B.print(45, 13, '         /        \  \  |        \( ')
+    B.print(45, 14, '        /             \|          | \ ')
+    B.print(45, 15, '       ,___|_  _|-----`__ |-|- __|__,---')
+    B.print(45, 16, '      ._/ /                 \____/      \, ')
+    B.print(45, 17, '     /  \ \                  \```\        \, ')
+    B.print(45, 18, '    (__   _\                 |```|         L_, ')
+    B.print(45, 19, '    /   ./ /       /\         \```\       /  _\ ')
+    B.print(45, 20, '   |   /  /       /  \        |```|       \,   | ')
+    B.print(45, 21, '  /  (                |       \```\       /  _/ \ ')
+    B.print(45, 22, ' /                            |```|           _,| ')
+    B.print(45, 23, ' |_                           \```\             \ ')
 
     B.color("light grey")
-    B.print(SCREEN_W//2, 23, "Press any key to continue...", 0, 0, B.TK_ALIGN_CENTER)
+    B.print(SCREEN_W//2, 28, "Press any key to continue...", 0, 0, B.TK_ALIGN_CENTER)
     B.refresh()
     anykey()
 
@@ -382,13 +395,6 @@ def new_ui_turn():
             MESSAGES[i] = False, s, color
         else:
             break
-
-def message(s, color = T.white):
-    s = s[0].upper() + s[1:]
-    print(s)
-    MESSAGES.append((True, s, color))
-    _draw_messages()
-    B.refresh()
 
 # --- LOOK --- #
 
