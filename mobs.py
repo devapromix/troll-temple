@@ -91,7 +91,7 @@ class Player(Mob):
     hp_regen = 0
     mp_regen = 1
     magic = 0
-    game_class = FIGHTER
+    game_class = MAGE
 
     def __init__(self, wizard):
         super(Player, self).__init__()
@@ -102,6 +102,7 @@ class Player(Mob):
         self.mp = self.max_mp
 
         import items as item
+        self.spells = []
         self.items = [item.Torch(), item.PotionHealing()]
         if self.game_class == FIGHTER:
             self.items += [item.PotionHealing(), item.ShortSword()]
@@ -111,6 +112,7 @@ class Player(Mob):
             self.items += [item.PotionHealing(), item.Dagger()]
         else:
             self.items += [item.PotionOfMana(), item.ScrollHealing(), item.Club()]
+            self.spells += []
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -203,6 +205,9 @@ class Player(Mob):
             self.unequip(item)
         else:
             self.equip(item)
+            
+    def use_spell(self, spell):
+        pass
 
     def unequip(self, item):
         message('You unequip the %s.' % item.descr)

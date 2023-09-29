@@ -5,7 +5,7 @@ from random import choice
 
 # --- CONSTANTS --- #
 
-VERSION = '0.4'
+VERSION = '0.5'
 
 SCREEN_W = 100
 SCREEN_H = 30
@@ -38,6 +38,8 @@ INV_SIZE = SCREEN_H - 4
 INV_W = SCREEN_W
 INV_H = INV_SIZE + 3
 
+BOOK_SIZE = SCREEN_H - 4
+
 # --- KEYS --- #
 
 KEYS = [
@@ -55,6 +57,7 @@ KEYS = [
     ([B.TK_PERIOD], 'descend'),
     ([B.TK_G], 'pick_up'),
     ([B.TK_I], 'inventory'),
+    ([B.TK_B], 'spellbook'),
     ([B.TK_D], 'drop'),
     ([B.TK_L], 'look'),
     ([B.TK_W], 'wizard'),
@@ -193,6 +196,15 @@ class Game(object):
 
     def cmd_look(self):
         look_mode()
+        
+    def cmd_spellbook(self):
+        from mobs import MAGE
+        if self.player.game_class == MAGE:
+            spell = select_spell('Select a spell to use', self.player.spells)
+            if spell:
+                self.player.spell(spell)
+        else:
+            message("You don't have a spell book!")
 
 
 # --- GAME --- #
@@ -318,6 +330,20 @@ def draw_inventory(title='Inventory', items=None):
     _draw_messages()
     _draw_status()
     B.refresh()
+
+# --- SPELLBOOK --- #
+
+def _draw_spellbook(title, spells):
+    B.clear()
+    B.color("white")
+    B.print(2, 1, title)
+    
+
+def spellbook(title='Spellbook', spells=None):
+    _draw_spellbook(title, spells or GAME.player.spells)
+    _draw_messages()
+    _draw_status()
+    B.refresh()   
 
 # --- UI --- #
 
@@ -459,6 +485,16 @@ def select_item(title, items):
         i = key - B.TK_A
         if 0 <= i < len(items):
             return items[i]
+    return None
+
+def select_spell(title, spells):
+    spells = spells[:BOOK_SIZE]
+    spellbook(title, spells)
+    key = readkey()
+    if B.TK_A <= key <= B.TK_Z:
+        i = key - B.TK_A
+        if 0 <= i < len(spells):
+            return spells[i]
     return None
 
 def prompt(s, choices = None):
