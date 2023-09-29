@@ -59,6 +59,7 @@ KEYS = [
     ([B.TK_I], 'inventory'),
     ([B.TK_B], 'spellbook'),
     ([B.TK_D], 'drop'),
+    ([B.TK_T], 'test'),
     ([B.TK_L], 'look'),
     ([B.TK_W], 'wizard'),
 ]
@@ -100,6 +101,9 @@ class Game(object):
         self.map = Map(level)
         x, y, _ = self.map.random_empty_tile()
         self.player.put(self.map, x, y)
+
+    def test(self):
+        pass
 
     def loop(self):
         draw_all()

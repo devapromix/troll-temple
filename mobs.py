@@ -588,7 +588,16 @@ class Skeleton(UndeadMonster):
     name = 'skeleton'
     glyph = 's', T.light_grey
     max_hp = 35
-    dice = 2, 6, 3
+    dice = 2, 6, 0
+    level = 8    
+    dungeons = 8, 8
+    rarity = 1
+
+class Zombie(UndeadMonster):
+    name = 'zombie'
+    glyph = 'z', T.light_green
+    max_hp = 38
+    dice = 2, 7, 0
     level = 8    
     dungeons = 8, 8
     rarity = 1
@@ -671,7 +680,6 @@ class TrollKing(BossMonster):
     armor = 10
     level = 12
     dungeons = 12, 12
-    rarity = 1
 
     def die(self):
         super(TrollKing, self).die()
