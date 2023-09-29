@@ -76,6 +76,13 @@ class Mob(object):
     def heartbeat(self):
         pass
 
+# --- CONSTANTS --- #
+
+FIGHTER = 1
+ARCHER = 2
+THIEF = 3
+MAGE = 4
+
 # --- PLAYER --- #
 
 class Player(Mob):
@@ -83,21 +90,27 @@ class Player(Mob):
     name = 'you'
     hp_regen = 0
     mp_regen = 1
-    game_class = 1
+    magic = 0
+    game_class = FIGHTER
 
     def __init__(self, wizard):
         super(Player, self).__init__()
         self.level = 1
-        self.max_hp = 25
+        self.max_hp = 40 - (self.game_class * 5)
         self.hp = self.max_hp
-        self.max_mp = 10
+        self.max_mp = self.game_class * 5
         self.mp = self.max_mp
 
         import items as item
         self.items = [item.Torch(), item.PotionHealing()]
-        if self.game_class == 1:
+        if self.game_class == FIGHTER:
+            self.items += [item.PotionHealing(), item.ShortSword()]
+        elif self.game_class == ARCHER:
+            pass
+        elif self.game_class == THIEF:
             self.items += [item.PotionHealing(), item.Dagger()]
-        #self.items.append(random_by_level(1, Item.ALL)())
+        else:
+            self.items += [item.PotionOfMana(), item.ScrollHealing(), item.Club()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -441,7 +454,7 @@ class Rat(Monster):
 
 class Bat(Monster):
     name = 'bat'
-    glyph = 'B', T.dark_orange
+    glyph = 'b', T.darker_orange
     max_hp = 5
     speed = 3
     dice = 1, 3, 0
@@ -512,6 +525,18 @@ class Ghost(GhostMonster):
     level = 5    
     multi = 3
     dungeons = 5, 6
+    rarity = 1
+
+class KillerBat(Monster):
+    name = 'killer bat'
+    glyph = 'b', T.darker_orange
+    max_hp = 20
+    speed = 4
+    dice = 3, 3, 0
+    multi = 3
+    fears_light = True
+    level = 1
+    dungeons = 5, 7
     rarity = 1
 
 # --- MONSTERS #6 --- #

@@ -141,13 +141,14 @@ class Potion(Item):
 
 class Scroll(Item):
     ABSTRACT = True
-    mana = 5
+    mana = 6
 
     def on_use(self, player):
-        if player.mp >= self.mana:
-            message('You read the %s.' % self.name)
+        m = self.mana - player.game_class
+        if player.mp >= m:
+            message('You read the %s (mana -%d).' % (self.name, m))
             player.items.remove(self)
-            player.mp -= self.mana
+            player.mp -= m
         else:
             message('Need more mana!')
     
@@ -403,7 +404,6 @@ class PotionOfMana(Potion):
 class ScrollHealing(Scroll):
     glyph = '?', T.pink
     name = 'scroll of health'
-    mana = 7
     dungeons = 1, 12
     rarity = 1
     

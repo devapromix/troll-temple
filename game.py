@@ -269,6 +269,7 @@ def _draw_status():
     if GAME.wizard:
         deads = " Deads: " + str(GAME.player.deads)
     B.print(60, 7, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deads)
+    B.print(60, 8, "Magic:  " + str(GAME.player.magic))
 
 # --- MESSAGES --- #
 
