@@ -5,7 +5,7 @@ from random import choice
 
 # --- CONSTANTS --- #
 
-VERSION = '0.5'
+VERSION = '0.6'
 
 SCREEN_W = 100
 SCREEN_H = 30

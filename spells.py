@@ -13,12 +13,13 @@ class Spell(object, metaclass=Register):
 
     @property
     def descr(self):
-        return self.name + ' (mana -%d)' % self.mana
+        return str(self.name + ' (mana -%d)' % self.mana)
     
     def on_use(self, player):
         if player.mp >= self.mana:
             message('You read the spell %s (mana -%d).' % (self.name, self.mana))
             player.mp -= self.mana
+            player.try_learn_spell(self)
             return True
         else:
             message('Need more mana!')
@@ -28,7 +29,7 @@ class Spell(object, metaclass=Register):
 
 class Heal(Spell):
     name = 'heal'
-    mana = 8
+    mana = 7
 
     def on_use(self, player):
         cast = super(Heal, self).on_use(player)

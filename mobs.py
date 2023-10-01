@@ -113,7 +113,6 @@ class Player(Mob):
             self.items += [item.PotionHealing()]
         else:
             self.items += [item.PotionOfMana(), item.ScrollHealing(), item.ScrollTeleport(), item.Club()]
-            self.spells += [spell.Heal(), spell.Teleport()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -311,26 +310,27 @@ class Player(Mob):
         self.hp = self.max_hp
         self.mp = self.max_mp
 
-    def heal(self, hp):
-        self.hp += hp
-        if self.hp > self.max_hp:
-            self.hp = self.max_hp
-            
     def has_spell(self, spell):
         for i, s in enumerate(self.spells):
             if isinstance(s, spell):
                 return True
         return False
             
+    def try_learn_spell(self, spell):
+        if not self.has_spell(spell):
+            self.spells.append(spell)
+            message("You've learned a new spell!")
+            
+    def heal(self, hp):
+        self.hp += hp
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
+            
     def teleport(self):
-        import spells as spell
         x, y, _ = self.map.random_empty_tile()
         self.move(x, y)
-        if not self.has_spell(spell.Teleport()):
-            self.spells += [spell.Teleport()]
-            message("You've learned a new spell!")
-
-# --- MONSTER --- #
+ 
+ # --- MONSTER --- #
 
 class Monster(Mob, metaclass=Register):
     ALL = []

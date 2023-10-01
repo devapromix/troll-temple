@@ -145,6 +145,7 @@ class Scroll(Item):
 
     def on_use(self, player):
         self.spell.on_use(self.spell(), player)
+        player.items.remove(self)
 
 # --- LIGHT SOURCES --- # 
 
