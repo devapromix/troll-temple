@@ -91,7 +91,7 @@ class Player(Mob):
     hp_regen = 0
     mp_regen = 1
     magic = 0
-    game_class = FIGHTER
+    game_class = MAGE
 
     def __init__(self, wizard):
         super(Player, self).__init__()
@@ -112,8 +112,8 @@ class Player(Mob):
         elif self.game_class == ARCHER:
             self.items += [item.PotionHealing()]
         else:
-            self.items += [item.PotionOfMana(), item.ScrollHealing(), item.Club()]
-            self.spells += [spell.Heal()]
+            self.items += [item.PotionOfMana(), item.ScrollHealing(), item.ScrollTeleport(), item.Club()]
+            self.spells += [spell.Heal(), spell.Teleport()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -315,6 +315,20 @@ class Player(Mob):
         self.hp += hp
         if self.hp > self.max_hp:
             self.hp = self.max_hp
+            
+    def has_spell(self, spell):
+        for i, s in enumerate(self.spells):
+            if isinstance(s, spell):
+                return True
+        return False
+            
+    def teleport(self):
+        import spells as spell
+        x, y, _ = self.map.random_empty_tile()
+        self.move(x, y)
+        if not self.has_spell(spell.Teleport()):
+            self.spells += [spell.Teleport()]
+            message("You've learned a new spell!")
 
 # --- MONSTER --- #
 

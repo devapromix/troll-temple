@@ -102,9 +102,6 @@ class Game(object):
         x, y, _ = self.map.random_empty_tile()
         self.player.put(self.map, x, y)
 
-    def test(self):
-        pass
-
     def loop(self):
         draw_all()
         try:
@@ -212,6 +209,10 @@ class Game(object):
                 self.player.use_spell(spell)
         else:
             message("You don't have a spell book!")
+
+    def cmd_test(self):
+        if self.wizard:
+            self.player.teleport()
 
 # --- GAME --- #
 

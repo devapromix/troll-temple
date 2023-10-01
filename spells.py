@@ -33,8 +33,19 @@ class Heal(Spell):
     def on_use(self, player):
         cast = super(Heal, self).on_use(player)
         if cast:
-            message('You feel healed.')
+            message('You are already at full health.')
             player.hp = player.max_hp
+
+class Teleport(Spell):
+    name = 'teleport'
+    mana = 5
+
+    def on_use(self, player):
+        cast = super(Teleport, self).on_use(player)
+        if cast:
+            message('You instantly materialized in another place.')
+            player.teleport()
+
 
 
 

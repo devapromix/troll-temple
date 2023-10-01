@@ -473,6 +473,13 @@ class ScrollHealing(Scroll):
     dungeons = 1, 12
     rarity = 1
 
+class ScrollTeleport(Scroll):
+    glyph = '?', T.lighter_blue
+    name = 'scroll of teleport'
+    spell = Teleport
+    dungeons = 1, 12
+    rarity = 1
+
 if __name__ == '__main__':
     d = [random_by_level(1, Item.ALL)().descr for i in range(20)]
     print('\n'.join(d))
