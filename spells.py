@@ -19,7 +19,6 @@ class Spell(object, metaclass=Register):
         if player.mp >= self.mana:
             message('You read the spell %s (mana -%d).' % (self.name, self.mana))
             player.mp -= self.mana
-            player.try_learn_spell(self)
             return True
         else:
             message('Need more mana!')
@@ -32,21 +31,24 @@ class Heal(Spell):
     mana = 7
 
     def on_use(self, player):
-        cast = super(Heal, self).on_use(player)
-        if cast:
+        f = super(Heal, self).on_use(player)
+        if f:
             message('You are already at full health.')
             player.hp = player.max_hp
+            player.try_learn_spell(Heal)
+        return f
 
 class Teleport(Spell):
     name = 'teleport'
     mana = 5
 
     def on_use(self, player):
-        cast = super(Teleport, self).on_use(player)
-        if cast:
+        f = super(Teleport, self).on_use(player)
+        if f:
             message('You instantly materialized in another place.')
             player.teleport()
-
+            player.try_learn_spell(Teleport)
+        return f
 
 
 

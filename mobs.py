@@ -113,6 +113,8 @@ class Player(Mob):
             self.items += [item.PotionHealing()]
         else:
             self.items += [item.PotionOfMana(), item.ScrollHealing(), item.ScrollTeleport(), item.Club()]
+            #self.spells.append(spell.Heal())
+            #self.spells.append(spell.Teleport())
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -221,8 +223,8 @@ class Player(Mob):
             self.equip(item)
             
     def use_spell(self, spell):
-        spell.on_use(self)
-        self.use_energy()
+        if spell.on_use(self):
+            self.use_energy()
 
     def unequip(self, item):
         message('You unequip the %s.' % item.descr)
@@ -310,15 +312,15 @@ class Player(Mob):
         self.hp = self.max_hp
         self.mp = self.max_mp
 
-    def has_spell(self, spell):
-        for i, s in enumerate(self.spells):
-            if isinstance(s, spell):
+    def has_spell(self, spell_type):
+        for i, spell in enumerate(self.spells):
+            if isinstance(spell, spell_type):
                 return True
         return False
             
     def try_learn_spell(self, spell):
         if not self.has_spell(spell):
-            self.spells.append(spell)
+            self.spells.append(spell())
             message("You've learned a new spell!")
             
     def heal(self, hp):

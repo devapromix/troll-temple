@@ -207,12 +207,16 @@ class Game(object):
             spell = select_spell('Select a spell to cast', self.player.spells)
             if spell:
                 self.player.use_spell(spell)
+
         else:
             message("You don't have a spell book!")
 
     def cmd_test(self):
+        import spells
         if self.wizard:
-            self.player.teleport()
+            self.player.try_learn_spell(spells.Heal)
+            self.player.try_learn_spell(spells.Teleport)
+            #self.player.teleport()
 
 # --- GAME --- #
 
