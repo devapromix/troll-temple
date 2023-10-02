@@ -83,6 +83,11 @@ THIEF = 2
 ARCHER = 3
 MAGE = 4
 
+GAME_CLASSES = [["Fighter", 1], 
+                ["Thief",   2], 
+                ["Archer",  3],
+                ["Mage",    4]]
+
 # --- PLAYER --- #
 
 class Player(Mob):
@@ -91,19 +96,21 @@ class Player(Mob):
     hp_regen = 0
     mp_regen = 1
     magic = 0
-    game_class = MAGE
 
-    def __init__(self, wizard):
+    def __init__(self, wizard, selected_game_class):
         super(Player, self).__init__()
+        self.game_class = selected_game_class
         self.level = 1
         self.max_hp = 40 - (self.game_class * 5)
         self.hp = self.max_hp
         self.max_mp = self.game_class * 5
         self.mp = self.max_mp
+        print(">>>" + str(selected_game_class))
 
         import items as item
         import spells as spell
         self.spells = []
+        self.effects = []
         self.items = [item.Torch(), item.PotionHealing()]
         if self.game_class == FIGHTER:
             self.items += [item.PotionHealing(), item.ShortSword()]
@@ -331,6 +338,10 @@ class Player(Mob):
     def teleport(self):
         x, y, _ = self.map.random_empty_tile()
         self.move(x, y)
+ 
+    def add_effect(effect, turns):
+        if not effect in self.effects:
+            self.effects.append(effect, turns)
  
  # --- MONSTER --- #
 

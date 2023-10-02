@@ -79,19 +79,23 @@ class Quit(Exception):
 
 class Game(object):
     def __init__(self, wizard):
+        import mobs
         self.wizard = wizard
         self.wizard = True
+        self.selected_game_class = mobs.FIGHTER
 
     def play(self):
         init(self)
         title_screen()
+        intro_screen()
+        select_game_class_screen()
         self.start()
         self.loop()
         close()
 
     def start(self):
         from mobs import Player
-        self.player = Player(self.wizard)
+        self.player = Player(self.wizard, self.selected_game_class)
         self.turns = 0
         message("Welcome to " + TITLE + "!")
         self.start_map(1)
@@ -214,8 +218,9 @@ class Game(object):
     def cmd_test(self):
         import spells
         if self.wizard:
-            self.player.try_learn_spell(spells.Heal)
-            self.player.try_learn_spell(spells.Teleport)
+            pass
+        #self.player.try_learn_spell(spells.Heal)
+            #self.player.try_learn_spell(spells.Teleport)
             #self.player.teleport()
 
 # --- GAME --- #
@@ -368,6 +373,33 @@ def draw_all():
     _draw_status()
     B.refresh()
 
+def select_game_class_screen():
+    import mobs
+    B.clear()
+    
+    B.color("light yellow")
+    B.print(2, 1, "Choose your class")
+    B.color("light grey")
+    for i, game_class in enumerate(mobs.GAME_CLASSES):
+        B.color("light grey")
+        B.print(3, i + 3, chr(i + ord('a')))    
+        B.print(5, i + 3, game_class[0])    
+    B.refresh()
+    sel = select_game_class()
+    GAME.selected_game_class = sel[1]
+
+def intro_screen():
+    B.clear()
+    
+    B.color("light yellow")
+    B.print(SCREEN_W//2, 2, "Many centuries ago...", 0, 0, B.TK_ALIGN_CENTER)
+    
+    
+    B.color("light grey")
+    B.print(SCREEN_W//2, 28, "Press any key to continue...", 0, 0, B.TK_ALIGN_CENTER)
+    B.refresh()
+    anykey()
+
 def title_screen():
     B.clear()
 
@@ -511,6 +543,16 @@ def select_spell(title, spells):
             return spells[i]
     return None
 
+def select_game_class():
+    import mobs
+    while True:
+        _clear_buffer()
+        key = readkey()
+        if B.TK_A <= key <= B.TK_Z:
+            i = key - B.TK_A
+            if 0 <= i < len(mobs.GAME_CLASSES):
+                return mobs.GAME_CLASSES[i]
+
 def prompt(s, choices = None):
     message(s, T.green)
     draw_all()
@@ -533,6 +575,7 @@ def readkey():
     return key
 
 def anykey():
+    _clear_buffer()
     while True:
         if B.has_input():
             break
