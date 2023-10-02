@@ -50,6 +50,18 @@ class Teleport(Spell):
             player.try_learn_spell(Teleport)
         return f
 
+class Bloodlust(Spell):
+    name = 'bloodlust'
+    mana = 8
+
+    def on_use(self, player):
+        f = super(Bloodlust, self).on_use(player)
+        if f:
+            message('You feel lust for blood.')
+            player.add_effect("bloodlust", 5)
+            player.try_learn_spell(Bloodlust)
+        return f
+
 
 
 
