@@ -445,7 +445,7 @@ class PlateMail(Mail):
 
 class PotionHealing(Potion):
     glyph = '!', T.light_red
-    name = 'potion of health'
+    name = 'potion of healing'
     dungeons = 1, 12
     rarity = 1
     
@@ -462,22 +462,29 @@ class PotionOfMana(Potion):
     
     def on_use(self, player):
         super(PotionOfMana, self).on_use(player)
-        message('You feel healed.')
+        message('You feel magical energies restoring.')
         player.mp = player.max_mp
 
 # --- SCROLLS --- #
 
 class ScrollHealing(Scroll):
     glyph = '?', T.pink
-    name = 'scroll of health'
+    name = 'scroll of healing'
     spell = Heal
     dungeons = 1, 12
     rarity = 1
 
 class ScrollTeleport(Scroll):
     glyph = '?', T.lighter_blue
-    name = 'scroll of teleport'
+    name = 'scroll of teleportation'
     spell = Teleport
+    dungeons = 1, 12
+    rarity = 1
+
+class ScrollBloodlust(Scroll):
+    glyph = '?', T.red
+    name = 'scroll of bloodlust'
+    spell = Bloodlust
     dungeons = 1, 12
     rarity = 1
 
