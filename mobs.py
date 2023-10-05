@@ -111,11 +111,11 @@ class Player(Mob):
         self.effects = []
         self.items = [item.Torch(), item.PotionHealing()]
         if self.game_class == FIGHTER:
-            self.items += [item.PotionHealing(), item.ShortSword()]
+            self.items += [item.PotionHealing(), item.ShortSword(), item.BookHealing()]
         elif self.game_class == THIEF:
             self.items += [item.PotionHealing(), item.Dagger()]
         elif self.game_class == RANGER:
-            self.items += [item.PotionHealing(), item.Spear()]
+            self.items += [item.PotionHealing(), item.HandAxe()]
         else:
             self.items += [item.PotionOfMana(), item.BookHealing(), item.Club()]
 
@@ -323,9 +323,17 @@ class Player(Mob):
         return False
             
     def try_learn_spell(self, spell):
-        if not self.has_spell(spell):
-            self.spells.append(spell())
-            message("You've learned a new spell!")
+        if self.game_class == MAGE:
+            if not self.has_spell(spell):
+                self.spells.append(spell())
+                message("You've learned a new spell!")
+                return True
+            else:
+                message("You already know this spell!")
+                return False
+        else:
+            message("You don't have a spellbook!")
+            return False
             
     def heal(self, hp):
         self.hp += hp

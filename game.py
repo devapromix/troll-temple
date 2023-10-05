@@ -211,9 +211,8 @@ class Game(object):
             spell = select_spell('Select a spell to cast', self.player.spells)
             if spell:
                 self.player.use_spell(spell)
-
         else:
-            message("You don't have a spell book!")
+            message("You don't have a spellbook!")
 
     def cmd_test(self):
         import spells

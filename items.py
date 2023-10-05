@@ -135,7 +135,8 @@ class Book(Item):
     ABSTRACT = True
 
     def on_use(self, player):
-        player.items.remove(self)
+        if player.try_learn_spell(self.spell):
+            player.items.remove(self)
 
 # --- POTION --- #
 
@@ -458,10 +459,20 @@ class BookHealing(Book):
     dungeons = 1, 12
     rarity = 1
     
-    def on_use(self, player):
-        super(BookHealing, self).on_use(player)
-        player.try_learn_spell(Heal)
-
+class BookTeleportation(Book):
+    glyph = '+', T.lighter_blue
+    name = 'book of teleportation'
+    spell = Teleport
+    dungeons = 1, 12
+    rarity = 1
+    
+class BookBloodlust(Book):
+    glyph = '+', T.red
+    name = 'book of bloodlust'
+    spell = Bloodlust
+    dungeons = 1, 12
+    rarity = 1
+    
 # --- POTIONS --- #
 
 class PotionHealing(Potion):
