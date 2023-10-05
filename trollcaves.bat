@@ -1,2 +1,0 @@
-trollcaves.py
-pause

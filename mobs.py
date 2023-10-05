@@ -1,4 +1,3 @@
-from random import choice, random, shuffle
 from math import log
 import tcod as T
 from utils import *
@@ -80,12 +79,12 @@ class Mob(object):
 
 FIGHTER = 1
 THIEF = 2
-ARCHER = 3
+RANGER = 3
 MAGE = 4
 
 GAME_CLASSES = [["Fighter", 1], 
                 ["Thief",   2], 
-                ["Archer",  3],
+                ["Ranger",  3],
                 ["Mage",    4]]
 
 # --- PLAYER --- #
@@ -105,7 +104,6 @@ class Player(Mob):
         self.hp = self.max_hp
         self.max_mp = self.game_class * 5
         self.mp = self.max_mp
-        print(">>>" + str(selected_game_class))
 
         import items as item
         import spells as spell
@@ -116,12 +114,13 @@ class Player(Mob):
             self.items += [item.PotionHealing(), item.ShortSword()]
         elif self.game_class == THIEF:
             self.items += [item.PotionHealing(), item.Dagger()]
-        elif self.game_class == ARCHER:
-            self.items += [item.PotionHealing()]
+        elif self.game_class == RANGER:
+            self.items += [item.PotionHealing(), item.Spear()]
         else:
-            self.items += [item.PotionOfMana(), item.ScrollHealing(), item.ScrollTeleport(), item.Club()]
-            #self.spells.append(spell.Heal())
+            self.items += [item.PotionOfMana(), item.Club()]
+            self.spells.append(spell.Heal())
             #self.spells.append(spell.Teleport())
+            self.spells.append(spell.Bloodlust())
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -159,7 +158,7 @@ class Player(Mob):
             return 4
         elif self.game_class == THIEF:
             return 3
-        elif self.game_class == ARCHER:
+        elif self.game_class == RANGER:
             return 3
         else:
             return 2
@@ -169,8 +168,8 @@ class Player(Mob):
             return 1
         elif self.game_class == THIEF:
             return 2
-        elif self.game_class == ARCHER:
-            return 3
+        elif self.game_class == RANGER:
+            return 2
         else:
             return 5
 
@@ -339,9 +338,16 @@ class Player(Mob):
         x, y, _ = self.map.random_empty_tile()
         self.move(x, y)
  
-    def add_effect(effect, turns):
-        if not effect in self.effects:
-            self.effects.append(effect, turns)
+    def has_effect(self, effect):
+        for i, ef in enumerate(self.effects):
+            if ef[0] == effect:
+                return True
+        return False
+ 
+    def add_effect(self, effect, turns):
+        if not self.has_effect(effect):
+            self.effects.append([effect, turns])
+        print(self.effects)
  
  # --- MONSTER --- #
 
