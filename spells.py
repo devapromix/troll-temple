@@ -35,7 +35,6 @@ class Heal(Spell):
         if f:
             message('You are already at full health.')
             player.hp = player.max_hp
-            player.try_learn_spell(Heal)
         return f
 
 class Teleport(Spell):
@@ -47,7 +46,6 @@ class Teleport(Spell):
         if f:
             message('You instantly materialized in another place.')
             player.teleport()
-            player.try_learn_spell(Teleport)
         return f
 
 class Bloodlust(Spell):
@@ -59,7 +57,6 @@ class Bloodlust(Spell):
         if f:
             message('You feel lust for blood.')
             player.add_effect("bloodlust", 5)
-            player.try_learn_spell(Bloodlust)
         return f
 
 

@@ -117,10 +117,7 @@ class Player(Mob):
         elif self.game_class == RANGER:
             self.items += [item.PotionHealing(), item.Spear()]
         else:
-            self.items += [item.PotionOfMana(), item.Club()]
-            self.spells.append(spell.Heal())
-            #self.spells.append(spell.Teleport())
-            self.spells.append(spell.Bloodlust())
+            self.items += [item.PotionOfMana(), item.BookHealing(), item.Club()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -291,6 +288,7 @@ class Player(Mob):
         if not self.death:
             super(Player, self).act()
         self.action_turns += 1
+        self.act_effects()
 
     def use_energy(self):
         self.action_turns -= 1
@@ -348,6 +346,10 @@ class Player(Mob):
         if not self.has_effect(effect):
             self.effects.append([effect, turns])
         print(self.effects)
+ 
+    def act_effects(self):
+        pass
+ 
  
  # --- MONSTER --- #
 

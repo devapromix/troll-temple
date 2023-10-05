@@ -129,6 +129,14 @@ class Mail(Armor):
     ABSTRACT = True
     slot = 'a'
 
+# --- BOOK --- #
+
+class Book(Item):
+    ABSTRACT = True
+
+    def on_use(self, player):
+        player.items.remove(self)
+
 # --- POTION --- #
 
 class Potion(Item):
@@ -440,6 +448,19 @@ class PlateMail(Mail):
     speed = -2
     level = 5
     common = 6
+
+# --- BOOKS --- #
+
+class BookHealing(Book):
+    glyph = '+', T.pink
+    name = 'book of healing'
+    spell = Heal
+    dungeons = 1, 12
+    rarity = 1
+    
+    def on_use(self, player):
+        super(BookHealing, self).on_use(player)
+        player.try_learn_spell(Heal)
 
 # --- POTIONS --- #
 
