@@ -48,7 +48,7 @@ class Mob(object):
 
     def can_walk(self, dx, dy):
         destx, desty = self.x + dx, self.y + dy
-        if not in_map(destx, desty):
+        if not self.map.in_map(destx, desty):
             return False
         tile = self.map.tiles[destx][desty]
         return (tile.walkable or self.enters_walls) and \
@@ -206,7 +206,7 @@ class Player(Mob):
 
     def walk(self, dx, dy, panic=True):
         destx, desty = self.x+dx, self.y+dy
-        if not in_map(destx, desty):
+        if not self.map.in_map(destx, desty):
             return False
         tile = self.map.tiles[destx][desty]
         if tile.mob:

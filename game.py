@@ -224,9 +224,6 @@ class Game(object):
 
 # --- GAME --- #
 
-def in_map(x, y):
-    return 0 <= x and x < MAP_W and 0 <= y and y < MAP_H
-
 def set_color(c):
     B.color(B.color_from_argb(255, c.r, c.g, c.b))
     
@@ -474,7 +471,7 @@ def look_mode():
     global MESSAGES
     from game import decode_key
 
-    x, y = GAME.player.x, GAME.player.y
+    x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
     _messages = MESSAGES
     MESSAGES = []
     message('Look mode - use movement keys, ESC to exit.', T.green)
@@ -513,7 +510,7 @@ def look_mode():
             name, args = cmd
             if name == 'walk':
                 dx, dy = args
-                if in_map(x + dx, y + dy):
+                if map.in_map(x + dx, y + dy):
                     x, y = x + dx, y + dy
                     redraw = True
 

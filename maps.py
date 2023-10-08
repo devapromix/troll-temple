@@ -52,7 +52,7 @@ class Map(object):
 
     def neighbor_tiles(self, x, y):
         for dx, dy in ALL_DIRS:
-            if in_map(x+dx, y+dy):
+            if self.in_map(x+dx, y+dy):
                 yield self.tiles[x+dx][y+dy]
 
     def do_turn(self, t):
@@ -110,6 +110,9 @@ class Map(object):
             if no_stair and isinstance(tile, StairDownTile):
                 continue
             return (x, y, tile)
+
+    def in_map(self, x, y):
+        return 0 <= x < MAP_W and 0 <= y < MAP_H
 
 # --- TILE --- #
 
