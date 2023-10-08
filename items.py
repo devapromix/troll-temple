@@ -15,7 +15,6 @@ class Item(object, metaclass=Register):
     slot = None
     speed = 0
     armor = 0
-    mana = 0
     rarity = 1
     plural = False
 
@@ -37,24 +36,17 @@ class Item(object, metaclass=Register):
     @property
     def mod_descr(self):
         s = ''
-
         if self.speed != 0:
             s += ' (%s%d speed)' % ('+' if self.speed > 0 else '', self.speed)
         if self.armor != 0:
             s += ' (%s%d armor)' % ('+' if self.armor > 0 else '', self.armor)
-        if self.mana != 0:
-            s += ' (%s%d mana)' % ('+' if self.mana > 0 else '', self.mana)
         return s
 
     def on_equip(self, player):
-        player.max_mp += self.mana
-        player.mp += self.mana
         player.speed += self.speed
         player.armor += self.armor
 
     def on_unequip(self, player):
-        player.max_mp -= self.mana
-        player.mp -= self.mana
         player.speed -= self.speed
         player.armor -= self.armor
 
@@ -104,14 +96,49 @@ class Weapon(Item):
 
     @property
     def descr(self):
-        return '%s (%s)%s' % (self.name, describe_dice(*self.dice),
-                              self.mod_descr)
+        return '%s (%s)%s' % (self.name, describe_dice(*self.dice), self.mod_descr)
 
 class EliteWeapon(Weapon):
     ABSTRACT = True
     rarity = 10
 
 class UniqueWeapon(Weapon):
+    ABSTRACT = True
+    rarity = 15
+
+# --- STAFF --- #
+
+class Staff(Weapon):
+    ABSTRACT = True
+    mana = 0
+    
+    def __init__(self):
+        super(Staff, self).__init__()
+        if rand(1, 3) == 1:
+            self.mana += rand(1, 5)
+
+    @property
+    def mod_descr(self):    
+        s = ''
+        if self.mana != 0:
+            s += ' (%s%d mana)' % ('+' if self.mana > 0 else '', self.mana)
+        return s
+        
+    def on_equip(self, player):
+        super(Staff, self).on_equip(player)
+        player.max_mp += self.mana
+        player.mp += self.mana
+    
+    def on_unequip(self, player):    
+        super(Staff, self).on_unequip(player)
+        player.max_mp -= self.mana
+        player.mp -= self.mana
+
+class EliteStaff(Staff):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueStaff(Staff):
     ABSTRACT = True
     rarity = 15
 
@@ -125,10 +152,14 @@ class Armor(Item):
         if roll(1, 5) == 1:
             self.armor = self.armor + roll(2, 2, -2)
 
+# --- BOOTS --- #
+
 class Boots(Armor):
     ABSTRACT = True
     slot = 'b'
     plural = True
+
+# --- MAIL --- #
 
 class Mail(Armor):
     ABSTRACT = True
@@ -409,11 +440,11 @@ class AncientPike(UniqueWeapon):
 
 # --- STAVES --- #
 
-class ShortStaff(Weapon):
+class ShortStaff(Staff):
     name = 'short staff'
     glyph = '/', T.light_blue
     dice = 1, 3, 1
-    mana = 10
+    mana = 5
     dungeons = 1, 3
 
 # --- BOOTS --- #
