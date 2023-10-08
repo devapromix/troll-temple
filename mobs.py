@@ -117,7 +117,7 @@ class Player(Mob):
         elif self.game_class == RANGER:
             self.items += [item.PotionHealing(), item.HandAxe()]
         else:
-            self.items += [item.PotionOfMana(), item.BookHealing(), item.Club()]
+            self.items += [item.PotionOfMana(), item.BookHealing(), item.ShortStaff()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0

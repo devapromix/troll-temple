@@ -15,6 +15,7 @@ class Item(object, metaclass=Register):
     slot = None
     speed = 0
     armor = 0
+    mana = 0
     rarity = 1
     plural = False
 
@@ -29,27 +30,31 @@ class Item(object, metaclass=Register):
         else:
             d = self.descr
             if d[0].lower() in 'aeiuo':
-                return 'an '+self.descr
+                return 'an ' + self.descr
             else:
-                return 'a '+self.descr
+                return 'a ' + self.descr
 
     @property
     def mod_descr(self):
         s = ''
 
         if self.speed != 0:
-            s += ' (%s%d speed)' % ('+' if self.speed > 0 else '',
-                                    self.speed)
+            s += ' (%s%d speed)' % ('+' if self.speed > 0 else '', self.speed)
         if self.armor != 0:
-            s += ' (%s%d armor)' % ('+' if self.armor > 0 else '',
-                                    self.armor)
+            s += ' (%s%d armor)' % ('+' if self.armor > 0 else '', self.armor)
+        if self.mana != 0:
+            s += ' (%s%d mana)' % ('+' if self.mana > 0 else '', self.mana)
         return s
 
     def on_equip(self, player):
+        player.max_mp += self.mana
+        player.mp += self.mana
         player.speed += self.speed
         player.armor += self.armor
 
     def on_unequip(self, player):
+        player.max_mp -= self.mana
+        player.mp -= self.mana
         player.speed -= self.speed
         player.armor -= self.armor
 
@@ -401,6 +406,15 @@ class AncientPike(UniqueWeapon):
     glyph = '/', T.lighter_orange
     dice = 2, 9, 10
     dungeons = 11, 12
+
+# --- STAVES --- #
+
+class ShortStaff(Weapon):
+    name = 'short staff'
+    glyph = '/', T.light_blue
+    dice = 1, 3, 1
+    mana = 10
+    dungeons = 1, 3
 
 # --- BOOTS --- #
 
