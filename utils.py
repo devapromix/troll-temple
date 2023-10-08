@@ -39,7 +39,7 @@ def describe_dice(a, b, c):
     return s
 
 def random_by_level(level, items):
-    items = [a for a in items if (a.dungeons[0] <= level <= a.dungeons[1] and roll(1, a.rarity) == 1)]    
+    items = [a for a in items if (a.dungeons[0] <= level <= a.dungeons[1] and rand(1, a.rarity) == 1)]    
     n = randrange(sum(item.common for item in items))
     for item in items:
         if n < item.common:

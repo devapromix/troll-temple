@@ -111,11 +111,12 @@ class UniqueWeapon(Weapon):
 class Staff(Weapon):
     ABSTRACT = True
     mana = 0
+    magic = 1
     
     def __init__(self):
         super(Staff, self).__init__()
         if rand(1, 3) == 1:
-            self.mana += rand(1, 5)
+            self.mana += rand(1, self.magic * 3)
 
     @property
     def mod_descr(self):    
@@ -128,11 +129,13 @@ class Staff(Weapon):
         super(Staff, self).on_equip(player)
         player.max_mp += self.mana
         player.mp += self.mana
+        player.magic += self.magic
     
     def on_unequip(self, player):    
         super(Staff, self).on_unequip(player)
         player.max_mp -= self.mana
         player.mp -= self.mana
+        player.magic -= self.magic
 
 class EliteStaff(Staff):
     ABSTRACT = True
@@ -443,9 +446,20 @@ class AncientPike(UniqueWeapon):
 class ShortStaff(Staff):
     name = 'short staff'
     glyph = '/', T.light_blue
+    magic = 1
+    damage = 2, 3
     dice = 1, 3, 1
     mana = 5
     dungeons = 1, 3
+
+class LongStaff(Staff):
+    name = 'long staff'
+    glyph = '/', T.light_blue
+    magic = 2
+    damage = 4, 7
+    dice = 1, 3, 1
+    mana = 10
+    dungeons = 4, 6
 
 # --- BOOTS --- #
 
