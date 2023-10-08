@@ -82,10 +82,10 @@ THIEF = 2
 RANGER = 3
 MAGE = 4
 
-GAME_CLASSES = [["Fighter", 1], 
-                ["Thief",   2], 
-                ["Ranger",  3],
-                ["Mage",    4]]
+GAME_CLASSES = [["Fighter", 1, "lighter red"], 
+                ["Thief",   2, "lighter yellow"], 
+                ["Ranger",  3, "lighter green"],
+                ["Mage",    4, "lighter blue"]]
 
 # --- PLAYER --- #
 
@@ -104,6 +104,9 @@ class Player(Mob):
         self.hp = self.max_hp
         self.max_mp = self.game_class * 5
         self.mp = self.max_mp
+        self.has_spellbook = False
+        self.has_craftbox = False
+        self.has_alchemyset = False
 
         import items as item
         import spells as spell
@@ -113,10 +116,13 @@ class Player(Mob):
         if self.game_class == FIGHTER:
             self.items += [item.PotionHealing(), item.ShortSword(), item.BookHealing()]
         elif self.game_class == THIEF:
+            self.has_alchemyset = True
             self.items += [item.PotionHealing(), item.Dagger()]
         elif self.game_class == RANGER:
+            self.has_craftbox = True
             self.items += [item.PotionHealing(), item.HandAxe()]
         else:
+            self.has_spellbook = True
             self.items += [item.PotionOfMana(), item.BookHealing(), item.ShortStaff()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
@@ -246,7 +252,7 @@ class Player(Mob):
 
     def attack(self, mon):
         dmg = roll(*self.dice)
-        if roll(1, 20) < 20:
+        if rand(1, 20) < 20:
             message('You hit the %s (%d).' % (mon.name, dmg))
         else:
             dmg *= 2
@@ -323,7 +329,7 @@ class Player(Mob):
         return False
             
     def try_learn_spell(self, spell):
-        if self.game_class == MAGE:
+        if self.has_spellbook:
             if not self.has_spell(spell):
                 self.spells.append(spell())
                 message("You've learned a new spell!")
@@ -400,7 +406,7 @@ class Monster(Mob, metaclass=Register):
             return
         self.hp -= dmg
         if self.hp <= 0:
-            if roll(1, 30) <= self.drop_rate:
+            if rand(1, 30) <= self.drop_rate:
                 item = random_by_level(self.map.level, Item.ALL)()
                 self.tile.items.append(item)
             self.die()
@@ -456,7 +462,7 @@ class Monster(Mob, metaclass=Register):
         player = self.map.player
         d = self.see_player()
         if d:
-            if self.summoner and roll(1, 6) == 1:
+            if self.summoner and rand(1, 6) == 1:
                 self.summon_monsters()
                 return
             dx, dy = dir_towards(self.x, self.y,
@@ -481,7 +487,7 @@ class Monster(Mob, metaclass=Register):
     def attack_player(self):
         player = self.map.player
         dmg = roll(*self.dice)
-        if roll(1, 20) < 20:
+        if rand(1, 20) < 20:
             message('The %s hits you (%d).' % (self.name, dmg))
         else:
             dmg *= 2

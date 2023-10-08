@@ -5,7 +5,7 @@ from random import choice
 
 # --- CONSTANTS --- #
 
-VERSION = '0.6'
+VERSION = '0.7'
 
 SCREEN_W = 100
 SCREEN_H = 30
@@ -31,7 +31,7 @@ INVENTORY_SLOTS = {
     'b': 'being worn',
 }
 
-STATUS_W = SCREEN_W - MAP_W-2
+STATUS_W = SCREEN_W - MAP_W - 2
 STATUS_H = 10
 
 INV_SIZE = SCREEN_H - 4
@@ -176,7 +176,7 @@ class Game(object):
             self.player.drop(item)
 
     def cmd_inventory(self):
-        item = select_item('Select an item to use', self.player.items)
+        item = select_item('Select an item to use', self.player.items, True)
         if item:
             self.player.use(item)
 
@@ -206,8 +206,7 @@ class Game(object):
         look_mode()
         
     def cmd_spellbook(self):
-        from mobs import MAGE
-        if self.player.game_class == MAGE:
+        if self.player.has_spellbook:
             spell = select_spell('Select a spell to cast', self.player.spells)
             if spell:
                 self.player.use_spell(spell)
@@ -215,12 +214,8 @@ class Game(object):
             message("You don't have a spellbook!")
 
     def cmd_test(self):
-        import spells
         if self.wizard:
             pass
-        #self.player.try_learn_spell(spells.Heal)
-            #self.player.try_learn_spell(spells.Teleport)
-            #self.player.teleport()
 
 # --- GAME --- #
 
@@ -273,27 +268,31 @@ def _draw_bar(x, y, cur, max):
     B.print(98, y, "]]")
 
 def _draw_status():
+    import mobs
     B.color("light green")
-    B.print(60, 1, "Troll Caves" + " (" +  "Depth: " + str(GAME.map.level) + ")")    
+    B.print(60, 1, "Troll Temple" + " (" +  "Depth: " + str(GAME.map.level) + ")") 
+    _game_class = mobs.GAME_CLASSES[GAME.player.game_class - 1]
+    B.color(_game_class[2])
+    B.print(60, 3, "Trollhunter" + " " + _game_class[0] + " Level " + str(GAME.player.level))
     B.color("light grey")
-    B.print(60, 3, "Level:  " + str(GAME.player.level) + " " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()))    
+    B.print(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()))    
     B.color("dark yellow")
-    _draw_bar(18, 3, GAME.player.exp, GAME.player.max_exp())
+    _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp())
     B.color("light grey")
-    B.print(60, 4, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp))    
+    B.print(60, 6, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp))    
     B.color("light red")
-    _draw_bar(18, 4, GAME.player.hp, GAME.player.max_hp)
+    _draw_bar(18, 6, GAME.player.hp, GAME.player.max_hp)
     B.color("light grey")
-    B.print(60, 5, "Mana:   " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp))    
+    B.print(60, 7, "Mana:   " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp))    
     B.color("light blue")
-    _draw_bar(18, 5, GAME.player.mp, GAME.player.max_mp)
+    _draw_bar(18, 7, GAME.player.mp, GAME.player.max_mp)
     B.color("light grey")
-    B.print(60, 6, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Speed: " + str(GAME.player.speed))
+    B.print(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Speed: " + str(GAME.player.speed))
     deads = ""
     if GAME.wizard:
         deads = " Deads: " + str(GAME.player.deads)
-    B.print(60, 7, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deads)
-    B.print(60, 8, "Magic:  " + str(GAME.player.magic))
+    B.print(60, 9, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deads)
+    B.print(60, 10, "Magic:  " + str(GAME.player.magic))
 
 # --- MESSAGES --- #
 
@@ -318,6 +317,24 @@ def message(s, color = T.white):
 
 # --- INVENTORY --- #
 
+def _draw_special_items():
+    y = 3
+    if GAME.player.has_spellbook or GAME.player.has_craftbox or GAME.player.has_alchemyset:
+        B.color("white")
+        B.print(45, 1, "Special items")
+    if GAME.player.has_spellbook:
+        B.color("light blue")
+        B.print(45, y, "spellbook")
+        y += 1
+    if GAME.player.has_craftbox:
+        B.color("dark yellow")
+        B.print(45, y, "craftbox")
+        y += 1
+    if GAME.player.has_alchemyset:
+        B.color("light green")
+        B.print(45, y, "alchemyset")
+        y += 1
+
 def _draw_items(title, items):
     B.clear()
     B.color("white")
@@ -337,8 +354,10 @@ def _draw_items(title, items):
             B.color("grey")
         B.print(7, i+3, s)
 
-def draw_inventory(title='Inventory', items=None):
+def draw_inventory(title='Inventory', items=None, flag=False):
     _draw_items(title, items or GAME.player.items)
+    if flag:
+        _draw_special_items()
     _draw_messages()
     _draw_status()
     B.refresh()
@@ -378,7 +397,8 @@ def select_game_class_screen():
     B.color("light grey")
     for i, game_class in enumerate(mobs.GAME_CLASSES):
         B.color("light grey")
-        B.print(3, i + 3, chr(i + ord('a')))    
+        B.print(3, i + 3, chr(i + ord('a'))) 
+        B.color(game_class[2])
         B.print(5, i + 3, game_class[0])    
     B.refresh()
     sel = select_game_class()
@@ -519,9 +539,9 @@ def look_mode():
 
 # --- KEYS --- #
 
-def select_item(title, items):
+def select_item(title, items, flag = False):
     items = items[:INV_SIZE]
-    draw_inventory(title, items)
+    draw_inventory(title, items, flag)
     key = readkey()
     if B.TK_A <= key <= B.TK_Z:
         i = key - B.TK_A

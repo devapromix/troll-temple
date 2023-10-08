@@ -87,11 +87,11 @@ class Weapon(Item):
 
     def __init__(self):
         super(Weapon, self).__init__()
-        if roll(1, 5) == 1:
+        if rand(1, 5) == 1:
             a, b, c = self.dice
-            c += roll(1, 3)
-            if roll(1, 9) == 1:
-                b += roll(1, 2)
+            c += rand(1, 3)
+            if rand(1, 9) == 1:
+                b += rand(1, 2)
             self.dice = a, b, c
 
     @property
@@ -149,7 +149,7 @@ class Armor(Item):
 
     def __init__(self):
         super(Armor, self).__init__()
-        if roll(1, 5) == 1:
+        if rand(1, 5) == 1:
             self.armor = self.armor + roll(2, 2, -2)
 
 # --- BOOTS --- #
