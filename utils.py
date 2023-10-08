@@ -28,7 +28,7 @@ def roll(a, b, c=0):
     return sum(randrange(1, b + 1) for i in range(a)) + c
     
 def rand(a, b):
-    return round(random.randrange(a, b + 1))
+    return round(randrange(a, b + 1))
 
 def describe_dice(a, b, c):
     s = '%dd%d' % (a, b)
