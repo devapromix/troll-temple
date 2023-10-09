@@ -162,6 +162,14 @@ class Boots(Armor):
     slot = 'b'
     plural = True
 
+class EliteBoots(Boots):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueBoots(Boots):
+    ABSTRACT = True
+    rarity = 15
+
 # --- MAIL --- #
 
 class Mail(Armor):
@@ -214,7 +222,7 @@ class Lamp(LightSource):
 
 class Lamp2(LightSource):
     name = 'lamp2'
-    glyph = 'O', T.light_yellow
+    glyph = '0', T.light_yellow
     dungeons = 8, 12
     rarity = 15
     turns = 500
@@ -454,7 +462,7 @@ class ShortStaff(Staff):
 
 class LongStaff(Staff):
     name = 'long staff'
-    glyph = '/', T.light_blue
+    glyph = '/', T.lighter_blue
     magic = 2
     damage = 4, 7
     dice = 1, 3, 1
@@ -465,24 +473,55 @@ class LongStaff(Staff):
 
 class LightBoots(Boots):
     name = 'light boots'
-    slot = 'b'
     glyph = '{', T.dark_orange
     armor = 1
-    level = 2
+    dungeons = 1, 3
+
+class MeshBoots(Boots):
+    name = 'mesh boots'
+    glyph = '{', T.dark_red
+    armor = 2
+    dungeons = 4, 6
+
+class ChainBoots(Boots):
+    name = 'chain boots'
+    glyph = '{', T.dark_grey
+    armor = 4
+    dungeons = 7, 9
 
 class HeavyBoots(Boots):
     name = 'heavy boots'
     glyph = '{', T.light_grey
-    armor = 2
+    armor = 5
     speed = -1
-    level = 3
+    dungeons = 10, 12
 
-class BootsOfSpeed(Boots):
+class MirroredBoots(EliteBoots):
+    name = 'mirrored boots'
+    glyph = '{', T.light_green
+    armor = 5
+    speed = 1
+    dungeons = 7, 9
+
+class BattleBoots(EliteBoots):
+    name = 'battle boots'
+    glyph = '{', T.light_grey
+    armor = 7
+    speed = 1
+    dungeons = 9, 11
+
+class WarBoots(UniqueBoots):
+    name = 'war boots'
+    glyph = '{', T.light_orange
+    armor = 9
+    dungeons = 10, 12
+
+class BootsOfSpeed(UniqueBoots):
     name = 'boots of speed'
     glyph = '{', T.light_blue
+    armor = 3
     speed = 3
-    level = 5
-    common = 5
+    dungeons = 11, 12
 
 # --- ARMORS --- #
 
