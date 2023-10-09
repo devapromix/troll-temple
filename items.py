@@ -240,36 +240,42 @@ class Dagger(Weapon):
 class Dirk(Weapon):
     name = 'dirk'
     glyph = '(', T.light_pink
+    speed = 1
     dice = 2, 2, 2
     dungeons = 4, 6
 
 class Kris(Weapon):
     name = 'kris'
     glyph = '(', T.light_green
+    speed = 1
     dice = 2, 3, 4
     dungeons = 7, 9
 
 class Rondel(Weapon):
     name = 'rondel'
     glyph = '(', T.light_blue
+    speed = 1
     dice = 2, 3, 6
     dungeons = 10, 12
 
 class BloodSpike(EliteWeapon):
     name = 'blood spike'
     glyph = '(', T.light_red
+    speed = 2
     dice = 2, 4, 8
     dungeons = 7, 9
 
 class MithrilBlade(EliteWeapon):
     name = 'mithril blade'
     glyph = '(', T.light_sky
+    speed = 2
     dice = 2, 5, 10
     dungeons = 9, 11
 
 class DivineStiletto(UniqueWeapon):
     name = 'divine stiletto'
     glyph = '(', T.light_yellow
+    speed = 3
     dice = 2, 6, 12
     dungeons = 11, 12
 
@@ -278,13 +284,15 @@ class DivineStiletto(UniqueWeapon):
 class Club(Weapon):
     name = 'club'
     glyph = '/', T.dark_orange
-    dice = 1, 4, 0
+    speed = -1
+    dice = 1, 5, 0
     dungeons = 1, 3
 
 class KillerClub(Weapon):
     name = 'killer club'
     glyph = '/', T.dark_orange
-    dice = 1, 4, 3
+    speed = -1
+    dice = 1, 5, 3
     dungeons = 4, 6
 
 class Mace(Weapon):
@@ -314,6 +322,7 @@ class ThunderMaul(EliteWeapon):
 class LegendaryMallet(UniqueWeapon):
     name = 'legendary mallet'
     glyph = '/', T.pink
+    speed = 1
     dice = 2, 7, 15
     dungeons = 11, 12
 
@@ -358,6 +367,7 @@ class MithrilSword(EliteWeapon):
 class AncientSword(UniqueWeapon):
     name = 'ancient sword'
     glyph = '(', T.cyan
+    speed = 1
     dice = 2, 8, 11
     dungeons = 11, 12
 
@@ -366,6 +376,7 @@ class AncientSword(UniqueWeapon):
 class HandAxe(Weapon):
     name = 'hand axe'
     glyph = '(', T.grey
+    speed = -1
     dice = 1, 4, 1
     dungeons = 1, 3
 
@@ -402,6 +413,7 @@ class GiantAxe(EliteWeapon):
 class GloriousAxe(UniqueWeapon):
     name = 'glorious axe'
     glyph = '(', T.cyan
+    speed = 1
     dice = 2, 7, 14
     dungeons = 11, 12
 
@@ -434,18 +446,21 @@ class WarSpear(Weapon):
 class GhostSpear(EliteWeapon):
     name = 'ghost spear'
     glyph = '/', T.light_grey
+    speed = 1
     dice = 2, 7, 2
     dungeons = 7, 9
 
 class MithrilMancatcher(EliteWeapon):
     name = 'mithril mancatcher'
     glyph = '/', T.light_red
+    speed = 1
     dice = 2, 8, 5
     dungeons = 9, 11
 
 class AncientPike(UniqueWeapon):
     name = 'ancient pike'
     glyph = '/', T.lighter_orange
+    speed = 2
     dice = 2, 9, 10
     dungeons = 11, 12
 
@@ -487,13 +502,14 @@ class ChainBoots(Boots):
     name = 'chain boots'
     glyph = '{', T.dark_grey
     armor = 4
+    speed = -1
     dungeons = 7, 9
 
 class HeavyBoots(Boots):
     name = 'heavy boots'
     glyph = '{', T.light_grey
     armor = 5
-    speed = -1
+    speed = -2
     dungeons = 10, 12
 
 class MirroredBoots(EliteBoots):
