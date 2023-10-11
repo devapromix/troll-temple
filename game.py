@@ -229,8 +229,24 @@ def set_color(c):
 def set_bkcolor(c):
     B.bkcolor(B.color_from_argb(255, c.r, c.g, c.b))
     
+def out(x, y, text, color = (255, 255, 255)):
+    _txt = GAME.font.render(str(text), True, color)
+    if x == 0:
+        SCREEN.blit(_txt, (int((SCREEN_W - (_txt.get_width() / GAME.font_width))/2) * GAME.font_width, y * GAME.font_height))
+    else:
+        SCREEN.blit(_txt, (x * GAME.font_width, y * GAME.font_height))
+    B.print(x, y, text)
+    
+def clear():
+    B.clear()
+    SCREEN.fill((0, 0, 0))
+    
+def refresh():
+    B.refresh()
+    pygame.display.flip()
+    
 def init(game):
-    global MESSAGES, GAME
+    global MESSAGES, GAME, SCREEN
     GAME = game
     MESSAGES = []
     pygame.init()
@@ -268,43 +284,43 @@ def _draw_map():
                 c, _ = tile.known_glyph
                 color = T.dark_grey
             set_color(color)
-            B.print(x+1, y+1, c)
+            out(x+1, y+1, c)
                                   
 def _draw_bar(x, y, cur, max):
     r = 0
     w = round(cur * 18 / max)
     for r in range(w):
-        B.print(r + 60 + x + 2, y, "=")
+        out(r + 60 + x + 2, y, "=")
     B.color("light grey")
-    B.print(79, y, "[[")
-    B.print(98, y, "]]")
+    out(79, y, "[[")
+    out(98, y, "]]")
 
 def _draw_status():
     import mobs
     B.color("light green")
-    B.print(60, 1, "Troll Temple" + " (" +  "Depth: " + str(GAME.map.level) + ")") 
+    out(60, 1, "Troll Temple" + " (" +  "Depth: " + str(GAME.map.level) + ")") 
     _game_class = mobs.GAME_CLASSES[GAME.player.game_class - 1]
     B.color(_game_class[2])
-    B.print(60, 3, "Trollhunter" + " " + _game_class[0] + " Level " + str(GAME.player.level))
+    out(60, 3, "Trollhunter" + " " + _game_class[0] + " Level " + str(GAME.player.level))
     B.color("light grey")
-    B.print(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()))    
+    out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()))    
     B.color("dark yellow")
     _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp())
     B.color("light grey")
-    B.print(60, 6, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp))    
+    out(60, 6, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp))    
     B.color("light red")
     _draw_bar(18, 6, GAME.player.hp, GAME.player.max_hp)
     B.color("light grey")
-    B.print(60, 7, "Mana:   " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp))    
+    out(60, 7, "Mana:   " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp))    
     B.color("light blue")
     _draw_bar(18, 7, GAME.player.mp, GAME.player.max_mp)
     B.color("light grey")
-    B.print(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Speed: " + str(GAME.player.speed))
+    out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Speed: " + str(GAME.player.speed))
     deads = ""
     if GAME.wizard:
         deads = " Deads: " + str(GAME.player.deads)
-    B.print(60, 9, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deads)
-    B.print(60, 10, "Magic:  " + str(GAME.player.magic))
+    out(60, 9, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deads)
+    out(60, 10, "Magic:  " + str(GAME.player.magic))
 
 # --- MESSAGES --- #
 
@@ -318,14 +334,14 @@ def _draw_messages():
         if not latest:
             color *= 0.6
         set_color(color)
-        B.print(60, i - start + 13, s)
+        out(60, i - start + 13, s)
 
 def message(s, color = T.white):
     s = s[0].upper() + s[1:]
     print(s)
     MESSAGES.append((True, s, color))
     _draw_messages()
-    B.refresh()
+    refresh()
 
 # --- INVENTORY --- #
 
@@ -333,38 +349,38 @@ def _draw_special_items():
     y = 3
     if GAME.player.has_spellbook or GAME.player.has_craftbox or GAME.player.has_alchemyset:
         B.color("white")
-        B.print(45, 1, "Special items")
+        out(45, 1, "Special items")
     if GAME.player.has_spellbook:
         B.color("light blue")
-        B.print(45, y, "spellbook")
+        out(45, y, "spellbook")
         y += 1
     if GAME.player.has_craftbox:
         B.color("dark yellow")
-        B.print(45, y, "craftbox")
+        out(45, y, "craftbox")
         y += 1
     if GAME.player.has_alchemyset:
         B.color("light green")
-        B.print(45, y, "alchemyset")
+        out(45, y, "alchemyset")
         y += 1
 
 def _draw_items(title, items):
-    B.clear()
+    clear()
     B.color("white")
-    B.print(2, 1, title)
+    out(2, 1, title)
     B.color("light grey")
     for i, item in enumerate(items):
         B.color("light grey")
-        B.print(3, i + 3, chr(i + ord('a')))
+        out(3, i + 3, chr(i + ord('a')))
         c, color = item.glyph
         set_color(color)
-        B.print(5, i+3, chr(ord(c)))
+        out(5, i+3, chr(ord(c)))
         s = item.descr
         if GAME.player.has_equipped(item):
             B.color("white")
-            B.print(1, i+3, '*')
+            out(1, i+3, '*')
         else:
             B.color("grey")
-        B.print(7, i+3, s)
+        out(7, i+3, s)
 
 def draw_inventory(title='Inventory', items=None, flag=False):
     _draw_items(title, items or GAME.player.items)
@@ -372,110 +388,111 @@ def draw_inventory(title='Inventory', items=None, flag=False):
         _draw_special_items()
     _draw_messages()
     _draw_status()
-    B.refresh()
+    refresh()
 
 # --- SPELLBOOK --- #
 
 def _draw_spellbook(title, spells):
-    B.clear()
+    clear()
     B.color("white")
-    B.print(2, 1, title)
+    out(2, 1, title)
     B.color("light grey")
     for i, spell in enumerate(spells):
-        B.print(3, i + 3, chr(i + ord('a')))
-        B.print(5, i+3, spell.descr)
+        out(3, i + 3, chr(i + ord('a')))
+        out(5, i+3, spell.descr)
 
 def spellbook(title='Spellbook', spells=None):
     _draw_spellbook(title, spells or GAME.player.spells)
     _draw_messages()
     _draw_status()
-    B.refresh()   
+    refresh()   
 
 # --- UI --- #
 
 def draw_all():
-    B.clear()
+    clear()
     _draw_map()
     _draw_messages()
     _draw_status()
-    B.refresh()
+    refresh()
 
 def select_game_class_screen():
     import mobs
-    B.clear()
+    clear()
     
     B.color("light yellow")
-    B.print(2, 1, "Choose your class")
+    out(2, 1, "Choose your class")
     B.color("light grey")
     for i, game_class in enumerate(mobs.GAME_CLASSES):
         B.color("light grey")
-        B.print(3, i + 3, chr(i + ord('a'))) 
+        out(3, i + 3, chr(i + ord('a'))) 
         B.color(game_class[2])
-        B.print(5, i + 3, game_class[0])    
-    B.refresh()
+        out(5, i + 3, game_class[0])    
+    refresh()
     sel = select_game_class()
     GAME.selected_game_class = sel[1]
 
 def intro_screen():
-    B.clear()
+    clear()
     
     B.color("light yellow")
-    B.print(SCREEN_W//2, 2, "Many centuries ago...", 0, 0, B.TK_ALIGN_CENTER)
+    out(0, 2, "Many centuries ago...")
     
     
     B.color("light grey")
-    B.print(SCREEN_W//2, 28, "Press any key to continue...", 0, 0, B.TK_ALIGN_CENTER)
-    B.refresh()
+    out(0, 28, "Press any key to continue...")
+    refresh()
     anykey()
 
 def title_screen():
-    B.clear()
+    clear()
 
     B.color("darker green")
-    B.print(5, 4,  '##### ####   ###  #     #')
-    B.print(5, 5,  '  #   #   # #   # #     #')
-    B.print(5, 6,  '  #   ####  #   # #     #')
-    B.print(5, 7,  '  #   # #   #   # #     #')
-    B.print(5, 8,  '  #   #  #   ###  ##### #####')
+    out(5, 4,  '##### ####   ###  #     #')
+    out(5, 5,  '  #   #   # #   # #     #')
+    out(5, 6,  '  #   ####  #   # #     #')
+    out(5, 7,  '  #   # #   #   # #     #')
+    out(5, 8,  '  #   #  #   ###  ##### #####')
 
     B.color("dark yellow")
-    B.print(15, 10,  ' ####  ###  #   # #####  ####')
-    B.print(15, 11,  '#     #   # #   # #     #    ')
-    B.print(15, 12,  '#     ##### #   # ###    ### ')
-    B.print(15, 13,  '#     #   #  # #  #         #')
-    B.print(15, 14,  ' #### #   #   #   ##### #### ')
+    out(15, 10,  ' ####  ###  #   # #####  ####')
+    out(15, 11,  '#     #   # #   # #     #    ')
+    out(15, 12,  '#     ##### #   # ###    ### ')
+    out(15, 13,  '#     #   #  # #  #         #')
+    out(15, 14,  ' #### #   #   #   ##### #### ')
 
     B.color("light blue")
-    B.print(35, 17,  ' v.' + VERSION)
+    out(35, 17,  ' v.' + VERSION)
+    out(35, 17,  ' v.' + VERSION, (128, 255, 128))
 
     B.color("dark red")
-    B.print(10, 22,  'by Apromix <maxwof@ukr.net>')
+    out(10, 22,  'by Apromix <maxwof@ukr.net>')
 
     B.color("darker orange")
-    B.print(45, 4,  '                           /\ ')
-    B.print(45, 5,  '                         _/--\ ')
-    B.print(45, 6,  '                        /     O ')
-    B.print(45, 7,  '                  /\   /       \ ')
-    B.print(45, 8,  '                _/| \_/      _  \ ')
-    B.print(45, 9,  '               /     /     _/ \  \ ')
-    B.print(45, 10, '            __/  ___/     /    \  ) ')
-    B.print(45, 11, '           y       Λ     |      | | ')
-    B.print(45, 12, '          ,       / \   /       | | ')
-    B.print(45, 13, '         /        \  \  |        \( ')
-    B.print(45, 14, '        /             \|          | \ ')
-    B.print(45, 15, '       ,___|_  _|-----`__ |-|- __|__,---')
-    B.print(45, 16, '      ._/ /                 \____/      \, ')
-    B.print(45, 17, '     /  \ \                  \```\        \, ')
-    B.print(45, 18, '    (__   _\                 |```|         L_, ')
-    B.print(45, 19, '    /   ./ /       /\         \```\       /  _\ ')
-    B.print(45, 20, '   |   /  /       /  \        |```|       \,   | ')
-    B.print(45, 21, '  /  (                |       \```\       /  _/ \ ')
-    B.print(45, 22, ' /                            |```|           _,| ')
-    B.print(45, 23, ' |_                           \```\             \ ')
+    out(45, 4,  '                           /\ ')
+    out(45, 5,  '                         _/--\ ')
+    out(45, 6,  '                        /     O ')
+    out(45, 7,  '                  /\   /       \ ')
+    out(45, 8,  '                _/| \_/      _  \ ')
+    out(45, 9,  '               /     /     _/ \  \ ')
+    out(45, 10, '            __/  ___/     /    \  ) ')
+    out(45, 11, '           y       Λ     |      | | ')
+    out(45, 12, '          ,       / \   /       | | ')
+    out(45, 13, '         /        \  \  |        \( ')
+    out(45, 14, '        /             \|          | \ ')
+    out(45, 15, '       ,___|_  _|-----`__ |-|- __|__,---')
+    out(45, 16, '      ._/ /                 \____/      \, ')
+    out(45, 17, '     /  \ \                  \```\        \, ')
+    out(45, 18, '    (__   _\                 |```|         L_, ')
+    out(45, 19, '    /   ./ /       /\         \```\       /  _\ ')
+    out(45, 20, '   |   /  /       /  \        |```|       \,   | ')
+    out(45, 21, '  /  (                |       \```\       /  _/ \ ')
+    out(45, 22, ' /                            |```|           _,| ')
+    out(45, 23, ' |_                           \```\             \ ')
 
     B.color("light grey")
-    B.print(SCREEN_W//2, 28, "Press any key to continue...", 0, 0, B.TK_ALIGN_CENTER)
-    B.refresh()
+    out(0, 28, "Press any key to continue...")
+    refresh()
     anykey()
 
 def describe_tile(x, y):
@@ -520,12 +537,12 @@ def look_mode():
             B.bkcolor(color)
             B.put(x+1, y+1, char)
             
-            B.refresh()
+            refresh()
             B.bkcolor("black")
             describe_tile(x, y)
 
             _draw_messages()
-            B.refresh()
+            refresh()
 
             B.bkcolor('black')
             B.color(color)
