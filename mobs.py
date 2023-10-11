@@ -82,10 +82,10 @@ THIEF = 2
 RANGER = 3
 MAGE = 4
 
-GAME_CLASSES = [["Fighter", 1, "lighter red"], 
-                ["Thief",   2, "lighter yellow"], 
-                ["Ranger",  3, "lighter green"],
-                ["Mage",    4, "lighter blue"]]
+GAME_CLASSES = [["Fighter", 1, T.light_red], 
+                ["Thief",   2, T.light_yellow], 
+                ["Ranger",  3, T.light_green],
+                ["Mage",    4, T.light_blue]]
 
 # --- PLAYER --- #
 

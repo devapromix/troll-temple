@@ -17,7 +17,7 @@ MAP_H = SCREEN_H - 2
 
 BUFFER_H = SCREEN_H // 2 + 1
 
-TITLE = 'Troll Caves'
+TITLE = 'Troll Temple'
 
 UNKNOWN_GLYPH = '?', T.red
 
@@ -25,8 +25,6 @@ MAX_SPEED = 5
 MIN_SPEED = -4
 
 MAX_DLEVEL = 12
-
-pygame.init()
 
 INVENTORY_SLOTS = {
     'w': 'wielded',
@@ -44,28 +42,34 @@ INV_H = INV_SIZE + 3
 
 BOOK_SIZE = SCREEN_H - 4
 
+# --- COLOURS --- #
+
+COLOR_TITLE = T.lighter_yellow
+
 # --- KEYS --- #
 
-KEYS = [
-    ([B.TK_KP_7], ('walk', (-1, -1))),
-    ([B.TK_KP_8, B.TK_UP], ('walk', (0, -1))),
-    ([B.TK_KP_9], ('walk', (1, -1))),
-    ([B.TK_KP_4, B.TK_LEFT], ('walk', (-1, 0))),
-    ([B.TK_KP_5], 'wait'),
-    ([B.TK_KP_6, B.TK_RIGHT], ('walk', (1, 0))),
-    ([B.TK_KP_1], ('walk', (-1, 1))),
-    ([B.TK_KP_2, B.TK_DOWN], ('walk', (0, 1))),
-    ([B.TK_KP_3], ('walk', (1, 1))),
+pygame.init()
 
-    ([B.TK_ESCAPE], 'quit'),
-    ([B.TK_PERIOD], 'descend'),
-    ([B.TK_G], 'pick_up'),
-    ([B.TK_I], 'inventory'),
-    ([B.TK_B], 'spellbook'),
-    ([B.TK_D], 'drop'),
-    ([B.TK_T], 'test'),
-    ([B.TK_L], 'look'),
-    ([B.TK_W], 'wizard'),
+KEYS = [
+    ([pygame.K_KP7], ('walk', (-1, -1))),
+    ([pygame.K_KP8, pygame.K_UP], ('walk', (0, -1))),
+    ([pygame.K_KP9], ('walk', (1, -1))),
+    ([pygame.K_KP4, pygame.K_LEFT], ('walk', (-1, 0))),
+    ([pygame.K_KP5], 'wait'),
+    ([pygame.K_KP6, pygame.K_RIGHT], ('walk', (1, 0))),
+    ([pygame.K_KP1], ('walk', (-1, 1))),
+    ([pygame.K_KP2, pygame.K_DOWN], ('walk', (0, 1))),
+    ([pygame.K_KP3], ('walk', (1, 1))),
+
+    ([pygame.K_ESCAPE], 'quit'),
+    ([pygame.K_PERIOD], 'descend'),
+    ([pygame.K_g], 'pick_up'),
+    ([pygame.K_i], 'inventory'),
+    ([pygame.K_b], 'spellbook'),
+    ([pygame.K_d], 'drop'),
+    ([pygame.K_t], 'test'),
+    ([pygame.K_l], 'look'),
+    ([pygame.K_w], 'wizard'),
 ]
 
 def decode_key(key):
@@ -166,7 +170,7 @@ class Game(object):
             self.player.pick_up(tile.items[0])
         else:
             while True and tile.items:
-                item = select_item('Select an item to pick up',
+                item = select_item('Select an item to pick up, ESC to exit',
                                       tile.items)
                 if item:
                     self.player.pick_up(item)
@@ -175,12 +179,12 @@ class Game(object):
                     break
 
     def cmd_drop(self):
-        item = select_item('Select an item to drop', self.player.items)
+        item = select_item('Select an item to drop, ESC to exit', self.player.items)
         if item:
             self.player.drop(item)
 
     def cmd_inventory(self):
-        item = select_item('Select an item to use', self.player.items, True)
+        item = select_item('Select an item to use, ESC to exit', self.player.items, True)
         if item:
             self.player.use(item)
 
@@ -211,7 +215,7 @@ class Game(object):
         
     def cmd_spellbook(self):
         if self.player.has_spellbook:
-            spell = select_spell('Select a spell to cast', self.player.spells)
+            spell = select_spell('Select a spell to cast, ESC to exit', self.player.spells)
             if spell:
                 self.player.use_spell(spell)
         else:
@@ -223,26 +227,17 @@ class Game(object):
 
 # --- GAME --- #
 
-def set_color(c):
-    B.color(B.color_from_argb(255, c.r, c.g, c.b))
-    
-def set_bkcolor(c):
-    B.bkcolor(B.color_from_argb(255, c.r, c.g, c.b))
-    
-def out(x, y, text, color = (255, 255, 255)):
-    _txt = GAME.font.render(str(text), True, color)
+def out(x, y, text, color = T.white, bkcolor = T.black):
+    _txt = GAME.font.render(str(text), True, color, bkcolor)
     if x == 0:
         SCREEN.blit(_txt, (int((SCREEN_W - (_txt.get_width() / GAME.font_width))/2) * GAME.font_width, y * GAME.font_height))
     else:
         SCREEN.blit(_txt, (x * GAME.font_width, y * GAME.font_height))
-    B.print(x, y, text)
     
 def clear():
-    B.clear()
-    SCREEN.fill((0, 0, 0))
+    SCREEN.fill(T.black)
     
 def refresh():
-    B.refresh()
     pygame.display.flip()
     
 def init(game):
@@ -251,23 +246,20 @@ def init(game):
     MESSAGES = []
     pygame.init()
     GAME.font = pygame.font.Font("UbuntuMono-R.ttf", 20)
-    _txt = GAME.font.render("W", True, (0, 0, 0))
+    _txt = GAME.font.render("W", True, T.white)
     GAME.font_width = _txt.get_width()
     GAME.font_height = _txt.get_height()
     SCREEN = pygame.display.set_mode((SCREEN_W * GAME.font_width, SCREEN_H * GAME.font_height))
-    B.open()
     wiz_str = ""
     if GAME.wizard:
         wiz_str = " [WIZARD]"
-    B.set("window: size=" + str(SCREEN_W) + "x" + str(SCREEN_H) + ", cellsize=auto, title='" + TITLE + " v." + VERSION + wiz_str + "'")
     pygame.display.set_caption(TITLE + " v." + VERSION + wiz_str)
-    B.color("white")
 
 def close():
     GAME = None
-    B.close()
     pygame.quit()
     sys.exit()
+
 # --- UI --- #
 
 def _draw_map():
@@ -283,44 +275,33 @@ def _draw_map():
             else:
                 c, _ = tile.known_glyph
                 color = T.dark_grey
-            set_color(color)
-            out(x+1, y+1, c)
+            out(x+1, y+1, c, color)
                                   
-def _draw_bar(x, y, cur, max):
+def _draw_bar(x, y, cur, max, color):
     r = 0
     w = round(cur * 18 / max)
     for r in range(w):
-        out(r + 60 + x + 2, y, "=")
-    B.color("light grey")
-    out(79, y, "[")
-    out(98, y, "]")
+        out(r + 60 + x + 2, y, "=", color)
+    out(79, y, "[", T.dark_grey)
+    out(98, y, "]", T.dark_grey)
 
 def _draw_status():
     import mobs
-    B.color("light green")
-    out(60, 1, "Troll Temple" + " (" +  "Depth: " + str(GAME.map.level) + ")") 
+    out(60, 1, "Troll Temple" + " (" +  "Depth: " + str(GAME.map.level) + ")", T.light_green) 
     _game_class = mobs.GAME_CLASSES[GAME.player.game_class - 1]
-    B.color(_game_class[2])
-    out(60, 3, "Trollhunter" + " " + _game_class[0] + " Level " + str(GAME.player.level))
-    B.color("light grey")
-    out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()))    
-    B.color("dark yellow")
-    _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp())
-    B.color("light grey")
-    out(60, 6, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp))    
-    B.color("light red")
-    _draw_bar(18, 6, GAME.player.hp, GAME.player.max_hp)
-    B.color("light grey")
-    out(60, 7, "Mana:   " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp))    
-    B.color("light blue")
-    _draw_bar(18, 7, GAME.player.mp, GAME.player.max_mp)
-    B.color("light grey")
-    out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Speed: " + str(GAME.player.speed))
+    out(60, 3, "Trollhunter" + " " + _game_class[0] + " Level " + str(GAME.player.level), _game_class[2])
+    out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)    
+    _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp(), T.light_yellow)
+    out(60, 6, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp), T.light_grey)    
+    _draw_bar(18, 6, GAME.player.hp, GAME.player.max_hp, T.light_red)
+    out(60, 7, "Mana:   " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp), T.light_grey)    
+    _draw_bar(18, 7, GAME.player.mp, GAME.player.max_mp, T.light_blue)
+    out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Speed: " + str(GAME.player.speed), T.light_grey)
     deads = ""
     if GAME.wizard:
         deads = " Deads: " + str(GAME.player.deads)
-    out(60, 9, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deads)
-    out(60, 10, "Magic:  " + str(GAME.player.magic))
+    out(60, 9, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deads, T.light_grey)
+    out(60, 10, "Magic:  " + str(GAME.player.magic), T.light_grey)
 
 # --- MESSAGES --- #
 
@@ -333,8 +314,7 @@ def _draw_messages():
         latest, s, color = MESSAGES[i]
         if not latest:
             color *= 0.6
-        set_color(color)
-        out(60, i - start + 13, s)
+        out(60, i - start + 13, s, color)
 
 def message(s, color = T.white):
     s = s[0].upper() + s[1:]
@@ -348,39 +328,31 @@ def message(s, color = T.white):
 def _draw_special_items():
     y = 3
     if GAME.player.has_spellbook or GAME.player.has_craftbox or GAME.player.has_alchemyset:
-        B.color("white")
-        out(45, 1, "Special items")
+        out(45, 1, "Special items", COLOR_TITLE)
     if GAME.player.has_spellbook:
-        B.color("light blue")
-        out(45, y, "spellbook")
+        out(45, y, "spellbook", T.light_blue)
         y += 1
     if GAME.player.has_craftbox:
-        B.color("dark yellow")
-        out(45, y, "craftbox")
+        out(45, y, "craftbox", T.dark_yellow)
         y += 1
     if GAME.player.has_alchemyset:
-        B.color("light green")
-        out(45, y, "alchemyset")
+        out(45, y, "alchemyset", T.light_green)
         y += 1
 
 def _draw_items(title, items):
     clear()
-    B.color("white")
-    out(2, 1, title)
-    B.color("light grey")
+    out(2, 1, title, COLOR_TITLE)
     for i, item in enumerate(items):
-        B.color("light grey")
-        out(3, i + 3, chr(i + ord('a')))
+        out(3, i + 3, chr(i + ord('a')), T.light_grey)
         c, color = item.glyph
-        set_color(color)
-        out(5, i+3, chr(ord(c)))
+        out(5, i+3, chr(ord(c)), color)
         s = item.descr
         if GAME.player.has_equipped(item):
-            B.color("white")
-            out(1, i+3, '*')
+            color = T.white
+            out(1, i+3, '*', color)
         else:
-            B.color("grey")
-        out(7, i+3, s)
+            color = T.light_grey
+        out(7, i+3, s, color)
 
 def draw_inventory(title='Inventory', items=None, flag=False):
     _draw_items(title, items or GAME.player.items)
@@ -394,12 +366,10 @@ def draw_inventory(title='Inventory', items=None, flag=False):
 
 def _draw_spellbook(title, spells):
     clear()
-    B.color("white")
-    out(2, 1, title)
-    B.color("light grey")
+    out(2, 1, title, COLOR_TITLE)
     for i, spell in enumerate(spells):
-        out(3, i + 3, chr(i + ord('a')))
-        out(5, i+3, spell.descr)
+        out(3, i + 3, chr(i + ord('a')), T.light_grey)
+        out(5, i+3, spell.descr, T.light_grey)
 
 def spellbook(title='Spellbook', spells=None):
     _draw_spellbook(title, spells or GAME.player.spells)
@@ -420,14 +390,10 @@ def select_game_class_screen():
     import mobs
     clear()
     
-    B.color("light yellow")
-    out(2, 1, "Choose your class")
-    B.color("light grey")
+    out(2, 1, "Choose your class", COLOR_TITLE)
     for i, game_class in enumerate(mobs.GAME_CLASSES):
-        B.color("light grey")
-        out(3, i + 3, chr(i + ord('a'))) 
-        B.color(game_class[2])
-        out(5, i + 3, game_class[0])    
+        out(3, i + 3, chr(i + ord('a')), T.light_grey) 
+        out(5, i + 3, game_class[0], game_class[2])    
     refresh()
     sel = select_game_class()
     GAME.selected_game_class = sel[1]
@@ -435,63 +401,54 @@ def select_game_class_screen():
 def intro_screen():
     clear()
     
-    B.color("light yellow")
-    out(0, 2, "Many centuries ago...")
+    out(0, 2, "Many centuries ago...", COLOR_TITLE)
     
     
-    B.color("light grey")
-    out(0, 28, "Press ENTER to continue...")
+    out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
     anykey()
 
 def title_screen():
     clear()
 
-    B.color("darker green")
-    out(5, 4,  '##### ####   ###  #     #')
-    out(5, 5,  '  #   #   # #   # #     #')
-    out(5, 6,  '  #   ####  #   # #     #')
-    out(5, 7,  '  #   # #   #   # #     #')
-    out(5, 8,  '  #   #  #   ###  ##### #####')
+    out(5, 4,  '##### ####   ###  #     #', T.green)
+    out(5, 5,  '# # # #   # #   # #     #', T.green)
+    out(5, 6,  '  #   ####  #   # #     #', T.green)
+    out(5, 7,  '  #   # #   #   # #     #', T.green)
+    out(5, 8,  '  #   #  #   ###  ##### #####', T.green)
 
-    B.color("dark yellow")
-    out(15, 10,  ' ####  ###  #   # #####  ####')
-    out(15, 11,  '#     #   # #   # #     #    ')
-    out(15, 12,  '#     ##### #   # ###    ### ')
-    out(15, 13,  '#     #   #  # #  #         #')
-    out(15, 14,  ' #### #   #   #   ##### #### ')
+    out(10, 10,  '##### ##### #     # ##### #     #####', T.light_red)
+    out(10, 11,  '# # # #     ##   ## #   # #     #', T.light_red)
+    out(10, 12,  '  #   ###   # # # # ####  #     ###', T.light_red)
+    out(10, 13,  '  #   #     #  #  # #     #     #', T.light_red)
+    out(10, 14,  '  #   ##### #     # #     ##### #####', T.light_red)
 
-    B.color("light blue")
-    out(35, 17,  ' v.' + VERSION)
-    out(35, 17,  ' v.' + VERSION, (128, 255, 128))
+    out(35, 17,  ' v.' + VERSION, T.light_green)
 
-    B.color("dark red")
-    out(10, 22,  'by Apromix <maxwof@ukr.net>')
+    out(10, 22,  'by Apromix <maxwof@ukr.net>', T.light_yellow)
 
-    B.color("darker orange")
-    out(45, 4,  '                           /\ ')
-    out(45, 5,  '                         _/--\ ')
-    out(45, 6,  '                        /     O ')
-    out(45, 7,  '                  /\   /       \ ')
-    out(45, 8,  '                _/| \_/      _  \ ')
-    out(45, 9,  '               /     /     _/ \  \ ')
-    out(45, 10, '            __/  ___/     /    \  ) ')
-    out(45, 11, '           y       Λ     |      | | ')
-    out(45, 12, '          ,       / \   /       | | ')
-    out(45, 13, '         /        \  \  |        \( ')
-    out(45, 14, '        /             \|          | \ ')
-    out(45, 15, '       ,___|_  _|-----`__ |-|- __|__,---')
-    out(45, 16, '      ._/ /                 \____/      \, ')
-    out(45, 17, '     /  \ \                  \```\        \, ')
-    out(45, 18, '    (__   _\                 |```|         L_, ')
-    out(45, 19, '    /   ./ /       /\         \```\       /  _\ ')
-    out(45, 20, '   |   /  /       /  \        |```|       \,   | ')
-    out(45, 21, '  /  (                |       \```\       /  _/ \ ')
-    out(45, 22, ' /                            |```|           _,| ')
-    out(45, 23, ' |_                           \```\             \ ')
+    out(48, 4,  '                        /\ ', T.darker_yellow)
+    out(48, 5,  '                      _/--\ ', T.darker_yellow)
+    out(48, 6,  '                     /     O ', T.darker_yellow)
+    out(48, 7,  '               /\   /       \ ', T.darker_yellow)
+    out(48, 8,  '             _/| \_/      _  \ ', T.darker_yellow)
+    out(48, 9,  '            /     /     _/ \  \ ', T.darker_yellow)
+    out(48, 10, '         __/  ___/     /    \  ) ', T.darker_yellow)
+    out(48, 11, '        y       Λ     |      | | ', T.darker_yellow)
+    out(48, 12, '       ,       / \   /       | | ', T.darker_yellow)
+    out(48, 13, '      /        \  \  |        \( ', T.darker_yellow)
+    out(48, 14, '     /             \|          | \ ', T.darker_yellow)
+    out(45, 15, '       ,___|_  _|-----`__ |-|- __|__,---', T.darker_yellow)
+    out(45, 16, '      ._/ /                 \____/      \, ', T.darker_yellow)
+    out(45, 17, '     /  \ \                  \```\        \, ', T.darker_yellow)
+    out(45, 18, '    (__   _\                 |```|         L_, ', T.darker_yellow)
+    out(45, 19, '    /   ./ /       /\         \```\       /  _\ ', T.darker_yellow)
+    out(45, 20, '   |   /  /       /  \        |```|       \,   | ', T.darker_yellow)
+    out(45, 21, '  /  (                |       \```\       /  _/ \ ', T.darker_yellow)
+    out(45, 22, ' /                            |```|           _,| ', T.darker_yellow)
+    out(45, 23, ' |_                           \```\             \ ', T.darker_yellow)
 
-    B.color("light grey")
-    out(0, 28, "Press ENTER to continue...")
+    out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
     anykey()
 
@@ -523,30 +480,23 @@ def look_mode():
     x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
     _messages = MESSAGES
     MESSAGES = []
-    message('Look mode - use movement keys, ESC to exit.', T.green)
+    message('Look mode - use movement keys, ESC to exit.', COLOR_TITLE)
     new_ui_turn()
     _draw_messages()
     redraw = True
     while True:
         if redraw:
             draw_all()
-            char = B.pick(x+1, y+1)
-            color = B.pick_color(x+1, y+1)
 
-            B.color("black")
-            B.bkcolor(color)
-            B.put(x+1, y+1, char)
-            
+            tile = map.tiles[x][y]
+            if map.is_visible(x, y):
+                char, color = tile.visible_glyph
+                out(x+1, y+1, char, color, T.light_gray)
             refresh()
-            B.bkcolor("black")
             describe_tile(x, y)
 
             _draw_messages()
             refresh()
-
-            B.bkcolor('black')
-            B.color(color)
-            B.put(x+1, y+1, char);
 
             while MESSAGES and MESSAGES[-1][0]:
                 MESSAGES.pop()
@@ -564,28 +514,33 @@ def look_mode():
                     redraw = True
 
     MESSAGES = _messages
-    B.bkcolor("black")
 
 # --- KEYS --- #
 
 def select_item(title, items, flag = False):
     items = items[:INV_SIZE]
     draw_inventory(title, items, flag)
-    key = readkey()
-    if key in range(pygame.K_a, pygame.K_z):
-        i = key - pygame.K_a
-        if 0 <= i < len(items):
-            return items[i]
+    while True:
+        key = readkey()
+        if key in range(pygame.K_a, pygame.K_z):
+            i = key - pygame.K_a
+            if 0 <= i < len(items):
+                return items[i]
+        if key in [pygame.K_ESCAPE]:
+            return None
     return None
 
 def select_spell(title, spells):
     spells = spells[:BOOK_SIZE]
     spellbook(title, spells)
-    key = readkey()
-    if key in range(pygame.K_a, pygame.K_z):
-        i = key - pygame.K_a
-        if 0 <= i < len(spells):
-            return spells[i]
+    while True:
+        key = readkey()
+        if key in range(pygame.K_a, pygame.K_z):
+            i = key - pygame.K_a
+            if 0 <= i < len(spells):
+                return spells[i]
+        if key in [pygame.K_ESCAPE]:
+            return None
     return None
 
 def select_game_class():
