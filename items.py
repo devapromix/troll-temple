@@ -577,14 +577,14 @@ class BookTeleportation(Book):
     glyph = '+', T.lighter_blue
     name = 'book of teleportation'
     spell = Teleport
-    dungeons = 1, 12
+    dungeons = 2, 12
     rarity = 1
     
 class BookBloodlust(Book):
     glyph = '+', T.red
     name = 'book of bloodlust'
     spell = Bloodlust
-    dungeons = 1, 12
+    dungeons = 3, 12
     rarity = 1
     
 # --- POTIONS --- #
@@ -624,14 +624,14 @@ class ScrollTeleport(Scroll):
     glyph = '?', T.lighter_blue
     name = 'scroll of teleportation'
     spell = Teleport
-    dungeons = 1, 12
+    dungeons = 2, 12
     rarity = 1
 
 class ScrollBloodlust(Scroll):
     glyph = '?', T.red
     name = 'scroll of bloodlust'
     spell = Bloodlust
-    dungeons = 1, 12
+    dungeons = 3, 12
     rarity = 1
 
 if __name__ == '__main__':

@@ -63,14 +63,14 @@ class Mob(object):
     def act(self):
         if self.hp < self.max_hp:
             self.to_hp_regen += self.hp_regen
-            if self.to_hp_regen > 10:
-                self.hp = min(self.max_hp, self.to_hp_regen / 10 + self.hp)
-                self.to_hp_regen %= 10
+            if self.to_hp_regen > 50:
+                self.hp = min(self.max_hp, self.to_hp_regen / 50 + self.hp)
+                self.to_hp_regen %= 50
         if self.mp < self.max_mp:
             self.to_mp_regen += self.mp_regen
-            if self.to_mp_regen > 10:
-                self.mp = min(self.max_mp, self.to_mp_regen / 10 + self.mp)
-                self.to_mp_regen %= 10
+            if self.to_mp_regen > 50:
+                self.mp = min(self.max_mp, self.to_mp_regen / 50 + self.mp)
+                self.to_mp_regen %= 50
 
     def heartbeat(self):
         pass
@@ -85,7 +85,7 @@ MAGE = 4
 GAME_CLASSES = [["Fighter", 1, T.light_red], 
                 ["Thief",   2, T.light_yellow], 
                 ["Ranger",  3, T.light_green],
-                ["Mage",    4, T.light_blue]]
+                ["Mage",    4, T.light_orange]]
 
 # --- PLAYER --- #
 
@@ -95,6 +95,7 @@ class Player(Mob):
     hp_regen = 0
     mp_regen = 1
     magic = 0
+    radius = 0
 
     def __init__(self, wizard, selected_game_class):
         super(Player, self).__init__()
@@ -114,14 +115,30 @@ class Player(Mob):
         self.effects = []
         self.items = [item.Torch(), item.PotionHealing()]
         if self.game_class == FIGHTER:
-            self.items += [item.PotionHealing(), item.ShortSword(), item.BookHealing()]
+            self.hp_regen = 2
+            self.mp_regen = 0
+            self.magic = 0
+            self.radius = 0
+            self.items += [item.PotionHealing(), item.ShortSword()]
         elif self.game_class == THIEF:
+            self.hp_regen = 1
+            self.mp_regen = 1
+            self.magic = 0
+            self.radius = 0
             self.has_alchemyset = True
             self.items += [item.PotionHealing(), item.Dagger()]
         elif self.game_class == RANGER:
+            self.hp_regen = 1
+            self.mp_regen = 1
+            self.magic = 0
+            self.radius = 1
             self.has_craftbox = True
-            self.items += [item.PotionHealing(), item.HandAxe()]
+            self.items += [item.PotionHealing(), item.Spear()]
         else:
+            self.hp_regen = 0
+            self.mp_regen = 2
+            self.magic = 1
+            self.radius = 0
             self.has_spellbook = True
             self.items += [item.PotionOfMana(), item.BookHealing(), item.ShortStaff()]
 
@@ -184,7 +201,7 @@ class Player(Mob):
         self.mp = self.max_mp
 
         message('Congratulations! You advance to level %d.' % self.level,
-                   T.yellow)
+                   COLOR_ALERT)
 
     def change_light_range(self, n):
         self.light_range += n
@@ -256,7 +273,7 @@ class Player(Mob):
             message('You hit the %s (%d).' % (mon.name, dmg))
         else:
             dmg *= 2
-            message('You critically hit the %s (%d)!' % (mon.name, dmg), T.yellow)
+            message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
         mon.damage(dmg)
         self.use_energy()
 
@@ -267,14 +284,15 @@ class Player(Mob):
             return
         self.hp -= dmg
         if self.hp <= 0:
+            self.hp = 0
             if not self.death:
-                message('You die...', T.red)
+                message('You die...', COLOR_ERROR)
                 mon.look_normal()
                 self.death = 'killed by %s' % (mon.name)
 
     def pick_up(self, item):
         if len(self.items) == INV_SIZE:
-            message('You can\'t carry anymore items.', T.red)
+            message('You can\'t carry anymore items.', COLOR_ERROR)
             return
         assert item in self.tile.items
         self.tile.items.remove(item)
@@ -332,13 +350,13 @@ class Player(Mob):
         if self.has_spellbook:
             if not self.has_spell(spell):
                 self.spells.append(spell())
-                message("You've learned a new spell!")
+                message("You've learned a new spell!", COLOR_MAGIC)
                 return True
             else:
-                message("You already know this spell!")
+                message("You already know this spell!", COLOR_ERROR)
                 return False
         else:
-            message("You don't have a spellbook!")
+            message("You don't have a spellbook!", COLOR_ERROR)
             return False
             
     def heal(self, hp):
@@ -491,7 +509,7 @@ class Monster(Mob, metaclass=Register):
             message('The %s hits you (%d).' % (self.name, dmg))
         else:
             dmg *= 2
-            message('The %s critically hits you (%d)!' % (self.name, dmg), T.yellow)
+            message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
         player.damage(dmg, self)
 
 class UndeadMonster(Monster):
@@ -530,7 +548,7 @@ class Rat(Monster):
 class Bat(Monster):
     name = 'bat'
     glyph = 'b', T.darker_orange
-    max_hp = 5
+    max_hp = 6
     speed = 3
     dice = 1, 3, 0
     multi = 3
@@ -544,7 +562,7 @@ class Bat(Monster):
 class GiantSpider(Monster):
     name = 'giant spider'
     glyph = 's', T.light_gray
-    max_hp = 7
+    max_hp = 8
     speed = 1
     dice = 1, 4, 0
     armor = 0
@@ -570,8 +588,8 @@ class Kobold(Monster):
 class Goblin(Monster):
     name = 'goblin'
     glyph = 'g', T.light_blue
-    max_hp = 15
-    dice = 1, 5, 1
+    max_hp = 14
+    dice = 1, 5, 2
     armor = 1
     level = 3
     dungeons = 3, 4
@@ -582,8 +600,8 @@ class Goblin(Monster):
 class Orc(Monster):
     name = 'orc'
     glyph = 'o', T.red
-    max_hp = 20
-    dice = 2, 3, 1
+    max_hp = 18
+    dice = 2, 4, 1
     armor = 3
     level = 4
     dungeons = 4, 5
@@ -594,9 +612,9 @@ class Orc(Monster):
 class Ghost(GhostMonster):
     name = 'ghost'
     glyph = 'g', T.white
-    max_hp = 26
+    max_hp = 24
     speed = 2
-    dice = 2, 4, 1
+    dice = 2, 5, 2
     level = 5    
     multi = 3
     dungeons = 5, 6
@@ -605,12 +623,12 @@ class Ghost(GhostMonster):
 class KillerBat(Monster):
     name = 'killer bat'
     glyph = 'b', T.darker_orange
-    max_hp = 20
+    max_hp = 18
     speed = 4
     dice = 3, 3, 0
     multi = 3
     fears_light = True
-    level = 1
+    level = 5
     dungeons = 5, 7
     rarity = 1
 
@@ -619,7 +637,7 @@ class KillerBat(Monster):
 class Troll(Monster):
     name = 'troll'
     glyph = 'T', T.blue
-    max_hp = 32
+    max_hp = 28
     dice = 2, 6, 2
     level = 6    
     dungeons = 6, 7
@@ -630,7 +648,7 @@ class Troll(Monster):
 class Ogre(Monster):
     name = 'ogre'
     glyph = 'O', T.light_green
-    max_hp = 40
+    max_hp = 38
     dice = 2, 8, 3
     level = 7    
     dungeons = 7, 8
@@ -641,8 +659,8 @@ class Ogre(Monster):
 class Skeleton(UndeadMonster):
     name = 'skeleton'
     glyph = 's', T.light_grey
-    max_hp = 35
-    dice = 2, 6, 0
+    max_hp = 32
+    dice = 2, 8, 0
     level = 8    
     dungeons = 8, 8
     rarity = 1
@@ -651,7 +669,7 @@ class Zombie(UndeadMonster):
     name = 'zombie'
     glyph = 'z', T.light_green
     max_hp = 38
-    dice = 2, 7, 0
+    dice = 2, 9, 1
     level = 8    
     dungeons = 8, 8
     rarity = 1
@@ -659,8 +677,8 @@ class Zombie(UndeadMonster):
 class BoneGolem(UndeadMonster):
     name = 'bone golen'
     glyph = 'G', T.light_grey
-    max_hp = 45
-    dice = 3, 6, 0
+    max_hp = 42
+    dice = 3, 6, 3
     level = 8    
     dungeons = 8, 8
     rarity = 15
@@ -668,7 +686,7 @@ class BoneGolem(UndeadMonster):
 class Necromancer(MageMonster):
     name = 'necromancer'
     glyph = 'N', T.light_grey
-    max_hp = 25
+    max_hp = 34
     dice = 3, 5, 2
     summoner = True
     level = 8    
@@ -677,11 +695,11 @@ class Necromancer(MageMonster):
 
 # --- MONSTERS #9 --- #
 
-class Golem(Monster):
-    name = 'golem'
+class StoneGolem(Monster):
+    name = 'stone golem'
     glyph = 'G', T.light_grey
-    max_hp = 45
-    dice = 3, 6, 3
+    max_hp = 48
+    dice = 3, 7, 3
     level = 9    
     dungeons = 9, 10
     rarity = 1
@@ -691,7 +709,7 @@ class Golem(Monster):
 class Wraith(GhostMonster):
     name = 'wraith'
     glyph = 'w', T.light_grey
-    max_hp = 47
+    max_hp = 50
     dice = 3, 7, 4
     level = 10    
     dungeons = 10, 11
@@ -702,7 +720,7 @@ class Wraith(GhostMonster):
 class Spectre(GhostMonster):
     name = 'spectre'
     glyph = 's', T.light_grey
-    max_hp = 50
+    max_hp = 54
     speed = 1
     dice = 3, 8, 3
     multi = 3
@@ -715,8 +733,8 @@ class Spectre(GhostMonster):
 class Summoner(MageMonster):
     name = 'summoner'
     glyph = 'S', T.light_blue
-    max_hp = 45
-    dice = 3, 8, 5
+    max_hp = 64
+    dice = 3, 9, 5
     summoner = True
     multi = 3
     level = 12    
@@ -729,7 +747,7 @@ class TrollKing(BossMonster):
     ABSTRACT = True
     name = 'Troll King'
     glyph = 'T', T.red
-    max_hp = 75
+    max_hp = 76
     dice = 4, 7, 10
     armor = 10
     level = 12

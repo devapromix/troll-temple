@@ -17,45 +17,45 @@ class Spell(object, metaclass=Register):
     
     def on_use(self, player):
         if player.mp >= self.mana:
-            message('You read the spell %s (mana -%d).' % (self.name, self.mana))
+            message('You read the spell %s (mana -%d).' % (self.name, self.mana), COLOR_MAGIC)
             player.mp -= self.mana
             return True
         else:
-            message('Need more mana!')
+            message('Need more mana!', COLOR_ERROR)
             return False
 
 # --- SPELLS --- #
 
 class Heal(Spell):
     name = 'heal'
-    mana = 7
+    mana = 12
 
     def on_use(self, player):
         f = super(Heal, self).on_use(player)
         if f:
-            message('You are already at full health.')
+            message('You are already at full health.', COLOR_MAGIC)
             player.hp = player.max_hp
         return f
 
 class Teleport(Spell):
     name = 'teleport'
-    mana = 5
+    mana = 15
 
     def on_use(self, player):
         f = super(Teleport, self).on_use(player)
         if f:
-            message('You instantly materialized in another place.')
+            message('You instantly materialized in another place.', COLOR_MAGIC)
             player.teleport()
         return f
 
 class Bloodlust(Spell):
     name = 'bloodlust'
-    mana = 8
+    mana = 18
 
     def on_use(self, player):
         f = super(Bloodlust, self).on_use(player)
         if f:
-            message('You feel lust for blood.')
+            message('You feel lust for blood.', COLOR_MAGIC)
             player.add_effect("bloodlust", 5)
         return f
 

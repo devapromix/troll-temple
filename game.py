@@ -18,8 +18,6 @@ BUFFER_H = SCREEN_H // 2 + 1
 
 TITLE = 'Troll Temple'
 
-UNKNOWN_GLYPH = '?', T.red
-
 MAX_SPEED = 5
 MIN_SPEED = -4
 
@@ -44,6 +42,13 @@ BOOK_SIZE = SCREEN_H - 4
 # --- COLOURS --- #
 
 COLOR_TITLE = T.lighter_yellow
+COLOR_ALERT = T.light_yellow
+COLOR_ERROR = T.lighter_red
+COLOR_MAGIC = T.lighter_blue
+
+# --- CONSTANTS --- #
+
+UNKNOWN_GLYPH = '?', COLOR_ERROR
 
 # --- KEYS --- #
 
@@ -122,7 +127,7 @@ class Game(object):
                         if prompt('Die? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_n:
                             new_ui_turn()
                             self.player.resurrect()
-                            message('You are resurrected!', T.yellow)
+                            message('You are resurrected!', COLOR_ERROR)
                             draw_all()
                             continue
                     prompt(
@@ -164,7 +169,7 @@ class Game(object):
     def cmd_pick_up(self):
         tile = self.player.tile
         if tile.items == []:
-            message('There is nothing here to pick up.', T.yellow)
+            message('There is nothing here to pick up.', COLOR_ERROR)
         elif len(tile.items) == 1:
             self.player.pick_up(tile.items[0])
         else:
@@ -190,7 +195,7 @@ class Game(object):
     def cmd_descend(self):
         from maps import StairDownTile
         if not isinstance(self.player.tile, StairDownTile):
-            message('Stand on a down stairway to descend.', T.yellow)
+            message('Stand on a down stairway to descend.', COLOR_ERROR)
             return
 
         self.player.heal(int(self.player.max_hp / 2))
@@ -218,7 +223,7 @@ class Game(object):
             if spell:
                 self.player.use_spell(spell)
         else:
-            message("You don't have a spellbook!", T.yellow)
+            message("You don't have a spellbook!", COLOR_ERROR)
 
     def cmd_test(self):
         if self.wizard:
@@ -460,7 +465,7 @@ def describe_tile(x, y):
         for item in tile.items:
             message('%s.' % item.descr, item.glyph[1])
     else:
-        message('Out of sight.', T.yellow)
+        message('Out of sight.', COLOR_ERROR)
 
 def new_ui_turn():
     for i in reversed(list(range(len(MESSAGES)))):
@@ -490,7 +495,7 @@ def look_mode():
             tile = map.tiles[x][y]
             if map.is_visible(x, y):
                 char, color = tile.visible_glyph
-                out(x+1, y+1, char, color, T.light_gray)
+                out(x+1, y+1, char, T.black, T.lighter_gray)
             refresh()
             describe_tile(x, y)
 

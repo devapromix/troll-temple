@@ -48,7 +48,7 @@ class Map(object):
     def is_visible(self, x, y):
         return T.map_is_in_fov(self.fov_map, x, y) and \
             dist(x, y, self.player.x, self.player.y) <= \
-            self.player.fov_range
+            self.player.fov_range + self.player.radius
 
     def neighbor_tiles(self, x, y):
         for dx, dy in ALL_DIRS:
