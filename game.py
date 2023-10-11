@@ -244,7 +244,7 @@ def init(game):
     GAME = game
     MESSAGES = []
     pygame.init()
-    GAME.font = pygame.font.Font("UbuntuMono-R.ttf", 20)
+    GAME.font = pygame.font.Font("assets/fonts/UbuntuMono-R.ttf", 16)
     _txt = GAME.font.render("W", True, T.white)
     GAME.font_width = _txt.get_width()
     GAME.font_height = _txt.get_height()
@@ -566,12 +566,16 @@ def prompt(s, choices = None):
 
 def readkey():
     for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            close()
         if event.type == pygame.KEYDOWN:
             return event.key
 
 def anykey():
     while True:
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                close()
             if event.type == pygame.KEYDOWN:
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
                     return

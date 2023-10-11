@@ -1,2 +1,2 @@
-pyinstaller -F trollcaves.py
+pyinstaller -F trolltemple.pyw
 pause
