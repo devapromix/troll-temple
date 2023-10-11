@@ -116,7 +116,7 @@ class Game(object):
             while True:
                 if self.player.death:
                     if self.wizard:
-                        if prompt('Die? (Y/N)', [B.TK_Y, B.TK_N]) == B.TK_N:
+                        if prompt('Die? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_n:
                             new_ui_turn()
                             self.player.resurrect()
                             message('You are resurrected!', T.pink)
@@ -124,12 +124,12 @@ class Game(object):
                             continue
                     prompt(
                         'Game over: %s. Press ENTER' % self.player.death,
-                        [B.TK_ENTER, B.TK_RETURN])
+                        [pygame.K_RETURN])
                     raise Quit()
                 if self.player.won:
                     prompt(
                         'Congratulations! You have won. Press ENTER',
-                        [B.TK_ENTER, B.TK_RETURN])
+                        [pygame.K_RETURN])
                     raise Quit()
                 while self.player.action_turns > 0:
                     key = readkey()
@@ -197,7 +197,7 @@ class Game(object):
         message('After a rare moment of peace, you descend deeper into the heart of the dungeon...')
 
     def cmd_quit(self):
-        if prompt('Quit? (Y/N)', [B.TK_Y, B.TK_N]) == B.TK_Y:
+        if prompt('Quit? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_y:
             raise Quit()
         else:
             new_ui_turn()
@@ -292,8 +292,8 @@ def _draw_bar(x, y, cur, max):
     for r in range(w):
         out(r + 60 + x + 2, y, "=")
     B.color("light grey")
-    out(79, y, "[[")
-    out(98, y, "]]")
+    out(79, y, "[")
+    out(98, y, "]")
 
 def _draw_status():
     import mobs
@@ -440,7 +440,7 @@ def intro_screen():
     
     
     B.color("light grey")
-    out(0, 28, "Press any key to continue...")
+    out(0, 28, "Press ENTER to continue...")
     refresh()
     anykey()
 
@@ -491,7 +491,7 @@ def title_screen():
     out(45, 23, ' |_                           \```\             \ ')
 
     B.color("light grey")
-    out(0, 28, "Press any key to continue...")
+    out(0, 28, "Press ENTER to continue...")
     refresh()
     anykey()
 
@@ -572,8 +572,8 @@ def select_item(title, items, flag = False):
     items = items[:INV_SIZE]
     draw_inventory(title, items, flag)
     key = readkey()
-    if B.TK_A <= key <= B.TK_Z:
-        i = key - B.TK_A
+    if key in range(pygame.K_a, pygame.K_z):
+        i = key - pygame.K_a
         if 0 <= i < len(items):
             return items[i]
     return None
@@ -582,8 +582,8 @@ def select_spell(title, spells):
     spells = spells[:BOOK_SIZE]
     spellbook(title, spells)
     key = readkey()
-    if B.TK_A <= key <= B.TK_Z:
-        i = key - B.TK_A
+    if key in range(pygame.K_a, pygame.K_z):
+        i = key - pygame.K_a
         if 0 <= i < len(spells):
             return spells[i]
     return None
@@ -591,10 +591,9 @@ def select_spell(title, spells):
 def select_game_class():
     import mobs
     while True:
-        _clear_buffer()
         key = readkey()
-        if B.TK_A <= key <= B.TK_Z:
-            i = key - B.TK_A
+        if key in range(pygame.K_a, pygame.K_z):
+            i = key - pygame.K_a
             if 0 <= i < len(mobs.GAME_CLASSES):
                 return mobs.GAME_CLASSES[i]
 
@@ -604,26 +603,25 @@ def prompt(s, choices = None):
     if choices:
         choices = list(choices)
         while True:
-            key = readkey()
-            if key in choices:
-                return key
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key in choices:
+                        return event.key
     else:
         return readkey()
 
-def _clear_buffer():
-    while B.has_input():
-        key = B.read()
-
 def readkey():
-    key = B.read()
-    _clear_buffer()
-    return key
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            return event.key
 
 def anykey():
-    _clear_buffer()
     while True:
-        if B.has_input():
-            break
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if pygame.key.get_pressed()[pygame.K_RETURN]:
+                    return
+
 
 
 
