@@ -1,7 +1,6 @@
 import sys
 import pygame
 import tcod as T
-from bearlibterminal import terminal as B
 from utils import *
 from random import choice
 
@@ -105,7 +104,7 @@ class Game(object):
         from mobs import Player
         self.player = Player(self.wizard, self.selected_game_class)
         self.turns = 0
-        message("Welcome to " + TITLE + "!")
+        message("Welcome to " + TITLE + "!", T.yellow)
         self.start_map(1)
 
     def start_map(self, level):
@@ -123,7 +122,7 @@ class Game(object):
                         if prompt('Die? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_n:
                             new_ui_turn()
                             self.player.resurrect()
-                            message('You are resurrected!', T.pink)
+                            message('You are resurrected!', T.yellow)
                             draw_all()
                             continue
                     prompt(
@@ -165,7 +164,7 @@ class Game(object):
     def cmd_pick_up(self):
         tile = self.player.tile
         if tile.items == []:
-            message('There is nothing here to pick up.')
+            message('There is nothing here to pick up.', T.yellow)
         elif len(tile.items) == 1:
             self.player.pick_up(tile.items[0])
         else:
@@ -191,14 +190,14 @@ class Game(object):
     def cmd_descend(self):
         from maps import StairDownTile
         if not isinstance(self.player.tile, StairDownTile):
-            message('Stand on a down stairway to descend.')
+            message('Stand on a down stairway to descend.', T.yellow)
             return
 
         self.player.heal(int(self.player.max_hp / 2))
-        message('You take a moment to rest, and recover your strength.')
+        message('You take a moment to rest, and recover your strength.', T.yellow)
         self.turns += 1
         self.start_map(self.map.level + 1)
-        message('After a rare moment of peace, you descend deeper into the heart of the dungeon...')
+        message('After a rare moment of peace, you descend deeper into the heart of the dungeon...', T.yellow)
 
     def cmd_quit(self):
         if prompt('Quit? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_y:
@@ -219,7 +218,7 @@ class Game(object):
             if spell:
                 self.player.use_spell(spell)
         else:
-            message("You don't have a spellbook!")
+            message("You don't have a spellbook!", T.yellow)
 
     def cmd_test(self):
         if self.wizard:
@@ -461,7 +460,7 @@ def describe_tile(x, y):
         for item in tile.items:
             message('%s.' % item.descr, item.glyph[1])
     else:
-        message('Out of sight.', T.grey)
+        message('Out of sight.', T.yellow)
 
 def new_ui_turn():
     for i in reversed(list(range(len(MESSAGES)))):
