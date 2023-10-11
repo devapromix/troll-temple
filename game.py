@@ -1,3 +1,5 @@
+import sys
+import pygame
 import tcod as T
 from bearlibterminal import terminal as B
 from utils import *
@@ -5,7 +7,7 @@ from random import choice
 
 # --- CONSTANTS --- #
 
-VERSION = '0.7'
+VERSION = '0.8'
 
 SCREEN_W = 100
 SCREEN_H = 30
@@ -23,6 +25,8 @@ MAX_SPEED = 5
 MIN_SPEED = -4
 
 MAX_DLEVEL = 12
+
+pygame.init()
 
 INVENTORY_SLOTS = {
     'w': 'wielded',
@@ -229,17 +233,25 @@ def init(game):
     global MESSAGES, GAME
     GAME = game
     MESSAGES = []
+    pygame.init()
+    GAME.font = pygame.font.Font("UbuntuMono-R.ttf", 20)
+    _txt = GAME.font.render("W", True, (0, 0, 0))
+    GAME.font_width = _txt.get_width()
+    GAME.font_height = _txt.get_height()
+    SCREEN = pygame.display.set_mode((SCREEN_W * GAME.font_width, SCREEN_H * GAME.font_height))
     B.open()
     wiz_str = ""
     if GAME.wizard:
         wiz_str = " [WIZARD]"
     B.set("window: size=" + str(SCREEN_W) + "x" + str(SCREEN_H) + ", cellsize=auto, title='" + TITLE + " v." + VERSION + wiz_str + "'")
+    pygame.display.set_caption(TITLE + " v." + VERSION + wiz_str)
     B.color("white")
 
 def close():
     GAME = None
     B.close()
-
+    pygame.quit()
+    sys.exit()
 # --- UI --- #
 
 def _draw_map():
