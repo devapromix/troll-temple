@@ -468,76 +468,90 @@ class AncientPike(UniqueWeapon):
 
 class ShortStaff(Staff):
     name = 'short staff'
-    glyph = '/', T.light_blue
+    glyph = '/', T.light_orange
     magic = 1
-    damage = 2, 3
     dice = 1, 3, 1
-    mana = 5
+    mana = 3
     dungeons = 1, 3
 
 class LongStaff(Staff):
     name = 'long staff'
     glyph = '/', T.lighter_blue
     magic = 2
-    damage = 4, 7
-    dice = 1, 3, 1
-    mana = 10
+    dice = 1, 5, 2
+    mana = 6
     dungeons = 4, 6
+
+class Staff(Staff):
+    name = 'long staff'
+    glyph = '/', T.lighter_green
+    magic = 3
+    dice = 2, 5, 3
+    mana = 9
+    dungeons = 7, 9
+
+class Staff(Staff):
+    name = 'long staff'
+    glyph = '/', T.white
+    magic = 4
+    dice = 2, 7, 4
+    mana = 12
+    dungeons = 10, 12
 
 # --- BOOTS --- #
 
 class LightBoots(Boots):
     name = 'light boots'
-    glyph = '{', T.dark_orange
+    glyph = '[', T.dark_orange
     armor = 1
     dungeons = 1, 3
 
 class MeshBoots(Boots):
     name = 'mesh boots'
-    glyph = '{', T.dark_red
+    glyph = '[', T.dark_red
     armor = 2
     dungeons = 4, 6
 
 class ChainBoots(Boots):
     name = 'chain boots'
-    glyph = '{', T.dark_grey
+    glyph = '[', T.dark_grey
     armor = 4
     speed = -1
     dungeons = 7, 9
 
 class HeavyBoots(Boots):
     name = 'heavy boots'
-    glyph = '{', T.light_grey
+    glyph = '[', T.light_grey
     armor = 5
     speed = -2
     dungeons = 10, 12
 
 class MirroredBoots(EliteBoots):
     name = 'mirrored boots'
-    glyph = '{', T.light_green
+    glyph = '[', T.light_green
     armor = 5
     speed = 1
     dungeons = 7, 9
 
 class BattleBoots(EliteBoots):
     name = 'battle boots'
-    glyph = '{', T.light_grey
+    glyph = '[', T.light_grey
     armor = 7
     speed = 1
     dungeons = 9, 11
 
 class WarBoots(UniqueBoots):
     name = 'war boots'
-    glyph = '{', T.light_orange
+    glyph = '[', T.light_orange
     armor = 9
     dungeons = 10, 12
 
 class BootsOfSpeed(UniqueBoots):
     name = 'boots of speed'
-    glyph = '{', T.light_blue
+    glyph = '[', T.light_blue
     armor = 3
     speed = 3
-    dungeons = 11, 12
+    dungeons = 10, 12
 
 # --- ARMORS --- #
 

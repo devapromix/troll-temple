@@ -258,6 +258,7 @@ def init(game):
     if GAME.wizard:
         wiz_str = " [WIZARD]"
     pygame.display.set_caption(TITLE + " v." + VERSION + wiz_str)
+    pygame.display.set_icon(pygame.image.load("assets/icons/game.ico"))
 
 def close():
     GAME = None
