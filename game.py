@@ -302,10 +302,10 @@ def _draw_status():
     out(60, 7, "Mana:   " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp), T.light_grey)    
     _draw_bar(18, 7, GAME.player.mp, GAME.player.max_mp, T.light_blue)
     out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Speed: " + str(GAME.player.speed), T.light_grey)
-    deads = ""
+    deaths = ""
     if GAME.wizard:
-        deads = " Deads: " + str(GAME.player.deads)
-    out(60, 9, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deads, T.light_grey)
+        deaths = " Deaths: " + str(GAME.player.deaths)
+    out(60, 9, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deaths, T.light_grey)
     out(60, 10, "Magic:  " + str(GAME.player.magic), T.light_grey)
 
 # --- MESSAGES --- #
