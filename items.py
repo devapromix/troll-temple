@@ -122,8 +122,12 @@ class Staff(Weapon):
     def mod_descr(self):    
         s = ''
         if self.mana != 0:
-            s += ' (%s%d mana)' % ('+' if self.mana > 0 else '', self.mana)
-        return s
+            s += '%s%d mana' % ('+' if self.mana > 0 else '', self.mana)
+        if self.speed != 0:
+            s += ', %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
+        if self.magic != 0:
+            s += ', %s%d magic' % ('+' if self.magic > 0 else '', self.magic)
+        return ' (' + s + ')'
         
     def on_equip(self, player):
         super(Staff, self).on_equip(player)
@@ -469,6 +473,7 @@ class AncientPike(UniqueWeapon):
 class ShortStaff(Staff):
     name = 'short staff'
     glyph = '/', T.light_orange
+    speed = -1
     magic = 1
     dice = 1, 3, 1
     mana = 3
@@ -477,26 +482,54 @@ class ShortStaff(Staff):
 class LongStaff(Staff):
     name = 'long staff'
     glyph = '/', T.lighter_blue
+    speed = -1
     magic = 2
     dice = 1, 5, 2
     mana = 6
     dungeons = 4, 6
 
-class Staff(Staff):
-    name = 'long staff'
+class EmeraldStaff(Staff):
+    name = 'emerald staff'
     glyph = '/', T.lighter_green
+    speed = -1
     magic = 3
     dice = 2, 5, 3
     mana = 9
     dungeons = 7, 9
 
-class Staff(Staff):
-    name = 'long staff'
+class SnowStaff(Staff):
+    name = 'snow staff'
     glyph = '/', T.white
+    speed = -1
     magic = 4
     dice = 2, 7, 4
     mana = 12
     dungeons = 10, 12
+
+class BattleStaff(EliteStaff):
+    name = 'battle staff'
+    glyph = '/', T.light_grey
+    magic = 5
+    dice = 2, 8, 5
+    mana = 14
+    dungeons = 7, 9
+
+class RuneStaff(EliteStaff):
+    name = 'rune staff'
+    glyph = '/', T.yellow
+    magic = 6
+    dice = 3, 6, 6
+    mana = 17
+    dungeons = 9, 11
+
+class PowerStaff(UniqueStaff):
+    name = 'power staff'
+    glyph = '/', T.cyan
+    speed = 1
+    magic = 7
+    dice = 4, 6, 5
+    mana = 20
+    dungeons = 11, 12
 
 # --- BOOTS --- #
 
