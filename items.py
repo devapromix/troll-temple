@@ -159,6 +159,21 @@ class Armor(Item):
         if rand(1, 5) == 1:
             self.armor = self.armor + roll(2, 2, -2)
 
+# --- HELM --- #
+
+class Helm(Armor):
+    ABSTRACT = True
+    slot = 'h'
+    plural = True
+
+class EliteHelm(Helm):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueHelm(Helm):
+    ABSTRACT = True
+    rarity = 15
+
 # --- BOOTS --- #
 
 class Boots(Armor):
@@ -617,6 +632,62 @@ class PowerStaff(UniqueStaff):
     magic = 9
     dice = 4, 4, 7
     mana = 20
+    dungeons = 11, 12
+
+# --- HELMS --- #
+
+class FullHelm(Helm):
+    name = 'full helm'
+    glyph = '^', T.dark_orange
+    armor = 1
+    dungeons = 1, 2
+
+class GuardianHelm(Helm):
+    name = 'guardian helm'
+    glyph = '^', T.dark_orange
+    armor = 2
+    dungeons = 3, 4
+
+class DefenderHelm(Helm):
+    name = 'defender helm'
+    glyph = '^', T.dark_orange
+    armor = 3
+    dungeons = 5, 6
+
+class GreatHelm(Helm):
+    name = 'great helm'
+    glyph = '^', T.dark_orange
+    armor = 4
+    dungeons = 7, 8
+
+class WingedHelm(Helm):
+    name = 'winged helm'
+    glyph = '^', T.dark_orange
+    armor = 5
+    dungeons = 9, 10
+
+class HornedHelm(Helm):
+    name = 'horned helm'
+    glyph = '^', T.dark_orange
+    armor = 6
+    dungeons = 11, 12
+
+class AssaultHelmet(EliteHelm):
+    name = 'assault helmet'
+    glyph = '^', T.dark_orange
+    armor = 5
+    dungeons = 7, 9
+
+class GuardianCrown(EliteHelm):
+    name = 'guardian crown'
+    glyph = '^', T.dark_orange
+    armor = 6
+    dungeons = 9, 11
+
+class AvengerGuard(UniqueHelm):
+    name = 'avenger guard'
+    glyph = '^', T.cyan
+    armor = 7
     dungeons = 11, 12
 
 # --- BOOTS --- #
