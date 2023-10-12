@@ -74,6 +74,16 @@ class Mob(object):
 
     def heartbeat(self):
         pass
+    
+    def calc_damage(self, dmg):
+        if dmg < 1:
+            dmg = 1
+        if self.armor > 90:
+            self.armor = 90
+        if self.armor < 0:
+            self.armor = 0
+            return dmg
+        return round(dmg * (100 - self.armor) / 100)
 
 # --- CONSTANTS --- #
 
@@ -270,19 +280,20 @@ class Player(Mob):
     def attack(self, mon):
         if rand(1, 100) < 95:
             dmg = roll(*self.dice)
-            if rand(1, 20) < 20:
-                message('You hit the %s (%d).' % (mon.name, dmg))
-            else:
-                dmg *= 2
-                message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
+            dmg = mon.calc_damage(dmg)
+            if dmg > 0:
+                if rand(1, 20) < 20:
+                    message('You hit the %s (%d).' % (mon.name, dmg))
+                else:
+                    dmg *= 2
+                    message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
             mon.damage(dmg)
             self.use_energy()
         else:
             message('You miss the %s.' % (mon.name))
 
     def damage(self, dmg, mon):
-        dmg -= self.armor
-        if dmg < 0:
+        if dmg <= 0:
             message('Your armor protects you.')
             return
         self.hp -= dmg
@@ -338,7 +349,7 @@ class Player(Mob):
                 self.extinguish(light)
 
     def resurrect(self):
-        self.deads += 1
+        self.deaths += 1
         self.death = None
         self.hp = self.max_hp
         self.mp = self.max_mp
@@ -421,7 +432,6 @@ class Monster(Mob, metaclass=Register):
         self.remove()
 
     def damage(self, dmg):
-        dmg -= self.armor
         if dmg <= 0:
             message('The %s shrugs off the hit.' % self.name)
             return
@@ -509,11 +519,13 @@ class Monster(Mob, metaclass=Register):
         if rand(1, 100) < 95:
             player = self.map.player
             dmg = roll(*self.dice)
-            if rand(1, 20) < 20:
-                message('The %s hits you (%d).' % (self.name, dmg))
-            else:
-                dmg *= 2
-                message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
+            dmg = player.calc_damage(dmg)
+            if dmg > 0:
+                if rand(1, 20) < 20:
+                    message('The %s hits you (%d).' % (self.name, dmg))
+                else:
+                    dmg *= 2
+                    message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
             player.damage(dmg, self)
         else:
             message('The %s misses you.' % (self.name))
@@ -561,7 +573,7 @@ class FinalBossMonster(BossMonster):
 
 class Rat(Monster):
     name = 'rat'
-    glyph = 'r', T.dark_gray
+    glyph = 'r', T.light_gray
     max_hp = 4
     dice = 1, 2, 0
     multi = 4
@@ -582,7 +594,7 @@ class Bat(FlyMonster):
 
 class Crawler(Monster):
     name = 'crawler'
-    glyph = 'c', T.darker_blue
+    glyph = 'c', T.light_blue
     max_hp = 5
     dice = 1, 2, 0
     multi = 3
