@@ -520,7 +520,7 @@ class Monster(Mob, metaclass=Register):
 
 class UndeadMonster(Monster):
     ABSTRACT = True
-    drop_rate = 0
+    drop_rate = 5
 
 class GhostMonster(UndeadMonster):
     ABSTRACT = True
@@ -542,7 +542,7 @@ class BossMonster(Monster):
 
 class Rat(Monster):
     name = 'rat'
-    glyph = 'r', T.dark_orange
+    glyph = 'r', T.dark_gray
     max_hp = 4
     dice = 1, 2, 0
     drop_rate = 1
@@ -556,11 +556,21 @@ class Bat(Monster):
     glyph = 'b', T.darker_orange
     max_hp = 6
     speed = 3
-    dice = 1, 3, 0
+    dice = 1, 2, 0
     multi = 3
     fears_light = True
     level = 1
-    dungeons = 1, 4
+    dungeons = 1, 3
+    rarity = 1
+
+class Crawler(Monster):
+    name = 'crawler'
+    glyph = 'c', T.darker_blue
+    max_hp = 5
+    dice = 1, 2, 0
+    multi = 3
+    level = 1
+    dungeons = 1, 2
     rarity = 1
 
 # --- MONSTERS #2 --- #
@@ -570,7 +580,7 @@ class GiantSpider(Monster):
     glyph = 's', T.light_gray
     max_hp = 8
     speed = 1
-    dice = 1, 4, 0
+    dice = 1, 3, 0
     armor = 0
     multi = 3
     level = 2
@@ -581,7 +591,7 @@ class Kobold(Monster):
     name = 'kobold'
     glyph = 'k', T.light_green
     max_hp = 10
-    dice = 1, 4, 1
+    dice = 1, 3, 1
     speed = 1
     armor = 0
     multi = 3
@@ -589,13 +599,44 @@ class Kobold(Monster):
     dungeons = 2, 3
     rarity = 1
 
+class Lizard(Monster):
+    name = 'lizard'
+    glyph = 'l', T.light_blue
+    max_hp = 9
+    dice = 1, 3, 0
+    armor = 1
+    multi = 3
+    level = 2
+    dungeons = 2, 3
+    rarity = 1
+
 # --- MONSTERS #3 --- #
+
+class BlackKobold(Monster):
+    name = 'black kobold'
+    glyph = 'k', T.gray
+    max_hp = 12
+    dice = 1, 3, 1
+    armor = 0
+    level = 3
+    dungeons = 3, 4
+    rarity = 1
+
+class Bloodfly(Monster):
+    name = 'bloodfly'
+    glyph = 'b', T.gray
+    max_hp = 16
+    dice = 1, 3, 0
+    armor = 1
+    level = 3
+    dungeons = 3, 4
+    rarity = 1
 
 class Goblin(Monster):
     name = 'goblin'
     glyph = 'g', T.light_blue
     max_hp = 14
-    dice = 1, 5, 2
+    dice = 1, 3, 2
     armor = 1
     level = 3
     dungeons = 3, 4
@@ -603,26 +644,56 @@ class Goblin(Monster):
 
 # --- MONSTERS #4 --- #
 
-class Orc(Monster):
-    name = 'orc'
-    glyph = 'o', T.red
+class DarkGoblin(Monster):
+    name = 'dark goblin'
+    glyph = 'g', T.grey
     max_hp = 18
-    dice = 2, 4, 1
-    armor = 3
+    dice = 2, 3, 0
+    armor = 1
     level = 4
+    dungeons = 4, 5
+    rarity = 1
+
+class LowOrc(Monster):
+    name = 'low orc'
+    glyph = 'o', T.red
+    max_hp = 20
+    dice = 2, 3, 1
+    armor = 2
+    level = 4
+    dungeons = 4, 5
+    rarity = 1
+
+class CrystalSpider(Monster):
+    name = 'crystal spider'
+    glyph = 's', T.cyan
+    max_hp = 22
+    dice = 2, 3, 1
+    armor = 1
+    level = 4
+    multi = 2
     dungeons = 4, 5
     rarity = 1
 
 # --- MONSTERS #5 --- #
 
+class Scavenger(GhostMonster):
+    name = 'scavenger'
+    glyph = 's', T.light_green
+    max_hp = 25
+    dice = 2, 3, 2
+    level = 5    
+    dungeons = 5, 6
+    rarity = 1
+
 class Ghost(GhostMonster):
     name = 'ghost'
     glyph = 'g', T.white
     max_hp = 24
-    speed = 2
-    dice = 2, 5, 2
+    speed = 1
+    dice = 2, 4, 0
     level = 5    
-    multi = 3
+    multi = 2
     dungeons = 5, 6
     rarity = 1
 
@@ -630,8 +701,8 @@ class KillerBat(Monster):
     name = 'killer bat'
     glyph = 'b', T.darker_orange
     max_hp = 22
-    speed = 4
-    dice = 3, 3, 2
+    speed = 3
+    dice = 3, 3, 0
     multi = 3
     fears_light = True
     level = 5
@@ -640,25 +711,59 @@ class KillerBat(Monster):
 
 # --- MONSTERS #6 --- #
 
-class Troll(Monster):
-    name = 'troll'
-    glyph = 'T', T.blue
+class RockRat(Monster):
+    name = 'rock rat'
+    glyph = 'r', T.light_gray
     max_hp = 28
-    dice = 2, 6, 2
-    level = 6    
-    dungeons = 6, 7
+    dice = 2, 5, 0
+    drop_rate = 5
+    multi = 3
+    level = 6
+    dungeons = 6, 8
     rarity = 1
 
+class Snapper(Monster):
+    name = 'snapper'
+    glyph = 's', T.lighter_green
+    max_hp = 32
+    dice = 2, 4, 1
+    drop_rate = 2
+    level = 6
+    dungeons = 6, 8
+    rarity = 1
+
+class Troll(Monster):
+    name = 'troll'
+    glyph = 'T', T.light_blue
+    max_hp = 30
+    dice = 2, 5, 2
+    level = 6    
+    dungeons = 6, 7
+    drop_rate = 25
+    rarity = 15
+
 # --- MONSTERS #7 --- #
+
+class FireSkeleton(UndeadMonster):
+    name = 'fire skeleton'
+    glyph = 's', T.light_red
+    max_hp = 35
+    dice = 2, 5, 2
+    drop_rate = 5
+    multi = 2
+    level = 7
+    dungeons = 7, 8
+    rarity = 1
 
 class Ogre(Monster):
     name = 'ogre'
     glyph = 'O', T.light_green
     max_hp = 36
-    dice = 2, 8, 2
+    dice = 2, 6, 2
     level = 7    
+    drop_rate = 15
     dungeons = 7, 8
-    rarity = 1
+    rarity = 15
 
 # --- MONSTERS #8 --- #
 
