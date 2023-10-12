@@ -239,28 +239,42 @@ class Dagger(Weapon):
     glyph = '(', T.light_grey
     speed = 1
     dice = 2, 2, 0
-    dungeons = 1, 3
+    dungeons = 1, 2
 
 class Dirk(Weapon):
     name = 'dirk'
     glyph = '(', T.light_pink
     speed = 1
     dice = 2, 2, 2
-    dungeons = 4, 6
+    dungeons = 3, 4
 
 class Kris(Weapon):
     name = 'kris'
     glyph = '(', T.light_green
     speed = 1
     dice = 2, 3, 4
-    dungeons = 7, 9
+    dungeons = 5, 6
 
 class Rondel(Weapon):
     name = 'rondel'
     glyph = '(', T.light_blue
     speed = 1
-    dice = 2, 3, 6
-    dungeons = 10, 12
+    dice = 2, 3, 5
+    dungeons = 7, 8
+
+class BloodDagger(Weapon):
+    name = 'blood dagger'
+    glyph = '(', T.red
+    speed = 1
+    dice = 2, 4, 7
+    dungeons = 9, 10
+
+class IceDagger(Weapon):
+    name = 'ice dagger'
+    glyph = '(', T.white
+    speed = 1
+    dice = 2, 5, 9
+    dungeons = 11, 12
 
 class BloodSpike(EliteWeapon):
     name = 'blood spike'

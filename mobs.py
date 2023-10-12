@@ -629,9 +629,9 @@ class Ghost(GhostMonster):
 class KillerBat(Monster):
     name = 'killer bat'
     glyph = 'b', T.darker_orange
-    max_hp = 18
+    max_hp = 22
     speed = 4
-    dice = 3, 3, 0
+    dice = 3, 3, 2
     multi = 3
     fears_light = True
     level = 5
@@ -654,8 +654,8 @@ class Troll(Monster):
 class Ogre(Monster):
     name = 'ogre'
     glyph = 'O', T.light_green
-    max_hp = 38
-    dice = 2, 8, 3
+    max_hp = 36
+    dice = 2, 8, 2
     level = 7    
     dungeons = 7, 8
     rarity = 1
@@ -704,8 +704,8 @@ class Necromancer(MageMonster):
 class StoneGolem(Monster):
     name = 'stone golem'
     glyph = 'G', T.light_grey
-    max_hp = 48
-    dice = 3, 7, 3
+    max_hp = 46
+    dice = 3, 7, 2
     level = 9    
     dungeons = 9, 10
     rarity = 1
