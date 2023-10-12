@@ -395,7 +395,7 @@ class Monster(Mob, metaclass=Register):
     common = 10
     summoner = False
     fov_range = 5
-    drop_rate = 3 # 1/30
+    drop_rate = 5 # 1/30
     fears_light = False
     enters_walls = False
     dungeons = 0, 0
@@ -521,11 +521,11 @@ class Monster(Mob, metaclass=Register):
 class FlyMonster(Monster):
     ABSTRACT = True
     fears_light = True
-    drop_rate = 5
+    drop_rate = 10
 
 class UndeadMonster(Monster):
     ABSTRACT = True
-    drop_rate = 5
+    drop_rate = 10
 
 class GhostMonster(UndeadMonster):
     ABSTRACT = True
@@ -555,6 +555,7 @@ class FinalBossMonster(BossMonster):
     ABSTRACT = True
     hp_regen = 10
     fov_range = 10
+    drop_rate = 30
 
 # --- MONSTERS #1 --- #
 
@@ -563,7 +564,6 @@ class Rat(Monster):
     glyph = 'r', T.dark_gray
     max_hp = 4
     dice = 1, 2, 0
-    drop_rate = 1
     multi = 4
     level = 1
     dungeons = 1, 2
@@ -684,7 +684,7 @@ class LowOrc(Monster):
 class CrystalSpider(Monster):
     name = 'crystal spider'
     glyph = 's', T.cyan
-    max_hp = 22
+    max_hp = 19
     dice = 2, 3, 1
     armor = 1
     level = 4
@@ -733,7 +733,6 @@ class RockRat(Monster):
     glyph = 'r', T.light_gray
     max_hp = 28
     dice = 2, 5, 0
-    drop_rate = 5
     multi = 3
     level = 6
     dungeons = 6, 8
@@ -744,7 +743,6 @@ class Snapper(Monster):
     glyph = 's', T.lighter_green
     max_hp = 32
     dice = 2, 4, 1
-    drop_rate = 2
     level = 6
     dungeons = 6, 8
     rarity = 1
@@ -765,7 +763,6 @@ class FlyingEye(FlyMonster):
     glyph = 'e', T.light_blue
     max_hp = 32
     dice = 2, 5, 0
-    drop_rate = 15
     multi = 3
     level = 7
     dungeons = 7, 7
@@ -776,7 +773,6 @@ class FireSkeleton(UndeadMonster):
     glyph = 's', T.light_red
     max_hp = 35
     dice = 2, 5, 2
-    drop_rate = 5
     multi = 2
     level = 7
     dungeons = 7, 8
@@ -788,7 +784,6 @@ class StoneShark(Monster):
     max_hp = 35
     dice = 2, 6, 0
     armor = 2
-    drop_rate = 10
     level = 7
     dungeons = 7, 8
     rarity = 1
