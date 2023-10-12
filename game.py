@@ -193,16 +193,17 @@ class Game(object):
             self.player.use(item)
 
     def cmd_descend(self):
-        from maps import StairDownTile
-        if not isinstance(self.player.tile, StairDownTile):
-            message('Stand on a down stairway to descend.', COLOR_ERROR)
+        from maps import StairUpTile
+        if not isinstance(self.player.tile, StairUpTile):
+            message('Stand on a up stairway to ascend.', COLOR_ERROR)
             return
 
         self.player.heal(int(self.player.max_hp / 2))
+        self.player.mp = self.player.max_mp
         message('You take a moment to rest, and recover your strength.', T.yellow)
         self.turns += 1
         self.start_map(self.map.level + 1)
-        message('After a rare moment of peace, you descend deeper into the heart of the dungeon...', T.yellow)
+        message('After a rare moment of peace, you ascend higher into the heart of the temple...', T.yellow)
 
     def cmd_quit(self):
         if prompt('Quit? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_y:
@@ -292,7 +293,7 @@ def _draw_bar(x, y, cur, max, color):
 
 def _draw_status():
     import mobs
-    out(60, 1, "Troll Temple" + " (" +  "Depth: " + str(GAME.map.level) + ")", T.light_green) 
+    out(60, 1, "Troll Temple" + " (" +  "Level: " + str(GAME.map.level) + ")", T.light_green) 
     _game_class = mobs.GAME_CLASSES[GAME.player.game_class - 1]
     out(60, 3, "Trollhunter" + " " + _game_class[0] + " Level " + str(GAME.player.level), _game_class[2])
     out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)    

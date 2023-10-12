@@ -107,7 +107,7 @@ class Map(object):
                 continue
             if not_seen and self.is_visible(x, y):
                 continue
-            if no_stair and isinstance(tile, StairDownTile):
+            if no_stair and isinstance(tile, StairUpTile):
                 continue
             return (x, y, tile)
 
@@ -170,6 +170,9 @@ class StairUpTile(Tile):
     transparent = True
     glyph = '<', T.light_grey
 
+    def on_enter(self):
+        message('There is a up stairway here.')
+
 class StairDownTile(Tile):
     name = 'stairs down'
     walkable = True
@@ -224,7 +227,7 @@ def generate_map(level):
             rooms.append(room)
 
     if level < MAX_DLEVEL:
-        randomly_place(arr, '>')
+        randomly_place(arr, StairUpTile.glyph[0])
 
     costs = [(5, 40, 1),
              (5, 1, 2),
