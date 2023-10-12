@@ -238,7 +238,7 @@ class Dagger(Weapon):
     name = 'dagger'
     glyph = '(', T.light_grey
     speed = 1
-    dice = 2, 2, 0
+    dice = 1, 2, 1
     dungeons = 1, 2
 
 class Dirk(Weapon):
@@ -252,49 +252,49 @@ class Kris(Weapon):
     name = 'kris'
     glyph = '(', T.light_green
     speed = 1
-    dice = 2, 3, 4
+    dice = 2, 3, 3
     dungeons = 5, 6
 
 class Rondel(Weapon):
     name = 'rondel'
     glyph = '(', T.light_blue
     speed = 1
-    dice = 2, 3, 5
+    dice = 3, 3, 3
     dungeons = 7, 8
 
 class BloodDagger(Weapon):
     name = 'blood dagger'
     glyph = '(', T.red
     speed = 1
-    dice = 2, 4, 7
+    dice = 4, 4, 0
     dungeons = 9, 10
 
 class IceDagger(Weapon):
     name = 'ice dagger'
     glyph = '(', T.white
     speed = 1
-    dice = 2, 5, 9
+    dice = 3, 5, 4
     dungeons = 11, 12
 
 class BloodSpike(EliteWeapon):
     name = 'blood spike'
     glyph = '(', T.light_red
     speed = 2
-    dice = 2, 4, 8
+    dice = 3, 5, 1
     dungeons = 7, 9
 
 class MithrilBlade(EliteWeapon):
     name = 'mithril blade'
     glyph = '(', T.light_sky
     speed = 2
-    dice = 2, 5, 10
+    dice = 4, 5, 0
     dungeons = 9, 11
 
 class DivineStiletto(UniqueWeapon):
     name = 'divine stiletto'
     glyph = '(', T.light_yellow
     speed = 3
-    dice = 2, 6, 12
+    dice = 3, 5, 7
     dungeons = 11, 12
 
 # --- MACES --- #
@@ -303,45 +303,57 @@ class Club(Weapon):
     name = 'club'
     glyph = '/', T.dark_orange
     speed = -1
-    dice = 1, 5, 0
-    dungeons = 1, 3
+    dice = 1, 3, 0
+    dungeons = 1, 2
 
 class KillerClub(Weapon):
     name = 'killer club'
     glyph = '/', T.dark_orange
     speed = -1
-    dice = 1, 5, 3
-    dungeons = 4, 6
+    dice = 1, 4, 3
+    dungeons = 3, 4
+
+class SpikedClub(Weapon):
+    name = 'spiked club'
+    glyph = '/', T.light_orange
+    dice = 2, 4, 2
+    dungeons = 5, 6
 
 class Mace(Weapon):
     name = 'mace'
-    glyph = '/', T.light_green
-    dice = 2, 4, 5
-    dungeons = 7, 9
+    glyph = '/', T.light_gray
+    dice = 2, 5, 3
+    dungeons = 7, 8
 
 class Hammer(Weapon):
     name = 'hammer'
     glyph = '/', T.light_gray
-    dice = 2, 4, 9
-    dungeons = 10, 12
+    dice = 2, 6, 5
+    dungeons = 9, 10
+
+class FireHammer(Weapon):
+    name = 'fire hammer'
+    glyph = '/', T.light_red
+    dice = 2, 8, 4
+    dungeons = 11, 12
 
 class DeathMace(EliteWeapon):
     name = 'death mace'
     glyph = '/', T.light_gray
-    dice = 2, 5, 11
+    dice = 2, 5, 6
     dungeons = 7, 9
 
 class ThunderMaul(EliteWeapon):
     name = 'thunder maul'
     glyph = '/', T.blue
-    dice = 2, 6, 13
+    dice = 3, 5, 5
     dungeons = 9, 11
 
 class LegendaryMallet(UniqueWeapon):
     name = 'legendary mallet'
     glyph = '/', T.pink
     speed = 1
-    dice = 2, 7, 15
+    dice = 3, 6, 5
     dungeons = 11, 12
 
 # --- SWORDS --- #
@@ -349,44 +361,56 @@ class LegendaryMallet(UniqueWeapon):
 class ShortSword(Weapon):
     name = 'short sword'
     glyph = '(', T.lighter_blue
-    dice = 1, 5, 0
-    dungeons = 1, 3
+    dice = 1, 3, 0
+    dungeons = 1, 2
 
 class Falchion(Weapon):
     name = 'falchion'
     glyph = '(', T.lighter_blue
-    dice = 1, 5, 2
-    dungeons = 4, 6
+    dice = 1, 6, 1
+    dungeons = 3, 4
 
 class BroadSword(Weapon):
     name = 'broad sword'
     glyph = '(', T.lighter_blue
-    dice = 2, 5, 3
-    dungeons = 7, 9
+    dice = 2, 4, 2
+    dungeons = 5, 6
+
+class CrusaderSword(Weapon):
+    name = 'crusader sword'
+    glyph = '(', T.lighter_green
+    dice = 2, 5, 4
+    dungeons = 7, 8
+
+class HeroicSword(Weapon):
+    name = 'heroic sword'
+    glyph = '(', T.light_blue
+    dice = 3, 5, 3
+    dungeons = 9, 10
 
 class WarSword(Weapon):
     name = 'war sword'
     glyph = '(', T.lighter_blue
-    dice = 2, 6, 4
-    dungeons = 10, 12
+    dice = 3, 6, 3
+    dungeons = 11, 12
 
 class RuneSword(EliteWeapon):
     name = 'rune sword'
     glyph = '(', T.light_gray
-    dice = 2, 6, 5
+    dice = 2, 5, 6
     dungeons = 7, 9
 
 class MithrilSword(EliteWeapon):
     name = 'mithril sword'
     glyph = '(', T.blue
-    dice = 2, 7, 7
+    dice = 3, 5, 6
     dungeons = 9, 11
 
 class AncientSword(UniqueWeapon):
     name = 'ancient sword'
     glyph = '(', T.cyan
     speed = 1
-    dice = 2, 8, 11
+    dice = 2, 8, 7
     dungeons = 11, 12
 
 # --- AXES --- #
@@ -395,44 +419,56 @@ class HandAxe(Weapon):
     name = 'hand axe'
     glyph = '(', T.grey
     speed = -1
-    dice = 1, 4, 1
-    dungeons = 1, 3
+    dice = 1, 2, 1
+    dungeons = 1, 2
 
 class DoubleAxe(Weapon):
     name = 'double axe'
     glyph = '(', T.grey
-    dice = 1, 5, 2
-    dungeons = 4, 6
+    dice = 1, 3, 4
+    dungeons = 3, 4
 
 class WarAxe(Weapon):
     name = 'war axe'
     glyph = '(', T.grey
-    dice = 2, 5, 3
-    dungeons = 7, 9
+    dice = 1, 4, 6
+    dungeons = 5, 6
 
 class BattleAxe(Weapon):
     name = 'battle axe'
     glyph = '(', T.grey
-    dice = 2, 6, 4
-    dungeons = 10, 12
+    dice = 2, 4, 5
+    dungeons = 7, 8
+
+class GrandAxe(Weapon):
+    name = 'grand axe'
+    glyph = '(', T.grey
+    dice = 2, 6, 5
+    dungeons = 9, 10
+
+class SupremeAxe(Weapon):
+    name = 'supreme axe'
+    glyph = '(', T.grey
+    dice = 2, 7, 6
+    dungeons = 11, 12
 
 class GreatAxe(EliteWeapon):
     name = 'great axe'
     glyph = '(', T.light_gray
-    dice = 2, 6, 4
+    dice = 2, 5, 6
     dungeons = 7, 9
 
 class GiantAxe(EliteWeapon):
     name = 'giant axe'
     glyph = '(', T.blue
-    dice = 2, 6, 8
+    dice = 2, 6, 7
     dungeons = 9, 11
 
 class GloriousAxe(UniqueWeapon):
     name = 'glorious axe'
     glyph = '(', T.cyan
     speed = 1
-    dice = 2, 7, 14
+    dice = 2, 7, 10
     dungeons = 11, 12
 
 # --- SPEARS --- #
@@ -440,46 +476,58 @@ class GloriousAxe(UniqueWeapon):
 class Spear(Weapon):
     name = 'spear'
     glyph = '/', T.light_orange
-    dice = 1, 3, 1
-    dungeons = 1, 3
+    dice = 1, 3, 0
+    dungeons = 1, 2
 
 class Pilum(Weapon):
     name = 'pilum'
     glyph = '/', T.light_orange
-    dice = 1, 5, 3
-    dungeons = 4, 6
+    dice = 1, 5, 2
+    dungeons = 3, 4
 
 class Harpoon(Weapon):
     name = 'harpoon'
     glyph = '/', T.light_orange
-    dice = 2, 5, 4
-    dungeons = 7, 9
+    dice = 2, 4, 2
+    dungeons = 5, 6
+
+class SerpentSpear(Weapon):
+    name = 'serpent spear'
+    glyph = '/', T.light_orange
+    dice = 2, 5, 3
+    dungeons = 7, 8
 
 class WarSpear(Weapon):
     name = 'war spear'
     glyph = '/', T.light_orange
-    dice = 2, 6, 6
-    dungeons = 10, 12
+    dice = 2, 6, 5
+    dungeons = 9, 10
+
+class SacredSpear(Weapon):
+    name = 'sacred spear'
+    glyph = '/', T.light_orange
+    dice = 2, 6, 8
+    dungeons = 11, 12
 
 class GhostSpear(EliteWeapon):
     name = 'ghost spear'
     glyph = '/', T.light_grey
     speed = 1
-    dice = 2, 7, 2
+    dice = 2, 6, 4
     dungeons = 7, 9
 
 class MithrilMancatcher(EliteWeapon):
     name = 'mithril mancatcher'
     glyph = '/', T.light_red
     speed = 1
-    dice = 2, 8, 5
+    dice = 2, 8, 4
     dungeons = 9, 11
 
 class AncientPike(UniqueWeapon):
     name = 'ancient pike'
-    glyph = '/', T.lighter_orange
+    glyph = '/', T.yellow
     speed = 2
-    dice = 2, 9, 10
+    dice = 2, 9, 6
     dungeons = 11, 12
 
 # --- STAVES --- #
@@ -489,50 +537,68 @@ class ShortStaff(Staff):
     glyph = '/', T.light_orange
     speed = -1
     magic = 1
-    dice = 1, 3, 1
+    dice = 1, 2, 1
     mana = 3
-    dungeons = 1, 3
+    dungeons = 1, 2
 
 class LongStaff(Staff):
     name = 'long staff'
     glyph = '/', T.lighter_blue
     speed = -1
     magic = 2
-    dice = 1, 5, 2
+    dice = 1, 4, 3
     mana = 6
-    dungeons = 4, 6
+    dungeons = 3, 4
 
 class EmeraldStaff(Staff):
     name = 'emerald staff'
     glyph = '/', T.lighter_green
     speed = -1
     magic = 3
-    dice = 2, 5, 3
+    dice = 2, 4, 3
     mana = 9
-    dungeons = 7, 9
+    dungeons = 5, 6
+
+class FireStaff(Staff):
+    name = 'fire staff'
+    glyph = '/', T.light_red
+    speed = -1
+    magic = 4
+    dice = 2, 5, 3
+    mana = 12
+    dungeons = 7, 8
+
+class WonderStaff(Staff):
+    name = 'wonder staff'
+    glyph = '/', T.pink
+    speed = -1
+    magic = 5
+    dice = 2, 7, 4
+    mana = 15
+    dungeons = 9, 10
 
 class SnowStaff(Staff):
     name = 'snow staff'
     glyph = '/', T.white
     speed = -1
-    magic = 4
-    dice = 2, 7, 4
-    mana = 12
-    dungeons = 10, 12
+    magic = 6
+    dice = 2, 8, 5
+    mana = 18
+    dungeons = 11, 12
 
 class BattleStaff(EliteStaff):
     name = 'battle staff'
     glyph = '/', T.light_grey
-    magic = 5
-    dice = 2, 8, 5
+    magic = 6
+    dice = 2, 6, 4
     mana = 14
     dungeons = 7, 9
 
 class RuneStaff(EliteStaff):
     name = 'rune staff'
     glyph = '/', T.yellow
-    magic = 6
-    dice = 3, 6, 6
+    magic = 7
+    dice = 3, 5, 4
     mana = 17
     dungeons = 9, 11
 
@@ -540,8 +606,8 @@ class PowerStaff(UniqueStaff):
     name = 'power staff'
     glyph = '/', T.cyan
     speed = 1
-    magic = 7
-    dice = 4, 6, 5
+    magic = 9
+    dice = 4, 4, 7
     mana = 20
     dungeons = 11, 12
 
@@ -551,52 +617,65 @@ class LightBoots(Boots):
     name = 'light boots'
     glyph = '[', T.dark_orange
     armor = 1
-    dungeons = 1, 3
+    dungeons = 1, 2
 
 class MeshBoots(Boots):
     name = 'mesh boots'
     glyph = '[', T.dark_red
     armor = 2
-    dungeons = 4, 6
+    dungeons = 3, 4
+
+class SterlingBoots(Boots):
+    name = 'sterling boots'
+    glyph = '[', T.lighter_grey
+    armor = 3
+    dungeons = 5, 6
 
 class ChainBoots(Boots):
     name = 'chain boots'
     glyph = '[', T.dark_grey
     armor = 4
     speed = -1
-    dungeons = 7, 9
+    dungeons = 7, 8
+
+class ArmoredBoots(Boots):
+    name = 'armored boots'
+    glyph = '[', T.dark_grey
+    armor = 5
+    speed = -1
+    dungeons = 9, 10
 
 class HeavyBoots(Boots):
     name = 'heavy boots'
-    glyph = '[', T.light_grey
-    armor = 5
+    glyph = '[', T.light_blue
+    armor = 7
     speed = -2
-    dungeons = 10, 12
+    dungeons = 11, 12
 
 class MirroredBoots(EliteBoots):
     name = 'mirrored boots'
     glyph = '[', T.light_green
-    armor = 5
+    armor = 7
     speed = 1
     dungeons = 7, 9
 
 class BattleBoots(EliteBoots):
     name = 'battle boots'
-    glyph = '[', T.light_grey
-    armor = 7
+    glyph = '[', T.light_red
+    armor = 8
     speed = 1
     dungeons = 9, 11
 
 class WarBoots(UniqueBoots):
     name = 'war boots'
-    glyph = '[', T.light_orange
+    glyph = '[', T.cyan
     armor = 9
-    dungeons = 10, 12
+    dungeons = 11, 12
 
 class BootsOfSpeed(UniqueBoots):
     name = 'boots of speed'
     glyph = '[', T.light_blue
-    armor = 3
+    armor = 5
     speed = 3
     dungeons = 10, 12
 
