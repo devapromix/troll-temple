@@ -648,28 +648,28 @@ class ArmoredBoots(Boots):
 class HeavyBoots(Boots):
     name = 'heavy boots'
     glyph = '[', T.light_blue
-    armor = 7
+    armor = 6
     speed = -2
     dungeons = 11, 12
 
 class MirroredBoots(EliteBoots):
     name = 'mirrored boots'
     glyph = '[', T.light_green
-    armor = 7
+    armor = 6
     speed = 1
     dungeons = 7, 9
 
 class BattleBoots(EliteBoots):
     name = 'battle boots'
     glyph = '[', T.light_red
-    armor = 8
+    armor = 7
     speed = 1
     dungeons = 9, 11
 
 class WarBoots(UniqueBoots):
     name = 'war boots'
     glyph = '[', T.cyan
-    armor = 9
+    armor = 8
     dungeons = 11, 12
 
 class BootsOfSpeed(UniqueBoots):
