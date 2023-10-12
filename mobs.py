@@ -268,14 +268,17 @@ class Player(Mob):
         self.use_energy()
 
     def attack(self, mon):
-        dmg = roll(*self.dice)
-        if rand(1, 20) < 20:
-            message('You hit the %s (%d).' % (mon.name, dmg))
+        if rand(1, 100) < 95:
+            dmg = roll(*self.dice)
+            if rand(1, 20) < 20:
+                message('You hit the %s (%d).' % (mon.name, dmg))
+            else:
+                dmg *= 2
+                message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
+            mon.damage(dmg)
+            self.use_energy()
         else:
-            dmg *= 2
-            message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
-        mon.damage(dmg)
-        self.use_energy()
+            message('You miss the %s.' % (mon.name))
 
     def damage(self, dmg, mon):
         dmg -= self.armor
@@ -419,7 +422,7 @@ class Monster(Mob, metaclass=Register):
 
     def damage(self, dmg):
         dmg -= self.armor
-        if dmg < 0:
+        if dmg <= 0:
             message('The %s shrugs off the hit.' % self.name)
             return
         self.hp -= dmg
@@ -503,14 +506,17 @@ class Monster(Mob, metaclass=Register):
             self.walk_randomly()
 
     def attack_player(self):
-        player = self.map.player
-        dmg = roll(*self.dice)
-        if rand(1, 20) < 20:
-            message('The %s hits you (%d).' % (self.name, dmg))
+        if rand(1, 100) < 95:
+            player = self.map.player
+            dmg = roll(*self.dice)
+            if rand(1, 20) < 20:
+                message('The %s hits you (%d).' % (self.name, dmg))
+            else:
+                dmg *= 2
+                message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
+            player.damage(dmg, self)
         else:
-            dmg *= 2
-            message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
-        player.damage(dmg, self)
+            message('The %s misses you.' % (self.name))
 
 class UndeadMonster(Monster):
     ABSTRACT = True
