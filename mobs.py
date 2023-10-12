@@ -683,7 +683,7 @@ class LowOrc(Monster):
 
 class CrystalSpider(Monster):
     name = 'crystal spider'
-    glyph = 's', T.cyan
+    glyph = 's', T.light_cyan
     max_hp = 19
     dice = 2, 3, 1
     armor = 1

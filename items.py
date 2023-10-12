@@ -180,6 +180,14 @@ class Mail(Armor):
     ABSTRACT = True
     slot = 'a'
 
+class EliteMail(Mail):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueMail(Mail):
+    ABSTRACT = True
+    rarity = 15
+
 # --- BOOK --- #
 
 class Book(Item):
@@ -292,7 +300,7 @@ class MithrilBlade(EliteWeapon):
 
 class DivineStiletto(UniqueWeapon):
     name = 'divine stiletto'
-    glyph = '(', T.light_yellow
+    glyph = '(', T.cyan
     speed = 3
     dice = 3, 5, 7
     dungeons = 11, 12
@@ -351,7 +359,7 @@ class ThunderMaul(EliteWeapon):
 
 class LegendaryMallet(UniqueWeapon):
     name = 'legendary mallet'
-    glyph = '/', T.pink
+    glyph = '/', T.cyan
     speed = 1
     dice = 3, 6, 5
     dungeons = 11, 12
@@ -525,7 +533,7 @@ class MithrilMancatcher(EliteWeapon):
 
 class AncientPike(UniqueWeapon):
     name = 'ancient pike'
-    glyph = '/', T.yellow
+    glyph = '/', T.cyan
     speed = 2
     dice = 2, 9, 6
     dungeons = 11, 12
@@ -674,35 +682,70 @@ class WarBoots(UniqueBoots):
 
 class BootsOfSpeed(UniqueBoots):
     name = 'boots of speed'
-    glyph = '[', T.light_blue
+    glyph = '[', T.cyan
     armor = 5
     speed = 3
     dungeons = 10, 12
 
 # --- ARMORS --- #
 
-class UglyClothes(Mail):
-    name = 'ugly clothes'
-    plural = True
-    glyph = '{', T.green
-    armor = 1
-    level = 1
+class LeatherArmor(Mail):
+    name = 'leather armor'
+    glyph = ']', T.dark_orange
+    armor = 3
+    dungeons = 1, 2
+
+class StuddedLeather(Mail):
+    name = 'studded leather'
+    glyph = ']', T.darker_orange
+    armor = 6
+    dungeons = 3, 4
+
+class ScaleMail(Mail):
+    name = 'scale mail'
+    glyph = ']', T.grey
+    armor = 9
+    speed = -1
+    dungeons = 5, 6
 
 class RingMail(Mail):
     name = 'ring mail'
-    glyph = '{', T.grey
-    armor = 3
+    glyph = ']', T.grey
+    armor = 12
     speed = -1
-    level = 3
-    common = 8
+    dungeons = 7, 8
 
-class PlateMail(Mail):
-    name = 'plate mail'
-    glyph = '{', T.cyan
-    armor = 6
+class ChainMail(Mail):
+    name = 'chain mail'
+    glyph = ']', T.light_grey
+    armor = 15
+    speed = -1
+    dungeons = 9, 10
+
+class PlateArmor(Mail):
+    name = 'plate armor'
+    glyph = ']', T.light_grey
+    armor = 18
     speed = -2
-    level = 5
-    common = 6
+    dungeons = 11, 12
+
+class ChaosArmor(EliteMail):
+    name = 'chaos armor'
+    glyph = ']', T.light_grey
+    armor = 18
+    dungeons = 7, 9
+
+class SacredArmor(EliteMail):
+    name = 'sacred armor'
+    glyph = ']', T.light_red
+    armor = 20
+    dungeons = 9, 11
+
+class AncientArmor(UniqueMail):
+    name = 'ancient armor'
+    glyph = ']', T.cyan
+    armor = 25
+    dungeons = 11, 12
 
 # --- BOOKS --- #
 
@@ -710,21 +753,21 @@ class BookHealing(Book):
     glyph = '+', T.pink
     name = 'book of healing'
     spell = Heal
-    dungeons = 1, 12
+    dungeons = 1, 4
     rarity = 1
     
 class BookTeleportation(Book):
     glyph = '+', T.lighter_blue
     name = 'book of teleportation'
     spell = Teleport
-    dungeons = 2, 12
+    dungeons = 2, 5
     rarity = 1
     
 class BookBloodlust(Book):
     glyph = '+', T.red
     name = 'book of bloodlust'
     spell = Bloodlust
-    dungeons = 3, 12
+    dungeons = 3, 6
     rarity = 1
     
 # --- POTIONS --- #
