@@ -67,14 +67,14 @@ KEYS = [
     ([pygame.K_KP3], ('walk', (1, 1))),
 
     ([pygame.K_ESCAPE], 'quit'),
-    ([pygame.K_PERIOD], 'descend'),
+    ([pygame.K_COMMA], 'descend'),
+    ([pygame.K_SLASH], 'help'),
     ([pygame.K_g], 'pick_up'),
     ([pygame.K_i], 'inventory'),
     ([pygame.K_b], 'spellbook'),
     ([pygame.K_d], 'drop'),
     ([pygame.K_t], 'test'),
     ([pygame.K_l], 'look'),
-    ([pygame.K_h], 'help'),
     ([pygame.K_w], 'wizard'),
 ]
 
@@ -419,21 +419,22 @@ def intro_screen():
     out(10, 6, "about a ruby amulet that could grant great power to its wearer. As an intrepid explorer,", T.lighter_grey)
     out(10, 7, "you grab your trusty sword and enter the Temple to find out what really lurks in its dark", T.lighter_grey)
     out(10, 8, "shadows. Use your wits to collect items to explore the levels of the Old Temple.", T.lighter_grey)
-    out(13, 10, "However, be aware that many dangers await you...", T.lighter_grey)
+    out(13, 10, "However, be aware that many dangers await you. Good luck! You will need it...", T.lighter_grey)
 
     out(13, 13, "Keybindings:", T.lighter_grey)
     out(15, 15, "[I] show inventory", T.lighter_grey)
     out(15, 16, "[G] pick up an item from the floor", T.lighter_grey)
     out(15, 17, "[D] drop an item to the floor", T.lighter_grey)
-    out(15, 18, "[L] look mode", T.lighter_grey)
+    out(15, 18, "[L] use look mode", T.lighter_grey)
     out(15, 19, "[<] go up stairs", T.lighter_grey)
     out(15, 20, "[?] show this help screen", T.lighter_grey)
-    out(15, 21, "[5] wait", T.lighter_grey)
-    out(15, 22, "[M] view messages", T.lighter_grey)
+    out(15, 21, "[5] wait one turn", T.lighter_grey)
+    out(15, 22, "[M] view last messages", T.lighter_grey)
     
     out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
     out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
     out(55, 17, "[B] open spellbook (only mage class)", T.lighter_grey)
+    out(55, 18, "[P] show character's detailed status", T.lighter_grey)
 
 
     out(0, 28, "Press ENTER to continue...", T.light_grey)
