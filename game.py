@@ -57,29 +57,37 @@ UNKNOWN_GLYPH = '?', COLOR_ERROR
 
 pygame.init()
 
-KEYS = [
+WALK_KEYS = [
     ([pygame.K_KP7], ('walk', (-1, -1))),
     ([pygame.K_KP8, pygame.K_UP], ('walk', (0, -1))),
     ([pygame.K_KP9], ('walk', (1, -1))),
     ([pygame.K_KP4, pygame.K_LEFT], ('walk', (-1, 0))),
-    ([pygame.K_KP5], 'wait'),
+    ([pygame.K_KP5], ('walk', (0, 0))),
     ([pygame.K_KP6, pygame.K_RIGHT], ('walk', (1, 0))),
     ([pygame.K_KP1], ('walk', (-1, 1))),
     ([pygame.K_KP2, pygame.K_DOWN], ('walk', (0, 1))),
     ([pygame.K_KP3], ('walk', (1, 1))),
-
-    ([pygame.K_ESCAPE], 'quit'),
-    ([pygame.K_COMMA], 'ascend'),
-    ([pygame.K_SLASH], 'help'),
-    ([pygame.K_g], 'pick_up'),
-    ([pygame.K_i], 'inventory'),
-    ([pygame.K_b], 'spellbook'),
-    ([pygame.K_d], 'drop'),
-    ([pygame.K_t], 'test'),
-    ([pygame.K_l], 'look'),
-    ([pygame.K_w], 'wizard'),
 ]
 
+KEYS = [
+    ([pygame.K_q],      'quit'),
+    ([pygame.K_COMMA],  'ascend'),
+    ([pygame.K_SLASH],  'help'),
+    ([pygame.K_g],      'pick_up'),
+    ([pygame.K_i],      'inventory'),
+    ([pygame.K_b],      'spellbook'),
+    ([pygame.K_d],      'drop'),
+    ([pygame.K_t],      'test'),
+    ([pygame.K_l],      'look'),
+    ([pygame.K_w],      'wizard'),
+]
+
+def decode_walk_key(key):
+    for keys, cmd in WALK_KEYS:
+        if key in keys:
+            return cmd
+    return None
+    
 def decode_key(key):
     for keys, cmd in KEYS:
         if key in keys:
@@ -144,38 +152,48 @@ class Game(object):
                         'Congratulations! You have won. Press ENTER',
                         [pygame.K_RETURN])
                     raise Quit()
-                for i in pygame.event.get():
-                    if i.type == pygame.KEYUP:
-                        self.keydown = None
-                    if i.type == pygame.KEYDOWN:
-                        self.keydown = i.key
-                if self.keydown != None:
-                    if self.do_command(self.keydown):
-                        self.map.do_turn(self.turns)
-                        self.turns += 1
-                    draw_all()
-                    pygame.time.delay(DELAY)
+                while self.player.action_turns > 0:
+                    for i in pygame.event.get():
+                        if i.type == pygame.KEYUP:
+                            self.do_command(i.key)
+                            self.keydown = None
+                        if i.type == pygame.KEYDOWN:
+                            self.keydown = i.key
+                    if self.keydown != None:
+                        self.do_walk_command(self.keydown)
+                self.map.do_turn(self.turns)
+                self.turns += 1
+                #draw_all()
+                pygame.time.delay(DELAY)
         except Quit:
             pass
+
+    def do_walk_command(self, key):
+        cmd = decode_walk_key(key)
+        if cmd is None:
+            return
+        new_ui_turn()
+        if isinstance(cmd, str):
+            getattr(self, 'cmd_'+cmd)()
+        else:
+            name, args = cmd
+            getattr(self, 'cmd_'+name)(*args)
+        draw_all()
 
     def do_command(self, key):
         cmd = decode_key(key)
         if cmd is None:
-            return False
+            return
         new_ui_turn()
         if isinstance(cmd, str):
             getattr(self, 'cmd_'+cmd)()
-            return False
         else:
             name, args = cmd
             getattr(self, 'cmd_'+name)(*args)
-            return True
+        draw_all()
 
     def cmd_walk(self, dx, dy):
         self.player.walk(dx, dy)
-
-    def cmd_wait(self):
-        self.player.wait()
 
     def cmd_pick_up(self):
         tile = self.player.tile
@@ -611,7 +629,7 @@ def readkey():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             close()
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYUP:
             return event.key
 
 def anykey():

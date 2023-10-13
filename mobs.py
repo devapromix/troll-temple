@@ -238,6 +238,9 @@ class Player(Mob):
         self.use_energy()
 
     def walk(self, dx, dy):
+        if dx == 0 and dy == 0:
+            self.wait()
+            return
         destx, desty = self.x+dx, self.y+dy
         if not self.map.in_map(destx, desty):
             return False
