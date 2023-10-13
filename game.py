@@ -150,9 +150,9 @@ class Game(object):
                     if i.type == pygame.KEYDOWN:
                         self.keydown = i.key
                 if self.keydown != None:
-                    self.do_command(self.keydown)
-                    self.map.do_turn(self.turns)
-                    self.turns += 1
+                    if self.do_command(self.keydown):
+                        self.map.do_turn(self.turns)
+                        self.turns += 1
                     draw_all()
                     pygame.time.delay(DELAY)
         except Quit:
@@ -161,14 +161,15 @@ class Game(object):
     def do_command(self, key):
         cmd = decode_key(key)
         if cmd is None:
-            return
+            return False
         new_ui_turn()
         if isinstance(cmd, str):
             getattr(self, 'cmd_'+cmd)()
+            return False
         else:
             name, args = cmd
             getattr(self, 'cmd_'+name)(*args)
-        draw_all()
+            return True
 
     def cmd_walk(self, dx, dy):
         self.player.walk(dx, dy)
