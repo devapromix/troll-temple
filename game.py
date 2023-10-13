@@ -14,6 +14,8 @@ SCREEN_H = 30
 MAP_W = 60 - 2
 MAP_H = SCREEN_H - 2
 
+DELAY = 75
+
 BUFFER_H = SCREEN_H // 2 + 1
 
 TITLE = 'Troll Temple'
@@ -67,7 +69,7 @@ KEYS = [
     ([pygame.K_KP3], ('walk', (1, 1))),
 
     ([pygame.K_ESCAPE], 'quit'),
-    ([pygame.K_COMMA], 'descend'),
+    ([pygame.K_COMMA], 'ascend'),
     ([pygame.K_SLASH], 'help'),
     ([pygame.K_g], 'pick_up'),
     ([pygame.K_i], 'inventory'),
@@ -97,6 +99,7 @@ class Game(object):
         self.wizard = wizard
         self.wizard = True
         self.selected_game_class = mobs.FIGHTER
+        self.keydown = None
 
     def play(self):
         init(self)
@@ -141,12 +144,17 @@ class Game(object):
                         'Congratulations! You have won. Press ENTER',
                         [pygame.K_RETURN])
                     raise Quit()
-                while self.player.action_turns > 0:
-                    key = readkey()
-                    self.do_command(key)
-                self.map.do_turn(self.turns)
-                self.turns += 1
-                draw_all()
+                for i in pygame.event.get():
+                    if i.type == pygame.KEYUP:
+                        self.keydown = None
+                    if i.type == pygame.KEYDOWN:
+                        self.keydown = i.key
+                if self.keydown != None:
+                    self.do_command(self.keydown)
+                    self.map.do_turn(self.turns)
+                    self.turns += 1
+                    draw_all()
+                    pygame.time.delay(DELAY)
         except Quit:
             pass
 
@@ -194,7 +202,7 @@ class Game(object):
         if item:
             self.player.use(item)
 
-    def cmd_descend(self):
+    def cmd_ascend(self):
         from maps import StairUpTile
         if not isinstance(self.player.tile, StairUpTile):
             message('Stand on a up stairway to ascend.', COLOR_ERROR)
@@ -205,7 +213,7 @@ class Game(object):
         message('You take a moment to rest, and recover your strength.', T.yellow)
         self.turns += 1
         self.start_map(self.map.level + 1)
-        message('After a rare moment of peace, you ascend higher into the heart of the temple...', T.yellow)
+        message('After a rare moment of peace, you ascend higher into the heart of the Temple...', T.yellow)
 
     def cmd_quit(self):
         if prompt('Quit? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_y:

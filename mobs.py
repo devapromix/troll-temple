@@ -237,7 +237,7 @@ class Player(Mob):
                 message('Several items are lying here.')
         self.use_energy()
 
-    def walk(self, dx, dy, panic=True):
+    def walk(self, dx, dy):
         destx, desty = self.x+dx, self.y+dy
         if not self.map.in_map(destx, desty):
             return False
