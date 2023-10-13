@@ -74,6 +74,7 @@ KEYS = [
     ([pygame.K_d], 'drop'),
     ([pygame.K_t], 'test'),
     ([pygame.K_l], 'look'),
+    ([pygame.K_h], 'help'),
     ([pygame.K_w], 'wizard'),
 ]
 
@@ -218,6 +219,9 @@ class Game(object):
 
     def cmd_look(self):
         look_mode()
+        
+    def cmd_help(self):
+        intro_screen()
         
     def cmd_spellbook(self):
         if self.player.has_spellbook:
@@ -410,7 +414,28 @@ def intro_screen():
     
     out(0, 2, "Many centuries ago...", COLOR_TITLE)
     
+    out(13, 4, "You are a young adventurer who has entered the abandoned Old Temple in Lonely Mountain. ", T.lighter_grey)
+    out(10, 5, "Many horror stories were told about this Temple at nighttime bonfires, as well as stories", T.lighter_grey)
+    out(10, 6, "about a ruby amulet that could grant great power to its wearer. As an intrepid explorer,", T.lighter_grey)
+    out(10, 7, "you grab your trusty sword and enter the Temple to find out what really lurks in its dark", T.lighter_grey)
+    out(10, 8, "shadows. Use your wits to collect items to explore the levels of the Old Temple.", T.lighter_grey)
+    out(13, 10, "However, be aware that many dangers await you...", T.lighter_grey)
+
+    out(13, 13, "Keybindings:", T.lighter_grey)
+    out(15, 15, "[I] show inventory", T.lighter_grey)
+    out(15, 16, "[G] pick up an item from the floor", T.lighter_grey)
+    out(15, 17, "[D] drop an item to the floor", T.lighter_grey)
+    out(15, 18, "[L] look mode", T.lighter_grey)
+    out(15, 19, "[<] go up stairs", T.lighter_grey)
+    out(15, 20, "[?] show this help screen", T.lighter_grey)
+    out(15, 21, "[5] wait", T.lighter_grey)
+    out(15, 22, "[M] view messages", T.lighter_grey)
     
+    out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
+    out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
+    out(55, 17, "[B] open spellbook (only mage class)", T.lighter_grey)
+
+
     out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
     anykey()

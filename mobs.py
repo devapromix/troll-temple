@@ -175,10 +175,10 @@ class Player(Mob):
         return a, b, c
 
     def max_exp(self):
-        return (self.level * 9) + ((self.level - 1) * self.level) 
+        return (self.level * 9) + ((self.level - 1) * self.level)
 
     def add_exp(self, mob):
-        self.exp += int(1.7 ** mob.level)
+        self.exp += mob.level
         if self.exp >= self.max_exp():
             self.exp -= self.max_exp()
             self.advance()
