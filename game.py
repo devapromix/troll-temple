@@ -122,7 +122,7 @@ class Game(object):
         from mobs import Player
         self.player = Player(self.wizard, self.selected_game_class)
         self.turns = 0
-        message("Welcome to " + TITLE + "!", T.yellow)
+        self.welcome()
         self.start_map(1)
 
     def start_map(self, level):
@@ -261,6 +261,11 @@ class Game(object):
     def cmd_test(self):
         if self.wizard:
             pass
+
+    def welcome(self):
+        message("Brave adventurer, you are now lost in the underground corridors of the Old Temple.", T.yellow)
+        message("There is no way to return to your homeland.", T.yellow)
+        message("How long can you survive?", T.yellow)
 
 # --- GAME --- #
 
@@ -424,18 +429,23 @@ def draw_all():
     _draw_status()
     refresh()
 
-def select_game_class_screen():
+def _draw_game_class_screen():
     import mobs
     clear()
-    
     out(2, 1, "Choose your class", COLOR_TITLE)
     for i, game_class in enumerate(mobs.GAME_CLASSES):
         out(3, i + 3, chr(i + ord('a')), T.light_grey) 
-        out(5, i + 3, game_class[0], game_class[2])    
+        if GAME.selected_game_class == i + 1:
+            out(5, i + 3, game_class[0], T.white) 
+        else:
+            out(5, i + 3, game_class[0], game_class[2])    
+    out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
-    sel = select_game_class()
-    GAME.selected_game_class = sel[1]
 
+def select_game_class_screen():
+    _draw_game_class_screen()
+    select_game_class()
+    
 def intro_screen():
     clear()
     
@@ -443,9 +453,9 @@ def intro_screen():
     
     out(13, 4, "You are a young adventurer who has entered the abandoned Old Temple in Lonely Mountain. ", T.lighter_grey)
     out(10, 5, "Many horror stories were told about this Temple at nighttime bonfires, as well as stories", T.lighter_grey)
-    out(10, 6, "about a ruby amulet that could grant great power to its wearer. As an intrepid explorer,", T.lighter_grey)
-    out(10, 7, "you grab your trusty sword and enter the Temple to find out what really lurks in its dark", T.lighter_grey)
-    out(10, 8, "shadows. Use your wits to collect items to explore the levels of the Old Temple.", T.lighter_grey)
+    out(10, 6, "about a Ruby Amulet that could grant great power to its wearer. As an intrepid explorer,", T.lighter_grey)
+    out(10, 7, "you grab your trusty sword and enter the Old Temple to find out what really lurks in its", T.lighter_grey)
+    out(10, 8, "dark shadows. Use your wits to collect items to explore the levels of the Old Temple.", T.lighter_grey)
     out(13, 10, "However, be aware that many dangers await you. Good luck! You will need it...", T.lighter_grey)
 
     out(13, 13, "Keybindings:", T.lighter_grey)
@@ -461,7 +471,7 @@ def intro_screen():
     out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
     out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
     out(55, 17, "[B] open spellbook (only mage class)", T.lighter_grey)
-    out(55, 18, "[P] show character's detailed status", T.lighter_grey)
+    out(55, 18, "[P] open character sheet", T.lighter_grey)
 
 
     out(0, 28, "Press ENTER to continue...", T.light_grey)
@@ -610,11 +620,15 @@ def select_game_class():
         if key in range(pygame.K_a, pygame.K_z):
             i = key - pygame.K_a
             if 0 <= i < len(mobs.GAME_CLASSES):
-                return mobs.GAME_CLASSES[i]
+                GAME.selected_game_class = mobs.GAME_CLASSES[i][1]
+                _draw_game_class_screen()
+        if key == pygame.K_RETURN:
+            return
 
 def prompt(s, choices = None):
-    message(s, T.green)
-    draw_all()
+    if s != "":
+        message(s, T.green)
+        draw_all()
     if choices:
         choices = list(choices)
         while True:
