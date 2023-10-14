@@ -442,42 +442,6 @@ def _draw_game_class_screen():
     out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
 
-def select_game_class_screen():
-    _draw_game_class_screen()
-    select_game_class()
-    
-def intro_screen():
-    clear()
-    
-    out(0, 2, "Many centuries ago...", COLOR_TITLE)
-    
-    out(13, 4, "You are a young adventurer who has entered the abandoned Old Temple in Lonely Mountain. ", T.lighter_grey)
-    out(10, 5, "Many horror stories were told about this Temple at nighttime bonfires, as well as stories", T.lighter_grey)
-    out(10, 6, "about a Ruby Amulet that could grant great power to its wearer. As an intrepid explorer,", T.lighter_grey)
-    out(10, 7, "you grab your trusty sword and enter the Old Temple to find out what really lurks in its", T.lighter_grey)
-    out(10, 8, "dark shadows. Use your wits to collect items to explore the levels of the Old Temple.", T.lighter_grey)
-    out(13, 10, "However, be aware that many dangers await you. Good luck! You will need it...", T.lighter_grey)
-
-    out(13, 13, "Keybindings:", T.lighter_grey)
-    out(15, 15, "[I] show inventory", T.lighter_grey)
-    out(15, 16, "[G] pick up an item from the floor", T.lighter_grey)
-    out(15, 17, "[D] drop an item to the floor", T.lighter_grey)
-    out(15, 18, "[L] use look mode", T.lighter_grey)
-    out(15, 19, "[<] go up stairs", T.lighter_grey)
-    out(15, 20, "[?] show this help screen", T.lighter_grey)
-    out(15, 21, "[5] wait one turn", T.lighter_grey)
-    out(15, 22, "[M] view last messages", T.lighter_grey)
-    
-    out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
-    out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
-    out(55, 17, "[B] open spellbook (only mage class)", T.lighter_grey)
-    out(55, 18, "[P] open character sheet", T.lighter_grey)
-
-
-    out(0, 28, "Press ENTER to continue...", T.light_grey)
-    refresh()
-    anykey()
-
 def title_screen():
     clear()
 
@@ -522,6 +486,44 @@ def title_screen():
     refresh()
     anykey()
 
+def intro_screen():
+    clear()
+    
+    out(0, 2, "Many centuries ago...", COLOR_TITLE)
+    
+    out(13, 4, "You are a young adventurer who has entered the abandoned Old Temple in Lonely Mountain. ", T.lighter_grey)
+    out(10, 5, "Many horror stories were told about this Temple at nighttime bonfires, as well as stories", T.lighter_grey)
+    out(10, 6, "about a Ruby Amulet that could grant great power to its wearer. As an intrepid explorer,", T.lighter_grey)
+    out(10, 7, "you grab your trusty sword and enter the Old Temple to find out what really lurks in its", T.lighter_grey)
+    out(10, 8, "dark shadows. Use your wits to collect items to explore the levels of the Old Temple.", T.lighter_grey)
+    out(13, 10, "However, be aware that many dangers await you. Good luck! You will need it...", T.lighter_grey)
+
+    out(13, 13, "Keybindings:", T.lighter_grey)
+    out(15, 15, "[I] show inventory", T.lighter_grey)
+    out(15, 16, "[G] pick up an item from the floor", T.lighter_grey)
+    out(15, 17, "[D] drop an item to the floor", T.lighter_grey)
+    out(15, 18, "[L] use look mode", T.lighter_grey)
+    out(15, 19, "[<] go up stairs", T.lighter_grey)
+    out(15, 20, "[?] show this help screen", T.lighter_grey)
+    out(15, 21, "[5] wait one turn", T.lighter_grey)
+    out(15, 22, "[M] view last messages", T.lighter_grey)
+    out(15, 23, "[Q] quit game", T.lighter_grey)
+    
+    out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
+    out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
+    out(55, 17, "[B] open spellbook (only mage class)", T.lighter_grey)
+    out(55, 18, "[P] open character sheet", T.lighter_grey)
+
+
+    out(0, 28, "Press ENTER to continue...", T.light_grey)
+    refresh()
+    anykey()
+
+def select_game_class_screen():
+    clear()
+    _draw_game_class_screen()
+    select_game_class()
+    
 def describe_tile(x, y):
     if GAME.map.is_visible(x, y):
         tile = GAME.map.tiles[x][y]
@@ -616,15 +618,18 @@ def select_spell(title, spells):
 def select_game_class():
     import mobs
     while True:
-        key = readkey()
-        if key in range(pygame.K_a, pygame.K_z):
-            i = key - pygame.K_a
-            if 0 <= i < len(mobs.GAME_CLASSES):
-                GAME.selected_game_class = mobs.GAME_CLASSES[i][1]
-                _draw_game_class_screen()
-        if key == pygame.K_RETURN:
-            return
-
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.event.clear()
+                close()
+            if event.type == pygame.KEYDOWN:
+                if event.key in range(pygame.K_a, pygame.K_z):
+                    i = event.key - pygame.K_a
+                    if 0 <= i < len(mobs.GAME_CLASSES):
+                        GAME.selected_game_class = mobs.GAME_CLASSES[i][1]
+                        _draw_game_class_screen()
+                if pygame.key.get_pressed()[pygame.K_RETURN]:
+                    return
 def prompt(s, choices = None):
     if s != "":
         message(s, T.green)
@@ -635,6 +640,7 @@ def prompt(s, choices = None):
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key in choices:
+                        pygame.event.clear()
                         return event.key
     else:
         return readkey()
@@ -642,6 +648,7 @@ def prompt(s, choices = None):
 def readkey():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            pygame.event.clear()
             close()
         if event.type == pygame.KEYUP:
             return event.key
@@ -650,6 +657,7 @@ def anykey():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.event.clear()
                 close()
             if event.type == pygame.KEYDOWN:
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
