@@ -75,6 +75,7 @@ KEYS = [
     ([pygame.K_SLASH],  'help'),
     ([pygame.K_g],      'pick_up'),
     ([pygame.K_i],      'inventory'),
+    ([pygame.K_p],      'character'),
     ([pygame.K_b],      'spellbook'),
     ([pygame.K_d],      'drop'),
     ([pygame.K_t],      'test'),
@@ -258,6 +259,9 @@ class Game(object):
         else:
             message("You don't have a spellbook!", COLOR_ERROR)
 
+    def cmd_character(self):
+        character_screen()
+
     def cmd_test(self):
         if self.wizard:
             pass
@@ -332,19 +336,14 @@ def _draw_status():
     import mobs
     out(60, 1, "Troll Temple" + " (" +  "Level: " + str(GAME.map.level) + ")", T.light_green) 
     _game_class = mobs.GAME_CLASSES[GAME.player.game_class - 1]
-    out(60, 3, "Trollhunter" + " " + _game_class[0] + " Level " + str(GAME.player.level), _game_class[2])
+    out(60, 3, GAME.player.name + " " + _game_class[0] + " Level " + str(GAME.player.level), _game_class[2])
     out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)    
     _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp(), T.light_yellow)
     out(60, 6, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp), T.light_grey)    
     _draw_bar(18, 6, GAME.player.hp, GAME.player.max_hp, T.light_red)
     out(60, 7, "Mana:   " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp), T.light_grey)    
     _draw_bar(18, 7, GAME.player.mp, GAME.player.max_mp, T.light_blue)
-    out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Speed: " + str(GAME.player.speed), T.light_grey)
-    deaths = ""
-    if GAME.wizard:
-        deaths = " Deaths: " + str(GAME.player.deaths)
-    out(60, 9, "Turns:  " + str(GAME.turns) + " Kills: " + str(GAME.player.kills) + deaths, T.light_grey)
-    out(60, 10, "Magic:  " + str(GAME.player.magic), T.light_grey)
+    out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Turns:  " + str(GAME.turns), T.light_grey)
 
 # --- MESSAGES --- #
 
@@ -420,6 +419,48 @@ def spellbook(title='Spellbook', spells=None):
     _draw_status()
     refresh()   
 
+# --- CHARACTER --- #
+
+def character_screen():
+    import mobs
+    clear()
+    _game_class = mobs.GAME_CLASSES[GAME.player.game_class - 1]
+    out(2, 1, GAME.player.name, COLOR_TITLE)
+
+    out(2, 3,  "Race         " + "Human", T.light_grey)
+    out(2, 4,  "Class        " + _game_class[0], T.light_grey)
+    out(2, 6,  "Level        " + str(GAME.player.level), T.light_grey)
+    out(2, 7,  "Experience   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)
+    if GAME.player.hp_regen > 0:
+        regen =  " (+" + str(GAME.player.hp_regen) + ")"
+    else:
+        regen = ""
+    out(2, 9,  "Health       " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp) + regen, T.light_grey)
+    if GAME.player.mp_regen > 0:
+        regen =  " (+" + str(GAME.player.mp_regen) + ")"
+    else:
+        regen = ""
+    out(2, 10,  "Mana         " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp) + regen, T.light_grey)
+    out(2, 12, "Damage       " + describe_dice(*GAME.player.dice) + " (" + str_dice(*GAME.player.dice) + ")", T.light_grey)
+    out(2, 13, "Armor        " + str(GAME.player.armor), T.light_grey)
+    out(2, 15, "Speed        " + str(GAME.player.speed), T.light_grey)
+    out(2, 16, "Magic power  " + str(GAME.player.magic), T.light_grey)
+    out(2, 17, "Light radius " + str(GAME.player.fov_range + GAME.player.radius), T.light_grey)
+    out(2, 18, "", T.light_grey)
+    out(2, 19, "", T.light_grey)
+    out(2, 20, "", T.light_grey)
+    out(2, 21, "", T.light_grey)
+    out(2, 22, "", T.light_grey)
+    out(2, 24, "Turns        " + str(GAME.turns), T.light_grey)
+    out(2, 25, "Kills        " + str(GAME.player.kills), T.light_grey)
+    if GAME.wizard:
+        out(2, 26, "Deaths       " + str(GAME.player.deaths), T.light_grey)
+    out(2, 3, "", T.light_grey)
+ 
+    out(0, 28, "Press ENTER to continue...", T.light_grey)
+    refresh()
+    anykey()
+
 # --- UI --- #
 
 def draw_all():
@@ -436,6 +477,7 @@ def _draw_game_class_screen():
     for i, game_class in enumerate(mobs.GAME_CLASSES):
         out(3, i + 3, chr(i + ord('a')), T.light_grey) 
         if GAME.selected_game_class == i + 1:
+            out(1, i + 3, '*', T.white)
             out(5, i + 3, game_class[0], T.white) 
         else:
             out(5, i + 3, game_class[0], game_class[2])    

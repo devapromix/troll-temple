@@ -63,14 +63,14 @@ class Mob(object):
     def act(self):
         if self.hp < self.max_hp:
             self.to_hp_regen += self.hp_regen
-            if self.to_hp_regen > 50:
-                self.hp = min(self.max_hp, self.to_hp_regen / 50 + self.hp)
-                self.to_hp_regen %= 50
+            if self.to_hp_regen > 100:
+                self.hp = min(self.max_hp, self.to_hp_regen / 100 + self.hp)
+                self.to_hp_regen %= 100
         if self.mp < self.max_mp:
             self.to_mp_regen += self.mp_regen
-            if self.to_mp_regen > 50:
-                self.mp = min(self.max_mp, self.to_mp_regen / 50 + self.mp)
-                self.to_mp_regen %= 50
+            if self.to_mp_regen > 100:
+                self.mp = min(self.max_mp, self.to_mp_regen / 100 + self.mp)
+                self.to_mp_regen %= 100
 
     def heartbeat(self):
         pass
@@ -101,7 +101,7 @@ GAME_CLASSES = [["Fighter", 1, T.light_red],
 
 class Player(Mob):
     glyph = '@', T.white
-    name = 'you'
+    name = 'Trollhunter'
     hp_regen = 0
     mp_regen = 1
     magic = 0
@@ -146,7 +146,7 @@ class Player(Mob):
             self.items += [item.PotionHealing(), item.Spear()]
         else:
             self.hp_regen = 0
-            self.mp_regen = 2
+            self.mp_regen = 3
             self.magic = 1
             self.radius = 0
             self.has_spellbook = True

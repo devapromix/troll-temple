@@ -25,8 +25,14 @@ def sgn(a):
 def dir_towards(x1, y1, x2, y2):
     return sgn(x2 - x1), sgn(y2 - y1)
 
-def roll(a, b, c=0):
+def roll(a, b, c = 0):
     return sum(randrange(1, b + 1) for i in range(a)) + c
+
+def str_dice(a, b, c = 0):
+    s = str(sum(1 for i in range(a)) + c)
+    s +="-" 
+    s += str(sum(b for i in range(a)) + c)
+    return s
     
 def rand(a, b):
     return round(randrange(a, b + 1))
