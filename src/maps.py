@@ -271,8 +271,3 @@ def random_empty_space(arr):
         x, y = randrange(MAP_W), randrange(MAP_H)
         if arr[x][y] == '.':
             return (x, y)
-
-
-
-
-

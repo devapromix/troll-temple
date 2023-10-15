@@ -56,23 +56,3 @@ class Bloodlust(Spell):
             message('You feel lust for blood.', COLOR_MAGIC)
             player.add_effect("bloodlust", 5)
         return f
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

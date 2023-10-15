@@ -703,9 +703,3 @@ def anykey():
             if event.type == pygame.KEYDOWN:
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
                     return
-
-
-
-
-
-
