@@ -65,9 +65,3 @@ class Register(type):
         if not dict.get('ABSTRACT'):
             cls.ALL.append(cls)
         return cls
-
-
-
-
-
-
