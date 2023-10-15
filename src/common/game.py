@@ -1,7 +1,7 @@
 import sys
 import pygame
 import tcod as T
-from utils import *
+from .utils import *
 
 # --- CONSTANTS --- #
 
@@ -103,10 +103,11 @@ class Quit(Exception):
 
 class Game(object):
     def __init__(self, wizard):
-        import mobs
+        # from mobs import mobs
+        from mobs.player import FIGHTER
         self.wizard = wizard
         self.wizard = True
-        self.selected_game_class = mobs.FIGHTER
+        self.selected_game_class = FIGHTER
         self.keydown = None
 
     def play(self):
@@ -119,14 +120,14 @@ class Game(object):
         close()
 
     def start(self):
-        from mobs import Player
+        from mobs.player import Player
         self.player = Player(self.wizard, self.selected_game_class)
         self.turns = 0
         self.welcome()
         self.start_map(1)
 
     def start_map(self, level):
-        from maps import Map
+        from .maps import Map
         self.map = Map(level)
         x, y, _ = self.map.random_empty_tile()
         self.player.put(self.map, x, y)
@@ -332,9 +333,9 @@ def _draw_bar(x, y, cur, max, color):
     out(98, y, "]", T.dark_grey)
 
 def _draw_status():
-    import mobs
+    from mobs.player import GAME_CLASSES
     out(60, 1, "Troll Temple" + " (" +  "Level: " + str(GAME.map.level) + ")", T.light_green) 
-    _game_class = mobs.GAME_CLASSES[GAME.player.game_class - 1]
+    _game_class = GAME_CLASSES[GAME.player.game_class - 1]
     out(60, 3, GAME.player.name + " " + _game_class[0] + " Level " + str(GAME.player.level), _game_class[2])
     out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)    
     _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp(), T.light_yellow)
@@ -421,9 +422,9 @@ def spellbook(title='Spellbook', spells=None):
 # --- CHARACTER --- #
 
 def character_screen():
-    import mobs
+    from mobs.player import GAME_CLASSES
     clear()
-    _game_class = mobs.GAME_CLASSES[GAME.player.game_class - 1]
+    _game_class = GAME_CLASSES[GAME.player.game_class - 1]
     out(2, 1, GAME.player.name, COLOR_TITLE)
 
     out(2, 3,  "Race         " + "Human", T.light_grey)
@@ -470,10 +471,10 @@ def draw_all():
     refresh()
 
 def _draw_game_class_screen():
-    import mobs
+    from mobs.player import GAME_CLASSES
     clear()
     out(2, 1, "Choose your class", COLOR_TITLE)
-    for i, game_class in enumerate(mobs.GAME_CLASSES):
+    for i, game_class in enumerate(GAME_CLASSES):
         out(3, i + 3, chr(i + ord('a')), T.light_grey) 
         if GAME.selected_game_class == i + 1:
             out(1, i + 3, '*', T.white)
@@ -657,7 +658,7 @@ def select_spell(title, spells):
     return None
 
 def select_game_class():
-    import mobs
+    from mobs.player import GAME_CLASSES
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -666,8 +667,8 @@ def select_game_class():
             if event.type == pygame.KEYDOWN:
                 if event.key in range(pygame.K_a, pygame.K_z):
                     i = event.key - pygame.K_a
-                    if 0 <= i < len(mobs.GAME_CLASSES):
-                        GAME.selected_game_class = mobs.GAME_CLASSES[i][1]
+                    if 0 <= i < len(GAME_CLASSES):
+                        GAME.selected_game_class = GAME_CLASSES[i][1]
                         _draw_game_class_screen()
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
                     return

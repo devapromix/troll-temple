@@ -1,4 +1,4 @@
-from spells import *
+from .spells import *
 
 # --- ITEM --- #
 
