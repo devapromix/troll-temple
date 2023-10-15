@@ -1,2 +1,4 @@
-python "src/main.py"
+cd src
+python "main.py"
+cd ..
 pause
