@@ -1,8 +1,5 @@
-from random import randrange, choice, shuffle
-import tcod as T
 from mobs import *
 from items import *
-from utils import *
 from game import *
 
 # --- MAP --- #

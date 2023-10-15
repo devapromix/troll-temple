@@ -1,8 +1,7 @@
 import sys
 import pygame
 import tcod as T
-from src.utils import *
-from random import choice
+from utils import *
 
 # --- CONSTANTS --- #
 

@@ -1,5 +1,3 @@
-import tcod as T
-from utils import *
 from game import *
 
 # --- SPELL --- #

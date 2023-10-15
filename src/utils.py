@@ -1,5 +1,4 @@
 from random import *
-import pygame
 
 # --- UTILS --- #
 
