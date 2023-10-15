@@ -1,2 +1,2 @@
-items.py
+python "src/items.py"
 pause

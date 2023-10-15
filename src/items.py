@@ -1,6 +1,3 @@
-import tcod as T
-from utils import *
-from game import *
 from spells import *
 
 # --- ITEM --- #

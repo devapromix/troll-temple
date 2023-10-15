@@ -1,6 +1,3 @@
-from math import log
-import tcod as T
-from utils import *
 from items import *
 from game import *
 
