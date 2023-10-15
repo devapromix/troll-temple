@@ -1,2 +1,2 @@
-python "src/mobs.py"
+python "src/print_mobs.py"
 pause
