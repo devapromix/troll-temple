@@ -1,7 +1,7 @@
 import sys
 import pygame
 import tcod as T
-from utils import *
+from src.utils import *
 from random import choice
 
 # --- CONSTANTS --- #
@@ -291,7 +291,7 @@ def init(game):
     GAME = game
     MESSAGES = []
     pygame.init()
-    GAME.font = pygame.font.Font("assets/fonts/UbuntuMono-R.ttf", 16)
+    GAME.font = pygame.font.Font("../assets/fonts/UbuntuMono-R.ttf", 16)
     _txt = GAME.font.render("W", True, T.white)
     GAME.font_width = _txt.get_width()
     GAME.font_height = _txt.get_height()
@@ -300,7 +300,7 @@ def init(game):
     if GAME.wizard:
         wiz_str = " [WIZARD]"
     pygame.display.set_caption(TITLE + " v." + VERSION + wiz_str)
-    pygame.display.set_icon(pygame.image.load("assets/icons/game.ico"))
+    pygame.display.set_icon(pygame.image.load("../assets/icons/game.ico"))
 
 def close():
     GAME = None
