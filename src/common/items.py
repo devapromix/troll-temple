@@ -884,7 +884,3 @@ class ScrollBloodlust(Scroll):
     spell = Bloodlust
     dungeons = 3, 12
     rarity = 1
-
-if __name__ == '__main__':
-    d = [random_by_level(1, Item.ALL)().descr for i in range(20)]
-    print('\n'.join(d))
