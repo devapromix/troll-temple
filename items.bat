@@ -1,2 +1,2 @@
-python "src/items.py"
+python "src/print_items.py"
 pause

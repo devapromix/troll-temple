@@ -1,2 +1,0 @@
-trolltemple.exe
-pause

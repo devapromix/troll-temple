@@ -1,5 +1,5 @@
 from .monster import *
-from common.utils import random_by_level
+
 
 class FlyMonster(Monster):
     ABSTRACT = True
@@ -484,7 +484,3 @@ class TrollKing(FinalBossMonster):
     def die(self):
         super(TrollKing, self).die()
         self.map.player.won = True
-
-if __name__ == '__main__':
-    d = [random_by_level(1, Monster.ALL)().name for i in range(20)]
-    print('\n'.join(d))
