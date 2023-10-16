@@ -471,16 +471,50 @@ def draw_all():
     refresh()
 
 def _draw_game_class_screen():
-    from mobs.player import GAME_CLASSES
+    from mobs.player import GAME_CLASSES, FIGHTER, THIEF, RANGER, MAGE
     clear()
     out(2, 1, "Choose your class", COLOR_TITLE)
     for i, game_class in enumerate(GAME_CLASSES):
         out(3, i + 3, chr(i + ord('a')), T.light_grey) 
         if GAME.selected_game_class == i + 1:
-            out(1, i + 3, '*', T.white)
+            out(1, i + 3, '>', T.white)
             out(5, i + 3, game_class[0], T.white) 
         else:
-            out(5, i + 3, game_class[0], game_class[2])    
+            out(5, i + 3, game_class[0], game_class[2])
+
+    if GAME.selected_game_class == FIGHTER:
+        out(20, 3, "Fighters are the most powerful class in the game. Thanks to strong", T.white)
+        out(20, 4, "armor and a large amount of life, warriors are indispensable in", T.white)
+        out(20, 5, "battles and can withstand the onslaught of the enemy for a long time.", T.white)
+        out(20, 6, "They are masters of close combat and are excellent with a sword,", T.white)
+        out(20, 7, "hammer or axe. With their strong blows, they can cause damage to", T.white)
+        out(20, 8, "several enemies at once, or they can focus on one.", T.white)
+        out(20, 10, "Weapon: " + "short sword (1d3)", T.white)
+    elif GAME.selected_game_class == THIEF:
+        out(20, 3, "Thieves specialize in one-on-one combat. They are capable of destroying", T.white)
+        out(20, 4, "an enemy with a single attack, after immobilizing him with a sudden", T.white)
+        out(20, 5, "stun or knocking him down. In addition, they have the ability to", T.white)
+        out(20, 6, "increase critical strike chance and speed. A dagger in the hands of a", T.white)
+        out(20, 7, "thief turns into a fast, deadly weapon that strikes enemies to the very", T.white)
+        out(20, 8, "heart. And only thieves can safely pick locks and bypass traps.", T.white)
+        out(20, 10, "Weapon: " + "dagger (1d2+1)", T.white)
+    elif GAME.selected_game_class == RANGER:
+        out(20, 3, "Rangers are incredibly destructive in combat and strike terror and fear", T.white)
+        out(20, 4, "into their enemies with their immense strength and incredible speed.", T.white)
+        out(20, 5, "Thanks to a large number of skills that attack a single target, they", T.white)
+        out(20, 6, "are able to trackdown the victim and kill them at the right moment.", T.white)
+        out(20, 7, "Enemies will meet their death by dying from a huge number of wounds", T.white)
+        out(20, 8, "and bleeding, causing damage over time.", T.white)
+        out(20, 10, "Weapon: " + "spear (1d3)", T.white)
+    elif GAME.selected_game_class == MAGE:
+        out(20, 3, "Mages have knowledge of ancient spells and can call upon the power", T.white)
+        out(20, 4, "of the elements to help them. They are capable of dealing massive", T.white)
+        out(20, 5, "damage to a large number of enemies, as well as slowing, pinning and", T.white)
+        out(20, 6, "knocking back enemies. Magicians use staves and magical artifacts", T.white)
+        out(20, 7, "as weapons, which give them strength and unity with the energy flows", T.white)
+        out(20, 8, "of the world.", T.white)
+        out(20, 10, "Weapon: " + "short staff (1d2+1)", T.white)
+
     out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
 
