@@ -292,6 +292,7 @@ def init(game):
     GAME = game
     MESSAGES = []
     pygame.init()
+    #GAME.duneon_tileset = pygame.image.load("../assets/images/dungeon.png")
     GAME.font = pygame.font.Font("../assets/fonts/UbuntuMono-R.ttf", 16)
     _txt = GAME.font.render("W", True, T.white)
     GAME.font_width = _txt.get_width()
@@ -311,6 +312,7 @@ def close():
 # --- UI --- #
 
 def _draw_map():
+    #SCREEN.blit(GAME.duneon_tileset, (0,0))
     player = GAME.player
     for x in range(MAP_W):
         for y in range(MAP_H):
