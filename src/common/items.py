@@ -200,6 +200,13 @@ class UniqueMail(Mail):
     ABSTRACT = True
     rarity = 15
 
+# --- SHIELD --- #
+
+class Shield(Armor):
+    ABSTRACT = True
+    slot = 'o'
+    rarity = 5
+
 # --- BOOK --- #
 
 class Book(Item):
@@ -631,6 +638,44 @@ class PowerStaff(UniqueStaff):
     mana = 20
     dungeons = 11, 12
 
+# --- SHIELDS --- #
+
+class RoundShield(Shield):
+    name = 'round shield'
+    glyph = '0', T.lightest_grey
+    armor = 2
+    dungeons = 1, 2
+
+class SkullShield(Shield):
+    name = 'skull shield'
+    glyph = '0', T.lightest_grey
+    armor = 4
+    dungeons = 3, 4
+
+class KnightShield(Shield):
+    name = 'knight shield'
+    glyph = '0', T.lightest_grey
+    armor = 6
+    dungeons = 5, 6
+
+class PaladinShield(Shield):
+    name = 'paladin shield'
+    glyph = '0', T.lightest_grey
+    armor = 8
+    dungeons = 7, 8
+
+class RoyalShield(Shield):
+    name = 'royal shield'
+    glyph = '0', T.lightest_grey
+    armor = 10
+    dungeons = 9, 10
+
+class RuneShield(Shield):
+    name = 'rune shield'
+    glyph = '0', T.lightest_grey
+    armor = 12
+    dungeons = 11, 12
+
 # --- HELMS --- #
 
 class FullHelm(Helm):
@@ -641,7 +686,7 @@ class FullHelm(Helm):
 
 class GuardianHelm(Helm):
     name = 'guardian helm'
-    glyph = '^', T.dark_orange
+    glyph = '^', T.dark_yellow
     armor = 2
     dungeons = 3, 4
 
@@ -653,31 +698,31 @@ class DefenderHelm(Helm):
 
 class GreatHelm(Helm):
     name = 'great helm'
-    glyph = '^', T.dark_orange
+    glyph = '^', T.lightest_grey
     armor = 4
     dungeons = 7, 8
 
 class WingedHelm(Helm):
     name = 'winged helm'
-    glyph = '^', T.dark_orange
+    glyph = '^', T.dark_yellow
     armor = 5
     dungeons = 9, 10
 
 class HornedHelm(Helm):
     name = 'horned helm'
-    glyph = '^', T.dark_orange
+    glyph = '^', T.lighter_grey
     armor = 6
     dungeons = 11, 12
 
 class AssaultHelmet(EliteHelm):
     name = 'assault helmet'
-    glyph = '^', T.dark_orange
+    glyph = '^', T.yellow
     armor = 5
     dungeons = 7, 9
 
 class GuardianCrown(EliteHelm):
     name = 'guardian crown'
-    glyph = '^', T.dark_orange
+    glyph = '^', T.light_yellow
     armor = 6
     dungeons = 9, 11
 

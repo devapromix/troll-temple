@@ -26,6 +26,7 @@ MAX_DLEVEL = 12
 
 INVENTORY_SLOTS = {
     'w': 'wielded',
+    'o': 'wielded',
     'l': 'carried as light source',
     'h': 'being worn',
     'a': 'being worn',
