@@ -42,6 +42,7 @@ class Item(object, metaclass=Register):
     def on_equip(self, player):
         player.speed += self.speed
         player.armor += self.armor
+        return True
 
     def on_unequip(self, player):
         player.speed -= self.speed
@@ -103,6 +104,26 @@ class UniqueWeapon(Weapon):
     ABSTRACT = True
     rarity = 15
 
+# --- DAGGER --- #
+
+class Dagger(Weapon):
+    ABSTRACT = True
+
+    def on_equip(self, player):
+        if not player.can_use_dagger:
+            message("You don't know how to use daggers!", COLOR_ERROR)
+            return False
+        super(Dagger, self).on_equip(player)
+        return True
+    
+class EliteDagger(Dagger):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueDagger(Dagger):
+    ABSTRACT = True
+    rarity = 15
+
 # --- STAFF --- #
 
 class Staff(Weapon):
@@ -127,10 +148,14 @@ class Staff(Weapon):
         return ' (' + s + ')'
         
     def on_equip(self, player):
+        if not player.can_use_staff:
+            message("You don't know how to use staves!", COLOR_ERROR)
+            return False
         super(Staff, self).on_equip(player)
         player.max_mp += self.mana
         player.mp += self.mana
         player.magic += self.magic
+        return True
     
     def on_unequip(self, player):    
         super(Staff, self).on_unequip(player)
@@ -207,6 +232,13 @@ class Shield(Armor):
     slot = 'o'
     rarity = 5
 
+    def on_equip(self, player):
+        if not player.can_use_shield:
+            message("You don't know how to use shields!", COLOR_ERROR)
+            return False
+        super(Shield, self).on_equip(player)
+        return True
+    
 # --- BOOK --- #
 
 class Book(Item):
@@ -261,63 +293,63 @@ class Lamp2(LightSource):
 
 # --- DAGGERS --- #
 
-class Dagger(Weapon):
-    name = 'dagger'
+class SmallDagger(Dagger):
+    name = 'small dagger'
     glyph = '(', T.light_grey
     speed = 1
     dice = 1, 2, 1
     dungeons = 1, 2
 
-class Dirk(Weapon):
+class Dirk(Dagger):
     name = 'dirk'
     glyph = '(', T.light_pink
     speed = 1
     dice = 2, 2, 2
     dungeons = 3, 4
 
-class Kris(Weapon):
+class Kris(Dagger):
     name = 'kris'
     glyph = '(', T.light_green
     speed = 1
     dice = 2, 3, 3
     dungeons = 5, 6
 
-class Rondel(Weapon):
+class Rondel(Dagger):
     name = 'rondel'
     glyph = '(', T.light_blue
     speed = 1
     dice = 3, 3, 3
     dungeons = 7, 8
 
-class BloodDagger(Weapon):
+class BloodDagger(Dagger):
     name = 'blood dagger'
     glyph = '(', T.red
     speed = 1
     dice = 4, 4, 0
     dungeons = 9, 10
 
-class IceDagger(Weapon):
+class IceDagger(Dagger):
     name = 'ice dagger'
     glyph = '(', T.white
     speed = 1
     dice = 3, 5, 4
     dungeons = 11, 12
 
-class BloodSpike(EliteWeapon):
+class BloodSpike(EliteDagger):
     name = 'blood spike'
     glyph = '(', T.light_red
     speed = 2
     dice = 3, 5, 1
     dungeons = 7, 9
 
-class MithrilBlade(EliteWeapon):
+class MithrilBlade(EliteDagger):
     name = 'mithril blade'
     glyph = '(', T.light_sky
     speed = 2
     dice = 4, 5, 0
     dungeons = 9, 11
 
-class DivineStiletto(UniqueWeapon):
+class DivineStiletto(UniqueDagger):
     name = 'divine stiletto'
     glyph = '(', T.cyan
     speed = 3
@@ -423,13 +455,13 @@ class WarSword(Weapon):
 
 class RuneSword(EliteWeapon):
     name = 'rune sword'
-    glyph = '(', T.light_gray
+    glyph = '(', T.orange
     dice = 2, 5, 6
     dungeons = 7, 9
 
 class MithrilSword(EliteWeapon):
     name = 'mithril sword'
-    glyph = '(', T.blue
+    glyph = '(', T.light_sky
     dice = 3, 5, 6
     dungeons = 9, 11
 
@@ -500,8 +532,8 @@ class GloriousAxe(UniqueWeapon):
 
 # --- SPEARS --- #
 
-class Spear(Weapon):
-    name = 'spear'
+class HuntingSpear(Weapon):
+    name = 'hunting spear'
     glyph = '/', T.light_orange
     dice = 1, 3, 0
     dungeons = 1, 2
@@ -545,7 +577,7 @@ class GhostSpear(EliteWeapon):
 
 class MithrilMancatcher(EliteWeapon):
     name = 'mithril mancatcher'
-    glyph = '/', T.light_red
+    glyph = '/', T.light_sky
     speed = 1
     dice = 2, 8, 4
     dungeons = 9, 11
@@ -623,7 +655,7 @@ class BattleStaff(EliteStaff):
 
 class RuneStaff(EliteStaff):
     name = 'rune staff'
-    glyph = '/', T.yellow
+    glyph = '/', T.orange
     magic = 7
     dice = 3, 5, 4
     mana = 17
@@ -642,37 +674,37 @@ class PowerStaff(UniqueStaff):
 
 class RoundShield(Shield):
     name = 'round shield'
-    glyph = '0', T.lightest_grey
+    glyph = '0', T.light_green
     armor = 2
     dungeons = 1, 2
 
 class SkullShield(Shield):
     name = 'skull shield'
-    glyph = '0', T.lightest_grey
+    glyph = '0', T.light_grey
     armor = 4
     dungeons = 3, 4
 
 class KnightShield(Shield):
     name = 'knight shield'
-    glyph = '0', T.lightest_grey
+    glyph = '0', T.light_orange
     armor = 6
     dungeons = 5, 6
 
 class PaladinShield(Shield):
     name = 'paladin shield'
-    glyph = '0', T.lightest_grey
+    glyph = '0', T.yellow
     armor = 8
     dungeons = 7, 8
 
 class RoyalShield(Shield):
     name = 'royal shield'
-    glyph = '0', T.lightest_grey
+    glyph = '0', T.lightest_red
     armor = 10
     dungeons = 9, 10
 
 class RuneShield(Shield):
     name = 'rune shield'
-    glyph = '0', T.lightest_grey
+    glyph = '0', T.orange
     armor = 12
     dungeons = 11, 12
 

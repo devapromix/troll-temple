@@ -500,7 +500,7 @@ def _draw_game_class_screen():
         out(20, 6, "increase critical strike chance and speed. A dagger in the hands of a", T.white)
         out(20, 7, "thief turns into a fast, deadly weapon that strikes enemies to the very", T.white)
         out(20, 8, "heart. And only thieves can safely pick locks and bypass traps.", T.white)
-        out(20, 10, "Weapon: " + "dagger (1d2+1)", T.white)
+        out(20, 10, "Weapon: " + "small dagger (1d2+1)", T.white)
     elif GAME.selected_game_class == RANGER:
         out(20, 3, "Rangers are incredibly destructive in combat and strike terror and fear", T.white)
         out(20, 4, "into their enemies with their immense strength and incredible speed.", T.white)
@@ -508,7 +508,7 @@ def _draw_game_class_screen():
         out(20, 6, "are able to trackdown the victim and kill them at the right moment.", T.white)
         out(20, 7, "Enemies will meet their death by dying from a huge number of wounds", T.white)
         out(20, 8, "and bleeding, causing damage over time.", T.white)
-        out(20, 10, "Weapon: " + "spear (1d3)", T.white)
+        out(20, 10, "Weapon: " + "hunting spear (1d3)", T.white)
     elif GAME.selected_game_class == MAGE:
         out(20, 3, "Mages have knowledge of ancient spells and can call upon the power", T.white)
         out(20, 4, "of the elements to help them. They are capable of dealing massive", T.white)

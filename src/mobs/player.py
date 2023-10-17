@@ -28,9 +28,14 @@ class Player(Mob):
         self.hp = self.max_hp
         self.max_mp = self.game_class * 5
         self.mp = self.max_mp
+        
         self.has_spellbook = False
         self.has_craftbox = False
         self.has_alchemyset = False
+        
+        self.can_use_dagger = False
+        self.can_use_staff = False
+        self.can_use_shield = False
 
         import common.items as item
         import common.spells as spell
@@ -42,28 +47,31 @@ class Player(Mob):
             self.mp_regen = 0
             self.magic = 0
             self.radius = 0
-            self.items += [item.PotionHealing(), item.ShortSword()]
+            self.can_use_shield = True
+            self.items += [item.PotionHealing(), item.ShortSword(), item.RoundShield(), item.LeatherArmor()]
         elif self.game_class == THIEF:
             self.hp_regen = 1
             self.mp_regen = 1
             self.magic = 0
             self.radius = 0
             self.has_alchemyset = True
-            self.items += [item.PotionHealing(), item.Dagger()]
+            self.can_use_dagger = True
+            self.items += [item.PotionHealing(), item.SmallDagger(), item.LeatherArmor()]
         elif self.game_class == RANGER:
             self.hp_regen = 1
             self.mp_regen = 1
             self.magic = 0
             self.radius = 1
             self.has_craftbox = True
-            self.items += [item.PotionHealing(), item.Spear()]
+            self.items += [item.PotionHealing(), item.HuntingSpear(), item.LeatherArmor()]
         else:
             self.hp_regen = 0
             self.mp_regen = 3
             self.magic = 1
             self.radius = 0
             self.has_spellbook = True
-            self.items += [item.PotionOfMana(), item.BookHealing(), item.ShortStaff()]
+            self.can_use_staff = True
+            self.items += [item.PotionOfMana(), item.BookHealing(), item.ShortStaff(), item.LeatherArmor()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -186,12 +194,12 @@ class Player(Mob):
 
     def equip(self, item):
         old_item = self.equipment[item.slot]
-        if old_item:
-            self.unequip(old_item)
-        message('You equip the %s.' % item.descr)
-        item.on_equip(self)
-        self.equipment[item.slot] = item
-        self.use_energy()
+        if item.on_equip(self):
+            if old_item:
+                self.unequip(old_item)
+            message('You equip the %s.' % item.descr)
+            self.equipment[item.slot] = item
+            self.use_energy()
 
     def attack(self, mon):
         if rand(1, 100) < 95:
