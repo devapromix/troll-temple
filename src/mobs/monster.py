@@ -40,11 +40,22 @@ class Monster(Mob, metaclass=Register):
         self.hp -= dmg
         if self.hp <= 0:
             if rand(1, 30) <= self.drop_rate:
-                item = random_by_level(self.map.level, Item.ALL)()
-                self.tile.items.append(item)
+                self.drop()
+            if rand(1, 5) <= 1:
+                self.adv_drop()
             self.die()
         else:
             message('The %s is %s.' % (self.name, self.get_wounds()))
+
+    def drop(self):
+        item = random_by_level(self.map.level, Item.ALL)()
+        self.tile.items.append(item)
+
+    def adv_drop(self):
+        if self.map.player.has_hp_adv_drop:
+            self.tile.items.append(HealingPotion())
+        if self.map.player.has_mp_adv_drop:
+            self.tile.items.append(ManaPotion())
 
     def die(self):
         self.look_normal()

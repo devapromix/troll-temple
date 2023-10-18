@@ -917,25 +917,25 @@ class BookBloodlust(Book):
     
 # --- POTIONS --- #
 
-class PotionHealing(Potion):
+class HealingPotion(Potion):
     glyph = '!', T.light_red
-    name = 'potion of healing'
+    name = 'healing potion'
     dungeons = 1, 12
     rarity = 1
     
     def on_use(self, player):
-        super(PotionHealing, self).on_use(player)
+        super(HealingPotion, self).on_use(player)
         message('You feel healed.')
         player.hp = player.max_hp
 
-class PotionOfMana(Potion):
+class ManaPotion(Potion):
     glyph = '!', T.light_blue
-    name = 'potion of mana'
+    name = 'mana potion'
     dungeons = 1, 12
     rarity = 1
     
     def on_use(self, player):
-        super(PotionOfMana, self).on_use(player)
+        super(ManaPotion, self).on_use(player)
         message('You feel magical energies restoring.')
         player.mp = player.max_mp
 

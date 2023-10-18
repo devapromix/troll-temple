@@ -29,6 +29,9 @@ class Player(Mob):
         self.max_mp = self.game_class * 5
         self.mp = self.max_mp
         
+        self.has_hp_adv_drop = True
+        self.has_mp_adv_drop = False
+        
         self.has_spellbook = False
         self.has_craftbox = False
         self.has_alchemyset = False
@@ -36,19 +39,20 @@ class Player(Mob):
         self.can_use_dagger = False
         self.can_use_staff = False
         self.can_use_shield = False
+        self.can_wear_robe = False
 
         import common.items as item
         import common.spells as spell
         self.spells = []
         self.effects = []
-        self.items = [item.Torch(), item.PotionHealing()]
+        self.items = [item.Torch(), item.HealingPotion()]
         if self.game_class == FIGHTER:
             self.hp_regen = 2
             self.mp_regen = 0
             self.magic = 0
             self.radius = 0
             self.can_use_shield = True
-            self.items += [item.PotionHealing(), item.ShortSword(), item.RoundShield(), item.LeatherArmor()]
+            self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.LeatherArmor()]
         elif self.game_class == THIEF:
             self.hp_regen = 1
             self.mp_regen = 1
@@ -56,22 +60,25 @@ class Player(Mob):
             self.radius = 0
             self.has_alchemyset = True
             self.can_use_dagger = True
-            self.items += [item.PotionHealing(), item.SmallDagger(), item.LeatherArmor()]
+            self.items += [item.HealingPotion(), item.SmallDagger(), item.LeatherArmor()]
         elif self.game_class == RANGER:
             self.hp_regen = 1
             self.mp_regen = 1
             self.magic = 0
             self.radius = 1
             self.has_craftbox = True
-            self.items += [item.PotionHealing(), item.HuntingSpear(), item.LeatherArmor()]
+            self.items += [item.HealingPotion(), item.HuntingSpear(), item.LeatherArmor()]
         else:
             self.hp_regen = 0
             self.mp_regen = 3
             self.magic = 1
             self.radius = 0
+            self.has_hp_adv_drop = False
+            self.has_mp_adv_drop = True
             self.has_spellbook = True
             self.can_use_staff = True
-            self.items += [item.PotionOfMana(), item.BookHealing(), item.ShortStaff(), item.LeatherArmor()]
+            self.can_wear_robe = True # You cannot wear magical armor.
+            self.items += [item.ManaPotion(), item.BookHealing(), item.ShortStaff(), item.LeatherArmor()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
