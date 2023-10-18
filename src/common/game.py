@@ -370,20 +370,6 @@ def message(s, color = T.white):
 
 # --- INVENTORY --- #
 
-def _draw_special_items():
-    y = 3
-    if GAME.player.has_spellbook or GAME.player.has_craftbox or GAME.player.has_alchemyset:
-        out(45, 1, "Special items", COLOR_TITLE)
-    if GAME.player.has_spellbook:
-        out(45, y, "spellbook", T.light_blue)
-        y += 1
-    if GAME.player.has_craftbox:
-        out(45, y, "craftbox", T.dark_yellow)
-        y += 1
-    if GAME.player.has_alchemyset:
-        out(45, y, "alchemyset", T.light_green)
-        y += 1
-
 def _draw_items(title, items):
     clear()
     out(2, 1, title, COLOR_TITLE)
@@ -401,8 +387,6 @@ def _draw_items(title, items):
 
 def draw_inventory(title='Inventory', items=None, flag=False):
     _draw_items(title, items or GAME.player.items)
-    if flag:
-        _draw_special_items()
     _draw_messages()
     _draw_status()
     refresh()
@@ -493,6 +477,7 @@ def _draw_game_class_screen():
         out(20, 7, "hammer or axe. With their strong blows, they can cause damage to", T.white)
         out(20, 8, "several enemies at once, or they can focus on one.", T.white)
         out(20, 10, "Weapon: " + "short sword (1d3)", T.white)
+        out(20, 13, "Leather sack", T.white)
     elif GAME.selected_game_class == THIEF:
         out(20, 3, "Thieves specialize in one-on-one combat. They are capable of destroying", T.white)
         out(20, 4, "an enemy with a single attack, after immobilizing him with a sudden", T.white)
@@ -501,6 +486,7 @@ def _draw_game_class_screen():
         out(20, 7, "thief turns into a fast, deadly weapon that strikes enemies to the very", T.white)
         out(20, 8, "heart. And only thieves can safely pick locks and bypass traps.", T.white)
         out(20, 10, "Weapon: " + "small dagger (1d2+1)", T.white)
+        out(20, 13, "Snakeskin knapsack, alchemy set", T.white)
     elif GAME.selected_game_class == RANGER:
         out(20, 3, "Rangers are incredibly destructive in combat and strike terror and fear", T.white)
         out(20, 4, "into their enemies with their immense strength and incredible speed.", T.white)
@@ -509,6 +495,7 @@ def _draw_game_class_screen():
         out(20, 7, "Enemies will meet their death by dying from a huge number of wounds", T.white)
         out(20, 8, "and bleeding, causing damage over time.", T.white)
         out(20, 10, "Weapon: " + "hunting spear (1d3)", T.white)
+        out(20, 13, "Master's haversack, light quiver, craft box", T.white)
     elif GAME.selected_game_class == MAGE:
         out(20, 3, "Mages have knowledge of ancient spells and can call upon the power", T.white)
         out(20, 4, "of the elements to help them. They are capable of dealing massive", T.white)
@@ -517,6 +504,7 @@ def _draw_game_class_screen():
         out(20, 7, "as weapons, which give them strength and unity with the energy flows", T.white)
         out(20, 8, "of the world.", T.white)
         out(20, 10, "Weapon: " + "short staff (1d2+1)", T.white)
+        out(20, 13, "Linen bag, spellbook", T.white)
 
     out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
