@@ -224,7 +224,7 @@ class Game(object):
             self.player.use(item)
 
     def cmd_ascend(self):
-        from maps import StairUpTile
+        from .maps import StairUpTile
         if not isinstance(self.player.tile, StairUpTile):
             message('Stand on a up stairway to ascend.', COLOR_ERROR)
             return
