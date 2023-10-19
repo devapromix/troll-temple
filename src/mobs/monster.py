@@ -41,7 +41,7 @@ class Monster(Mob, metaclass=Register):
         if self.hp <= 0:
             if rand(1, 30) <= self.drop_rate:
                 self.drop()
-            if rand(1, 5) <= 1:
+            if rand(1, 10) <= 1:
                 self.adv_drop()
             self.die()
         else:

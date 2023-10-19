@@ -77,6 +77,7 @@ KEYS = [
     ([pygame.K_i],      'inventory'),
     ([pygame.K_p],      'character'),
     ([pygame.K_b],      'spellbook'),
+    ([pygame.K_c],      'craftbox'),
     ([pygame.K_d],      'drop'),
     ([pygame.K_t],      'test'),
     ([pygame.K_l],      'look'),
@@ -259,6 +260,14 @@ class Game(object):
                 self.player.use_spell(spell)
         else:
             message("You don't have a spellbook!", COLOR_ERROR)
+
+    def cmd_craftbox(self):
+        if self.player.has_craftbox:
+            recipe = select_recipe('Select a recipe to craft, ESC to exit', self.player.recipes)
+            if recipe:
+                self.player.craft(recipe)
+        else:
+            message("You don't have a craftbox!", COLOR_ERROR)
 
     def cmd_character(self):
         character_screen()
@@ -678,6 +687,19 @@ def select_spell(title, spells):
             i = key - pygame.K_a
             if 0 <= i < len(spells):
                 return spells[i]
+        if key in [pygame.K_ESCAPE]:
+            return None
+    return None
+
+def select_recipe(title, recipes):
+    recipes = recipes[:CRAFTBOX_SIZE]
+    craftbox(title, recipes)
+    while True:
+        key = readkey()
+        if key in range(pygame.K_a, pygame.K_z):
+            i = key - pygame.K_a
+            if 0 <= i < len(spells):
+                return recipes[i]
         if key in [pygame.K_ESCAPE]:
             return None
     return None
