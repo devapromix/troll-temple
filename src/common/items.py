@@ -248,6 +248,11 @@ class Book(Item):
         if player.try_learn_spell(self.spell):
             player.items.remove(self)
 
+# --- CRAFT ITEM --- #
+
+class CraftItem(Item):
+    ABSTRACT = True
+    
 # --- POTION --- #
 
 class Potion(Item):
@@ -914,6 +919,17 @@ class BookBloodlust(Book):
     spell = Bloodlust
     dungeons = 3, 6
     rarity = 1
+    
+# --- ALCHEMY --- #
+
+class EmptyBottle(CraftItem):
+    glyph = '!', T.light_gray
+    name = 'empty bottle'
+    dungeons = 1, 12
+    rarity = 5
+
+    def on_use(self, player):
+        message('A simple bottle. You can brew a potion.')
     
 # --- POTIONS --- #
 
