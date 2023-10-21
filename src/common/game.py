@@ -83,6 +83,7 @@ KEYS = [
     ([pygame.K_w],      'wizard'),
 ]
 
+
 def decode_walk_key(key):
     for keys, cmd in WALK_KEYS:
         if key in keys:
@@ -614,7 +615,7 @@ def new_ui_turn():
 
 def look_mode():
     global MESSAGES
-    from game import decode_key
+    #from common.game import decode_key
 
     x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
     _messages = MESSAGES

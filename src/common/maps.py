@@ -1,6 +1,6 @@
 from mobs.mobs import *
-from .items import *
-from .game import *
+from items.items import *
+from common.game import *
 
 # --- MAP --- #
 

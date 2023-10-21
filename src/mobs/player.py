@@ -41,7 +41,7 @@ class Player(Mob):
         self.can_use_shield = False
         self.can_wear_robe = False
 
-        import common.items as item
+        import items.items as item
         import common.spells as spell
         self.spells = []
         self.effects = []
