@@ -920,6 +920,14 @@ class BookBloodlust(Book):
     dungeons = 3, 6
     rarity = 1
     
+# --- POISONS --- #
+
+class InstantPoison(Item):
+    glyph = '!', T.light_green
+    name = 'instant poison'
+    dungeons = 1, 12
+    rarity = 10
+
 # --- ALCHEMY --- #
 
 class EmptyBottle(CraftItem):
