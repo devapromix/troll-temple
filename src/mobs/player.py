@@ -19,7 +19,6 @@ class Player(Mob):
     mp_regen = 1
     magic = 0
     radius = 0
-    poisoned = 0
 
     def __init__(self, wizard, selected_game_class):
         super(Player, self).__init__()
@@ -222,6 +221,9 @@ class Player(Mob):
                     dmg *= 2
                     message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
             mon.damage(dmg)
+            if rand(1, 2) == 1 and self.poison > 0:
+                mon.poisoned = self.poison
+                message('You poisoned the %s (%d)!' % (mon.name, self.poison))
             self.use_energy()
         else:
             message('You miss the %s.' % (mon.name))

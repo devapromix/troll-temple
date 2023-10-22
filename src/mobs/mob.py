@@ -9,6 +9,7 @@ class Mob(object):
     mp, max_mp = 1, 1
 
     enters_walls = False
+    poison = 0
     poisoned = 0
     speed = 0
     armor = 0

@@ -8,7 +8,7 @@ from common.spells import *
 
 class Dagger(Weapon):
     ABSTRACT = True
-    poisoned = 0
+    poison = 0
 
     def on_equip(self, player):
         if not player.can_use_dagger:
@@ -16,11 +16,13 @@ class Dagger(Weapon):
             return False
         super(Dagger, self).on_equip(player)
         player.holding_dagger = True
+        player.poison = self.poison
         return True
         
     def on_unequip(self, player):
         super(Dagger, self).on_unequip(player)
         player.holding_dagger = False
+        player.poison = 0
     
 class EliteDagger(Dagger):
     ABSTRACT = True
@@ -179,8 +181,13 @@ class PoisonPotion(Potion):
         super(PoisonPotion, self).on_use(player)
         if player.game_class == THIEF:
             if player.holding_dagger:
-                message("You smeared the dagger with poison!", COLOR_ALERT)
-                # ?
+                dagger = player.equipment['w']
+                if dagger:
+                    message("You smeared the dagger with poison!", COLOR_ALERT)
+                    dagger.name += " of venom"
+                    dagger.poison = self.poison
+                else:
+                    message("Failed attempt to make the weapon poisonous!", COLOR_ERROR)
             else:
                 message("Failed attempt to make the weapon poisonous!", COLOR_ERROR)
         else:
