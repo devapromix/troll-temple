@@ -140,5 +140,8 @@ class Monster(Mob, metaclass=Register):
                     dmg *= 2
                     message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
             player.damage(dmg, self)
+            if rand(1, 2) == 1 and self.poison > 0:
+                player.poisoned = self.poison
+                message('The %s poisoned you (%d)!' % (self.name, self.poison))
         else:
             message('The %s misses you.' % (self.name))

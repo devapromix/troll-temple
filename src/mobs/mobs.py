@@ -81,6 +81,7 @@ class GiantSpider(Monster):
     max_hp = 8
     speed = 1
     dice = 1, 3, 0
+    poison = 4
     armor = 0
     multi = 3
     level = 2
@@ -104,6 +105,7 @@ class Lizard(Monster):
     glyph = 'l', T.light_blue
     max_hp = 9
     dice = 1, 3, 0
+    poison = 3
     armor = 1
     multi = 3
     level = 2
@@ -127,6 +129,7 @@ class Bloodfly(Monster):
     glyph = 'b', T.gray
     max_hp = 16
     dice = 1, 3, 0
+    poison = 5
     armor = 1
     level = 3
     dungeons = 3, 4
@@ -169,6 +172,7 @@ class CrystalSpider(Monster):
     glyph = 's', T.light_cyan
     max_hp = 19
     dice = 2, 3, 1
+    poison = 7
     armor = 1
     level = 4
     multi = 2
@@ -225,6 +229,7 @@ class Snapper(Monster):
     name = 'snapper'
     glyph = 's', T.lighter_green
     max_hp = 32
+    poison = 9
     dice = 2, 4, 1
     level = 6
     dungeons = 6, 8
@@ -339,6 +344,7 @@ class Shadowbeast(UndeadMonster):
     max_hp = 44
     dice = 2, 5, 5
     armor = 2
+    poison = 12
     level = 9    
     dungeons = 8, 10
     rarity = 1
@@ -367,6 +373,7 @@ class RockRaider(Monster):
     name = 'rock raider'
     glyph = 'r', T.light_grey
     max_hp = 48
+    poison = 15
     armor = 4
     dice = 2, 7, 2
     level = 10    
@@ -420,6 +427,7 @@ class Wyrm(Monster):
     glyph = 'w', T.light_grey
     max_hp = 56
     dice = 3, 6, 1
+    poison = 20
     armor = 5
     level = 11    
     dungeons = 11, 12
@@ -429,6 +437,7 @@ class ColossalHydra(RareMonster):
     name = 'colossal hydra'
     glyph = 'H', T.dark_green
     max_hp = 58
+    poison = 25
     armor = 12
     dice = 4, 4, 4
     level = 11    
@@ -452,6 +461,7 @@ class HugeSpider(Monster):
     glyph = 's', T.light_red
     max_hp = 60
     dice = 3, 6, 3
+    poison = 22
     armor = 8
     level = 12    
     dungeons = 12, 12
