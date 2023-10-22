@@ -1,5 +1,4 @@
-from common.utils import random_by_level
-from common.items import *
+from src.items.items import *
 
 if __name__ == '__main__':
     d = [random_by_level(1, Item.ALL)().descr for i in range(20)]
