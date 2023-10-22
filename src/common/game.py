@@ -84,17 +84,20 @@ KEYS = [
     ([pygame.K_w],      'wizard'),
 ]
 
+LOOK_KEYS = WALK_KEYS + KEYS[:1] + [([pygame.K_ESCAPE],      'quit')]
+
 def decode_walk_key(key):
-    for keys, cmd in WALK_KEYS:
-        if key in keys:
-            return cmd
-    return None
+    return decode_key(key, WALK_KEYS)
     
-def decode_key(key):
-    for keys, cmd in KEYS:
+def decode_interface_key(key):
+    return decode_key(key, KEYS)
+
+def decode_key(key, actions):
+    for keys, cmd in actions:
         if key in keys:
             return cmd
     return None
+
 
 # --- QUIT --- #
 
@@ -184,7 +187,7 @@ class Game(object):
         draw_all()
 
     def do_command(self, key):
-        cmd = decode_key(key)
+        cmd = decode_interface_key(key)
         if cmd is None:
             return
         new_ui_turn()
@@ -623,7 +626,6 @@ def new_ui_turn():
 
 def look_mode():
     global MESSAGES
-    from game import decode_key
 
     x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
     _messages = MESSAGES
@@ -632,6 +634,7 @@ def look_mode():
     new_ui_turn()
     _draw_messages()
     redraw = True
+
     while True:
         if redraw:
             draw_all()
@@ -650,7 +653,8 @@ def look_mode():
                 MESSAGES.pop()
                 
             redraw = False
-        cmd = decode_key(readkey())
+
+        cmd = decode_key(readkey(), LOOK_KEYS)
         if cmd == 'quit':
             break
         elif isinstance(cmd, tuple):

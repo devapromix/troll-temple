@@ -1,10 +1,9 @@
 from .mob import *
-from common.items import *
+from items.items import *
 
 class Monster(Mob, metaclass=Register):
     ALL = []
     ABSTRACT = True
-    multi = 1
     common = 10
     summoner = False
     fov_range = 5
