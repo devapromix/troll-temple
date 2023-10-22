@@ -262,6 +262,21 @@ class Potion(Item):
         message('You drink the %s.' % self.name)
         player.items.remove(self)
 
+# --- POISON POTION --- #
+
+class PoisonPotion(Potion):
+    ABSTRACT = True
+    poison = 1
+
+    def on_use(self, player):
+        from mobs.player import THIEF
+        super(PoisonPotion, self).on_use(player)
+        if player.game_class == THIEF:
+            message("You smeared the dagger with poison!", COLOR_ALERT)
+            # ?
+        else:
+            player.poisoned = self.poison
+
 # --- SCROLL --- #
 
 class Scroll(Item):
@@ -920,23 +935,6 @@ class BookBloodlust(Book):
     dungeons = 3, 6
     rarity = 1
     
-# --- POISONS --- #
-
-class InstantPoison(Item):
-    glyph = '!', T.light_green
-    name = 'instant poison'
-    poison = 1
-    dungeons = 1, 12
-    rarity = 10
-
-    def on_use(self, player):
-        from mobs.player import THIEF
-        if player.game_class == THIEF:
-            message("You smeared the dagger with poison.")
-        else:
-            message("You drank poison.", COLOR_ERROR)
-            player.poisoned = self.poison * rand(4, 7)
-
 # --- ALCHEMY --- #
 
 class EmptyBottle(CraftItem):
@@ -971,6 +969,15 @@ class ManaPotion(Potion):
         super(ManaPotion, self).on_use(player)
         message('You feel magical energies restoring.')
         player.mp = player.max_mp
+
+# --- POISON POTIONS --- #
+
+class InstantPoisonPotion(PoisonPotion):
+    glyph = '!', T.light_green
+    name = 'instant poison'
+    poison = 3
+    dungeons = 1, 12
+    rarity = 10
 
 # --- SCROLLS --- #
 

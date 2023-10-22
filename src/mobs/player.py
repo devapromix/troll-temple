@@ -53,7 +53,7 @@ class Player(Mob):
             self.magic = 0
             self.radius = 0
             self.can_use_shield = True
-            self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.LeatherArmor(), item.InstantPoison()]
+            self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.LeatherArmor(), item.InstantPoisonPotion()]
         elif self.game_class == THIEF:
             self.hp_regen = 1
             self.mp_regen = 1
@@ -61,7 +61,7 @@ class Player(Mob):
             self.radius = 0
             self.has_alchemyset = True
             self.can_use_dagger = True
-            self.items += [item.HealingPotion(), item.SmallDagger(), item.LeatherArmor(), item.InstantPoison()]
+            self.items += [item.HealingPotion(), item.SmallDagger(), item.LeatherArmor(), item.InstantPoisonPotion()]
         elif self.game_class == RANGER:
             self.hp_regen = 1
             self.mp_regen = 1
@@ -258,7 +258,7 @@ class Player(Mob):
         if not self.death:
             super(Player, self).act()
             if self.poisoned > 0:
-                message("You are suffering from poison.", COLOR_POISON)
+                message("You are suffering from poison.", COLOR_ERROR)
             self.action_turns += 1
             self.act_effects()
 
