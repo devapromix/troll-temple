@@ -974,9 +974,23 @@ class ManaPotion(Potion):
 
 class InstantPoisonPotion(PoisonPotion):
     glyph = '!', T.light_green
-    name = 'instant poison'
+    name = 'instant poison potion'
     poison = 3
-    dungeons = 1, 12
+    dungeons = 1, 4
+    rarity = 10
+
+class ChokingPoisonPotion(PoisonPotion):
+    glyph = '!', T.lighter_green
+    name = 'choking poison potion'
+    poison = 6
+    dungeons = 5, 8
+    rarity = 10
+    
+class RancidPoisonPotion(PoisonPotion):
+    glyph = '!', T.light_yellow
+    name = 'rancid poison potion'
+    poison = 9
+    dungeons = 9, 12
     rarity = 10
 
 # --- SCROLLS --- #
