@@ -9,6 +9,7 @@ class Mob(object):
     mp, max_mp = 1, 1
 
     enters_walls = False
+    poisoned = 0
     speed = 0
     armor = 0
     hp_regen = 1
@@ -65,6 +66,11 @@ class Mob(object):
             if self.to_mp_regen > 100:
                 self.mp = min(self.max_mp, self.to_mp_regen / 100 + self.mp)
                 self.to_mp_regen %= 100
+        if self.poisoned > 0:
+            if self.hp > 1:
+                self.hp -= 1
+            self.poisoned -= 1
+            
 
     def heartbeat(self):
         pass

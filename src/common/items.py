@@ -925,8 +925,17 @@ class BookBloodlust(Book):
 class InstantPoison(Item):
     glyph = '!', T.light_green
     name = 'instant poison'
+    poison = 1
     dungeons = 1, 12
     rarity = 10
+
+    def on_use(self, player):
+        from mobs.player import THIEF
+        if player.game_class == THIEF:
+            message("You smeared the dagger with poison.")
+        else:
+            message("You drank poison.", COLOR_ERROR)
+            player.poisoned = self.poison * rand(4, 7)
 
 # --- ALCHEMY --- #
 
