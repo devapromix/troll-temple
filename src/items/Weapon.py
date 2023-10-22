@@ -1,5 +1,5 @@
 from common.utils import rand, describe_dice
-from items.item import Item
+from .item import Item
 
 
 class Weapon(Item):

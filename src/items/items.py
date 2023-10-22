@@ -1,7 +1,7 @@
-from items.LightSource import LightSource
-from items.Weapon import *
-from items.Weapon import Weapon
-from items.item import Item
+from .LightSource import LightSource
+from .Weapon import *
+from .Weapon import Weapon
+from .item import Item
 from common.spells import *
 
 # --- DAGGER --- #
