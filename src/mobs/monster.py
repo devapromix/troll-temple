@@ -5,6 +5,7 @@ class Monster(Mob, metaclass=Register):
     ALL = []
     ABSTRACT = True
     common = 10
+    multi = 1
     summoner = False
     fov_range = 5
     drop_rate = 5 # 1/30
