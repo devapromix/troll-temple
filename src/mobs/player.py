@@ -19,7 +19,7 @@ class Player(Mob):
     mp_regen = 1
     magic = 0
     radius = 0
-    poisoned = 10
+    poisoned = 0
 
     def __init__(self, wizard, selected_game_class):
         super(Player, self).__init__()
@@ -33,6 +33,8 @@ class Player(Mob):
         self.has_hp_adv_drop = True
         self.has_mp_adv_drop = False
         
+        self.holding_dagger = False        
+
         self.has_spellbook = False
         self.has_craftbox = False
         self.has_alchemyset = False
