@@ -104,7 +104,21 @@ class Armor(Equipment):
     @property
     def descr(self):
         return '%s (%s)' % (self.name, self.mod_descr)
-        
+'''        
+    def on_equip(self, player):
+        #if not player.can_wear_robe:
+        #    message("You don't know how to use robes!", COLOR_ERROR)
+        #    return False
+        super(Armor, self).on_equip(player)
+        player.max_mp += self.mana
+        player.mp += self.mana
+        return True
+
+    def on_unequip(self, player):    
+        super(Armor, self).on_unequip(player)
+        player.max_mp -= self.mana
+        player.mp -= self.mana
+'''
 # --- HELM --- #
 
 class Helm(Armor):
