@@ -310,7 +310,7 @@ def init(game):
     GAME.font = pygame.font.Font("../assets/fonts/UbuntuMono-R.ttf", 16)
     _txt = GAME.font.render("W", True, T.white)
     GAME.font_width = _txt.get_width()
-    GAME.font_height = _txt.get_height()
+    GAME.font_height = _txt.get_height() + 1
     SCREEN = pygame.display.set_mode((SCREEN_W * GAME.font_width, SCREEN_H * GAME.font_height))
     wiz_str = ""
     if GAME.wizard:
