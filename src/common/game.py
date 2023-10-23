@@ -49,6 +49,7 @@ COLOR_TITLE  = T.lighter_yellow
 COLOR_ALERT  = T.light_yellow
 COLOR_ERROR  = T.lighter_red
 COLOR_MAGIC  = T.lighter_blue
+COLOR_VENOM  = T.lighter_green
 
 # --- CONSTANTS --- #
 

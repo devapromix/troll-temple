@@ -195,6 +195,7 @@ class PoisonPotion(Potion):
                     message("You smeared the dagger with poison!", COLOR_ALERT)
                     dagger.name += " of venom"
                     dagger.poison = self.poison
+                    player.poison = dagger.poison
                     dagger.color = COLOR_MAGIC
                 else:
                     message("Failed attempt to make the weapon poisonous!", COLOR_ERROR)

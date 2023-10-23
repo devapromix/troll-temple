@@ -126,7 +126,10 @@ class Tile(object):
     @property
     def visible_glyph(self):
         if self.mob:
-            return self.mob.glyph
+            if self.mob.poisoned > 0:
+                return self.mob.glyph[0], COLOR_VENOM
+            else:
+                return self.mob.glyph
         elif self.items:
             return self.items[-1].glyph
         else:

@@ -44,8 +44,6 @@ class Monster(Mob, metaclass=Register):
             if rand(1, 10) <= 1:
                 self.adv_drop()
             self.die()
-        else:
-            message('The %s is %s.' % (self.name, self.get_wounds()))
 
     def drop(self):
         item = random_by_level(self.map.level, Item.ALL)()
@@ -64,17 +62,6 @@ class Monster(Mob, metaclass=Register):
         self.remove()
         self.map.player.kills += 1
         self.map.player.add_exp(self)
-
-    def get_wounds(self):
-        p = 100*self.hp/self.max_hp
-        if p < 10:
-            return 'almost dead'
-        elif p < 30:
-            return 'severely wounded'
-        elif p < 70:
-            return 'moderately wounded'
-        else:
-            return 'lightly wounded'
 
     def see_player(self):
         player = self.map.player
@@ -140,7 +127,7 @@ class Monster(Mob, metaclass=Register):
                     dmg *= 2
                     message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
             player.damage(dmg, self)
-            if rand(1, 2) == 1 and self.poison > 0:
+            if rand(1, 2) == 1 and self.poison > 0 and player.hp > 0:
                 player.poisoned = self.poison
                 message('The %s poisoned you (%d)!' % (self.name, self.poison))
         else:

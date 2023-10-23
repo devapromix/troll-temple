@@ -221,7 +221,7 @@ class Player(Mob):
                     dmg *= 2
                     message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
             mon.damage(dmg)
-            if rand(1, 2) == 1 and self.poison > 0:
+            if rand(1, 2) == 1 and self.poison > 0 and mon.hp > 0:
                 mon.poisoned = self.poison
                 message('You poisoned the %s (%d)!' % (mon.name, self.poison))
             self.use_energy()
