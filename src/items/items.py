@@ -52,8 +52,8 @@ class Staff(Weapon):
     def __init__(self):
         super(Staff, self).__init__()
         if rand(1, 3) == 1:
-            self.mana += rand(self.magic, self.magic * 3)
-            self.suffix("eclipse")
+            if self.suffix("eclipse"):
+                self.mana += rand(self.magic, self.magic * 3)
 
     @property
     def mod_descr(self):    
@@ -98,8 +98,8 @@ class Armor(Equipment):
     def __init__(self):
         super(Armor, self).__init__()
         if rand(1, 5) == 1:
-            self.armor = self.armor + rand(round(self.armor / 5), round(self.armor / 3))
-            self.suffix("defense")
+            if self.suffix("defense"):
+                self.armor = self.armor + rand(round(self.armor / 5), round(self.armor / 3))
 
     @property
     def descr(self):
@@ -783,8 +783,8 @@ class WarBoots(UniqueBoots):
     armor = 8
     dungeons = 11, 12
 
-class BootsOfSpeed(UniqueBoots):
-    name = 'boots of speed'
+class SpeedBoots(UniqueBoots):
+    name = 'speed boots'
     glyph = '[', T.cyan
     armor = 5
     speed = 3
