@@ -96,7 +96,9 @@ class Armor(Item):
     def __init__(self):
         super(Armor, self).__init__()
         if rand(1, 5) == 1:
-            self.armor = self.armor + roll(2, 2, -2)
+            self.armor = self.armor + rand(round(self.armor / 5), round(self.armor / 3))
+            self.name += " of defense"
+            self.color = COLOR_MAGIC
 
 # --- HELM --- #
 

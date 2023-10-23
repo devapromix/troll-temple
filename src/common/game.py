@@ -396,14 +396,14 @@ def _draw_items(title, items):
     for i, item in enumerate(items):
         out(3, i + 3, chr(i + ord('a')), COLOR_ITEM)
         c, color = item.glyph
-        out(5, i+3, chr(ord(c)), color)
+        out(5, i + 3, chr(ord(c)), color)
         s = item.descr
         if GAME.player.has_equipped(item):
             color = _item_color(item, T.white)
-            out(1, i+3, '*', T.white)
+            out(1, i + 3, '*', T.white)
         else:
             color = _item_color(item, COLOR_ITEM)
-        out(7, i+3, s, color)
+        out(7, i + 3, s, color)
 
 def draw_inventory(title='Inventory', items=None, flag=False):
     _draw_items(title, items or GAME.player.items)
