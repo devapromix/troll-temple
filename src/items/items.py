@@ -52,6 +52,8 @@ class Staff(Weapon):
         super(Staff, self).__init__()
         if rand(1, 3) == 1:
             self.mana += rand(self.magic, self.magic * 3)
+            self.name += " of eclipse"
+            self.color = COLOR_MAGIC
 
     @property
     def mod_descr(self):    
