@@ -35,11 +35,11 @@ class Item(object, metaclass=Register):
     @property
     def mod_descr(self):
         s = ''
-        if self.speed != 0:
-            s += ' (%s%d speed)' % ('+' if self.speed > 0 else '', self.speed)
         if self.armor != 0:
-            s += ' (%s%d armor)' % ('+' if self.armor > 0 else '', self.armor)
-        return s
+            s += ' %s%d armor' % ('+' if self.armor > 0 else '', self.armor)
+        if self.speed != 0:
+            s += ' %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
+        return s.strip()
 
     def on_equip(self, player):
         player.speed += self.speed
@@ -52,3 +52,4 @@ class Item(object, metaclass=Register):
 
     def on_use(self, player):
         message('You don\'t know how to use %s.' % self.descr)
+        

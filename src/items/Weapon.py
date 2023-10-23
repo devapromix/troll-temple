@@ -1,8 +1,7 @@
 from common.utils import rand, describe_dice
-from .item import Item
+from .Equipment import Equipment
 
-
-class Weapon(Item):
+class Weapon(Equipment):
     ABSTRACT = True
     slot = 'w'
     common = 7
@@ -18,7 +17,7 @@ class Weapon(Item):
 
     @property
     def descr(self):
-        return '%s (%s)%s' % (self.name, describe_dice(*self.dice), self.mod_descr)
+        return '%s (%s%s)' % (self.name, describe_dice(*self.dice), self.mod_descr)
 
 
 class EliteWeapon(Weapon):

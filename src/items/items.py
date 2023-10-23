@@ -2,6 +2,7 @@ from .LightSource import LightSource
 from .Weapon import *
 from .Weapon import Weapon
 from .item import Item
+from .Equipment import Equipment
 from common.spells import *
 
 # --- DAGGER --- #
@@ -14,10 +15,10 @@ class Dagger(Weapon):
     def mod_descr(self):    
         s = ''
         if self.speed != 0:
-            s += '%s%d speed' % ('+' if self.speed > 0 else '', self.speed)
+            s += ' %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
         if self.poison > 0:
-            s += ', poisons'
-        return ' (' + s + ')'
+            s += ' poisons'
+        return " " + s.strip()
 
     def on_equip(self, player):
         if not player.can_use_dagger:
@@ -52,19 +53,18 @@ class Staff(Weapon):
         super(Staff, self).__init__()
         if rand(1, 3) == 1:
             self.mana += rand(self.magic, self.magic * 3)
-            self.name += " of eclipse"
-            self.color = COLOR_MAGIC
+            self.suffix("eclipse")
 
     @property
     def mod_descr(self):    
         s = ''
         if self.mana != 0:
-            s += '%s%d mana' % ('+' if self.mana > 0 else '', self.mana)
+            s += ' %s%d mana' % ('+' if self.mana > 0 else '', self.mana)
         if self.speed != 0:
-            s += ', %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
+            s += ' %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
         if self.magic != 0:
-            s += ', %s%d magic' % ('+' if self.magic > 0 else '', self.magic)
-        return ' (' + s + ')'
+            s += ' %s%d magic' % ('+' if self.magic > 0 else '', self.magic)
+        return " " + s.strip()
         
     def on_equip(self, player):
         if not player.can_use_staff:
@@ -92,16 +92,19 @@ class UniqueStaff(Staff):
 
 # --- ARMOR --- #
 
-class Armor(Item):
+class Armor(Equipment):
     ABSTRACT = True
 
     def __init__(self):
         super(Armor, self).__init__()
         if rand(1, 5) == 1:
             self.armor = self.armor + rand(round(self.armor / 5), round(self.armor / 3))
-            self.name += " of defense"
-            self.color = COLOR_MAGIC
+            self.suffix("defense")
 
+    @property
+    def descr(self):
+        return '%s (%s)' % (self.name, self.mod_descr)
+        
 # --- HELM --- #
 
 class Helm(Armor):
@@ -189,6 +192,9 @@ class PoisonPotion(Potion):
     ABSTRACT = True
     poison = 1
 
+    def _failed(self):
+        message("Failed attempt to make the weapon poisonous!", COLOR_ERROR)
+
     def on_use(self, player):
         from mobs.player import THIEF
         super(PoisonPotion, self).on_use(player)
@@ -196,15 +202,16 @@ class PoisonPotion(Potion):
             if player.holding_dagger:
                 dagger = player.equipment['w']
                 if dagger:
-                    message("You smeared the dagger with poison!", COLOR_ALERT)
-                    dagger.name += " of venom"
-                    dagger.poison = self.poison
-                    player.poison = dagger.poison
-                    dagger.color = COLOR_MAGIC
+                    if dagger.suffix("venom"):
+                        dagger.poison = self.poison
+                        player.poison = dagger.poison
+                        message("You smeared the dagger with poison!", COLOR_ALERT)
+                    else:
+                        self._failed()
                 else:
-                    message("Failed attempt to make the weapon poisonous!", COLOR_ERROR)
+                    self._failed()
             else:
-                message("Failed attempt to make the weapon poisonous!", COLOR_ERROR)
+                self._failed()
         else:
             player.poisoned = self.poison
 
