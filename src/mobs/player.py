@@ -54,7 +54,7 @@ class Player(Mob):
             self.magic = 0
             self.radius = 0
             self.can_use_shield = True
-            self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.LeatherArmor(), item.InstantPoisonPotion()]
+            self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.LeatherArmor()]
         elif self.game_class == THIEF:
             self.hp_regen = 1
             self.mp_regen = 1

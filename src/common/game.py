@@ -384,6 +384,12 @@ def message(s, color = T.white):
 
 # --- INVENTORY --- #
 
+def _item_color(item, color):
+    if item.color != COLOR_ITEM:
+        return item.color
+    else:
+        return color
+
 def _draw_items(title, items):
     clear()
     out(2, 1, title, COLOR_TITLE)
@@ -393,13 +399,10 @@ def _draw_items(title, items):
         out(5, i+3, chr(ord(c)), color)
         s = item.descr
         if GAME.player.has_equipped(item):
-            if item.color != COLOR_ITEM:
-                color = item.color
-            else:
-                color = T.white
-            out(1, i+3, '*', color)
+            color = _item_color(item, T.white)
+            out(1, i+3, '*', T.white)
         else:
-            color = COLOR_ITEM
+            color = _item_color(item, COLOR_ITEM)
         out(7, i+3, s, color)
 
 def draw_inventory(title='Inventory', items=None, flag=False):
