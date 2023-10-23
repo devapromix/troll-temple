@@ -1,5 +1,6 @@
 from common.game import UNKNOWN_GLYPH, message
 from common.utils import Register
+from common.game import COLOR_ITEM
 
 
 class Item(object, metaclass=Register):
@@ -8,6 +9,7 @@ class Item(object, metaclass=Register):
     common = 10
 
     glyph = UNKNOWN_GLYPH
+    color = COLOR_ITEM
     dungeons = 0, 0
     slot = None
     speed = 0

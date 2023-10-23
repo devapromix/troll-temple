@@ -10,6 +10,15 @@ class Dagger(Weapon):
     ABSTRACT = True
     poison = 0
 
+    @property
+    def mod_descr(self):    
+        s = ''
+        if self.speed != 0:
+            s += '%s%d speed' % ('+' if self.speed > 0 else '', self.speed)
+        if self.poison > 0:
+            s += ', poisons'
+        return ' (' + s + ')'
+
     def on_equip(self, player):
         if not player.can_use_dagger:
             message("You don't know how to use daggers!", COLOR_ERROR)
@@ -42,7 +51,7 @@ class Staff(Weapon):
     def __init__(self):
         super(Staff, self).__init__()
         if rand(1, 3) == 1:
-            self.mana += rand(1, self.magic * 3)
+            self.mana += rand(self.magic, self.magic * 3)
 
     @property
     def mod_descr(self):    
@@ -186,6 +195,7 @@ class PoisonPotion(Potion):
                     message("You smeared the dagger with poison!", COLOR_ALERT)
                     dagger.name += " of venom"
                     dagger.poison = self.poison
+                    dagger.color = COLOR_MAGIC
                 else:
                     message("Failed attempt to make the weapon poisonous!", COLOR_ERROR)
             else:

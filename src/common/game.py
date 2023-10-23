@@ -44,6 +44,7 @@ BOOK_SIZE = SCREEN_H - 4
 
 # --- COLOURS --- #
 
+COLOR_ITEM   = T.light_grey
 COLOR_TITLE  = T.lighter_yellow
 COLOR_ALERT  = T.light_yellow
 COLOR_ERROR  = T.lighter_red
@@ -386,15 +387,18 @@ def _draw_items(title, items):
     clear()
     out(2, 1, title, COLOR_TITLE)
     for i, item in enumerate(items):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey)
+        out(3, i + 3, chr(i + ord('a')), COLOR_ITEM)
         c, color = item.glyph
         out(5, i+3, chr(ord(c)), color)
         s = item.descr
         if GAME.player.has_equipped(item):
-            color = T.white
+            if item.color != COLOR_ITEM:
+                color = item.color
+            else:
+                color = T.white
             out(1, i+3, '*', color)
         else:
-            color = T.light_grey
+            color = COLOR_ITEM
         out(7, i+3, s, color)
 
 def draw_inventory(title='Inventory', items=None, flag=False):
