@@ -44,6 +44,7 @@ class Item(object, metaclass=Register):
     def on_equip(self, player):
         player.speed += self.speed
         player.armor += self.armor
+        return True
 
     def on_unequip(self, player):
         player.speed -= self.speed
