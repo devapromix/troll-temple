@@ -36,6 +36,9 @@ def str_dice(a, b, c = 0):
 def rand(a, b):
     return round(randrange(a, b + 1))
 
+def clamp(value, minvalue, maxvalue):
+    return max(minvalue, min(value, maxvalue))
+
 def describe_dice(a, b, c):
     s = '%dd%d' % (a, b)
     if c > 0:

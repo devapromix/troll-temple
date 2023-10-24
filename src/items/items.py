@@ -72,14 +72,13 @@ class Staff(Weapon):
             return False
         super(Staff, self).on_equip(player)
         player.max_mp += self.mana
-        player.mp += self.mana
         player.magic += self.magic
         return True
     
     def on_unequip(self, player):    
         super(Staff, self).on_unequip(player)
         player.max_mp -= self.mana
-        player.mp -= self.mana
+        player.mp = clamp(player.mp, 0, player.max_mp)
         player.magic -= self.magic
 
 class EliteStaff(Staff):
@@ -104,21 +103,83 @@ class Armor(Equipment):
     @property
     def descr(self):
         return '%s (%s)' % (self.name, self.mod_descr)
-'''        
+
+# --- CLOTH ARMOR --- #
+
+class ClothArmor(Armor):
+    ABSTRACT = True
+    slot = 'a'
+    mana = 0
+
     def on_equip(self, player):
-        #if not player.can_wear_robe:
-        #    message("You don't know how to use robes!", COLOR_ERROR)
-        #    return False
-        super(Armor, self).on_equip(player)
-        player.max_mp += self.mana
-        player.mp += self.mana
+        if not player.can_wear_cloth_armor:
+            message("You don't know how to use cloth armor!", COLOR_ERROR)
+            return False
+        super(ClothArmor, self).on_equip(player)
+        player.max_hp += self.mana
         return True
 
     def on_unequip(self, player):    
-        super(Armor, self).on_unequip(player)
-        player.max_mp -= self.mana
-        player.mp -= self.mana
-'''
+        super(ClothArmor, self).on_unequip(player)
+        player.max_hp -= self.mana
+        player.mp = clamp(player.mp, 0, player.max_mp)
+
+class EliteClothArmor(ClothArmor):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueClothArmor(ClothArmor):
+    ABSTRACT = True
+    rarity = 15
+
+# --- LEATHER ARMOR --- #
+
+class LeatherArmor(Armor):
+    ABSTRACT = True
+    slot = 'a'
+
+    def on_equip(self, player):
+        if not player.can_wear_leather_armor:
+            message("You don't know how to use leather armor!", COLOR_ERROR)
+            return False
+        super(LeatherArmor, self).on_equip(player)
+        return True
+
+    def on_unequip(self, player):    
+        super(LeatherArmor, self).on_unequip(player)
+
+class EliteLeatherArmor(LeatherArmor):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueLeatherArmor(LeatherArmor):
+    ABSTRACT = True
+    rarity = 15
+
+# --- MAIL ARMOR --- #
+
+class MailArmor(Armor):
+    ABSTRACT = True
+    slot = 'a'
+
+    def on_equip(self, player):
+        if not player.can_wear_mail_armor:
+            message("You don't know how to use mail armor!", COLOR_ERROR)
+            return False
+        super(MailArmor, self).on_equip(player)
+        return True
+
+    def on_unequip(self, player):    
+        super(MailArmor, self).on_unequip(player)
+
+class EliteMailArmor(MailArmor):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueMailArmor(MailArmor):
+    ABSTRACT = True
+    rarity = 15
+
 # --- HELM --- #
 
 class Helm(Armor):
@@ -146,20 +207,6 @@ class EliteBoots(Boots):
     rarity = 10
 
 class UniqueBoots(Boots):
-    ABSTRACT = True
-    rarity = 15
-
-# --- MAIL --- #
-
-class Mail(Armor):
-    ABSTRACT = True
-    slot = 'a'
-
-class EliteMail(Mail):
-    ABSTRACT = True
-    rarity = 10
-
-class UniqueMail(Mail):
     ABSTRACT = True
     rarity = 15
 
@@ -804,64 +851,194 @@ class SpeedBoots(UniqueBoots):
     speed = 3
     dungeons = 10, 12
 
-# --- ARMORS --- #
+# --- CLOTH ARMORS --- #
 
-class LeatherArmor(Mail):
-    name = 'leather armor'
+class CultistRobe(ClothArmor):
+    name = 'cultist robe'
+    glyph = ']', T.blue
+    armor = 1
+    mana = 3
+    dungeons = 1, 2
+
+class EnchanterRobe(ClothArmor):
+    name = 'enchanter robe'
+    glyph = ']', T.yellow
+    armor = 2
+    mana = 6
+    dungeons = 3, 4
+
+class WitchRobe(ClothArmor):
+    name = 'witch robe'
+    glyph = ']', T.gray
+    armor = 3
+    mana = 9
+    dungeons = 5, 6
+
+class MageRobe(ClothArmor):
+    name = 'mage robe'
+    glyph = ']', T.darker_orange
+    armor = 4
+    mana = 12
+    dungeons = 7, 8
+
+class WardenRobe(ClothArmor):
+    name = 'warden robe'
+    glyph = ']', T.light_green
+    armor = 5
+    mana = 15
+    dungeons = 9, 10
+
+class ArchonRobe(ClothArmor):
+    name = 'archon robe'
+    glyph = ']', T.green
+    armor = 6
+    mana = 18
+    dungeons = 11, 12
+
+class TemplarRobe(EliteClothArmor):
+    name = 'templar robe'
+    glyph = ']', T.light_blue
+    mana = 20
+    dungeons = 7, 9
+
+class QuicksilverRobe(EliteClothArmor):
+    name = 'quicksilver robe'
+    glyph = ']', T.light_grey
+    mana = 24
+    dungeons = 9, 11
+
+class DivineArmor(UniqueClothArmor):
+    name = 'divine armor'
+    glyph = ']', T.cyan
+    mana = 30
+    dungeons = 11, 12
+
+# --- LEATHER ARMORS --- #
+
+class QuiltedArmor(LeatherArmor):
+    name = 'quilted armor'
     glyph = ']', T.dark_orange
     armor = 3
     dungeons = 1, 2
 
-class StuddedLeather(Mail):
-    name = 'studded leather'
+class ShadowArmor(LeatherArmor):
+    name = 'shadow armor'
+    glyph = ']', T.grey
+    armor = 2
+    dungeons = 1, 2
+
+class StuddedLeatherArmor(LeatherArmor):
+    name = 'studded leather armor'
     glyph = ']', T.darker_orange
     armor = 6
     dungeons = 3, 4
 
-class ScaleMail(Mail):
-    name = 'scale mail'
-    glyph = ']', T.grey
+class DusterLeatherArmor(LeatherArmor):
+    name = 'duster leather armor'
+    glyph = ']', T.orange
     armor = 9
     speed = -1
     dungeons = 5, 6
 
-class RingMail(Mail):
-    name = 'ring mail'
-    glyph = ']', T.grey
+class StuddedWardenArmor(LeatherArmor):
+    name = 'studded warden armor'
+    glyph = ']', T.darker_orange
     armor = 12
     speed = -1
     dungeons = 7, 8
 
-class ChainMail(Mail):
-    name = 'chain mail'
-    glyph = ']', T.light_grey
+class FlamescaleArmor(LeatherArmor):
+    name = 'flamescale armor'
+    glyph = ']', T.light_red
     armor = 15
     speed = -1
     dungeons = 9, 10
 
-class PlateArmor(Mail):
-    name = 'plate armor'
-    glyph = ']', T.light_grey
+class DragonskinArmor(LeatherArmor):
+    name = 'dragonskin armor'
+    glyph = ']', T.green
     armor = 18
     speed = -2
     dungeons = 11, 12
 
-class ChaosArmor(EliteMail):
+class ChaosArmor(EliteLeatherArmor):
     name = 'chaos armor'
-    glyph = ']', T.light_grey
+    glyph = ']', T.grey
     armor = 18
     dungeons = 7, 9
 
-class SacredArmor(EliteMail):
+class SacredArmor(EliteLeatherArmor):
     name = 'sacred armor'
     glyph = ']', T.light_red
     armor = 20
     dungeons = 9, 11
 
-class AncientArmor(UniqueMail):
+class AncientArmor(UniqueLeatherArmor):
     name = 'ancient armor'
     glyph = ']', T.cyan
     armor = 25
+    dungeons = 11, 12
+
+# --- MAIL ARMORS --- #
+
+class RingMail(MailArmor):
+    name = 'ring mail'
+    glyph = ']', T.light_grey
+    armor = 4
+    speed = -1
+    dungeons = 1, 2
+
+class ScaleMail(MailArmor):
+    name = 'scale mail'
+    glyph = ']', T.light_grey
+    armor = 8
+    speed = -1
+    dungeons = 3, 4
+
+class ChainMail(MailArmor):
+    name = 'chain mail'
+    glyph = ']', T.light_grey
+    armor = 12
+    speed = -1
+    dungeons = 5, 6
+
+class WardenSplintmail(MailArmor):
+    name = 'warden splintmail'
+    glyph = ']', T.light_grey
+    armor = 16
+    speed = -1
+    dungeons = 7, 8
+
+class DwarvenArmor(MailArmor):
+    name = 'dwarven armor'
+    glyph = ']', T.light_grey
+    armor = 20
+    speed = -1
+    dungeons = 9, 10
+
+class PlateArmor(MailArmor):
+    name = 'plate armor'
+    glyph = ']', T.light_grey
+    armor = 24
+    speed = -2
+    dungeons = 11, 12
+
+class AncientElvenArmor(EliteMailArmor):
+    name = 'ancient elven armor'
+    glyph = ']', T.light_blue
+    armor = 25
+    dungeons = 7, 9
+
+class DwarvenGuardArmor(EliteMailArmor):
+    name = 'dwarven guard armor'
+    glyph = ']', T.light_red
+    armor = 30
+    dungeons = 9, 11
+
+class DragonboneLegionArmor(UniqueMailArmor):
+    name = 'dragonbone legion armor'
+    glyph = ']', T.cyan
+    armor = 40
     dungeons = 11, 12
 
 # --- BOOKS --- #
