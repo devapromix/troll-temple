@@ -853,60 +853,63 @@ class SpeedBoots(UniqueBoots):
 class CultistRobe(ClothArmor):
     name = 'cultist robe'
     glyph = ']', T.blue
-    armor = 1
+    armor = 2
     mana = 3
     dungeons = 1, 2
 
 class EnchanterRobe(ClothArmor):
     name = 'enchanter robe'
     glyph = ']', T.yellow
-    armor = 2
+    armor = 4
     mana = 6
     dungeons = 3, 4
 
 class WitchRobe(ClothArmor):
     name = 'witch robe'
     glyph = ']', T.gray
-    armor = 3
+    armor = 6
     mana = 9
     dungeons = 5, 6
 
 class MageRobe(ClothArmor):
     name = 'mage robe'
     glyph = ']', T.darker_orange
-    armor = 4
+    armor = 8
     mana = 12
     dungeons = 7, 8
 
 class WardenRobe(ClothArmor):
     name = 'warden robe'
     glyph = ']', T.light_green
-    armor = 5
+    armor = 10
     mana = 15
     dungeons = 9, 10
 
 class ArchonRobe(ClothArmor):
     name = 'archon robe'
     glyph = ']', T.green
-    armor = 6
+    armor = 12
     mana = 18
     dungeons = 11, 12
 
 class TemplarRobe(EliteClothArmor):
     name = 'templar robe'
     glyph = ']', T.light_blue
+    armor = 12
     mana = 20
     dungeons = 7, 9
 
 class QuicksilverRobe(EliteClothArmor):
     name = 'quicksilver robe'
     glyph = ']', T.light_grey
+    armor = 15
     mana = 24
     dungeons = 9, 11
 
 class DivineArmor(UniqueClothArmor):
     name = 'divine armor'
     glyph = ']', T.cyan
+    armor = 20
     mana = 30
     dungeons = 11, 12
 
