@@ -18,7 +18,7 @@ class GhostMonster(UndeadMonster):
 
 class MageMonster(Monster):
     ABSTRACT = True
-    mp_regen = 10
+    mana_regen = 10
     fov_range = 10
     drop_rate = 20
 

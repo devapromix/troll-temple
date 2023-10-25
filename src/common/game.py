@@ -236,7 +236,7 @@ class Game(object):
             return
 
         self.player.heal(int(self.player.max_hp / 2))
-        self.player.mp = self.player.max_mp
+        self.player.mana.fill()
         message('You take a moment to rest, and recover your strength.', T.yellow)
         self.turns += 1
         self.start_map(self.map.level + 1)
@@ -358,8 +358,8 @@ def _draw_status():
     _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp(), T.light_yellow)
     out(60, 6, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp), T.light_grey)    
     _draw_bar(18, 6, GAME.player.hp, GAME.player.max_hp, T.light_red)
-    out(60, 7, "Mana:   " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp), T.light_grey)    
-    _draw_bar(18, 7, GAME.player.mp, GAME.player.max_mp, T.light_blue)
+    out(60, 7, "Mana:   " + GAME.player.mana.to_string(), T.light_grey)    
+    _draw_bar(18, 7, GAME.player.mana.cur, GAME.player.mana.max, T.light_blue)
     out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Turns:  " + str(GAME.turns), T.light_grey)
 
 # --- MESSAGES --- #
@@ -443,11 +443,11 @@ def character_screen():
     else:
         regen = ""
     out(2, 9,  "Health       " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp) + regen, T.light_grey)
-    if GAME.player.mp_regen > 0:
-        regen =  " (+" + str(GAME.player.mp_regen) + ")"
+    if GAME.player.mana_regen > 0:
+        regen =  " (+" + str(GAME.player.mana_regen) + ")"
     else:
         regen = ""
-    out(2, 10,  "Mana         " + str(round(GAME.player.mp)) + "/" + str(GAME.player.max_mp) + regen, T.light_grey)
+    out(2, 10,  "Mana         " + GAME.player.mana.to_string() + regen, T.light_grey)
     out(2, 12, "Damage       " + describe_dice(*GAME.player.dice) + " (" + str_dice(*GAME.player.dice) + ")", T.light_grey)
     out(2, 13, "Armor        " + str(GAME.player.armor), T.light_grey)
     out(2, 15, "Speed        " + str(GAME.player.speed), T.light_grey)

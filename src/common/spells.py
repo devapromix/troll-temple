@@ -14,9 +14,9 @@ class Spell(object, metaclass=Register):
         return str(self.name + ' (mana -%d)' % self.mana)
     
     def on_use(self, player):
-        if player.mp >= self.mana:
+        if player.mana.cur >= self.mana:
             message('You read the spell %s (mana -%d).' % (self.name, self.mana), COLOR_MAGIC)
-            player.mp -= self.mana
+            player.mana.modify(-self.mana)
             return True
         else:
             message('Need more mana!', COLOR_ERROR)

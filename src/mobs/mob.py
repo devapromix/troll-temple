@@ -1,4 +1,5 @@
 from common.game import *
+from common.atrib import Atrib
 
 class Mob(object):
     x, y = None, None
@@ -6,7 +7,6 @@ class Mob(object):
     map = None
 
     hp, max_hp = 1, 1
-    mp, max_mp = 1, 1
 
     enters_walls = False
     poison = 0
@@ -14,11 +14,12 @@ class Mob(object):
     speed = 0
     armor = 0
     hp_regen = 1
-    mp_regen = 0
+    mana_regen = 0
 
     def __init__(self):
+        self.mana = Atrib()
         self.to_hp_regen = 0
-        self.to_mp_regen = 0
+        self.to_mana_regen = 0
 
     @property
     def tile(self):
@@ -62,11 +63,11 @@ class Mob(object):
             if self.to_hp_regen > 100:
                 self.hp = min(self.max_hp, self.to_hp_regen / 100 + self.hp)
                 self.to_hp_regen %= 100
-        if self.mp < self.max_mp:
-            self.to_mp_regen += self.mp_regen
-            if self.to_mp_regen > 100:
-                self.mp = min(self.max_mp, self.to_mp_regen / 100 + self.mp)
-                self.to_mp_regen %= 100
+        if self.mana.cur < self.mana.max:
+            self.to_mana_regen += self.mana_regen
+            if self.to_mana_regen > 100:
+                self.mana.cur = min(self.mana.max, self.to_mana_regen / 100 + self.mana.cur)
+                self.to_mana_regen %= 100
         if self.poisoned > 0:
             if self.hp > 1:
                 self.hp -= 1

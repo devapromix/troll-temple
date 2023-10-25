@@ -16,7 +16,7 @@ class Player(Mob):
     glyph = '@', T.white
     name = 'Trollhunter'
     hp_regen = 0
-    mp_regen = 1
+    mana_regen = 1
     magic = 0
     radius = 0
 
@@ -26,8 +26,8 @@ class Player(Mob):
         self.level = 1
         self.max_hp = 40 - (self.game_class * 5)
         self.hp = self.max_hp
-        self.max_mp = self.game_class * 5
-        self.mp = self.max_mp
+        self.mana.max = self.game_class * 5
+        self.mana.fill()
         
         self.has_hp_adv_drop = True
         self.has_mp_adv_drop = False
@@ -53,7 +53,7 @@ class Player(Mob):
         self.items = [item.Torch(), item.HealingPotion()]
         if self.game_class == FIGHTER:
             self.hp_regen = 2
-            self.mp_regen = 0
+            self.mana_regen = 0
             self.magic = 0
             self.radius = 0
             self.can_use_shield = True
@@ -62,7 +62,7 @@ class Player(Mob):
             self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail()]
         elif self.game_class == THIEF:
             self.hp_regen = 1
-            self.mp_regen = 1
+            self.mana_regen = 1
             self.magic = 0
             self.radius = 0
             self.has_alchemyset = True
@@ -71,7 +71,7 @@ class Player(Mob):
             self.items += [item.HealingPotion(), item.SmallDagger(), item.ShadowArmor(), item.InstantPoisonPotion()]
         elif self.game_class == RANGER:
             self.hp_regen = 1
-            self.mp_regen = 1
+            self.mana_regen = 1
             self.magic = 0
             self.radius = 1
             self.has_craftbox = True
@@ -79,7 +79,7 @@ class Player(Mob):
             self.items += [item.HealingPotion(), item.HuntingSpear(), item.QuiltedArmor()]
         else:
             self.hp_regen = 0
-            self.mp_regen = 3
+            self.mana_regen = 3
             self.magic = 1
             self.radius = 0
             self.has_hp_adv_drop = False
@@ -130,7 +130,7 @@ class Player(Mob):
         else:
             return 2
 
-    def mp_inc(self):
+    def _mana_inc(self):
         if self.game_class == FIGHTER:
             return 1
         elif self.game_class == THIEF:
@@ -144,8 +144,8 @@ class Player(Mob):
         self.level += 1
         self.max_hp += self.hp_inc()
         self.hp = self.max_hp
-        self.max_mp += self.mp_inc()
-        self.mp = self.max_mp
+        self.mana.inc(self._mana_inc())
+        self.mana.fill()
 
         message('Congratulations! You advance to level %d.' % self.level,
                 COLOR_ALERT)
@@ -297,7 +297,7 @@ class Player(Mob):
         self.deaths += 1
         self.death = None
         self.hp = self.max_hp
-        self.mp = self.max_mp
+        self.mana.fill()
 
     def has_spell(self, spell_type):
         for i, spell in enumerate(self.spells):

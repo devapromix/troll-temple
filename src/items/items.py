@@ -71,14 +71,13 @@ class Staff(Weapon):
             message("You don't know how to use staves!", COLOR_ERROR)
             return False
         super(Staff, self).on_equip(player)
-        player.max_mp += self.mana
+        player.mana.inc(self.mana)
         player.magic += self.magic
         return True
     
     def on_unequip(self, player):    
         super(Staff, self).on_unequip(player)
-        player.max_mp -= self.mana
-        player.mp = clamp(player.mp, 0, player.max_mp)
+        player.mana.dec(self.mana)
         player.magic -= self.magic
 
 class EliteStaff(Staff):
@@ -116,13 +115,12 @@ class ClothArmor(Armor):
             message("You don't know how to use cloth armor!", COLOR_ERROR)
             return False
         super(ClothArmor, self).on_equip(player)
-        player.max_hp += self.mana
+        player.mana.inc(self.mana)
         return True
 
     def on_unequip(self, player):    
         super(ClothArmor, self).on_unequip(player)
-        player.max_hp -= self.mana
-        player.mp = clamp(player.mp, 0, player.max_mp)
+        player.mana.dec(self.mana)
 
 class EliteClothArmor(ClothArmor):
     ABSTRACT = True
@@ -1097,7 +1095,7 @@ class ManaPotion(Potion):
     def on_use(self, player):
         super(ManaPotion, self).on_use(player)
         message('You feel magical energies restoring.')
-        player.mp = player.max_mp
+        player.mana.fill()
 
 # --- POISON POTIONS --- #
 
