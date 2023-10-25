@@ -109,6 +109,7 @@ class ClothArmor(Armor):
     ABSTRACT = True
     slot = 'a'
     mana = 0
+    magic = 0
 
     def on_equip(self, player):
         if not player.can_wear_cloth_armor:
@@ -122,6 +123,19 @@ class ClothArmor(Armor):
         super(ClothArmor, self).on_unequip(player)
         player.mana.dec(self.mana)
 
+    @property
+    def mod_descr(self):    
+        s = ''
+        if self.armor != 0:
+            s += ' %s%d armor' % ('+' if self.armor > 0 else '', self.armor)
+        if self.mana != 0:
+            s += ' %s%d mana' % ('+' if self.mana > 0 else '', self.mana)
+        if self.speed != 0:
+            s += ' %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
+        if self.magic != 0:
+            s += ' %s%d magic' % ('+' if self.magic > 0 else '', self.magic)
+        return s.strip()
+        
 class EliteClothArmor(ClothArmor):
     ABSTRACT = True
     rarity = 10
@@ -895,6 +909,7 @@ class TemplarRobe(EliteClothArmor):
     glyph = ']', T.light_blue
     armor = 12
     mana = 20
+    magic = 1
     dungeons = 7, 9
 
 class QuicksilverRobe(EliteClothArmor):
@@ -902,6 +917,7 @@ class QuicksilverRobe(EliteClothArmor):
     glyph = ']', T.light_grey
     armor = 15
     mana = 24
+    magic = 1
     dungeons = 9, 11
 
 class DivineArmor(UniqueClothArmor):
@@ -909,6 +925,7 @@ class DivineArmor(UniqueClothArmor):
     glyph = ']', T.cyan
     armor = 20
     mana = 30
+    magic = 2
     dungeons = 11, 12
 
 # --- LEATHER ARMORS --- #
