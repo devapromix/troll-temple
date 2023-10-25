@@ -262,13 +262,10 @@ class PoisonPotion(Potion):
         if player.game_class == THIEF:
             if player.holding_dagger:
                 dagger = player.equipment['w']
-                if dagger:
-                    if dagger.suffix("venom"):
-                        dagger.poison = self.poison
-                        player.poison = dagger.poison
-                        message("You smeared the dagger with poison!", COLOR_ALERT)
-                    else:
-                        self._failed()
+                if dagger and dagger.suffix("venom"):
+                    dagger.poison = self.poison
+                    player.poison = dagger.poison
+                    message("You smeared the dagger with poison!", COLOR_ALERT)
                 else:
                     self._failed()
             else:
