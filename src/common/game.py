@@ -430,6 +430,8 @@ def spellbook(title='Spellbook', spells=None):
 
 def character_screen():
     from mobs.player import GAME_CLASSES
+    from common.calendar import Calendar
+    calendar = Calendar()
     clear()
     _game_class = GAME_CLASSES[GAME.player.game_class - 1]
     out(2, 1, GAME.player.name, COLOR_TITLE)
@@ -447,7 +449,7 @@ def character_screen():
         regen =  " (+" + str(GAME.player.mana_regen) + ")"
     else:
         regen = ""
-    out(2, 10,  "Mana         " + GAME.player.mana.to_string() + regen, T.light_grey)
+    out(2, 10, "Mana         " + GAME.player.mana.to_string() + regen, T.light_grey)
     out(2, 12, "Damage       " + describe_dice(*GAME.player.dice) + " (" + str_dice(*GAME.player.dice) + ")", T.light_grey)
     out(2, 13, "Armor        " + str(GAME.player.armor), T.light_grey)
     out(2, 15, "Speed        " + str(GAME.player.speed), T.light_grey)
@@ -462,8 +464,9 @@ def character_screen():
     out(2, 25, "Kills        " + str(GAME.player.kills), T.light_grey)
     if GAME.wizard:
         out(2, 26, "Deaths       " + str(GAME.player.deaths), T.light_grey)
-    out(2, 3, "", T.light_grey)
- 
+
+    out(35, 3, calendar.get_time_date(GAME.turns), T.light_grey)
+
     out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
     anykey()
