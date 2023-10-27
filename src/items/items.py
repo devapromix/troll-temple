@@ -244,6 +244,22 @@ class Helm(Armor):
     ABSTRACT = True
     slot = 'h'
     plural = True
+    radius = 0
+
+    def __init__(self):
+        super(Helm, self).__init__()
+        if rand(1, 5) == 1:
+            if self.suffix("sun"):
+                self.radius += 1
+
+    def on_equip(self, player):
+        super(Helm, self).on_equip(player)
+        player.radius += self.radius
+        return True
+
+    def on_unequip(self, player):    
+        super(Helm, self).on_unequip(player)
+        player.radius -= self.radius
 
 class EliteHelm(Helm):
     ABSTRACT = True
