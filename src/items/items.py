@@ -126,6 +126,12 @@ class ClothArmor(Armor):
     mana = 0
     magic = 0
 
+    def __init__(self):
+        super(ClothArmor, self).__init__()
+        if rand(1, 3) == 1:
+            if self.suffix("thought"):
+                self.mana += rand(self.magic, self.magic * 2)
+
     def on_equip(self, player):
         if not player.can_wear_cloth_armor:
             message("You don't know how to use cloth armor!", COLOR_ERROR)
