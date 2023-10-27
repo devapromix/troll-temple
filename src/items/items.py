@@ -249,7 +249,7 @@ class Helm(Armor):
     def __init__(self):
         super(Helm, self).__init__()
         if rand(1, 5) == 1:
-            if self.suffix("sun"):
+            if self.suffix("light"):
                 self.radius += 1
 
     def on_equip(self, player):
@@ -264,6 +264,12 @@ class Helm(Armor):
 class EliteHelm(Helm):
     ABSTRACT = True
     rarity = 10
+
+    def __init__(self):
+        super(EliteHelm, self).__init__()
+        if rand(1, 9) == 1:
+            if self.suffix("sun"):
+                self.radius += 2
 
 class UniqueHelm(EliteHelm):
     ABSTRACT = True
@@ -281,8 +287,8 @@ class EliteBoots(Boots):
     rarity = 10
 
     def __init__(self):
-        super(Boots, self).__init__()
-        if rand(1, 7) == 1:
+        super(EliteBoots, self).__init__()
+        if rand(1, 9) == 1:
             if self.suffix("speed"):
                 self.speed += 1
 
