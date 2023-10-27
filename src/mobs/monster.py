@@ -118,6 +118,9 @@ class Monster(Mob, metaclass=Register):
     def attack_player(self):
         if rand(1, 100) < 95:
             player = self.map.player
+            if player.blocking > 0 and rand(1, 100 - player.blocking) == 1:
+                message("You block the attack.")
+                return
             dmg = roll(*self.dice)
             dmg = player.calc_damage(dmg)
             if dmg > 0:

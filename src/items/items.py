@@ -302,14 +302,32 @@ class Shield(Armor):
     ABSTRACT = True
     slot = 'o'
     rarity = 5
+    blocking = 1
+
+    def __init__(self):
+        super(Shield, self).__init__()
+
+    @property
+    def mod_descr(self):    
+        s = ''
+        if self.armor != 0:
+            s += ' %s%d armor' % ('+' if self.armor > 0 else '', self.armor)
+        if self.blocking > 0:
+            s += ' +%d% blocking' % self.blocking
+        return s.strip()
 
     def on_equip(self, player):
         if not player.can_use_shield:
             message("You don't know how to use shields!", COLOR_ERROR)
             return False
         super(Shield, self).on_equip(player)
+        player.blocking += self.blocking
         return True
     
+    def on_unequip(self, player):    
+        super(Shield, self).on_unequip(player)
+        player.blocking -= self.blocking
+
 # --- BOOK --- #
 
 class Book(Item):
@@ -557,7 +575,7 @@ class WarSword(Weapon):
 
 class RuneSword(EliteWeapon):
     name = 'rune sword'
-    glyph = '(', T.orange
+    glyph = '(', T.dark_orange
     dice = 2, 5, 6
     dungeons = 7, 9
 
@@ -757,7 +775,7 @@ class BattleStaff(EliteStaff):
 
 class RuneStaff(EliteStaff):
     name = 'rune staff'
-    glyph = '/', T.orange
+    glyph = '/', T.dark_orange
     magic = 7
     dice = 3, 5, 4
     mana = 17
@@ -778,36 +796,42 @@ class RoundShield(Shield):
     name = 'round shield'
     glyph = '0', T.light_green
     armor = 2
+    blocking = 10
     dungeons = 1, 2
 
 class SkullShield(Shield):
     name = 'skull shield'
     glyph = '0', T.light_grey
     armor = 4
+    blocking = 15
     dungeons = 3, 4
 
 class KnightShield(Shield):
     name = 'knight shield'
     glyph = '0', T.light_orange
     armor = 6
+    blocking = 20
     dungeons = 5, 6
 
 class PaladinShield(Shield):
     name = 'paladin shield'
     glyph = '0', T.yellow
     armor = 8
+    blocking = 25
     dungeons = 7, 8
 
 class RoyalShield(Shield):
     name = 'royal shield'
     glyph = '0', T.lightest_red
     armor = 10
+    blocking = 30
     dungeons = 9, 10
 
 class RuneShield(Shield):
     name = 'rune shield'
-    glyph = '0', T.orange
+    glyph = '0', T.dark_orange
     armor = 12
+    blocking = 35
     dungeons = 11, 12
 
 # --- HELMS --- #
