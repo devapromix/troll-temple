@@ -14,7 +14,7 @@ class Dagger(Weapon):
     def __init__(self):
         super(Dagger, self).__init__()
         if rand(1, 5) == 1:
-            if self.suffix("speed"):
+            if self.suffix("rogues"):
                 self.speed += 1
 
     @property
@@ -108,6 +108,9 @@ class Armor(Equipment):
         if rand(1, 5) == 1:
             if self.suffix("defense"):
                 self.armor = self.armor + rand(round(self.armor / 5), round(self.armor / 3))
+        if rand(1, 11) == 1:
+            if self.suffix("protection"):
+                self.armor = self.armor + rand(round(self.armor / 3), round(self.armor / 2))
 
     @property
     def descr(self):
