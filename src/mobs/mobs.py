@@ -1,6 +1,5 @@
 from .monster import *
 
-
 class FlyMonster(Monster):
     ABSTRACT = True
     fears_light = True

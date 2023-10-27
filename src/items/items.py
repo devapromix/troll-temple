@@ -1,7 +1,7 @@
 from .LightSource import LightSource
 from .Weapon import *
 from .Weapon import Weapon
-from .item import Item
+from .Item import Item
 from .Equipment import Equipment
 from common.spells import *
 

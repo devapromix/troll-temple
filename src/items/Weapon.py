@@ -19,11 +19,9 @@ class Weapon(Equipment):
     def descr(self):
         return '%s (%s%s)' % (self.name, describe_dice(*self.dice), self.mod_descr)
 
-
 class EliteWeapon(Weapon):
     ABSTRACT = True
     rarity = 10
-
 
 class UniqueWeapon(Weapon):
     ABSTRACT = True

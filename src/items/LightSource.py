@@ -1,5 +1,4 @@
-from .item import *
-
+from .Item import *
 
 class LightSource(Item):
     ABSTRACT = True
