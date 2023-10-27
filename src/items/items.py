@@ -11,6 +11,12 @@ class Dagger(Weapon):
     ABSTRACT = True
     poison = 0
 
+    def __init__(self):
+        super(Dagger, self).__init__()
+        if rand(1, 5) == 1:
+            if self.suffix("speed"):
+                self.speed += 1
+
     @property
     def mod_descr(self):    
         s = ''
@@ -38,7 +44,7 @@ class EliteDagger(Dagger):
     ABSTRACT = True
     rarity = 10
 
-class UniqueDagger(Dagger):
+class UniqueDagger(EliteDagger):
     ABSTRACT = True
     rarity = 15
 
@@ -87,7 +93,7 @@ class EliteStaff(Staff):
     ABSTRACT = True
     rarity = 10
 
-class UniqueStaff(Staff):
+class UniqueStaff(EliteStaff):
     ABSTRACT = True
     rarity = 15
 
@@ -167,7 +173,7 @@ class EliteClothArmor(ClothArmor):
     ABSTRACT = True
     rarity = 10
 
-class UniqueClothArmor(ClothArmor):
+class UniqueClothArmor(EliteClothArmor):
     ABSTRACT = True
     rarity = 15
 
@@ -191,7 +197,7 @@ class EliteLeatherArmor(LeatherArmor):
     ABSTRACT = True
     rarity = 10
 
-class UniqueLeatherArmor(LeatherArmor):
+class UniqueLeatherArmor(EliteLeatherArmor):
     ABSTRACT = True
     rarity = 15
 
@@ -215,7 +221,7 @@ class EliteMailArmor(MailArmor):
     ABSTRACT = True
     rarity = 10
 
-class UniqueMailArmor(MailArmor):
+class UniqueMailArmor(EliteMailArmor):
     ABSTRACT = True
     rarity = 15
 
@@ -230,7 +236,7 @@ class EliteHelm(Helm):
     ABSTRACT = True
     rarity = 10
 
-class UniqueHelm(Helm):
+class UniqueHelm(EliteHelm):
     ABSTRACT = True
     rarity = 15
 
@@ -245,7 +251,13 @@ class EliteBoots(Boots):
     ABSTRACT = True
     rarity = 10
 
-class UniqueBoots(Boots):
+    def __init__(self):
+        super(Boots, self).__init__()
+        if rand(1, 7) == 1:
+            if self.suffix("speed"):
+                self.speed += 1
+
+class UniqueBoots(EliteBoots):
     ABSTRACT = True
     rarity = 15
 
@@ -878,6 +890,7 @@ class WarBoots(UniqueBoots):
     name = 'war boots'
     glyph = '[', T.cyan
     armor = 8
+    speed = 1
     dungeons = 11, 12
 
 # --- CLOTH ARMORS --- #
