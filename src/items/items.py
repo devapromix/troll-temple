@@ -16,6 +16,16 @@ class Dagger(Weapon):
         if rand(1, 5) == 1:
             if self.suffix("rogues"):
                 self.speed += 1
+        if rand(1, 9) == 1:
+            if self.suffix("assassins"):
+                a, b, c = self.dice
+                b += rand(1, 2)
+                self.dice = a, b, c
+        if rand(1, 15) == 1:
+            if self.suffix("doom"):
+                a, b, c = self.dice
+                c += rand(2, 4)
+                self.dice = a, b, c
 
     @property
     def mod_descr(self):    
