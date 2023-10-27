@@ -127,13 +127,16 @@ class ClothArmor(Armor):
     ABSTRACT = True
     slot = 'a'
     mana = 0
-    magic = 0
+    magic = 1
 
     def __init__(self):
         super(ClothArmor, self).__init__()
         if rand(1, 3) == 1:
             if self.suffix("thought"):
-                self.mana += rand(self.magic, self.magic * 2)
+                self.mana += rand(round(self.mana / 3), round(self.mana / 2))
+        if rand(1, 6) == 1:
+            if self.suffix("moon"):
+                self.mana += rand(round(self.mana / 2), self.mana)
 
     def on_equip(self, player):
         if not player.can_wear_cloth_armor:
@@ -877,13 +880,6 @@ class WarBoots(UniqueBoots):
     armor = 8
     dungeons = 11, 12
 
-class SpeedBoots(UniqueBoots):
-    name = 'speed boots'
-    glyph = '[', T.cyan
-    armor = 5
-    speed = 3
-    dungeons = 10, 12
-
 # --- CLOTH ARMORS --- #
 
 class CultistRobe(ClothArmor):
@@ -891,6 +887,7 @@ class CultistRobe(ClothArmor):
     glyph = ']', T.blue
     armor = 2
     mana = 3
+    speed = -1
     dungeons = 1, 2
 
 class EnchanterRobe(ClothArmor):
@@ -898,6 +895,7 @@ class EnchanterRobe(ClothArmor):
     glyph = ']', T.yellow
     armor = 4
     mana = 6
+    speed = -1
     dungeons = 3, 4
 
 class WitchRobe(ClothArmor):
@@ -905,6 +903,7 @@ class WitchRobe(ClothArmor):
     glyph = ']', T.gray
     armor = 6
     mana = 9
+    speed = -1
     dungeons = 5, 6
 
 class MageRobe(ClothArmor):
@@ -933,7 +932,7 @@ class TemplarRobe(EliteClothArmor):
     glyph = ']', T.light_blue
     armor = 12
     mana = 20
-    magic = 1
+    magic = 2
     dungeons = 7, 9
 
 class QuicksilverRobe(EliteClothArmor):
@@ -941,7 +940,7 @@ class QuicksilverRobe(EliteClothArmor):
     glyph = ']', T.light_grey
     armor = 15
     mana = 24
-    magic = 1
+    magic = 2
     dungeons = 9, 11
 
 class DivineArmor(UniqueClothArmor):
@@ -949,7 +948,7 @@ class DivineArmor(UniqueClothArmor):
     glyph = ']', T.cyan
     armor = 20
     mana = 30
-    magic = 2
+    magic = 3
     dungeons = 11, 12
 
 # --- LEATHER ARMORS --- #
