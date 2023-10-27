@@ -302,7 +302,7 @@ class Shield(Armor):
     ABSTRACT = True
     slot = 'o'
     rarity = 5
-    blocking = 1
+    blocking = 10
 
     def __init__(self):
         super(Shield, self).__init__()
@@ -310,10 +310,8 @@ class Shield(Armor):
     @property
     def mod_descr(self):    
         s = ''
-        if self.armor != 0:
-            s += ' %s%d armor' % ('+' if self.armor > 0 else '', self.armor)
-        if self.blocking > 0:
-            s += ' +%d% blocking' % self.blocking
+        s += ' +%d armor' % (self.armor)
+        s += ' +%d blocking' % (self.blocking)
         return s.strip()
 
     def on_equip(self, player):
