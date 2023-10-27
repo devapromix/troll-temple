@@ -54,6 +54,9 @@ class Staff(Weapon):
         if rand(1, 3) == 1:
             if self.suffix("eclipse"):
                 self.mana += rand(self.magic, self.magic * 3)
+        if rand(1, 9) == 1:
+            if self.suffix("wizards"):
+                self.mana += rand(self.magic * 2, self.magic * 5)
 
     @property
     def mod_descr(self):    
