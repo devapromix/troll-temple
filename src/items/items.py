@@ -92,6 +92,7 @@ class UniqueStaff(Staff):
 
 class Armor(Equipment):
     ABSTRACT = True
+    armor = 0
 
     def __init__(self):
         super(Armor, self).__init__()
@@ -102,6 +103,20 @@ class Armor(Equipment):
     @property
     def descr(self):
         return '%s (%s)' % (self.name, self.mod_descr)
+
+    @property
+    def mod_descr(self):
+        s = ''
+        if self.armor != 0:
+            s += ' %s%d armor' % ('+' if self.armor > 0 else '', self.armor)
+        return s.strip()
+
+    def on_equip(self, player):
+        player.armor += self.armor
+        return True
+
+    def on_unequip(self, player):
+        player.armor -= self.armor
 
 # --- CLOTH ARMOR --- #
 

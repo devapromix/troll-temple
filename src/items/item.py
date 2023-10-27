@@ -13,7 +13,6 @@ class Item(object, metaclass=Register):
     dungeons = 0, 0
     slot = None
     speed = 0
-    armor = 0
     rarity = 1
     plural = False
 
@@ -35,20 +34,16 @@ class Item(object, metaclass=Register):
     @property
     def mod_descr(self):
         s = ''
-        if self.armor != 0:
-            s += ' %s%d armor' % ('+' if self.armor > 0 else '', self.armor)
         if self.speed != 0:
             s += ' %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
         return s.strip()
 
     def on_equip(self, player):
         player.speed += self.speed
-        player.armor += self.armor
         return True
 
     def on_unequip(self, player):
         player.speed -= self.speed
-        player.armor -= self.armor
 
     def on_use(self, player):
         message('You don\'t know how to use %s.' % self.descr)
