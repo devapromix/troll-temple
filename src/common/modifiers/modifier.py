@@ -7,7 +7,10 @@ class Modifier:
         raise NotImplementedError("Please, implement this method")
 
     def commit(self, mob):
-        raise NotImplementedError("Please, implement this method")
+        pass
 
     def rollback(self, mob):
-        raise NotImplementedError("Please, implement this method")
+        pass
+
+    def act(self, mob):
+        pass
