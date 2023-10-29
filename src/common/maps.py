@@ -26,9 +26,9 @@ class Map(object):
         if self.level == 3:
             self.place_monsters(FireGoblin)
         elif self.level == 6:
-            self.place_monsters(FireGoblin)
+            self.place_monsters(Worgen)
         elif self.level == 9:
-            self.place_monsters(FireGoblin)
+            self.place_monsters()
         elif self.level == MAX_DLEVEL:
             self.place_monsters(TrollKing)
 

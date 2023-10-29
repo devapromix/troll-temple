@@ -1241,6 +1241,24 @@ class ScrollRedPortal(Item):
         message("You entered the red portal and found yourself in a new place!", T.yellow)
         GAME.ascend()
         
+class ScrollGreenPortal(Item):
+    ABSTRACT = True
+    glyph = '?', T.light_green
+    name = 'scroll of green portal'
+
+    def on_use(self, player):
+        message("You entered the green portal and found yourself in a new place!", T.yellow)
+        GAME.ascend()
+        
+class ScrollBluePortal(Item):
+    ABSTRACT = True
+    glyph = '?', T.light_blue
+    name = 'scroll of blue portal'
+
+    def on_use(self, player):
+        message("You entered the blue portal and found yourself in a new place!", T.yellow)
+        GAME.ascend()
+        
 # --- SCROLLS --- #
 
 class ScrollHealing(Scroll):

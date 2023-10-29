@@ -495,6 +495,37 @@ class FireGoblin(BossMonster):
         self.tile.items.append(ScrollRedPortal())
         self.adv_drop()
         
+class Worgen(BossMonster):
+    ABSTRACT = True
+    name = 'worgen'
+    glyph = 'W', T.light_grey
+    max_hp = 40
+    dice = 2, 5, 4
+    level = 6    
+    armor = 5
+    dungeons = 6, 6
+
+    def die(self):
+        super(Worgen, self).die()
+        self.tile.items.append(ScrollGreenPortal())
+        self.adv_drop()
+        
+class (BossMonster):
+    ABSTRACT = True
+    name = ''
+    glyph = '?', T.light_blue
+    max_hp = 60
+    dice = 2, 7, 5
+    armor = 8
+    poison = 20
+    level = 9    
+    dungeons = 9, 9
+
+    def die(self):
+        super(Worgen, self).die()
+        self.tile.items.append(ScrollBluePortal())
+        self.adv_drop()
+        
 # --- FINAL BOSS --- #
 
 class TrollKing(FinalBossMonster):
