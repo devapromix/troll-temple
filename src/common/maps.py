@@ -6,7 +6,8 @@ from common.game import *
 
 class Map(object):
     def __init__(self, level):
-        self.tiles = generate_map(level)
+        self.generator = MapGenerator()
+        self.tiles = self.generator.generate(level)
         self.level = level
 
         self.player = None
@@ -193,6 +194,14 @@ class StairDownTile(Tile):
 
 # --- GENERATOR --- #
 
+class MapGenerator(object):
+
+    def __init__(self):
+        print("generator")
+        
+    def generate(self, level):
+        return generate_map(level)
+        
 def array_to_tiles(arr):
     TILE_TABLE = {
         '.': FloorTile,
