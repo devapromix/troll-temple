@@ -20,9 +20,11 @@ class Effect:
         assert not self.__enabled
         self.modifier.commit(self.owner)
         self.__enabled = True
+        print('Start effect ' + self.modifier.descr)
 
     def __finish(self):
         assert self.__enabled
+        print('Finish effect ' + self.modifier.descr)
         self.modifier.rollback(self.owner)
         self.__enabled = False
         if self.__on_finish is not None:
