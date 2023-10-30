@@ -495,9 +495,9 @@ class FireGoblin(BossMonster):
         self.tile.items.append(ScrollRedPortal())
         self.adv_drop()
         
-class Worgen(BossMonster):
+class Werewolf(BossMonster):
     ABSTRACT = True
-    name = 'worgen'
+    name = 'werewolf'
     glyph = 'W', T.light_grey
     max_hp = 40
     dice = 2, 5, 4
@@ -506,14 +506,14 @@ class Worgen(BossMonster):
     dungeons = 6, 6
 
     def die(self):
-        super(Worgen, self).die()
+        super(Werewolf, self).die()
         self.tile.items.append(ScrollGreenPortal())
         self.adv_drop()
         
-class (BossMonster):
+class Abomination(BossMonster):
     ABSTRACT = True
-    name = ''
-    glyph = '?', T.light_blue
+    name = 'abomination'
+    glyph = 'A', T.light_blue
     max_hp = 60
     dice = 2, 7, 5
     armor = 8
@@ -522,7 +522,7 @@ class (BossMonster):
     dungeons = 9, 9
 
     def die(self):
-        super(Worgen, self).die()
+        super(Abomination, self).die()
         self.tile.items.append(ScrollBluePortal())
         self.adv_drop()
         
