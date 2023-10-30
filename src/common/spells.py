@@ -54,7 +54,7 @@ class Bloodlust(Spell):
         f = super(Bloodlust, self).on_use(player)
         if f:
             message('You feel lust for blood.', COLOR_MAGIC)
-            player.add_effect("bloodlust", 5)
+            player.add_effect("bloodlust", player.magic + 5)
         return f
         
 class Confuse(Spell):
@@ -64,7 +64,7 @@ class Confuse(Spell):
     def on_use(self, player):
         f = super(Confuse, self).on_use(player)
         if f:
-            player.confuse_monster((player.magic * 3) + 7)
+            player.confuse_monster(player.magic + 7)
         return f
 
 
