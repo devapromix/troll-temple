@@ -341,3 +341,6 @@ class Player(Mob):
 
     def act_effects(self):
         pass
+        
+    def confuse_monster(self, turns):
+        pass
