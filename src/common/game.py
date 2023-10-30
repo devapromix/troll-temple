@@ -13,7 +13,7 @@ SCREEN_H = 30
 MAP_W = 60 - 2
 MAP_H = SCREEN_H - 2
 
-DELAY = 75
+DELAY = 100
 
 BUFFER_H = SCREEN_H // 2 + 1
 
@@ -647,15 +647,20 @@ def new_ui_turn():
         else:
             break
 
-# --- SELECT --- #
+# --- LOOK --- #
 
-def select_mode():
+def look_mode(shoot = False):
     global MESSAGES
 
     x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
     _messages = MESSAGES
     MESSAGES = []
-    message('Use movement keys, [S] to select, [ESC] to exit.', COLOR_TITLE)
+    if shoot:
+        message("Shoot mode - use movement keys", COLOR_TITLE)
+        message("[S] to select target", COLOR_TITLE)
+    else:
+        message("Look mode - use movement keys", COLOR_TITLE)
+    message("[ESC] to exit", COLOR_TITLE)
     new_ui_turn()
     _draw_messages()
     redraw = True
@@ -667,7 +672,7 @@ def select_mode():
             tile = map.tiles[x][y]
             if map.is_visible(x, y):
                 char, color = tile.visible_glyph
-                out(x+1, y+1, char, T.black, T.lighter_gray)
+                out(x + 1, y + 1, char, T.black, T.lighter_gray)
             refresh()
             describe_tile(x, y)
 
@@ -682,55 +687,10 @@ def select_mode():
         cmd = decode_key(readkey(), LOOK_KEYS)
         if cmd == 'quit':
             break
-        if cmd == 'select':
+        elif cmd == 'select':
             tile = map.tiles[x][y]
             if tile.mob:
                 return tile.mob
-        elif isinstance(cmd, tuple):
-            name, args = cmd
-            if name == 'walk':
-                dx, dy = args
-                if map.in_map(x + dx, y + dy):
-                    x, y = x + dx, y + dy
-                    redraw = True
-
-    MESSAGES = _messages
-
-# --- LOOK --- #
-
-def look_mode():
-    global MESSAGES
-
-    x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
-    _messages = MESSAGES
-    MESSAGES = []
-    message('Use movement keys, [ESC] to exit.', COLOR_TITLE)
-    new_ui_turn()
-    _draw_messages()
-    redraw = True
-
-    while True:
-        if redraw:
-            draw_all()
-
-            tile = map.tiles[x][y]
-            if map.is_visible(x, y):
-                char, color = tile.visible_glyph
-                out(x+1, y+1, char, T.black, T.lighter_gray)
-            refresh()
-            describe_tile(x, y)
-
-            _draw_messages()
-            refresh()
-
-            while MESSAGES and MESSAGES[-1][0]:
-                MESSAGES.pop()
-                
-            redraw = False
-
-        cmd = decode_key(readkey(), LOOK_KEYS)
-        if cmd == 'quit':
-            break
         elif isinstance(cmd, tuple):
             name, args = cmd
             if name == 'walk':

@@ -343,9 +343,9 @@ class Player(Mob):
         pass
         
     def confuse_monster(self, turns):
-        from common.game import select_mode
-        mob = select_mode()
+        from common.game import look_mode
+        mob = look_mode(True)
         if mob:
-            message("The eyes of the " + mob.name +" look vacant, as he starts to stumble around!", COLOR_MAGIC)
+            message("The eyes of the %s look vacant..." % (mob.name), COLOR_MAGIC)
             mob.confused = turns
             
