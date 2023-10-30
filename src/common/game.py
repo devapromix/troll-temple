@@ -139,6 +139,11 @@ class Game(object):
         x, y, _ = self.map.random_empty_tile()
         self.player.put(self.map, x, y)
 
+    def ascend(self):
+        self.turns += 1
+        self.start_map(self.map.level + 1)
+
+
     def loop(self):
         draw_all()
         try:
@@ -235,12 +240,11 @@ class Game(object):
             message('Stand on a up stairway to ascend.', COLOR_ERROR)
             return
 
+        message('You take a moment to rest, and recover your strength.', T.yellow)
         self.player.heal(int(self.player.max_hp / 2))
         self.player.mana.fill()
-        message('You take a moment to rest, and recover your strength.', T.yellow)
-        self.turns += 1
-        self.start_map(self.map.level + 1)
         message('After a rare moment of peace, you ascend higher into the heart of the Temple...', T.yellow)
+        self.ascend()
 
     def cmd_quit(self):
         if prompt('Quit? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_y:

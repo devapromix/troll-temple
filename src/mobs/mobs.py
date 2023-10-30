@@ -29,13 +29,13 @@ class RareMonster(Monster):
 
 class BossMonster(Monster):
     ABSTRACT = True
-    hp_regen = 5
+    hp_regen = 15
     fov_range = 7
     drop_rate = 30
 
 class FinalBossMonster(BossMonster):
     ABSTRACT = True
-    hp_regen = 10
+    hp_regen = 20
     fov_range = 10
     drop_rate = 30
 
@@ -478,11 +478,28 @@ class Summoner(MageMonster):
     dungeons = 12, 12
     rarity = 5
 
-# --- BOSS --- #
+# --- BOSSES --- #
+
+class FireGoblin(BossMonster):
+    ABSTRACT = True
+    name = 'fire goblin'
+    glyph = 'G', T.light_red
+    max_hp = 20
+    dice = 1, 4, 3
+    armor = 2
+    level = 3
+    dungeons = 3, 3
+
+    def die(self):
+        super(FireGoblin, self).die()
+        self.tile.items.append(ScrollRedPortal())
+        self.adv_drop()
+        
+# --- FINAL BOSS --- #
 
 class TrollKing(FinalBossMonster):
     ABSTRACT = True
-    name = 'Troll King'
+    name = 'troll king'
     glyph = 'T', T.red
     max_hp = 75
     dice = 4, 6, 5
@@ -493,3 +510,4 @@ class TrollKing(FinalBossMonster):
     def die(self):
         super(TrollKing, self).die()
         self.map.player.won = True
+        self.adv_drop()

@@ -1230,6 +1230,17 @@ class RancidPoisonPotion(PoisonPotion):
     dungeons = 9, 12
     rarity = 10
 
+# --- PORTAL SCROLLS --- #
+
+class ScrollRedPortal(Item):
+    ABSTRACT = True
+    glyph = '?', T.light_red
+    name = 'scroll of red portal'
+
+    def on_use(self, player):
+        message("You entered the red portal and found yourself in a new place!", T.yellow)
+        GAME.ascend()
+        
 # --- SCROLLS --- #
 
 class ScrollHealing(Scroll):

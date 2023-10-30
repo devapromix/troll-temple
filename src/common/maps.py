@@ -22,7 +22,14 @@ class Map(object):
                                            tile.walkable)
 
         self.populate()
-        if self.level == MAX_DLEVEL:
+        
+        if self.level == 3:
+            self.place_monsters(FireGoblin)
+        elif self.level == 6:
+            self.place_monsters(FireGoblin)
+        elif self.level == 9:
+            self.place_monsters(FireGoblin)
+        elif self.level == MAX_DLEVEL:
             self.place_monsters(TrollKing)
 
     def find_tile(self, func):
@@ -226,7 +233,7 @@ def generate_map(level):
         if room:
             rooms.append(room)
 
-    if level < MAX_DLEVEL:
+    if level < MAX_DLEVEL and level != 3 and level != 6 and level != 9:
         randomly_place(arr, StairUpTile.glyph[0])
 
     costs = [(5, 40, 1),
