@@ -56,3 +56,25 @@ class Bloodlust(Spell):
             message('You feel lust for blood.', COLOR_MAGIC)
             player.add_effect("bloodlust", 5)
         return f
+        
+class Confuse(Spell):
+    name = "confuse"
+    mana = 20
+    
+    def on_use(self, player):
+        f = super(Confuse, self).on_use(player)
+        if f:
+            player.confuse_monster((player.magic * 3) + 7)
+        return f
+
+
+
+
+
+
+
+
+
+
+
+        

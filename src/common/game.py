@@ -13,7 +13,7 @@ SCREEN_H = 30
 MAP_W = 60 - 2
 MAP_H = SCREEN_H - 2
 
-DELAY = 75
+DELAY = 100
 
 BUFFER_H = SCREEN_H // 2 + 1
 
@@ -44,12 +44,13 @@ BOOK_SIZE = SCREEN_H - 4
 
 # --- COLOURS --- #
 
-COLOR_ITEM   = T.light_grey
-COLOR_TITLE  = T.lighter_yellow
-COLOR_ALERT  = T.light_yellow
-COLOR_ERROR  = T.lighter_red
-COLOR_MAGIC  = T.lighter_blue
-COLOR_VENOM  = T.lighter_green
+COLOR_ITEM    = T.light_grey
+COLOR_TITLE   = T.lighter_yellow
+COLOR_ALERT   = T.light_yellow
+COLOR_ERROR   = T.lighter_red
+COLOR_MAGIC   = T.lighter_blue
+COLOR_VENOM   = T.lighter_green
+COLOR_CONFUSE = T.lightest_blue
 
 # --- CONSTANTS --- #
 
@@ -79,6 +80,7 @@ KEYS = [
     ([pygame.K_i],      'inventory'),
     ([pygame.K_p],      'character'),
     ([pygame.K_b],      'spellbook'),
+    ([pygame.K_s],      'select'),
     ([pygame.K_c],      'craftbox'),
     ([pygame.K_d],      'drop'),
     ([pygame.K_t],      'test'),
@@ -86,7 +88,7 @@ KEYS = [
     ([pygame.K_w],      'wizard'),
 ]
 
-LOOK_KEYS = WALK_KEYS + KEYS[:1] + [([pygame.K_ESCAPE],      'quit')]
+LOOK_KEYS = WALK_KEYS + KEYS[:1] + [([pygame.K_ESCAPE], 'quit'), ([pygame.K_s], 'select')]
 
 def decode_walk_key(key):
     return decode_key(key, WALK_KEYS)
@@ -251,6 +253,9 @@ class Game(object):
             raise Quit()
         else:
             new_ui_turn()
+            
+    def cmd_select(self):
+        pass
 
     def cmd_wizard(self):
         if self.wizard and self.map.level < MAX_DLEVEL:
@@ -601,11 +606,12 @@ def intro_screen():
     out(15, 16, "[G] pick up an item from the floor", T.lighter_grey)
     out(15, 17, "[D] drop an item to the floor", T.lighter_grey)
     out(15, 18, "[L] use look mode", T.lighter_grey)
-    out(15, 19, "[<] go up stairs", T.lighter_grey)
-    out(15, 20, "[?] show this help screen", T.lighter_grey)
-    out(15, 21, "[5] wait one turn", T.lighter_grey)
-    out(15, 22, "[M] view last messages", T.lighter_grey)
-    out(15, 23, "[Q] quit game", T.lighter_grey)
+    out(15, 19, "[S] use shoot mode", T.lighter_grey)
+    out(15, 20, "[<] go up stairs", T.lighter_grey)
+    out(15, 21, "[?] show this help screen", T.lighter_grey)
+    out(15, 22, "[5] wait one turn", T.lighter_grey)
+    out(15, 23, "[M] view last messages", T.lighter_grey)
+    out(15, 24, "[Q] quit game", T.lighter_grey)
     
     out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
     out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
@@ -643,13 +649,18 @@ def new_ui_turn():
 
 # --- LOOK --- #
 
-def look_mode():
+def look_mode(shoot = False):
     global MESSAGES
 
     x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
     _messages = MESSAGES
     MESSAGES = []
-    message('Look mode - use movement keys, ESC to exit.', COLOR_TITLE)
+    if shoot:
+        message("Shoot mode - use movement keys", COLOR_TITLE)
+        message("[S] to select target", COLOR_TITLE)
+    else:
+        message("Look mode - use movement keys", COLOR_TITLE)
+    message("[ESC] to exit", COLOR_TITLE)
     new_ui_turn()
     _draw_messages()
     redraw = True
@@ -661,7 +672,7 @@ def look_mode():
             tile = map.tiles[x][y]
             if map.is_visible(x, y):
                 char, color = tile.visible_glyph
-                out(x+1, y+1, char, T.black, T.lighter_gray)
+                out(x + 1, y + 1, char, T.black, T.lighter_gray)
             refresh()
             describe_tile(x, y)
 
@@ -676,6 +687,10 @@ def look_mode():
         cmd = decode_key(readkey(), LOOK_KEYS)
         if cmd == 'quit':
             break
+        elif cmd == 'select':
+            tile = map.tiles[x][y]
+            if tile.mob:
+                return tile.mob
         elif isinstance(cmd, tuple):
             name, args = cmd
             if name == 'walk':

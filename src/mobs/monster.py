@@ -90,9 +90,10 @@ class Monster(Mob, metaclass=Register):
             n = self.map.flood(self.x+dx, self.y+dy, mcls, n)
 
     def act(self):
+        super(Monster, self).act()
         player = self.map.player
         d = self.see_player()
-        if d:
+        if d and self.confused == 0:
             if self.summoner and rand(1, 6) == 1:
                 self.summon_monsters()
                 return

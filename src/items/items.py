@@ -1155,21 +1155,28 @@ class BookHealing(Book):
     glyph = '+', T.pink
     name = 'book of healing'
     spell = Heal
-    dungeons = 1, 4
+    dungeons = 1, 3
     rarity = 1
     
 class BookTeleportation(Book):
     glyph = '+', T.lighter_blue
     name = 'book of teleportation'
     spell = Teleport
-    dungeons = 2, 5
+    dungeons = 2, 4
     rarity = 1
     
 class BookBloodlust(Book):
     glyph = '+', T.red
     name = 'book of bloodlust'
     spell = Bloodlust
-    dungeons = 3, 6
+    dungeons = 3, 5
+    rarity = 1
+    
+class BookConfuse(Book):
+    glyph = '+', T.light_green
+    name = 'book of confuse'
+    spell = Confuse
+    dungeons = 4, 7
     rarity = 1
     
 # --- ALCHEMY --- #
@@ -1241,6 +1248,24 @@ class ScrollRedPortal(Item):
         message("You entered the red portal and found yourself in a new place!", T.yellow)
         GAME.ascend()
         
+class ScrollGreenPortal(Item):
+    ABSTRACT = True
+    glyph = '?', T.light_green
+    name = 'scroll of green portal'
+
+    def on_use(self, player):
+        message("You entered the green portal and found yourself in a new place!", T.yellow)
+        GAME.ascend()
+        
+class ScrollBluePortal(Item):
+    ABSTRACT = True
+    glyph = '?', T.light_blue
+    name = 'scroll of blue portal'
+
+    def on_use(self, player):
+        message("You entered the blue portal and found yourself in a new place!", T.yellow)
+        GAME.ascend()
+        
 # --- SCROLLS --- #
 
 class ScrollHealing(Scroll):
@@ -1262,4 +1287,11 @@ class ScrollBloodlust(Scroll):
     name = 'scroll of bloodlust'
     spell = Bloodlust
     dungeons = 3, 12
+    rarity = 1
+
+class ScrollConfuse(Scroll):
+    glyph = '?', T.light_green
+    name = 'scroll of confuse'
+    spell = Confuse
+    dungeons = 4, 12
     rarity = 1

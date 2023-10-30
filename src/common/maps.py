@@ -26,9 +26,9 @@ class Map(object):
         if self.level == 3:
             self.place_monsters(FireGoblin)
         elif self.level == 6:
-            self.place_monsters(FireGoblin)
+            self.place_monsters(Werewolf)
         elif self.level == 9:
-            self.place_monsters(FireGoblin)
+            self.place_monsters(Abomination)
         elif self.level == MAX_DLEVEL:
             self.place_monsters(TrollKing)
 
@@ -63,11 +63,11 @@ class Map(object):
         for mob in self.mobs:
             mob.heartbeat()
             if mob.speed < 0 and \
-                    t%(6+max(mob.speed, MIN_SPEED)) == 0:
+                    t % (6 + max(mob.speed, MIN_SPEED)) == 0:
                 continue
             mob.act()
             if mob.speed > 0 and \
-                    t%(6-min(mob.speed, MAX_SPEED)) == 0:
+                    t % (6 - min(mob.speed, MAX_SPEED)) == 0:
                 mob.act()
 
     def populate(self):
@@ -135,6 +135,8 @@ class Tile(object):
         if self.mob:
             if self.mob.poisoned > 0:
                 return self.mob.glyph[0], COLOR_VENOM
+            elif self.mob.confused > 0:
+                return self.mob.glyph[0], COLOR_CONFUSE
             else:
                 return self.mob.glyph
         elif self.items:
