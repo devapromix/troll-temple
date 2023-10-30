@@ -44,12 +44,13 @@ BOOK_SIZE = SCREEN_H - 4
 
 # --- COLOURS --- #
 
-COLOR_ITEM   = T.light_grey
-COLOR_TITLE  = T.lighter_yellow
-COLOR_ALERT  = T.light_yellow
-COLOR_ERROR  = T.lighter_red
-COLOR_MAGIC  = T.lighter_blue
-COLOR_VENOM  = T.lighter_green
+COLOR_ITEM    = T.light_grey
+COLOR_TITLE   = T.lighter_yellow
+COLOR_ALERT   = T.light_yellow
+COLOR_ERROR   = T.lighter_red
+COLOR_MAGIC   = T.lighter_blue
+COLOR_VENOM   = T.lighter_green
+COLOR_CONFUSE = T.lightest_blue
 
 # --- CONSTANTS --- #
 
@@ -79,6 +80,7 @@ KEYS = [
     ([pygame.K_i],      'inventory'),
     ([pygame.K_p],      'character'),
     ([pygame.K_b],      'spellbook'),
+    ([pygame.K_s],      'select'),
     ([pygame.K_c],      'craftbox'),
     ([pygame.K_d],      'drop'),
     ([pygame.K_t],      'test'),
@@ -86,7 +88,7 @@ KEYS = [
     ([pygame.K_w],      'wizard'),
 ]
 
-LOOK_KEYS = WALK_KEYS + KEYS[:1] + [([pygame.K_ESCAPE],      'quit')]
+LOOK_KEYS = WALK_KEYS + KEYS[:1] + [([pygame.K_ESCAPE], 'quit'), ([pygame.K_s], 'select')]
 
 def decode_walk_key(key):
     return decode_key(key, WALK_KEYS)
@@ -251,6 +253,9 @@ class Game(object):
             raise Quit()
         else:
             new_ui_turn()
+            
+    def cmd_select(self):
+        pass
 
     def cmd_wizard(self):
         if self.wizard and self.map.level < MAX_DLEVEL:
@@ -601,11 +606,12 @@ def intro_screen():
     out(15, 16, "[G] pick up an item from the floor", T.lighter_grey)
     out(15, 17, "[D] drop an item to the floor", T.lighter_grey)
     out(15, 18, "[L] use look mode", T.lighter_grey)
-    out(15, 19, "[<] go up stairs", T.lighter_grey)
-    out(15, 20, "[?] show this help screen", T.lighter_grey)
-    out(15, 21, "[5] wait one turn", T.lighter_grey)
-    out(15, 22, "[M] view last messages", T.lighter_grey)
-    out(15, 23, "[Q] quit game", T.lighter_grey)
+    out(15, 19, "[S] use shoot mode", T.lighter_grey)
+    out(15, 20, "[<] go up stairs", T.lighter_grey)
+    out(15, 21, "[?] show this help screen", T.lighter_grey)
+    out(15, 22, "[5] wait one turn", T.lighter_grey)
+    out(15, 23, "[M] view last messages", T.lighter_grey)
+    out(15, 24, "[Q] quit game", T.lighter_grey)
     
     out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
     out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
@@ -641,6 +647,55 @@ def new_ui_turn():
         else:
             break
 
+# --- SELECT --- #
+
+def select_mode():
+    global MESSAGES
+
+    x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
+    _messages = MESSAGES
+    MESSAGES = []
+    message('Use movement keys, [S] to select, [ESC] to exit.', COLOR_TITLE)
+    new_ui_turn()
+    _draw_messages()
+    redraw = True
+
+    while True:
+        if redraw:
+            draw_all()
+
+            tile = map.tiles[x][y]
+            if map.is_visible(x, y):
+                char, color = tile.visible_glyph
+                out(x+1, y+1, char, T.black, T.lighter_gray)
+            refresh()
+            describe_tile(x, y)
+
+            _draw_messages()
+            refresh()
+
+            while MESSAGES and MESSAGES[-1][0]:
+                MESSAGES.pop()
+                
+            redraw = False
+
+        cmd = decode_key(readkey(), LOOK_KEYS)
+        if cmd == 'quit':
+            break
+        if cmd == 'select':
+            tile = map.tiles[x][y]
+            if tile.mob:
+                return tile.mob
+        elif isinstance(cmd, tuple):
+            name, args = cmd
+            if name == 'walk':
+                dx, dy = args
+                if map.in_map(x + dx, y + dy):
+                    x, y = x + dx, y + dy
+                    redraw = True
+
+    MESSAGES = _messages
+
 # --- LOOK --- #
 
 def look_mode():
@@ -649,7 +704,7 @@ def look_mode():
     x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
     _messages = MESSAGES
     MESSAGES = []
-    message('Look mode - use movement keys, ESC to exit.', COLOR_TITLE)
+    message('Use movement keys, [ESC] to exit.', COLOR_TITLE)
     new_ui_turn()
     _draw_messages()
     redraw = True

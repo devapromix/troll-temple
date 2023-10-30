@@ -64,8 +64,7 @@ class Confuse(Spell):
     def on_use(self, player):
         f = super(Confuse, self).on_use(player)
         if f:
-            message("The eyes of the monster look vacant, as he starts to stumble around!", COLOR_MAGIC)
-            player.confuse_monster(7)
+            player.confuse_monster((player.magic * 3) + 7)
         return f
 
 

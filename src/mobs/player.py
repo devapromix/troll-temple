@@ -88,7 +88,7 @@ class Player(Mob):
             self.has_spellbook = True
             self.can_use_staff = True
             self.can_wear_cloth_armor = True 
-            self.items += [item.ManaPotion(), item.BookHealing(), item.ShortStaff(), item.CultistRobe()]
+            self.items += [item.ManaPotion(), item.BookHealing(), item.ShortStaff(), item.CultistRobe(), item.ScrollConfuse()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -343,4 +343,9 @@ class Player(Mob):
         pass
         
     def confuse_monster(self, turns):
-        pass
+        from common.game import select_mode
+        mob = select_mode()
+        if mob:
+            message("The eyes of the " + mob.name +" look vacant, as he starts to stumble around!", COLOR_MAGIC)
+            mob.confused = turns
+            
