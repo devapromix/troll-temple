@@ -50,7 +50,6 @@ class Player(Mob):
         import items.items as item
         import common.spells as spell
         self.spells = []
-        self.effects = []
         self.items = [item.Torch(), item.HealingPotion()]
         if self.game_class == FIGHTER:
             self.hp_regen = 2
@@ -88,7 +87,7 @@ class Player(Mob):
             self.has_spellbook = True
             self.can_use_staff = True
             self.can_wear_cloth_armor = True 
-            self.items += [item.ManaPotion(), item.BookHealing(), item.ShortStaff(), item.CultistRobe(), item.ScrollConfuse()]
+            self.items += [item.ManaPotion(), item.BookHealing(), item.ShortStaff(), item.CultistRobe(), item.ScrollConfuse(), item.ScrollBloodlust()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -221,7 +220,7 @@ class Player(Mob):
     def attack(self, mon):
         if rand(1, 100) < 95:
             dmg = roll(*self.dice)
-            dmg = mon.calc_damage(dmg)
+            dmg = mon.calc_damage(dmg) + self.damage_bonus
             if dmg > 0:
                 if rand(1, 20) < 20:
                     message('You hit the %s (%d).' % (mon.name, dmg))
@@ -272,7 +271,6 @@ class Player(Mob):
             if self.poisoned > 0:
                 message("You are suffering from poison.", COLOR_ERROR)
             self.action_turns += 1
-            self.act_effects()
 
     def use_energy(self):
         self.action_turns -= 1
@@ -327,20 +325,6 @@ class Player(Mob):
     def teleport(self):
         x, y, _ = self.map.random_empty_tile()
         self.move(x, y)
-
-    def has_effect(self, effect):
-        for i, ef in enumerate(self.effects):
-            if ef[0] == effect:
-                return True
-        return False
-
-    def add_effect(self, effect, turns):
-        if not self.has_effect(effect):
-            self.effects.append([effect, turns])
-        print(self.effects)
-
-    def act_effects(self):
-        pass
         
     def confuse_monster(self, turns):
         from common.game import look_mode

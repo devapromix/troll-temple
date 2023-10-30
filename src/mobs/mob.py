@@ -1,5 +1,7 @@
 from common.game import *
 from common.atrib import Atrib
+from mobs.effects.effects_container import EffectsContainer
+
 
 class Mob(object):
     x, y = None, None
@@ -21,6 +23,8 @@ class Mob(object):
         self.mana = Atrib()
         self.to_hp_regen = 0
         self.to_mana_regen = 0
+        self.effects = EffectsContainer(self)
+        self.damage_bonus = 0
 
     @property
     def tile(self):
@@ -59,6 +63,7 @@ class Mob(object):
         return max(abs(self.x - mob.x), abs(self.y - mob.y)) == 1
 
     def act(self):
+        self.effects.act()
         if self.hp < self.max_hp:
             self.to_hp_regen += self.hp_regen
             if self.to_hp_regen > 100:
