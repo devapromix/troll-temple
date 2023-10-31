@@ -13,7 +13,6 @@ class Mob(object):
     enters_walls = False
     poison = 0
     poisoned = 0
-    confused  = 0
     speed = 0
     armor = 0
     hp_regen = 1
@@ -24,6 +23,7 @@ class Mob(object):
         self.to_hp_regen = 0
         self.to_mana_regen = 0
         self.effects = EffectsContainer(self)
+        self.confused  = False
         self.damage_bonus = 0
 
     @property
@@ -78,9 +78,6 @@ class Mob(object):
             if self.hp > 1:
                 self.hp -= 1
             self.poisoned -= 1
-        if self.confused > 0:
-            self.confused -= 1
-            
 
     def heartbeat(self):
         pass

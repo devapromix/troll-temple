@@ -1,7 +1,7 @@
 from mobs.effects.uni_effect import UniEffect
 from .game import *
 from .modifiers.add_damage import AddDamage
-
+from .modifiers.add_confuse import AddConfuse
 
 # --- SPELL --- #
 
@@ -67,7 +67,10 @@ class Confuse(Spell):
     def on_use(self, player):
         f = super(Confuse, self).on_use(player)
         if f:
-            player.confuse_monster(player.magic + 7)
+            mob = look_mode(True)
+            if mob:
+                message("The eyes of the %s look vacant..." % (mob.name), COLOR_MAGIC)
+                mob.effects.add(UniEffect(AddConfuse(), player.magic + 7))
         return f
 
 

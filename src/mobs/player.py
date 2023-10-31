@@ -326,10 +326,4 @@ class Player(Mob):
         x, y, _ = self.map.random_empty_tile()
         self.move(x, y)
         
-    def confuse_monster(self, turns):
-        from common.game import look_mode
-        mob = look_mode(True)
-        if mob:
-            message("The eyes of the %s look vacant..." % (mob.name), COLOR_MAGIC)
-            mob.confused = turns
             

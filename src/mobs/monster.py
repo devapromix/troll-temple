@@ -93,7 +93,7 @@ class Monster(Mob, metaclass=Register):
         super(Monster, self).act()
         player = self.map.player
         d = self.see_player()
-        if d and self.confused == 0:
+        if d and self.confused:
             if self.summoner and rand(1, 6) == 1:
                 self.summon_monsters()
                 return
