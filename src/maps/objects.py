@@ -1,10 +1,11 @@
+import tcod as T
 from common.game import *
 
 # --- MAP OBJECT --- #
 
 class MapObject(object):
     name = "unknown object"
-    glyph = UNKNOWN_GLYPH
+    glyph = "?", T.red
     
     def on_enter():
         pass
@@ -50,7 +51,7 @@ class ShimmeringBluePortal(MapObject):
         
 class ManaShrine(MapObject):
     name = "mana shrine"
-    glyph = "*", T.lighter_blue
+    glyph = "&", T.lighter_blue
 
     def on_enter():
         message('There is a mana shrine here.')
@@ -61,7 +62,7 @@ class ManaShrine(MapObject):
 
 class LifeShrine(MapObject):
     name = "life shrine"
-    glyph = "*", T.lighter_red
+    glyph = "&", T.lighter_red
 
     def on_enter():
         message('There is a life shrine here.')

@@ -1,3 +1,4 @@
+import tcod as T
 from common.game import *
 from common.atrib import Atrib
 from mobs.effects.effects_container import EffectsContainer
@@ -6,7 +7,7 @@ from utils.event import Event
 
 class Mob(object):
     x, y = None, None
-    glyph = UNKNOWN_GLYPH
+    glyph = "?", T.red
     map = None
 
     hp, max_hp = 1, 1

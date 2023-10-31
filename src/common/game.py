@@ -51,12 +51,6 @@ COLOR_TITLE   = T.lighter_yellow
 COLOR_ALERT   = T.light_yellow
 COLOR_ERROR   = T.lighter_red
 COLOR_MAGIC   = T.lighter_blue
-COLOR_VENOM   = T.lighter_green
-COLOR_CONFUSE = T.lightest_blue
-
-# --- CONSTANTS --- #
-
-UNKNOWN_GLYPH = '?', COLOR_ERROR
 
 # --- KEYS --- #
 
@@ -146,7 +140,7 @@ class Game(object):
         message('You die...', COLOR_ERROR)
 
     def start_map(self, level):
-        from .maps import Map
+        from maps.map import Map
         self.map = Map(level)
         x, y, _ = self.map.random_empty_tile()
         self.player.put(self.map, x, y)
