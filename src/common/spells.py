@@ -27,6 +27,42 @@ class Spell(object, metaclass=Register):
 
 # --- SPELLS --- #
 
+class RedPortal(Spell):
+    name = "red portal"
+    mana = 2
+
+    def on_use(self, player):
+        f = super(RedPortal, self).on_use(player)
+        if f:
+            from maps.objects import ShimmeringRedPortal
+            message('A shimmering red portal has opened.', COLOR_MAGIC)
+            GAME.map.place_obj(player.x, player.y, ShimmeringRedPortal)
+        return f
+
+class GreenPortal(Spell):
+    name = "green portal"
+    mana = 2
+
+    def on_use(self, player):
+        f = super(GreenPortal, self).on_use(player)
+        if f:
+            from maps.objects import ShimmeringGreenPortal
+            message('A shimmering green portal has opened.', COLOR_MAGIC)
+            GAME.map.place_obj(player.x, player.y, ShimmeringGreenPortal)
+        return f
+
+class BluePortal(Spell):
+    name = "blue portal"
+    mana = 2
+
+    def on_use(self, player):
+        f = super(BluePortal, self).on_use(player)
+        if f:
+            from maps.objects import ShimmeringBluePortal
+            message('A shimmering blue portal has opened.', COLOR_MAGIC)
+            GAME.map.place_obj(player.x, player.y, ShimmeringBluePortal)
+        return f
+
 class Heal(Spell):
     name = 'heal'
     mana = 12

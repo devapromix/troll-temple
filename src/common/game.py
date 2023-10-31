@@ -79,6 +79,7 @@ KEYS = [
     ([pygame.K_COMMA],  'ascend'),
     ([pygame.K_SLASH],  'help'),
     ([pygame.K_g],      'pick_up'),
+    ([pygame.K_u],      'use_map_object'),
     ([pygame.K_i],      'inventory'),
     ([pygame.K_p],      'character'),
     ([pygame.K_b],      'spellbook'),
@@ -245,12 +246,18 @@ class Game(object):
         if item:
             self.player.use(item)
 
+    def cmd_use_map_object(self):
+        from maps.objects import MapObject
+        if self.player.tile.obj == None or not issubclass(self.player.tile.obj, MapObject):
+            message('Stand on a map object to use.', COLOR_ERROR)
+            return
+        self.player.tile.obj.on_use(self, self.player)
+
     def cmd_ascend(self):
         from .maps import StairUpTile
         if not isinstance(self.player.tile, StairUpTile):
             message('Stand on a up stairway to ascend.', COLOR_ERROR)
             return
-
         message('You take a moment to rest, and recover your strength.', T.yellow)
         self.player.heal(int(self.player.max_hp / 2))
         self.player.mana.fill()
@@ -617,10 +624,11 @@ def intro_screen():
     out(15, 18, "[L] use look mode", T.lighter_grey)
     out(15, 19, "[S] use shoot mode", T.lighter_grey)
     out(15, 20, "[<] go up stairs", T.lighter_grey)
-    out(15, 21, "[?] show this help screen", T.lighter_grey)
-    out(15, 22, "[5] wait one turn", T.lighter_grey)
-    out(15, 23, "[M] view last messages", T.lighter_grey)
-    out(15, 24, "[Q] quit game", T.lighter_grey)
+    out(15, 21, "[U] use map object (portal, shrine)", T.lighter_grey)
+    out(15, 22, "[?] show this help screen", T.lighter_grey)
+    out(15, 23, "[5] wait one turn", T.lighter_grey)
+    out(15, 24, "[M] view last messages", T.lighter_grey)
+    out(15, 25, "[Q] quit game", T.lighter_grey)
     
     out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
     out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
@@ -641,8 +649,19 @@ def describe_tile(x, y):
     if GAME.map.is_visible(x, y):
         tile = GAME.map.tiles[x][y]
         message('%s.' % tile.name, tile.glyph[1])
+        if tile.obj:
+            message(tile.obj.name, tile.obj.glyph[1])
         if tile.mob:
-            message('%s.' % tile.mob.name, tile.mob.glyph[1])
+            d = ""
+            s = tile.mob.name
+            if tile.mob.confused:
+                d += "confused "
+            elif tile.mob.poisoned > 0:
+                d += "poisoned "
+            if d != "":
+                d = " (" + d.strip() + ")"
+            s += d + "."
+            message(s, tile.mob.glyph[1])
         for item in tile.items:
             message('%s.' % item.descr, item.glyph[1])
     else:

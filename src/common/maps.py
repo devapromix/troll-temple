@@ -1,6 +1,8 @@
 from mobs.mobs import *
 from items.items import *
 from common.game import *
+from common.utils import *
+from maps.objects import *
 
 # --- MAP --- #
 
@@ -81,6 +83,7 @@ class Map(object):
             x, y, tile = self.random_empty_tile(no_mob=False, no_stair=True)
             item = random_by_level(self.level, Item.ALL)()
             tile.items.append(item)
+        self.add_shrine()
 
     def flood(self, x, y, mcls, n):
         if n == 0:
@@ -119,6 +122,17 @@ class Map(object):
     def in_map(self, x, y):
         return 0 <= x < MAP_W and 0 <= y < MAP_H
 
+    def place_obj(self, x, y, obj):
+        tile = self.tiles[x][y]
+        tile.obj = obj
+        
+    def add_shrine(self):
+        x, y, _ = self.random_empty_tile()
+        if rand(1, 2) == 1:
+            self.place_obj(x, y, ManaShrine)
+        else:
+            self.place_obj(x, y, LifeShrine)
+
 # --- TILE --- #
 
 class Tile(object):
@@ -129,6 +143,7 @@ class Tile(object):
 
     def __init__(self):
         self.mob = None
+        self.obj = None
         self.items = []
 
     @property
@@ -142,6 +157,8 @@ class Tile(object):
                 return self.mob.glyph
         elif self.items:
             return self.items[-1].glyph
+        elif self.obj:
+            return self.obj.glyph
         else:
             return self.glyph
 
