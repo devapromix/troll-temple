@@ -1,6 +1,8 @@
 import sys
 import pygame
 import tcod as T
+
+from .stats import Stats
 from .utils import *
 
 # --- CONSTANTS --- #
@@ -118,6 +120,7 @@ class Game(object):
         self.wizard = True
         self.selected_game_class = FIGHTER
         self.keydown = None
+        self.stats = Stats()
 
     def play(self):
         init(self)
@@ -131,9 +134,15 @@ class Game(object):
     def start(self):
         from mobs.player import Player
         self.player = Player(self.wizard, self.selected_game_class)
+        self.player.on_die += lambda p, m: self.player_died(p, m)
         self.turns = 0
         self.welcome()
         self.start_map(1)
+
+    def player_died(self, player, murderer):
+        self.stats.player_death_count += 1
+        self.stats.player_last_death_reason = 'killed by %s' % (murderer.name)
+        message('You die...', COLOR_ERROR)
 
     def start_map(self, level):
         from .maps import Map
@@ -150,7 +159,7 @@ class Game(object):
         draw_all()
         try:
             while True:
-                if self.player.death:
+                if not self.player.is_alive:
                     if self.wizard:
                         if prompt('Die? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_n:
                             new_ui_turn()
@@ -159,7 +168,7 @@ class Game(object):
                             draw_all()
                             continue
                     prompt(
-                        'Game over: %s. Press ENTER' % self.player.death,
+                        'Game over: %s. Press ENTER' % self.stats.player_last_death_reason,
                         [pygame.K_RETURN])
                     raise Quit()
                 if self.player.won:
@@ -472,7 +481,7 @@ def character_screen():
     out(2, 24, "Turns        " + str(GAME.turns), T.light_grey)
     out(2, 25, "Kills        " + str(GAME.player.kills), T.light_grey)
     if GAME.wizard:
-        out(2, 26, "Deaths       " + str(GAME.player.deaths), T.light_grey)
+        out(2, 26, "Deaths       " + str(GAME.stats.player_death_count), T.light_grey)
 
     out(35, 3, calendar.get_time_date(GAME.turns), T.light_grey)
 

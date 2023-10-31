@@ -97,8 +97,6 @@ class Player(Mob):
         self.armor = 0
         self.exp = 0
         self.kills = 0
-        self.deaths = 0
-        self.death = None
         self.won = False
         self.wizard = wizard
 
@@ -227,7 +225,7 @@ class Player(Mob):
                 else:
                     dmg *= 2
                     message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
-            mon.damage(dmg)
+            mon.damage(dmg, self)
             if rand(1, 2) == 1 and self.poison > 0 and mon.hp > 0:
                 mon.poisoned = self.poison
                 message('You poisoned the %s (%d)!' % (mon.name, self.poison))
@@ -242,10 +240,9 @@ class Player(Mob):
         self.hp -= dmg
         if self.hp <= 0:
             self.hp = 0
-            if not self.death:
-                message('You die...', COLOR_ERROR)
+            if not self.is_alive:
+                self.die(mon)
                 mon.look_normal()
-                self.death = 'killed by %s' % (mon.name)
 
     def pick_up(self, item):
         if len(self.items) == INV_SIZE:
@@ -266,7 +263,7 @@ class Player(Mob):
         self.use_energy()
 
     def act(self):
-        if not self.death:
+        if self.is_alive:
             super(Player, self).act()
             if self.poisoned > 0:
                 message("You are suffering from poison.", COLOR_ERROR)
@@ -292,9 +289,11 @@ class Player(Mob):
             if light.turns_left <= 0:
                 self.extinguish(light)
 
+
+
     def resurrect(self):
-        self.deaths += 1
-        self.death = None
+        assert not self.is_alive
+        self.is_alive = True
         self.hp = self.max_hp
         self.mana.fill()
 

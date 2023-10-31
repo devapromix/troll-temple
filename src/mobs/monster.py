@@ -33,7 +33,7 @@ class Monster(Mob, metaclass=Register):
         message('The %s disappears!' % self.name)
         self.remove()
 
-    def damage(self, dmg):
+    def damage(self, dmg, enemy):
         if dmg <= 0:
             message('The %s shrugs off the hit.' % self.name)
             return
@@ -43,7 +43,7 @@ class Monster(Mob, metaclass=Register):
                 self.drop()
             if rand(1, 10) <= 1:
                 self.adv_drop()
-            self.die()
+            self.die(enemy)
 
     def drop(self):
         item = random_by_level(self.map.level, Item.ALL)()
@@ -55,13 +55,14 @@ class Monster(Mob, metaclass=Register):
         if self.map.player.has_mp_adv_drop:
             self.tile.items.append(ManaPotion())
 
-    def die(self):
+    def die(self, murderer):
+        super().die(murderer)
         self.look_normal()
         if self.map.is_visible(self.x, self.y):
             message('The %s dies!' % self.name)
         self.remove()
-        self.map.player.kills += 1
-        self.map.player.add_exp(self)
+        murderer.kills += 1
+        murderer.add_exp(self)
 
     def see_player(self):
         player = self.map.player

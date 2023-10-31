@@ -13,3 +13,6 @@ class Event:
     def invoke(self, *args):
         for subscriber in self.subscribers:
             subscriber(*args)
+
+    def __call__(self, *args):
+        self.invoke(*args)

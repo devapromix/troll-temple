@@ -1,6 +1,7 @@
 from common.game import *
 from common.atrib import Atrib
 from mobs.effects.effects_container import EffectsContainer
+from utils.event import Event
 
 
 class Mob(object):
@@ -23,8 +24,15 @@ class Mob(object):
         self.to_hp_regen = 0
         self.to_mana_regen = 0
         self.effects = EffectsContainer(self)
-        self.confused  = False
+        self.confused = False
         self.damage_bonus = 0
+        self.on_die = Event()
+        self.is_alive = True
+
+    def die(self, murderer):
+        assert self.is_alive
+        self.is_alive = False
+        self.on_die(self, murderer)
 
     @property
     def tile(self):
