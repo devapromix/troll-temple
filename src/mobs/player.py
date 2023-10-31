@@ -240,9 +240,10 @@ class Player(Mob):
             message('Your armor protects you.')
             return
         self.life.modify(-dmg)
-        if not self.is_alive:
-            self.die(mon)
-            mon.look_normal()
+        if self.life.cur <= 0:
+            if not self.is_alive:
+                self.die(mon)
+                mon.look_normal()
 
     def pick_up(self, item):
         if len(self.items) == INV_SIZE:
