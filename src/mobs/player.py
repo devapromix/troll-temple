@@ -25,13 +25,13 @@ class Player(Mob):
         super(Player, self).__init__()
         self.game_class = selected_game_class
         self.level = 1
-        self.max_hp = 40 - (self.game_class * 5)
-        self.hp = self.max_hp
+        self.life.max = 40 - (self.game_class * 5)
+        self.life.fill()
         self.mana.max = self.game_class * 5
         self.mana.fill()
         
-        self.has_hp_adv_drop = True
-        self.has_mp_adv_drop = False
+        self.has_life_adv_drop = True
+        self.has_mana_adv_drop = False
         
         self.holding_dagger = False        
 
@@ -82,8 +82,8 @@ class Player(Mob):
             self.mana_regen = 3
             self.magic = 1
             self.radius = 0
-            self.has_hp_adv_drop = False
-            self.has_mp_adv_drop = True
+            self.has_life_adv_drop = False
+            self.has_mana_adv_drop = True
             self.has_spellbook = True
             self.can_use_staff = True
             self.can_wear_cloth_armor = True 
@@ -118,7 +118,7 @@ class Player(Mob):
             self.exp -= self.max_exp()
             self.advance()
 
-    def hp_inc(self):
+    def _life_inc(self):
         if self.game_class == FIGHTER:
             return 4
         elif self.game_class == THIEF:
@@ -140,8 +140,8 @@ class Player(Mob):
 
     def advance(self):
         self.level += 1
-        self.max_hp += self.hp_inc()
-        self.hp = self.max_hp
+        self.life.inc(self._life_inc())
+        self.life.fill()
         self.mana.inc(self._mana_inc())
         self.mana.fill()
 
@@ -228,7 +228,7 @@ class Player(Mob):
                     dmg *= 2
                     message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
             mon.damage(dmg, self)
-            if rand(1, 2) == 1 and self.poison > 0 and mon.hp > 0:
+            if rand(1, 2) == 1 and self.poison > 0 and mon.life.cur > 0:
                 mon.poisoned = self.poison
                 message('You poisoned the %s (%d)!' % (mon.name, self.poison))
             self.use_energy()
@@ -239,12 +239,10 @@ class Player(Mob):
         if dmg <= 0:
             message('Your armor protects you.')
             return
-        self.hp -= dmg
-        if self.hp <= 0:
-            self.hp = 0
-            if not self.is_alive:
-                self.die(mon)
-                mon.look_normal()
+        self.life.modify(-dmg)
+        if not self.is_alive:
+            self.die(mon)
+            mon.look_normal()
 
     def pick_up(self, item):
         if len(self.items) == INV_SIZE:
@@ -296,7 +294,7 @@ class Player(Mob):
     def resurrect(self):
         assert not self.is_alive
         self.is_alive = True
-        self.hp = self.max_hp
+        self.life.fill()
         self.mana.fill()
 
     def has_spell(self, spell_type):
@@ -318,10 +316,8 @@ class Player(Mob):
             message("You don't have a spellbook!", COLOR_ERROR)
             return False
 
-    def heal(self, hp):
-        self.hp += hp
-        if self.hp > self.max_hp:
-            self.hp = self.max_hp
+    def heal(self, life):
+        self.life.modify(life)
 
     def teleport(self):
         x, y, _ = self.map.random_empty_tile()

@@ -253,7 +253,7 @@ class Game(object):
             message('Stand on a up stairway to ascend.', COLOR_ERROR)
             return
         message('You take a moment to rest, and recover your strength.', T.yellow)
-        self.player.heal(int(self.player.max_hp / 2))
+        self.player.heal(int(self.player.life.max / 2))
         self.player.mana.fill()
         message('After a rare moment of peace, you ascend higher into the heart of the Temple...', T.yellow)
         self.ascend()
@@ -375,8 +375,8 @@ def _draw_status():
     out(60, 3, GAME.player.name + " " + _game_class[0] + " Level " + str(GAME.player.level), _game_class[2])
     out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)    
     _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp(), T.light_yellow)
-    out(60, 6, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp), T.light_grey)    
-    _draw_bar(18, 6, GAME.player.hp, GAME.player.max_hp, T.light_red)
+    out(60, 6, "Life:   " + GAME.player.life.to_string(), T.light_grey)    
+    _draw_bar(18, 6, GAME.player.life.cur, GAME.player.life.max, T.light_red)
     out(60, 7, "Mana:   " + GAME.player.mana.to_string(), T.light_grey)    
     _draw_bar(18, 7, GAME.player.mana.cur, GAME.player.mana.max, T.light_blue)
     out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Turns:  " + str(GAME.turns), T.light_grey)
@@ -463,7 +463,7 @@ def character_screen():
         regen =  " (+" + str(GAME.player.life_regen) + ")"
     else:
         regen = ""
-    out(2, 9,  "Health       " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp) + regen, T.light_grey)
+    out(2, 9,  "Life         " + GAME.player.life.to_string() + regen, T.light_grey)
     if GAME.player.mana_regen > 0:
         regen =  " (+" + str(GAME.player.mana_regen) + ")"
     else:

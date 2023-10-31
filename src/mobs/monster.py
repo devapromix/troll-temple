@@ -16,7 +16,7 @@ class Monster(Mob, metaclass=Register):
 
     def __init__(self):
         super(Monster, self).__init__()
-        self.hp = self.max_hp
+        self.life.fill()
 
     def look_like(self, cls):
         self.name = cls.name
@@ -37,8 +37,8 @@ class Monster(Mob, metaclass=Register):
         if dmg <= 0:
             message('The %s shrugs off the hit.' % self.name)
             return
-        self.hp -= dmg
-        if self.hp <= 0:
+        self.life.modify(-dmg)
+        if self.life.cur <= 0:
             if rand(1, 30) <= self.drop_rate:
                 self.drop()
             if rand(1, 10) <= 1:
@@ -50,9 +50,9 @@ class Monster(Mob, metaclass=Register):
         self.tile.items.append(item)
 
     def adv_drop(self):
-        if self.map.player.has_hp_adv_drop:
+        if self.map.player.has_life_adv_drop:
             self.tile.items.append(HealingPotion())
-        if self.map.player.has_mp_adv_drop:
+        if self.map.player.has_mana_adv_drop:
             self.tile.items.append(ManaPotion())
 
     def die(self, murderer):
@@ -132,7 +132,7 @@ class Monster(Mob, metaclass=Register):
                     dmg *= 2
                     message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
             player.damage(dmg, self)
-            if rand(1, 2) == 1 and self.poison > 0 and player.hp > 0:
+            if rand(1, 2) == 1 and self.poison > 0 and player.life.cur > 0:
                 player.poisoned = self.poison
                 message('The %s poisoned you (%d)!' % (self.name, self.poison))
         else:

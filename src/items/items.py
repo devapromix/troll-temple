@@ -1201,7 +1201,7 @@ class HealingPotion(Potion):
     def on_use(self, player):
         super(HealingPotion, self).on_use(player)
         message('You feel healed.')
-        player.hp = player.max_hp
+        player.life.fill()
 
 class ManaPotion(Potion):
     glyph = '!', T.light_blue

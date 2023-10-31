@@ -69,7 +69,7 @@ class LifeShrine(MapObject):
 
     def on_use(self, player):
         message('You feel healed.')
-        player.hp = player.max_hp
+        player.life.fill()
 
 
 

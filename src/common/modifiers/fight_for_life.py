@@ -10,6 +10,6 @@ class FightForLife(Modifier):
         return "Regenerate %d twice, if you have less than half" % self.life_regen
 
     def act(self, mob):
-        if mob.hp <= mob.max_hp // 2:
+        if mob.life.cur <= mob.life.max // 2:
             # TODO message('You feel a powerful wish to live', COLOR_MAGIC)
             mob.heal(self.life_regen)
