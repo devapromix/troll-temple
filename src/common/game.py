@@ -238,8 +238,8 @@ class Game(object):
             self.player.use(item)
 
     def cmd_use_map_object(self):
-        from maps.objects import ShimmeringRedPortal, ShimmeringGreenPortal, ShimmeringBluePortal
-        if not self.player.tile.obj in [ShimmeringRedPortal, ShimmeringGreenPortal, ShimmeringBluePortal]:
+        from maps.objects import MapObject
+        if self.player.tile.obj == None or not issubclass(self.player.tile.obj, MapObject):
             message('Stand on a map object to use.', COLOR_ERROR)
             return
         
