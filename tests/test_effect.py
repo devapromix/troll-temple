@@ -1,10 +1,15 @@
-from unittest.mock import Mock
+from unittest.mock import Mock, MagicMock
 
 from mobs.effects.effect import Effect
 from mobs.player import *
 
+def create_mock():
+    mock = MagicMock()
+    mock.configure_mock(descr='my_name')
+    return mock
+
 class TestEffect(Effect):
-    modifier = Mock()
+    modifier = create_mock()
     max_turns = 5
 
 def test_base_effect():
