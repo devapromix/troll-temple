@@ -167,6 +167,8 @@ class Player(Mob):
         super(Player, self).move(x, y)
         self.map.recalc_fov()
         self.tile.on_enter()
+        if self.tile.obj != None:
+            self.tile.obj.on_enter()
         if self.tile.items:
             if len(self.tile.items) == 1:
                 message('You see here %s.' % self.tile.items[0].a)

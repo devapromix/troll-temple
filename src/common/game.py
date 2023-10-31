@@ -242,15 +242,13 @@ class Game(object):
         if self.player.tile.obj == None or not issubclass(self.player.tile.obj, MapObject):
             message('Stand on a map object to use.', COLOR_ERROR)
             return
-        
-        self.player.tile.obj.on_enter(self, self.player)
+        self.player.tile.obj.on_use(self, self.player)
 
     def cmd_ascend(self):
         from .maps import StairUpTile
         if not isinstance(self.player.tile, StairUpTile):
             message('Stand on a up stairway to ascend.', COLOR_ERROR)
             return
-
         message('You take a moment to rest, and recover your strength.', T.yellow)
         self.player.heal(int(self.player.max_hp / 2))
         self.player.mana.fill()
