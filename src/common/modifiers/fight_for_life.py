@@ -3,13 +3,13 @@ from ..game import message
 
 
 class FightForLife(Modifier):
-    hp_regen = 5
+    life_regen = 5
 
     @property
     def descr(self):
-        return "Regenerate %d twice, if you have less than half" % self.hp_regen
+        return "Regenerate %d twice, if you have less than half" % self.life_regen
 
     def act(self, mob):
         if mob.hp <= mob.max_hp // 2:
             # TODO message('You feel a powerful wish to live', COLOR_MAGIC)
-            mob.heal(self.hp_regen)
+            mob.heal(self.life_regen)

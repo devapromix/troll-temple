@@ -17,12 +17,12 @@ class Mob(object):
     poisoned = 0
     speed = 0
     armor = 0
-    hp_regen = 1
+    life_regen = 1
     mana_regen = 0
 
     def __init__(self):
         self.mana = Atrib()
-        self.to_hp_regen = 0
+        self.to_life_regen = 0
         self.to_mana_regen = 0
         self.effects = EffectsContainer(self)
         self.confused = False
@@ -74,10 +74,10 @@ class Mob(object):
     def act(self):
         self.effects.act()
         if self.hp < self.max_hp:
-            self.to_hp_regen += self.hp_regen
-            if self.to_hp_regen > 100:
-                self.hp = min(self.max_hp, self.to_hp_regen / 100 + self.hp)
-                self.to_hp_regen %= 100
+            self.to_life_regen += self.life_regen
+            if self.to_life_regen > 100:
+                self.hp = min(self.max_hp, self.to_life_regen / 100 + self.hp)
+                self.to_life_regen %= 100
         if self.mana.cur < self.mana.max:
             self.to_mana_regen += self.mana_regen
             if self.to_mana_regen > 100:

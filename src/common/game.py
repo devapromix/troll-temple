@@ -459,8 +459,8 @@ def character_screen():
     out(2, 4,  "Class        " + _game_class[0], T.light_grey)
     out(2, 6,  "Level        " + str(GAME.player.level), T.light_grey)
     out(2, 7,  "Experience   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)
-    if GAME.player.hp_regen > 0:
-        regen =  " (+" + str(GAME.player.hp_regen) + ")"
+    if GAME.player.life_regen > 0:
+        regen =  " (+" + str(GAME.player.life_regen) + ")"
     else:
         regen = ""
     out(2, 9,  "Health       " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp) + regen, T.light_grey)

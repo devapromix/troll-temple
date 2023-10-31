@@ -15,7 +15,7 @@ GAME_CLASSES = [["Fighter", FIGHTER, T.light_red],
 class Player(Mob):
     glyph = '@', T.white
     name = 'Trollhunter'
-    hp_regen = 0
+    life_regen = 0
     mana_regen = 1
     magic = 0
     radius = 0
@@ -52,7 +52,7 @@ class Player(Mob):
         self.spells = []
         self.items = [item.Torch(), item.HealingPotion()]
         if self.game_class == FIGHTER:
-            self.hp_regen = 2
+            self.life_regen = 2
             self.mana_regen = 0
             self.magic = 0
             self.radius = 0
@@ -61,7 +61,7 @@ class Player(Mob):
             self.can_wear_mail_armor = True
             self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail(), item.ScrollRedPortal()]
         elif self.game_class == THIEF:
-            self.hp_regen = 1
+            self.life_regen = 1
             self.mana_regen = 1
             self.magic = 0
             self.radius = 0
@@ -70,7 +70,7 @@ class Player(Mob):
             self.can_wear_leather_armor = True
             self.items += [item.HealingPotion(), item.SmallDagger(), item.ShadowArmor(), item.InstantPoisonPotion()]
         elif self.game_class == RANGER:
-            self.hp_regen = 1
+            self.life_regen = 1
             self.mana_regen = 1
             self.magic = 0
             self.radius = 1
@@ -78,7 +78,7 @@ class Player(Mob):
             self.can_wear_leather_armor = True
             self.items += [item.HealingPotion(), item.HuntingSpear(), item.QuiltedArmor()]
         else:
-            self.hp_regen = 0
+            self.life_regen = 0
             self.mana_regen = 3
             self.magic = 1
             self.radius = 0
