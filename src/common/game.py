@@ -633,7 +633,16 @@ def describe_tile(x, y):
         tile = GAME.map.tiles[x][y]
         message('%s.' % tile.name, tile.glyph[1])
         if tile.mob:
-            message('%s.' % tile.mob.name, tile.mob.glyph[1])
+            d = ""
+            s = tile.mob.name
+            if tile.mob.confused:
+                d += "confused "
+            elif tile.mob.poisoned > 0:
+                d += "poisoned "
+            if d != "":
+                d = " (" + d.strip() + ")"
+            s += d + "."
+            message(s, tile.mob.glyph[1])
         for item in tile.items:
             message('%s.' % item.descr, item.glyph[1])
     else:
