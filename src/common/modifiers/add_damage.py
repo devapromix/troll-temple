@@ -1,6 +1,5 @@
 from common.modifiers.modifier import Modifier
 
-
 class AddDamage(Modifier):
     def __init__(self, value):
         self.value = value

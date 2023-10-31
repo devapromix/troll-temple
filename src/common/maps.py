@@ -136,7 +136,7 @@ class Tile(object):
         if self.mob:
             if self.mob.poisoned > 0:
                 return self.mob.glyph[0], COLOR_VENOM
-            elif self.mob.confused > 0:
+            elif self.mob.confused:
                 return self.mob.glyph[0], COLOR_CONFUSE
             else:
                 return self.mob.glyph
