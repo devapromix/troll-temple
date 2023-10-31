@@ -1237,37 +1237,26 @@ class RancidPoisonPotion(PoisonPotion):
     dungeons = 9, 12
     rarity = 10
 
-# --- PORTAL SCROLLS --- #
+# --- SCROLLS --- #
 
-class ScrollRedPortal(Item):
+class ScrollRedPortal(Scroll):
     ABSTRACT = True
     glyph = '?', T.light_red
     name = 'scroll of red portal'
+    spell = RedPortal
 
-    def on_use(self, player):
-        message("You entered the red portal and found yourself in a new place!", T.yellow)
-        GAME.ascend()
-        
-class ScrollGreenPortal(Item):
+class ScrollGreenPortal(Scroll):
     ABSTRACT = True
     glyph = '?', T.light_green
     name = 'scroll of green portal'
-
-    def on_use(self, player):
-        message("You entered the green portal and found yourself in a new place!", T.yellow)
-        GAME.ascend()
+    spell = GreenPortal
         
-class ScrollBluePortal(Item):
+class ScrollBluePortal(Scroll):
     ABSTRACT = True
     glyph = '?', T.light_blue
     name = 'scroll of blue portal'
-
-    def on_use(self, player):
-        message("You entered the blue portal and found yourself in a new place!", T.yellow)
-        GAME.ascend()
+    spell = BluePortal
         
-# --- SCROLLS --- #
-
 class ScrollHealing(Scroll):
     glyph = '?', T.pink
     name = 'scroll of healing'

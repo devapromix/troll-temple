@@ -119,6 +119,10 @@ class Map(object):
     def in_map(self, x, y):
         return 0 <= x < MAP_W and 0 <= y < MAP_H
 
+    def place_obj(self, x, y, obj):
+        tile = self.tiles[x][y]
+        tile.obj = obj
+
 # --- TILE --- #
 
 class Tile(object):
@@ -129,6 +133,7 @@ class Tile(object):
 
     def __init__(self):
         self.mob = None
+        self.obj = None
         self.items = []
 
     @property
@@ -142,6 +147,8 @@ class Tile(object):
                 return self.mob.glyph
         elif self.items:
             return self.items[-1].glyph
+        elif self.obj:
+            return self.obj.glyph
         else:
             return self.glyph
 
