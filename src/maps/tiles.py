@@ -1,5 +1,6 @@
 import tcod as T
 from maps.tile import Tile
+from common.game import message
 
 class FloorTile(Tile):
     name = 'floor'
