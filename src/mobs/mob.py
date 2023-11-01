@@ -3,7 +3,7 @@ from common.game import *
 from common.atrib import Atrib
 from mobs.effects.effects_container import EffectsContainer
 from utils.event import Event
-
+from items.corpse import Corpse
 
 class Mob(object):
     x, y = None, None
@@ -32,6 +32,7 @@ class Mob(object):
         assert self.is_alive
         self.is_alive = False
         self.on_die(self, murderer)
+        self.tile.items.append(Corpse(self))
 
     @property
     def tile(self):

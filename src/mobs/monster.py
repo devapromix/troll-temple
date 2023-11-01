@@ -29,6 +29,15 @@ class Monster(Mob, metaclass=Register):
         except AttributeError:
             pass
 
+    def die(self, murderer):
+        super().die(murderer)
+        self.look_normal()
+        if self.map.is_visible(self.x, self.y):
+            message('The %s dies!' % self.name)
+        self.remove()
+        murderer.kills += 1
+        murderer.add_exp(self)
+
     def disappear(self):
         message('The %s disappears!' % self.name)
         self.remove()
@@ -54,15 +63,6 @@ class Monster(Mob, metaclass=Register):
             self.tile.items.append(HealingPotion())
         if self.map.player.has_mana_adv_drop:
             self.tile.items.append(ManaPotion())
-
-    def die(self, murderer):
-        super().die(murderer)
-        self.look_normal()
-        if self.map.is_visible(self.x, self.y):
-            message('The %s dies!' % self.name)
-        self.remove()
-        murderer.kills += 1
-        murderer.add_exp(self)
 
     def see_player(self):
         player = self.map.player

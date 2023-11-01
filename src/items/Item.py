@@ -8,6 +8,7 @@ class Item(object, metaclass=Register):
     ALL = []
     ABSTRACT = True
     common = 10
+    name = "unknown item"
 
     glyph = "?", T.red
     color = COLOR_ITEM
