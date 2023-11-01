@@ -109,7 +109,6 @@ class Quit(Exception):
 
 class Game(object):
     def __init__(self, wizard):
-        # from mobs import mobs
         from mobs.player import FIGHTER
         self.wizard = wizard
         self.wizard = True
@@ -248,7 +247,7 @@ class Game(object):
         self.player.tile.obj.on_use(self, self.player)
 
     def cmd_ascend(self):
-        from .maps import StairUpTile
+        from maps.tiles import StairUpTile
         if not isinstance(self.player.tile, StairUpTile):
             message('Stand on a up stairway to ascend.', COLOR_ERROR)
             return
@@ -269,7 +268,7 @@ class Game(object):
 
     def cmd_wizard(self):
         if self.wizard and self.map.level < MAX_DLEVEL:
-            self.start_map(self.map.level+1)
+            self.start_map(self.map.level + 1)
 
     def cmd_look(self):
         look_mode()
