@@ -50,6 +50,7 @@ class Player(Mob):
         import items.items as item
         import common.spells as spell
         self.spells = []
+        self.recipes = []
         self.items = [item.Torch(), item.HealingPotion()]
         if self.game_class == FIGHTER:
             self.life_regen = 2
