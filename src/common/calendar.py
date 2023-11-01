@@ -57,7 +57,7 @@ class Calendar():
         d = int(math.floor(d % 365))
         return d, self.start_year + y
 
-    def get_month_num(self,day):
+    def get_month_num(self, day):
         i = len(calendar_data)
 
         while i > 0 and (day < self.days):

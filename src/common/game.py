@@ -297,7 +297,7 @@ class Game(object):
 
     def cmd_test(self):
         if self.wizard:
-            pass
+            rip_screen()
 
     def welcome(self):
         message("Brave adventurer, you are now lost in the underground corridors of the Old Temple.", T.yellow)
@@ -306,10 +306,12 @@ class Game(object):
 
 # --- GAME --- #
 
-def out(x, y, text, color = T.white, bkcolor = T.black):
+def out(x, y, text, color = T.white, bkcolor = T.black, w = 0):
     _txt = GAME.font.render(str(text), True, color, bkcolor)
     if x == 0:
         SCREEN.blit(_txt, (int((SCREEN_W - (_txt.get_width() / GAME.font_width))/2) * GAME.font_width, y * GAME.font_height))
+    elif w != 0:
+        SCREEN.blit(_txt, ((x + int((w - (_txt.get_width() / GAME.font_width))/2)) * GAME.font_width, y * GAME.font_height))
     else:
         SCREEN.blit(_txt, (x * GAME.font_width, y * GAME.font_height))
     
@@ -810,3 +812,62 @@ def anykey():
             if event.type == pygame.KEYDOWN:
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
                     return
+                    
+def rip_screen():
+    from common.calendar import Calendar
+    calendar = Calendar()
+
+    clear()
+
+    out(0, 2, "Rest in peace...", COLOR_TITLE)
+     
+    out(10,  8,  '     --------      ', T.light_grey)
+    out(10,  9,  '    /        \     ', T.light_grey)
+    out(10, 10,  '   /          \    ', T.light_grey)
+    out(10, 11,  '  /            \   ', T.light_grey)
+    out(10, 12,  ' /              \  ', T.light_grey)
+    out(10, 13,  '/                \ ', T.light_grey)
+    out(10, 14,  '|                | ', T.light_grey)
+    out(10, 15,  '|                | ', T.light_grey)
+    out(10, 16,  '|                | ', T.light_grey)
+    out(10, 17,  '|                | ', T.light_grey)
+    out(10, 18,  '|                | ', T.light_grey)
+    out(10, 19,  '|                | ', T.light_grey)
+    out(10, 20,  '|                | ', T.light_grey)
+    out(10, 21,  '|                | ', T.light_grey)
+    out(10, 22,  '|                | ', T.light_grey)
+    out(10, 23,  '|                | ', T.light_grey)
+
+    out(12,  10,  'REST', T.grey, T.black, 14)
+    out(12,  11,  'IN', T.grey, T.black, 14)
+    out(12,  12,  'PEACE', T.grey, T.black, 14)
+
+    out(12,  15,  GAME.player.name, T.yellow, T.black, 14)
+    out(12,  16,  'killed by a', T.grey, T.black, 14)
+    out(12,  17,  'fire goblin', T.grey, T.black, 14)
+
+    day, year = calendar.get_day(GAME.turns)
+
+    out(12,  20,  calendar.get_month_name(day) + ' ' + str(calendar.get_month_num(day) + 1), T.grey, T.black, 14)
+    out(12,  21,  str(year), T.grey, T.black, 14)
+
+    out(4, 23,  '___)/\/\/\/\/\/\/\/\/\/\/\(___', T.green)
+     
+    out(40, 6,  'Epitaph', COLOR_TITLE)
+     
+     
+     
+    out(0, 28, "Press ENTER to exit...", T.light_grey)
+    refresh()
+    anykey()
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
