@@ -42,6 +42,7 @@ class Player(Mob):
         self.can_use_dagger = False
         self.can_use_staff = False
         self.can_use_shield = False
+        self.can_use_bow = False
 
         self.can_wear_cloth_armor = False
         self.can_wear_leather_armor = False
@@ -75,8 +76,9 @@ class Player(Mob):
             self.magic = 0
             self.radius = 1
             self.has_craftbox = True
+            self.can_use_bow = True
             self.can_wear_leather_armor = True
-            self.items += [item.HealingPotion(), item.HuntingSpear(), item.QuiltedArmor()]
+            self.items += [item.HealingPotion(), item.HunterBow(), item.LightQuiver(), item.QuiltedArmor()]
         else:
             self.life_regen = 0
             self.mana_regen = 3

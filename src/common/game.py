@@ -30,6 +30,7 @@ INVENTORY_SLOTS = {
     'w': 'wielded',
     'o': 'wielded',
     'l': 'carried as light source',
+    'q': 'quiver',
     'h': 'being worn',
     'a': 'being worn',
     'b': 'being worn',
@@ -588,7 +589,7 @@ def _draw_game_class_screen():
         out(20, 6, "are able to trackdown the victim and kill them at the right moment.", T.white)
         out(20, 7, "Enemies will meet their death by dying from a huge number of wounds", T.white)
         out(20, 8, "and bleeding, causing damage over time.", T.white)
-        out(20, 10, "Weapon: " + "hunting spear", T.white)
+        out(20, 10, "Weapon: " + "hunter bow", T.white)
         out(20, 11, "Armor: " + "quilted armor", T.white)
         out(20, 13, "Master's haversack, light quiver, craft box", T.white)
     elif GAME.selected_game_class == MAGE:

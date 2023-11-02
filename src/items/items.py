@@ -89,6 +89,33 @@ class UniqueStaff(EliteStaff):
     ABSTRACT = True
     rarity = 15
 
+# --- BOW --- #
+
+class Bow(Weapon):
+    ABSTRACT = True
+    ranged = True
+    
+    def __init__(self):
+        super(Bow, self).__init__()
+        if rand(1, 7) == 1:
+            if self.suffix("swiftness"):
+                self.modifier += Mod('speed', 1)
+
+class EliteBow(Bow):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueBow(EliteBow):
+    ABSTRACT = True
+    rarity = 15
+
+# --- QUIVER --- #
+
+class Quiver(Equipment):
+    ABSTRACT = True
+    slot = 'q'
+    arrows = 100
+    
 # --- ARMOR --- #
 
 class Armor(Equipment):
@@ -712,6 +739,65 @@ class PowerStaff(UniqueStaff):
     magic = 9
     dice = 4, 4, 7
     mana = 20
+    dungeons = 11, 12
+
+# --- BOWS --- #
+
+class HunterBow(Bow):
+    name = 'hunter bow'
+    glyph = '}', T.lighter_orange
+    dice = 1, 2, 0
+    dungeons = 1, 2
+
+# --- QUIVERS --- #
+
+class LightQuiver(Quiver):
+    name = 'light quiver'
+    glyph = '/', T.orange
+    arrows = 100
+    damage = 1
+    dungeons = 1, 1
+
+class LeatherQuiver(Quiver):
+    name = 'leather quiver'
+    glyph = '/', T.light_orange
+    arrows = 150
+    damage = 1
+    dungeons = 1, 2
+
+class KnothideQuiver(Quiver):
+    name = 'knothide quiver'
+    glyph = '/', T.orange
+    arrows = 200
+    damage = 2
+    dungeons = 3, 4
+
+class HuntingQuiver(Quiver):
+    name = 'hunting quiver'
+    glyph = '/', T.lighter_green
+    arrows = 250
+    damage = 3
+    dungeons = 5, 6
+
+class QuickdrawQuiver(Quiver):
+    name = 'quickdraw quiver'
+    glyph = '/', T.light_grey
+    arrows = 300
+    damage = 4
+    dungeons = 7, 8
+
+class RaptorHideQuiver(Quiver):
+    name = 'raptor hide quiver'
+    glyph = '/', T.light_green
+    arrows = 350
+    damage = 5
+    dungeons = 9, 10
+
+class HeavyQuiver(Quiver):
+    name = 'heavy quiver'
+    glyph = '/', T.light_red
+    arrows = 400
+    damage = 6
     dungeons = 11, 12
 
 # --- SHIELDS --- #

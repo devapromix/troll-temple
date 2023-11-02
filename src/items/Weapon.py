@@ -5,6 +5,7 @@ class Weapon(Equipment):
     ABSTRACT = True
     slot = 'w'
     common = 7
+    ranged = False
 
     def __init__(self):
         super(Weapon, self).__init__()
