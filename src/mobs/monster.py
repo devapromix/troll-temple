@@ -1,3 +1,4 @@
+from .damage import *
 from .mob import *
 from items.items import *
 
@@ -30,6 +31,10 @@ class Monster(Mob, metaclass=Register):
             pass
 
     def die(self, murderer):
+        if rand(1, 30) <= self.drop_rate:
+            self.drop()
+        if rand(1, 10) <= 1:
+            self.adv_drop()
         super().die(murderer)
         self.look_normal()
         if self.map.is_visible(self.x, self.y):
@@ -43,15 +48,8 @@ class Monster(Mob, metaclass=Register):
         self.remove()
 
     def damage(self, dmg, enemy):
-        if dmg <= 0:
-            message('The %s shrugs off the hit.' % self.name)
-            return
         self.life.modify(-dmg)
         if self.life.cur <= 0:
-            if rand(1, 30) <= self.drop_rate:
-                self.drop()
-            if rand(1, 10) <= 1:
-                self.adv_drop()
             self.die(enemy)
 
     def drop(self):
@@ -118,22 +116,17 @@ class Monster(Mob, metaclass=Register):
             self.walk_randomly()
 
     def attack_player(self):
-        if rand(1, 100) < 95:
-            player = self.map.player
-            if player.blocking > 0 and rand(1, 100 - player.blocking) == 1:
-                message("You block the attack.")
-                return
-            dmg = roll(*self.dice)
-            dmg = player.calc_damage(dmg)
-            if dmg > 0:
-                if rand(1, 20) < 20:
-                    message('The %s hits you (%d).' % (self.name, dmg))
-                else:
-                    dmg *= 2
-                    message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
-            player.damage(dmg, self)
-            if rand(1, 2) == 1 and self.poison > 0 and player.life.cur > 0:
-                player.poisoned = self.poison
-                message('The %s poisoned you (%d)!' % (self.name, self.poison))
-        else:
-            message('The %s misses you.' % (self.name))
+        mon = self.map.player
+        damage = Damage.calculate(self, mon)
+        mon.damage(int(damage), self)
+
+        if damage.status == DamageStatus.NORMAL:
+            message('The %s hits you (%d).' % (self.name, int(damage)))
+        elif damage.status == DamageStatus.CRITICAL:
+                    message('The %s critically hits you (%d)!' % (self.name, int(damage)), COLOR_ALERT)
+        elif damage.status == DamageStatus.EVADED:
+            message('The %s misses you.' % self.name)
+        elif damage.status == DamageStatus.BLOCKED:
+            message("You block the attack.")
+        elif damage.status == DamageStatus.ABSORBED:
+            message('Your armor protects you.')

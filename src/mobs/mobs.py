@@ -61,6 +61,7 @@ class Bat(FlyMonster):
     level = 1
     dungeons = 1, 3
     rarity = 1
+    evasion = 70
 
 class Crawler(Monster):
     name = 'crawler'

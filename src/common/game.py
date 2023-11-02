@@ -48,11 +48,11 @@ CRAFTBOX_SIZE = SCREEN_H - 4
 
 # --- COLOURS --- #
 
-COLOR_ITEM    = T.light_grey
-COLOR_TITLE   = T.lighter_yellow
-COLOR_ALERT   = T.light_yellow
-COLOR_ERROR   = T.lighter_red
-COLOR_MAGIC   = T.lighter_blue
+COLOR_ITEM = T.light_grey
+COLOR_TITLE = T.lighter_yellow
+COLOR_ALERT = T.light_yellow
+COLOR_ERROR = T.lighter_red
+COLOR_MAGIC = T.lighter_blue
 
 # --- KEYS --- #
 
@@ -71,29 +71,32 @@ WALK_KEYS = [
 ]
 
 KEYS = [
-    ([pygame.K_q],      'quit'),
-    ([pygame.K_COMMA],  'ascend'),
-    ([pygame.K_SLASH],  'help'),
-    ([pygame.K_g],      'pick_up'),
-    ([pygame.K_u],      'use_map_object'),
-    ([pygame.K_i],      'inventory'),
-    ([pygame.K_p],      'character'),
-    ([pygame.K_b],      'spellbook'),
-    ([pygame.K_s],      'select'),
-    ([pygame.K_c],      'craftbox'),
-    ([pygame.K_d],      'drop'),
-    ([pygame.K_t],      'test'),
-    ([pygame.K_l],      'look'),
-    ([pygame.K_w],      'wizard'),
+    ([pygame.K_q], 'quit'),
+    ([pygame.K_COMMA], 'ascend'),
+    ([pygame.K_SLASH], 'help'),
+    ([pygame.K_g], 'pick_up'),
+    ([pygame.K_u], 'use_map_object'),
+    ([pygame.K_i], 'inventory'),
+    ([pygame.K_p], 'character'),
+    ([pygame.K_b], 'spellbook'),
+    ([pygame.K_s], 'select'),
+    ([pygame.K_c], 'craftbox'),
+    ([pygame.K_d], 'drop'),
+    ([pygame.K_t], 'test'),
+    ([pygame.K_l], 'look'),
+    ([pygame.K_w], 'wizard'),
 ]
 
 LOOK_KEYS = WALK_KEYS + KEYS[:1] + [([pygame.K_ESCAPE], 'quit'), ([pygame.K_s], 'select')]
 
+
 def decode_walk_key(key):
     return decode_key(key, WALK_KEYS)
-    
+
+
 def decode_interface_key(key):
     return decode_key(key, KEYS)
+
 
 def decode_key(key, actions):
     for keys, cmd in actions:
@@ -106,6 +109,7 @@ def decode_key(key, actions):
 
 class Quit(Exception):
     pass
+
 
 # --- GAME --- #
 
@@ -150,7 +154,6 @@ class Game(object):
         self.turns += 1
         self.start_map(self.map.level + 1)
 
-
     def loop(self):
         draw_all()
         try:
@@ -183,7 +186,7 @@ class Game(object):
                         self.do_walk_command(self.keydown)
                 self.map.do_turn(self.turns)
                 self.turns += 1
-                #draw_all()
+                # draw_all()
                 pygame.time.delay(DELAY)
         except Quit:
             pass
@@ -194,10 +197,10 @@ class Game(object):
             return
         new_ui_turn()
         if isinstance(cmd, str):
-            getattr(self, 'cmd_'+cmd)()
+            getattr(self, 'cmd_' + cmd)()
         else:
             name, args = cmd
-            getattr(self, 'cmd_'+name)(*args)
+            getattr(self, 'cmd_' + name)(*args)
         draw_all()
 
     def do_command(self, key):
@@ -206,10 +209,10 @@ class Game(object):
             return
         new_ui_turn()
         if isinstance(cmd, str):
-            getattr(self, 'cmd_'+cmd)()
+            getattr(self, 'cmd_' + cmd)()
         else:
             name, args = cmd
-            getattr(self, 'cmd_'+name)(*args)
+            getattr(self, 'cmd_' + name)(*args)
         draw_all()
 
     def cmd_walk(self, dx, dy):
@@ -224,7 +227,7 @@ class Game(object):
         else:
             while True and tile.items:
                 item = select_item('Select an item to pick up, ESC to exit',
-                                      tile.items)
+                                   tile.items)
                 if item:
                     self.player.pick_up(item)
                     draw_all()
@@ -264,7 +267,7 @@ class Game(object):
             raise Quit()
         else:
             new_ui_turn()
-            
+
     def cmd_select(self):
         pass
 
@@ -274,10 +277,10 @@ class Game(object):
 
     def cmd_look(self):
         look_mode()
-        
+
     def cmd_help(self):
         intro_screen()
-        
+
     def cmd_spellbook(self):
         if self.player.has_spellbook:
             spell = select_spell('Select a spell to cast, ESC to exit', self.player.spells)
@@ -306,29 +309,41 @@ class Game(object):
         message("There is no way to return to your homeland.", T.yellow)
         message("How long can you survive?", T.yellow)
 
+
 # --- GAME --- #
 
-def out(x, y, text, color = T.white, bkcolor = T.black, w = 0):
+def out(x, y, text, color=T.white, bkcolor=T.black, w=0):
     _txt = GAME.font.render(str(text), True, color, bkcolor)
     if x == 0:
-        SCREEN.blit(_txt, (int((SCREEN_W - (_txt.get_width() / GAME.font_width))/2) * GAME.font_width, y * GAME.font_height))
+        SCREEN.blit(_txt, (
+        int((SCREEN_W - (_txt.get_width() / GAME.font_width)) / 2) * GAME.font_width, y * GAME.font_height))
     elif w != 0:
-        SCREEN.blit(_txt, ((x + int((w - (_txt.get_width() / GAME.font_width))/2)) * GAME.font_width, y * GAME.font_height))
+        SCREEN.blit(_txt,
+                    ((x + int((w - (_txt.get_width() / GAME.font_width)) / 2)) * GAME.font_width, y * GAME.font_height))
     else:
         SCREEN.blit(_txt, (x * GAME.font_width, y * GAME.font_height))
-    
+
+
+def out_file(x, y, filepath, color=T.white, bkcolor=T.black, w=0):
+    with open(filepath, 'r') as f:
+        for i, line in enumerate(f.readlines()):
+            out(x, y + i, line.rstrip(), color, bkcolor, w)
+
+
 def clear():
     SCREEN.fill(T.black)
-    
+
+
 def refresh():
     pygame.display.flip()
-    
+
+
 def init(game):
     global MESSAGES, GAME, SCREEN
     GAME = game
     MESSAGES = []
     pygame.init()
-    #GAME.duneon_tileset = pygame.image.load("../assets/images/dungeon.png")
+    # GAME.duneon_tileset = pygame.image.load("../assets/images/dungeon.png")
     GAME.font = pygame.font.Font("../assets/fonts/UbuntuMono-R.ttf", 16)
     _txt = GAME.font.render("W", True, T.white)
     GAME.font_width = _txt.get_width()
@@ -340,15 +355,17 @@ def init(game):
     pygame.display.set_caption(TITLE + " v." + VERSION + wiz_str)
     pygame.display.set_icon(pygame.image.load("../assets/icons/game.ico"))
 
+
 def close():
     GAME = None
     pygame.quit()
     sys.exit()
 
+
 # --- UI --- #
 
 def _draw_map():
-    #SCREEN.blit(GAME.duneon_tileset, (0,0))
+    # SCREEN.blit(GAME.duneon_tileset, (0,0))
     player = GAME.player
     for x in range(MAP_W):
         for y in range(MAP_H):
@@ -361,8 +378,9 @@ def _draw_map():
             else:
                 c, _ = tile.known_glyph
                 color = T.dark_grey
-            out(x+1, y+1, c, color)
-                                  
+            out(x + 1, y + 1, c, color)
+
+
 def _draw_bar(x, y, cur, max, color):
     r = 0
     w = round(cur * 18 / max)
@@ -371,18 +389,21 @@ def _draw_bar(x, y, cur, max, color):
     out(79, y, "[", T.dark_grey)
     out(98, y, "]", T.dark_grey)
 
+
 def _draw_status():
     from mobs.player import GAME_CLASSES
-    out(60, 1, "Troll Temple" + " (" +  "Level: " + str(GAME.map.level) + ")", T.light_green) 
+    out(60, 1, "Troll Temple" + " (" + "Level: " + str(GAME.map.level) + ")", T.light_green)
     _game_class = GAME_CLASSES[GAME.player.game_class - 1]
     out(60, 3, GAME.player.name + " " + _game_class[0] + " Level " + str(GAME.player.level), _game_class[2])
-    out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)    
+    out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)
     _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp(), T.light_yellow)
-    out(60, 6, "Life:   " + GAME.player.life.to_string(), T.light_grey)    
+    out(60, 6, "Life:   " + GAME.player.life.to_string(), T.light_grey)
     _draw_bar(18, 6, GAME.player.life.cur, GAME.player.life.max, T.light_red)
-    out(60, 7, "Mana:   " + GAME.player.mana.to_string(), T.light_grey)    
+    out(60, 7, "Mana:   " + GAME.player.mana.to_string(), T.light_grey)
     _draw_bar(18, 7, GAME.player.mana.cur, GAME.player.mana.max, T.light_blue)
-    out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Turns:  " + str(GAME.turns), T.light_grey)
+    out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Turns:  " + str(
+        GAME.turns), T.light_grey)
+
 
 # --- MESSAGES --- #
 
@@ -397,12 +418,15 @@ def _draw_messages():
             color *= 0.6
         out(60, i - start + 13, s, color)
 
-def message(s, color = T.white):
+
+def message(s, color=T.white):
+
     s = s[0].upper() + s[1:]
     print(s)
     MESSAGES.append((True, s, color))
     _draw_messages()
     refresh()
+
 
 # --- INVENTORY --- #
 
@@ -411,6 +435,7 @@ def _item_color(item, color):
         return item.color
     else:
         return color
+
 
 def _draw_items(title, items):
     clear()
@@ -427,11 +452,13 @@ def _draw_items(title, items):
             color = _item_color(item, COLOR_ITEM)
         out(7, i + 3, s, color)
 
+
 def draw_inventory(title='Inventory', items=None, flag=False):
     _draw_items(title, items or GAME.player.items)
     _draw_messages()
     _draw_status()
     refresh()
+
 
 # --- SPELLBOOK --- #
 
@@ -440,13 +467,15 @@ def _draw_spellbook(title, spells):
     out(2, 1, title, COLOR_TITLE)
     for i, spell in enumerate(spells):
         out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        out(5, i+3, spell.descr, T.light_grey)
+        out(5, i + 3, spell.descr, T.light_grey)
+
 
 def spellbook(title='Spellbook', spells=None):
     _draw_spellbook(title, spells or GAME.player.spells)
     _draw_messages()
     _draw_status()
-    refresh()   
+    refresh()
+
 
 # --- CRAFTBOX --- #
 
@@ -473,21 +502,22 @@ def character_screen():
     _game_class = GAME_CLASSES[GAME.player.game_class - 1]
     out(2, 1, GAME.player.name, COLOR_TITLE)
 
-    out(2, 3,  "Race         " + "Human", T.light_grey)
-    out(2, 4,  "Class        " + _game_class[0], T.light_grey)
-    out(2, 6,  "Level        " + str(GAME.player.level), T.light_grey)
-    out(2, 7,  "Experience   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)
+    out(2, 3, "Race         " + "Human", T.light_grey)
+    out(2, 4, "Class        " + _game_class[0], T.light_grey)
+    out(2, 6, "Level        " + str(GAME.player.level), T.light_grey)
+    out(2, 7, "Experience   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)
     if GAME.player.life_regen > 0:
-        regen =  " (+" + str(GAME.player.life_regen) + ")"
+        regen = " (+" + str(GAME.player.life_regen) + ")"
     else:
         regen = ""
-    out(2, 9,  "Life         " + GAME.player.life.to_string() + regen, T.light_grey)
+    out(2, 9, "Life         " + GAME.player.life.to_string() + regen, T.light_grey)
     if GAME.player.mana_regen > 0:
-        regen =  " (+" + str(GAME.player.mana_regen) + ")"
+        regen = " (+" + str(GAME.player.mana_regen) + ")"
     else:
         regen = ""
     out(2, 10, "Mana         " + GAME.player.mana.to_string() + regen, T.light_grey)
-    out(2, 12, "Damage       " + describe_dice(*GAME.player.dice) + " (" + str_dice(*GAME.player.dice) + ")", T.light_grey)
+    out(2, 12, "Damage       " + describe_dice(*GAME.player.dice) + " (" + str_dice(*GAME.player.dice) + ")",
+        T.light_grey)
     out(2, 13, "Armor        " + str(GAME.player.armor), T.light_grey)
     out(2, 15, "Speed        " + str(GAME.player.speed), T.light_grey)
     out(2, 16, "Magic power  " + str(GAME.player.magic), T.light_grey)
@@ -508,6 +538,7 @@ def character_screen():
     refresh()
     anykey()
 
+
 # --- UI --- #
 
 def draw_all():
@@ -517,15 +548,16 @@ def draw_all():
     _draw_status()
     refresh()
 
+
 def _draw_game_class_screen():
     from mobs.player import GAME_CLASSES, FIGHTER, THIEF, RANGER, MAGE
     clear()
     out(2, 1, "Choose your class", COLOR_TITLE)
     for i, game_class in enumerate(GAME_CLASSES):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey) 
+        out(3, i + 3, chr(i + ord('a')), T.light_grey)
         if GAME.selected_game_class == i + 1:
             out(1, i + 3, '>', T.white)
-            out(5, i + 3, game_class[0], T.white) 
+            out(5, i + 3, game_class[0], T.white)
         else:
             out(5, i + 3, game_class[0], game_class[2])
 
@@ -573,31 +605,28 @@ def _draw_game_class_screen():
     out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
 
+
 def title_screen():
     clear()
 
-    out(5, 4,  '##### ####   ###  #     #', T.green)
-    out(5, 5,  '# # # #   # #   # #     #', T.green)
-    out(5, 6,  '  #   ####  #   # #     #', T.green)
-    out(5, 7,  '  #   # #   #   # #     #', T.green)
-    out(5, 8,  '  #   #  #   ###  ##### #####', T.green)
+    out_file(5, 4, '../assets/texts/troll.txt', T.green)
 
-    out(10, 10,  '##### ##### #     # ##### #     #####', T.light_red)
-    out(10, 11,  '# # # #     ##   ## #   # #     #', T.light_red)
-    out(10, 12,  '  #   ###   # # # # ####  #     ###', T.light_red)
-    out(10, 13,  '  #   #     #  #  # #     #     #', T.light_red)
-    out(10, 14,  '  #   ##### #     # #     ##### #####', T.light_red)
+    out(10, 10, '##### ##### #     # ##### #     #####', T.light_red)
+    out(10, 11, '# # # #     ##   ## #   # #     #', T.light_red)
+    out(10, 12, '  #   ###   # # # # ####  #     ###', T.light_red)
+    out(10, 13, '  #   #     #  #  # #     #     #', T.light_red)
+    out(10, 14, '  #   ##### #     # #     ##### #####', T.light_red)
 
-    out(35, 17,  ' v.' + VERSION, T.light_green)
+    out(35, 17, ' v.' + VERSION, T.light_green)
 
-    out(10, 22,  'by Apromix <maxwof@ukr.net>', T.light_yellow)
+    out(10, 22, 'by Apromix <maxwof@ukr.net>', T.light_yellow)
 
-    out(48, 4,  '                        /\ ', T.darker_yellow)
-    out(48, 5,  '                      _/--\ ', T.darker_yellow)
-    out(48, 6,  '                     /     O ', T.darker_yellow)
-    out(48, 7,  '               /\   /       \ ', T.darker_yellow)
-    out(48, 8,  '             _/| \_/      _  \ ', T.darker_yellow)
-    out(48, 9,  '            /     /     _/ \  \ ', T.darker_yellow)
+    out(48, 4, '                        /\ ', T.darker_yellow)
+    out(48, 5, '                      _/--\ ', T.darker_yellow)
+    out(48, 6, '                     /     O ', T.darker_yellow)
+    out(48, 7, '               /\   /       \ ', T.darker_yellow)
+    out(48, 8, '             _/| \_/      _  \ ', T.darker_yellow)
+    out(48, 9, '            /     /     _/ \  \ ', T.darker_yellow)
     out(48, 10, '         __/  ___/     /    \  ) ', T.darker_yellow)
     out(48, 11, '        y       Λ     |      | | ', T.darker_yellow)
     out(48, 12, '       ,       / \   /       | | ', T.darker_yellow)
@@ -617,15 +646,20 @@ def title_screen():
     refresh()
     anykey()
 
+
 def intro_screen():
     clear()
-    
+
     out(0, 2, "Many centuries ago...", COLOR_TITLE)
-    
-    out(13, 4, "You are a young adventurer who has entered the abandoned Old Temple in Lonely Mountain. ", T.lighter_grey)
-    out(10, 5, "Many horror stories were told about this Temple at nighttime bonfires, as well as stories", T.lighter_grey)
-    out(10, 6, "about a Ruby Amulet that could grant great power to its wearer. As an intrepid explorer,", T.lighter_grey)
-    out(10, 7, "you grab your trusty sword and enter the Old Temple to find out what really lurks in its", T.lighter_grey)
+
+    out(13, 4, "You are a young adventurer who has entered the abandoned Old Temple in Lonely Mountain. ",
+        T.lighter_grey)
+    out(10, 5, "Many horror stories were told about this Temple at nighttime bonfires, as well as stories",
+        T.lighter_grey)
+    out(10, 6, "about a Ruby Amulet that could grant great power to its wearer. As an intrepid explorer,",
+        T.lighter_grey)
+    out(10, 7, "you grab your trusty sword and enter the Old Temple to find out what really lurks in its",
+        T.lighter_grey)
     out(10, 8, "dark shadows. Use your wits to collect items to explore the levels of the Old Temple.", T.lighter_grey)
     out(13, 10, "However, be aware that many dangers await you. Good luck! You will need it...", T.lighter_grey)
 
@@ -641,22 +675,23 @@ def intro_screen():
     out(15, 23, "[5] wait one turn", T.lighter_grey)
     out(15, 24, "[M] view last messages", T.lighter_grey)
     out(15, 25, "[Q] quit game", T.lighter_grey)
-    
+
     out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
     out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
     out(55, 17, "[B] open spellbook (only mage class)", T.lighter_grey)
     out(55, 18, "[P] open character sheet", T.lighter_grey)
 
-
     out(0, 28, "Press ENTER to continue...", T.light_grey)
     refresh()
     anykey()
+
 
 def select_game_class_screen():
     clear()
     _draw_game_class_screen()
     select_game_class()
-    
+
+
 def describe_tile(x, y):
     if GAME.map.is_visible(x, y):
         tile = GAME.map.tiles[x][y]
@@ -679,6 +714,7 @@ def describe_tile(x, y):
     else:
         message('Out of sight.', COLOR_ERROR)
 
+
 def new_ui_turn():
     for i in reversed(list(range(len(MESSAGES)))):
         latest, s, color = MESSAGES[i]
@@ -687,9 +723,10 @@ def new_ui_turn():
         else:
             break
 
+
 # --- LOOK --- #
 
-def look_mode(shoot = False):
+def look_mode(shoot=False):
     global MESSAGES
 
     x, y, map = GAME.player.x, GAME.player.y, GAME.player.map
@@ -721,7 +758,7 @@ def look_mode(shoot = False):
 
             while MESSAGES and MESSAGES[-1][0]:
                 MESSAGES.pop()
-                
+
             redraw = False
 
         cmd = decode_key(readkey(), LOOK_KEYS)
@@ -741,9 +778,10 @@ def look_mode(shoot = False):
 
     MESSAGES = _messages
 
+
 # --- KEYS --- #
 
-def select_item(title, items, flag = False):
+def select_item(title, items, flag=False):
     items = items[:INV_SIZE]
     draw_inventory(title, items, flag)
     while True:
@@ -755,6 +793,7 @@ def select_item(title, items, flag = False):
         if key in [pygame.K_ESCAPE]:
             return None
     return None
+
 
 def select_spell(title, spells):
     spells = spells[:BOOK_SIZE]
@@ -769,6 +808,7 @@ def select_spell(title, spells):
             return None
     return None
 
+
 def select_recipe(title, recipes):
     recipes = recipes[:CRAFTBOX_SIZE]
     craftbox(title, recipes)
@@ -781,6 +821,7 @@ def select_recipe(title, recipes):
         if key in [pygame.K_ESCAPE]:
             return None
     return None
+
 
 def select_game_class():
     from mobs.player import GAME_CLASSES
@@ -797,7 +838,9 @@ def select_game_class():
                         _draw_game_class_screen()
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
                     return
-def prompt(s, choices = None):
+
+
+def prompt(s, choices=None):
     if s != "":
         message(s, T.green)
         draw_all()
@@ -812,6 +855,7 @@ def prompt(s, choices = None):
     else:
         return readkey()
 
+
 def readkey():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -819,6 +863,7 @@ def readkey():
             close()
         if event.type == pygame.KEYUP:
             return event.key
+
 
 def anykey():
     while True:
@@ -829,7 +874,8 @@ def anykey():
             if event.type == pygame.KEYDOWN:
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
                     return
-                    
+
+
 def rip_screen():
     from common.calendar import Calendar
     calendar = Calendar()
@@ -837,54 +883,41 @@ def rip_screen():
     clear()
 
     out(0, 2, "Rest in peace...", COLOR_TITLE)
-     
-    out(10,  8,  '     --------      ', T.light_grey)
-    out(10,  9,  '    /        \     ', T.light_grey)
-    out(10, 10,  '   /          \    ', T.light_grey)
-    out(10, 11,  '  /            \   ', T.light_grey)
-    out(10, 12,  ' /              \  ', T.light_grey)
-    out(10, 13,  '/                \ ', T.light_grey)
-    out(10, 14,  '|                | ', T.light_grey)
-    out(10, 15,  '|                | ', T.light_grey)
-    out(10, 16,  '|                | ', T.light_grey)
-    out(10, 17,  '|                | ', T.light_grey)
-    out(10, 18,  '|                | ', T.light_grey)
-    out(10, 19,  '|                | ', T.light_grey)
-    out(10, 20,  '|                | ', T.light_grey)
-    out(10, 21,  '|                | ', T.light_grey)
-    out(10, 22,  '|                | ', T.light_grey)
-    out(10, 23,  '|                | ', T.light_grey)
 
-    out(12,  10,  'REST', T.grey, T.black, 14)
-    out(12,  11,  'IN', T.grey, T.black, 14)
-    out(12,  12,  'PEACE', T.grey, T.black, 14)
+    out(10, 8, '     --------      ', T.light_grey)
+    out(10, 9, '    /        \     ', T.light_grey)
+    out(10, 10, '   /          \    ', T.light_grey)
+    out(10, 11, '  /            \   ', T.light_grey)
+    out(10, 12, ' /              \  ', T.light_grey)
+    out(10, 13, '/                \ ', T.light_grey)
+    out(10, 14, '|                | ', T.light_grey)
+    out(10, 15, '|                | ', T.light_grey)
+    out(10, 16, '|                | ', T.light_grey)
+    out(10, 17, '|                | ', T.light_grey)
+    out(10, 18, '|                | ', T.light_grey)
+    out(10, 19, '|                | ', T.light_grey)
+    out(10, 20, '|                | ', T.light_grey)
+    out(10, 21, '|                | ', T.light_grey)
+    out(10, 22, '|                | ', T.light_grey)
+    out(10, 23, '|                | ', T.light_grey)
 
-    out(12,  15,  GAME.player.name, T.yellow, T.black, 14)
-    out(12,  16,  'killed by a', T.grey, T.black, 14)
-    out(12,  17,  'fire goblin', T.grey, T.black, 14)
+    out(12, 10, 'REST', T.grey, T.black, 14)
+    out(12, 11, 'IN', T.grey, T.black, 14)
+    out(12, 12, 'PEACE', T.grey, T.black, 14)
+
+    out(12, 15, GAME.player.name, T.yellow, T.black, 14)
+    out(12, 16, 'killed by a', T.grey, T.black, 14)
+    out(12, 17, 'fire goblin', T.grey, T.black, 14)
 
     day, year = calendar.get_day(GAME.turns)
 
-    out(12,  20,  calendar.get_month_name(day) + ' ' + str(calendar.get_month_num(day) + 1), T.grey, T.black, 14)
-    out(12,  21,  str(year), T.grey, T.black, 14)
+    out(12, 20, calendar.get_month_name(day) + ' ' + str(calendar.get_month_num(day) + 1), T.grey, T.black, 14)
+    out(12, 21, str(year), T.grey, T.black, 14)
 
-    out(4, 23,  '___)/\/\/\/\/\/\/\/\/\/\/\(___', T.green)
-     
-    out(40, 6,  'Epitaph', COLOR_TITLE)
-     
-     
-     
+    out(4, 23, '___)/\/\/\/\/\/\/\/\/\/\/\(___', T.green)
+
+    out(40, 6, 'Epitaph', COLOR_TITLE)
+
     out(0, 28, "Press ENTER to exit...", T.light_grey)
     refresh()
     anykey()
-
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    

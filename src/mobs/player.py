@@ -1,3 +1,4 @@
+from .damage import *
 from .mob import *
 
 # --- CONSTANTS --- #
@@ -19,7 +20,6 @@ class Player(Mob):
     mana_regen = 1
     magic = 0
     radius = 0
-    blocking = 0
 
     def __init__(self, wizard, selected_game_class):
         super(Player, self).__init__()
@@ -50,10 +50,9 @@ class Player(Mob):
         import items.items as item
         import common.spells as spell
         self.spells = []
-        self.recipes = []
         self.items = [item.Torch(), item.HealingPotion()]
         if self.game_class == FIGHTER:
-            self.life_regen = 2
+            self.hp_regen = 2
             self.mana_regen = 0
             self.magic = 0
             self.radius = 0
@@ -62,7 +61,7 @@ class Player(Mob):
             self.can_wear_mail_armor = True
             self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail()]
         elif self.game_class == THIEF:
-            self.life_regen = 1
+            self.hp_regen = 1
             self.mana_regen = 1
             self.magic = 0
             self.radius = 0
@@ -71,7 +70,7 @@ class Player(Mob):
             self.can_wear_leather_armor = True
             self.items += [item.HealingPotion(), item.SmallDagger(), item.ShadowArmor(), item.InstantPoisonPotion()]
         elif self.game_class == RANGER:
-            self.life_regen = 1
+            self.hp_regen = 1
             self.mana_regen = 1
             self.magic = 0
             self.radius = 1
@@ -79,12 +78,12 @@ class Player(Mob):
             self.can_wear_leather_armor = True
             self.items += [item.HealingPotion(), item.HuntingSpear(), item.QuiltedArmor()]
         else:
-            self.life_regen = 0
+            self.hp_regen = 0
             self.mana_regen = 3
             self.magic = 1
             self.radius = 0
-            self.has_life_adv_drop = False
-            self.has_mana_adv_drop = True
+            self.has_hp_adv_drop = False
+            self.has_mp_adv_drop = True
             self.has_spellbook = True
             self.can_use_staff = True
             self.can_wear_cloth_armor = True 
@@ -119,7 +118,7 @@ class Player(Mob):
             self.exp -= self.max_exp()
             self.advance()
 
-    def _life_inc(self):
+    def hp_inc(self):
         if self.game_class == FIGHTER:
             return 4
         elif self.game_class == THIEF:
@@ -141,8 +140,8 @@ class Player(Mob):
 
     def advance(self):
         self.level += 1
-        self.life.inc(self._life_inc())
-        self.life.fill()
+        self.max_hp += self.hp_inc()
+        self.hp = self.max_hp
         self.mana.inc(self._mana_inc())
         self.mana.fill()
 
@@ -219,32 +218,30 @@ class Player(Mob):
             self.use_energy()
 
     def attack(self, mon):
-        if rand(1, 100) < 95:
-            dmg = roll(*self.dice)
-            dmg = mon.calc_damage(dmg) + self.damage_bonus
-            if dmg > 0:
-                if rand(1, 20) < 20:
-                    message('You hit the %s (%d).' % (mon.name, dmg))
-                else:
-                    dmg *= 2
-                    message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
-            mon.damage(dmg, self)
-            if rand(1, 2) == 1 and self.poison > 0 and mon.life.cur > 0:
-                mon.poisoned = self.poison
-                message('You poisoned the %s (%d)!' % (mon.name, self.poison))
-            self.use_energy()
-        else:
-            message('You miss the %s.' % (mon.name))
+        damage = Damage.calculate(self, mon)
+        mon.damage(int(damage), self)
+        self.use_energy()
+
+        if damage.status == DamageStatus.NORMAL:
+            message('You hit the %s (%d).' % (mon.name, int(damage)))
+        elif damage.status == DamageStatus.CRITICAL:
+            message('You critically hit the %s (%d)!' % (mon.name, int(damage)), COLOR_ALERT)
+        elif damage.status == DamageStatus.EVADED:
+            message('You miss the %s.' % mon.name)
+        elif damage.status == DamageStatus.BLOCKED:
+            message('Monster have blocked your strike')
+        elif damage.status == DamageStatus.ABSORBED:
+            message('Monster have too powerful armor')
+
+    def die(self, murderer):
+        super().die(murderer)
+        murderer.look_normal()
 
     def damage(self, dmg, mon):
-        if dmg <= 0:
-            message('Your armor protects you.')
-            return
         self.life.modify(-dmg)
         if self.life.cur <= 0:
-            if not self.is_alive:
+            if self.is_alive:
                 self.die(mon)
-                mon.look_normal()
 
     def pick_up(self, item):
         if len(self.items) == INV_SIZE:
@@ -296,7 +293,7 @@ class Player(Mob):
     def resurrect(self):
         assert not self.is_alive
         self.is_alive = True
-        self.life.fill()
+        self.hp = self.max_hp
         self.mana.fill()
 
     def has_spell(self, spell_type):
@@ -318,8 +315,10 @@ class Player(Mob):
             message("You don't have a spellbook!", COLOR_ERROR)
             return False
 
-    def heal(self, life):
-        self.life.modify(life)
+    def heal(self, hp):
+        self.hp += hp
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
 
     def teleport(self):
         x, y, _ = self.map.random_empty_tile()

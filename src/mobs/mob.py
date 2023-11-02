@@ -16,6 +16,9 @@ class Mob(object):
     armor = 0
     life_regen = 1
     mana_regen = 0
+    blocking = 0
+    accuracy = 100
+    evasion = 10
 
     def __init__(self):
         self.life = Atrib()
@@ -33,6 +36,13 @@ class Mob(object):
         self.is_alive = False
         self.on_die(self, murderer)
         self.tile.items.append(Corpse(self))
+
+    def damage(self, dmg, attacker):
+        if dmg > 0:
+            self.hp -= dmg
+            if self.hp <= 0:
+                self.hp = 0
+                self.die(attacker)
 
     @property
     def tile(self):
