@@ -17,6 +17,8 @@ class Mob(object):
     life_regen = 1
     mana_regen = 0
     blocking = 0
+    accuracy = 100
+    evasion = 10
 
     def __init__(self):
         self.life = Atrib()

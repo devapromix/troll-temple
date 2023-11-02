@@ -11,6 +11,16 @@ class DamageStatus(Enum):
     ABSORBED = 4,
 
 
+def check_evasion(attacker, defender):
+    accuracy = max(attacker.accuracy, 1)
+    evasion = max(defender.evasion, 1)
+
+    # Mob have at least ~5% (1/20) chance to evade strike and to success strike
+    accuracy = accuracy if accuracy > evasion//20 else evasion//20
+    evasion = evasion if evasion > accuracy//20 else accuracy//20
+    return rand(1, evasion + accuracy) <= evasion
+
+
 class Damage:
     def __init__(self, status, value):
         self.status = status
@@ -41,10 +51,10 @@ class Damage:
 
     @staticmethod
     def calculate(attacker, defender):
-        if rand(1, 100) < 5:
+        if check_evasion(attacker, defender):
             return Damage.evaded()
 
-        dmg = roll(*attacker.dice)+ attacker.damage_bonus
+        dmg = roll(*attacker.dice) + attacker.damage_bonus
         dmg = defender.calc_damage(dmg)
         if dmg > 0:
             if defender.blocking > 0 and rand(1, 100 - defender.blocking) == 1:
