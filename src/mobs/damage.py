@@ -29,6 +29,9 @@ class Damage:
     def __int__(self):
         return self.value
 
+    def __str__(self):
+        return '%s: %d' % (self.status, self.value)
+
     @staticmethod
     def normal(value):
         return Damage(DamageStatus.NORMAL, value)

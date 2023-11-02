@@ -418,6 +418,7 @@ def _draw_messages():
 
 
 def message(s, color=T.white):
+
     s = s[0].upper() + s[1:]
     print(s)
     MESSAGES.append((True, s, color))
