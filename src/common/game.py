@@ -30,6 +30,7 @@ INVENTORY_SLOTS = {
     'w': 'wielded',
     'o': 'wielded',
     'l': 'carried as light source',
+    'r': 'ranged weapon',
     'q': 'quiver',
     'h': 'being worn',
     'a': 'being worn',

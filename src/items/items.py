@@ -3,6 +3,7 @@ from common.modifiers.mod import Mod
 from .LightSource import LightSource
 from .Weapon import *
 from .Weapon import Weapon
+from .ranged_weapon import RangedWeapon
 from .Item import Item
 from .Equipment import Equipment
 from common.spells import *
@@ -91,9 +92,8 @@ class UniqueStaff(EliteStaff):
 
 # --- BOW --- #
 
-class Bow(Weapon):
+class Bow(RangedWeapon):
     ABSTRACT = True
-    ranged = True
     
     def __init__(self):
         super(Bow, self).__init__()
@@ -746,12 +746,14 @@ class PowerStaff(UniqueStaff):
 class HunterBow(Bow):
     name = 'hunter bow'
     glyph = '}', T.lighter_orange
+    range = 4
     dice = 1, 2, 0
     dungeons = 1, 2
 
 # --- QUIVERS --- #
 
 class LightQuiver(Quiver):
+    ABSTRACT = True
     name = 'light quiver'
     glyph = '/', T.orange
     arrows = 100
