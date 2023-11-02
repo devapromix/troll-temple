@@ -1,3 +1,4 @@
+from .damage import *
 from .mob import *
 
 # --- CONSTANTS --- #
@@ -218,22 +219,20 @@ class Player(Mob):
             self.use_energy()
 
     def attack(self, mon):
-        if rand(1, 100) < 95:
-            dmg = roll(*self.dice)
-            dmg = mon.calc_damage(dmg) + self.damage_bonus
-            if dmg > 0:
-                if rand(1, 20) < 20:
-                    message('You hit the %s (%d).' % (mon.name, dmg))
-                else:
-                    dmg *= 2
-                    message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
-            mon.damage(dmg, self)
-            if rand(1, 2) == 1 and self.poison > 0 and mon.hp > 0:
-                mon.poisoned = self.poison
-                message('You poisoned the %s (%d)!' % (mon.name, self.poison))
-            self.use_energy()
-        else:
-            message('You miss the %s.' % (mon.name))
+        damage = Damage.calculate(self, mon)
+        mon.damage(int(damage), self)
+        self.use_energy()
+
+        if damage.status == DamageStatus.NORMAL:
+            message('You hit the %s (%d).' % (mon.name, int(damage)))
+        elif damage.status == DamageStatus.CRITICAL:
+            message('You critically hit the %s (%d)!' % (mon.name, int(damage)), COLOR_ALERT)
+        elif damage.status == DamageStatus.EVADED:
+            message('You miss the %s.' % mon.name)
+        elif damage.status == DamageStatus.BLOCKED:
+            message('Monster have blocked your strike')
+        elif damage.status == DamageStatus.ABSORBED:
+            message('Monster have too powerful armor')
 
     def die(self, murderer):
         super().die(murderer)

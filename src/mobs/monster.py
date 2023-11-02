@@ -1,3 +1,4 @@
+from .damage import *
 from .mob import *
 from items.items import *
 
@@ -115,25 +116,17 @@ class Monster(Mob, metaclass=Register):
             self.walk_randomly()
 
     def attack_player(self):
-        if rand(1, 100) < 95:
-            player = self.map.player
-            if player.blocking > 0 and rand(1, 100 - player.blocking) == 1:
-                message("You block the attack.")
-                return
-            dmg = roll(*self.dice)
-            dmg = player.calc_damage(dmg)
-            if dmg > 0:
-                if rand(1, 20) < 20:
-                    message('The %s hits you (%d).' % (self.name, dmg))
-                else:
-                    dmg *= 2
-                    message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
+        mon = self.map.player
+        damage = Damage.calculate(self, mon)
+        mon.damage(int(damage), self)
 
-            if dmg <= 0:
-                message('Your armor protects you.')
-            player.damage(dmg, self)
-            if rand(1, 2) == 1 and self.poison > 0 and player.life.cur > 0:
-                player.poisoned = self.poison
-                message('The %s poisoned you (%d)!' % (self.name, self.poison))
-        else:
-            message('The %s misses you.' % (self.name))
+        if damage.status == DamageStatus.NORMAL:
+            message('The %s hits you (%d).' % (self.name, int(damage)))
+        elif damage.status == DamageStatus.CRITICAL:
+                    message('The %s critically hits you (%d)!' % (self.name, int(damage)), COLOR_ALERT)
+        elif damage.status == DamageStatus.EVADED:
+            message('The %s misses you.' % self.name)
+        elif damage.status == DamageStatus.BLOCKED:
+            message("You block the attack.")
+        elif damage.status == DamageStatus.ABSORBED:
+            message('Your armor protects you.')
