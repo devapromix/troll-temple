@@ -52,7 +52,7 @@ class Player(Mob):
         self.spells = []
         self.items = [item.Torch(), item.HealingPotion()]
         if self.game_class == FIGHTER:
-            self.hp_regen = 2
+            self.life_regen = 2
             self.mana_regen = 0
             self.magic = 0
             self.radius = 0
@@ -61,7 +61,7 @@ class Player(Mob):
             self.can_wear_mail_armor = True
             self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail()]
         elif self.game_class == THIEF:
-            self.hp_regen = 1
+            self.life_regen = 1
             self.mana_regen = 1
             self.magic = 0
             self.radius = 0
@@ -70,7 +70,7 @@ class Player(Mob):
             self.can_wear_leather_armor = True
             self.items += [item.HealingPotion(), item.SmallDagger(), item.ShadowArmor(), item.InstantPoisonPotion()]
         elif self.game_class == RANGER:
-            self.hp_regen = 1
+            self.life_regen = 1
             self.mana_regen = 1
             self.magic = 0
             self.radius = 1
@@ -78,12 +78,12 @@ class Player(Mob):
             self.can_wear_leather_armor = True
             self.items += [item.HealingPotion(), item.HuntingSpear(), item.QuiltedArmor()]
         else:
-            self.hp_regen = 0
+            self.life_regen = 0
             self.mana_regen = 3
             self.magic = 1
             self.radius = 0
-            self.has_hp_adv_drop = False
-            self.has_mp_adv_drop = True
+            self.has_life_adv_drop = False
+            self.has_mana_adv_drop = True
             self.has_spellbook = True
             self.can_use_staff = True
             self.can_wear_cloth_armor = True 
@@ -118,7 +118,7 @@ class Player(Mob):
             self.exp -= self.max_exp()
             self.advance()
 
-    def hp_inc(self):
+    def _life_inc(self):
         if self.game_class == FIGHTER:
             return 4
         elif self.game_class == THIEF:
@@ -140,8 +140,8 @@ class Player(Mob):
 
     def advance(self):
         self.level += 1
-        self.max_hp += self.hp_inc()
-        self.hp = self.max_hp
+        self.life.inc(self._life_inc())
+        self.life.fill()
         self.mana.inc(self._mana_inc())
         self.mana.fill()
 
@@ -293,7 +293,7 @@ class Player(Mob):
     def resurrect(self):
         assert not self.is_alive
         self.is_alive = True
-        self.hp = self.max_hp
+        self.life.fill()
         self.mana.fill()
 
     def has_spell(self, spell_type):
@@ -315,10 +315,8 @@ class Player(Mob):
             message("You don't have a spellbook!", COLOR_ERROR)
             return False
 
-    def heal(self, hp):
-        self.hp += hp
-        if self.hp > self.max_hp:
-            self.hp = self.max_hp
+    def heal(self, life):
+        self.life.modify(life)
 
     def teleport(self):
         x, y, _ = self.map.random_empty_tile()

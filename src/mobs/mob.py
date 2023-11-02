@@ -39,9 +39,8 @@ class Mob(object):
 
     def damage(self, dmg, attacker):
         if dmg > 0:
-            self.hp -= dmg
-            if self.hp <= 0:
-                self.hp = 0
+            self.life.modify(-dmg)
+            if self.life.cur <= 0:
                 self.die(attacker)
 
     @property
