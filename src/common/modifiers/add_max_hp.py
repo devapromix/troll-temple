@@ -7,12 +7,10 @@ class AddMaxHp(Modifier):
 
     @property
     def descr(self):
-        return '+%d maximum hp' % (self.value)
+        return '+%d maximum life' % (self.value)
 
     def commit(self, mob):
-        mob.max_hp += self.value
-        mob.hp += self.value
+        mob.life.inc(self.value)
 
     def rollback(self, mob):
-        mob.max_hp -= self.value
-        mob.hp -= self.value
+        mob.life.dec(self.value)

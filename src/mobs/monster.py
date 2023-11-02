@@ -16,7 +16,7 @@ class Monster(Mob, metaclass=Register):
 
     def __init__(self):
         super(Monster, self).__init__()
-        self.hp = self.max_hp
+        self.life.fill()
 
     def look_like(self, cls):
         self.name = cls.name
@@ -29,28 +29,11 @@ class Monster(Mob, metaclass=Register):
         except AttributeError:
             pass
 
-    def disappear(self):
-        message('The %s disappears!' % self.name)
-        self.remove()
-
     def die(self, murderer):
         if rand(1, 30) <= self.drop_rate:
             self.drop()
         if rand(1, 10) <= 1:
             self.adv_drop()
-        super().die(murderer)
-
-    def drop(self):
-        item = random_by_level(self.map.level, Item.ALL)()
-        self.tile.items.append(item)
-
-    def adv_drop(self):
-        if self.map.player.has_hp_adv_drop:
-            self.tile.items.append(HealingPotion())
-        if self.map.player.has_mp_adv_drop:
-            self.tile.items.append(ManaPotion())
-
-    def die(self, murderer):
         super().die(murderer)
         self.look_normal()
         if self.map.is_visible(self.x, self.y):
@@ -58,6 +41,25 @@ class Monster(Mob, metaclass=Register):
         self.remove()
         murderer.kills += 1
         murderer.add_exp(self)
+
+    def disappear(self):
+        message('The %s disappears!' % self.name)
+        self.remove()
+
+    def damage(self, dmg, enemy):
+        self.life.modify(-dmg)
+        if self.life.cur <= 0:
+            self.die(enemy)
+
+    def drop(self):
+        item = random_by_level(self.map.level, Item.ALL)()
+        self.tile.items.append(item)
+
+    def adv_drop(self):
+        if self.map.player.has_life_adv_drop:
+            self.tile.items.append(HealingPotion())
+        if self.map.player.has_mana_adv_drop:
+            self.tile.items.append(ManaPotion())
 
     def see_player(self):
         player = self.map.player
@@ -130,7 +132,7 @@ class Monster(Mob, metaclass=Register):
             if dmg <= 0:
                 message('Your armor protects you.')
             player.damage(dmg, self)
-            if rand(1, 2) == 1 and self.poison > 0 and player.hp > 0:
+            if rand(1, 2) == 1 and self.poison > 0 and player.life.cur > 0:
                 player.poisoned = self.poison
                 message('The %s poisoned you (%d)!' % (self.name, self.poison))
         else:

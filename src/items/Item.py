@@ -1,4 +1,5 @@
-from common.game import UNKNOWN_GLYPH, message
+import tcod as T
+from common.game import message
 from common.utils import Register
 from common.game import COLOR_ITEM
 
@@ -7,8 +8,9 @@ class Item(object, metaclass=Register):
     ALL = []
     ABSTRACT = True
     common = 10
+    name = "unknown item"
 
-    glyph = UNKNOWN_GLYPH
+    glyph = "?", T.red
     color = COLOR_ITEM
     dungeons = 0, 0
     slot = None

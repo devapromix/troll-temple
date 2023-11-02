@@ -71,7 +71,7 @@ class Heal(Spell):
         f = super(Heal, self).on_use(player)
         if f:
             message('You are already at full health.', COLOR_MAGIC)
-            player.hp = player.max_hp
+            player.life.fill()
         return f
 
 class Teleport(Spell):

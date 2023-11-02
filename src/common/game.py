@@ -51,12 +51,6 @@ COLOR_TITLE   = T.lighter_yellow
 COLOR_ALERT   = T.light_yellow
 COLOR_ERROR   = T.lighter_red
 COLOR_MAGIC   = T.lighter_blue
-COLOR_VENOM   = T.lighter_green
-COLOR_CONFUSE = T.lightest_blue
-
-# --- CONSTANTS --- #
-
-UNKNOWN_GLYPH = '?', COLOR_ERROR
 
 # --- KEYS --- #
 
@@ -115,7 +109,6 @@ class Quit(Exception):
 
 class Game(object):
     def __init__(self, wizard):
-        # from mobs import mobs
         from mobs.player import FIGHTER
         self.wizard = wizard
         self.wizard = True
@@ -146,7 +139,7 @@ class Game(object):
         message('You die...', COLOR_ERROR)
 
     def start_map(self, level):
-        from .maps import Map
+        from maps.map import Map
         self.map = Map(level)
         x, y, _ = self.map.random_empty_tile()
         self.player.put(self.map, x, y)
@@ -254,12 +247,12 @@ class Game(object):
         self.player.tile.obj.on_use(self, self.player)
 
     def cmd_ascend(self):
-        from .maps import StairUpTile
+        from maps.tiles import StairUpTile
         if not isinstance(self.player.tile, StairUpTile):
             message('Stand on a up stairway to ascend.', COLOR_ERROR)
             return
         message('You take a moment to rest, and recover your strength.', T.yellow)
-        self.player.heal(int(self.player.max_hp / 2))
+        self.player.heal(int(self.player.life.max / 2))
         self.player.mana.fill()
         message('After a rare moment of peace, you ascend higher into the heart of the Temple...', T.yellow)
         self.ascend()
@@ -275,7 +268,7 @@ class Game(object):
 
     def cmd_wizard(self):
         if self.wizard and self.map.level < MAX_DLEVEL:
-            self.start_map(self.map.level+1)
+            self.start_map(self.map.level + 1)
 
     def cmd_look(self):
         look_mode()
@@ -304,7 +297,7 @@ class Game(object):
 
     def cmd_test(self):
         if self.wizard:
-            pass
+            rip_screen()
 
     def welcome(self):
         message("Brave adventurer, you are now lost in the underground corridors of the Old Temple.", T.yellow)
@@ -313,10 +306,12 @@ class Game(object):
 
 # --- GAME --- #
 
-def out(x, y, text, color = T.white, bkcolor = T.black):
+def out(x, y, text, color = T.white, bkcolor = T.black, w = 0):
     _txt = GAME.font.render(str(text), True, color, bkcolor)
     if x == 0:
         SCREEN.blit(_txt, (int((SCREEN_W - (_txt.get_width() / GAME.font_width))/2) * GAME.font_width, y * GAME.font_height))
+    elif w != 0:
+        SCREEN.blit(_txt, ((x + int((w - (_txt.get_width() / GAME.font_width))/2)) * GAME.font_width, y * GAME.font_height))
     else:
         SCREEN.blit(_txt, (x * GAME.font_width, y * GAME.font_height))
     
@@ -381,8 +376,8 @@ def _draw_status():
     out(60, 3, GAME.player.name + " " + _game_class[0] + " Level " + str(GAME.player.level), _game_class[2])
     out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)    
     _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp(), T.light_yellow)
-    out(60, 6, "Health: " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp), T.light_grey)    
-    _draw_bar(18, 6, GAME.player.hp, GAME.player.max_hp, T.light_red)
+    out(60, 6, "Life:   " + GAME.player.life.to_string(), T.light_grey)    
+    _draw_bar(18, 6, GAME.player.life.cur, GAME.player.life.max, T.light_red)
     out(60, 7, "Mana:   " + GAME.player.mana.to_string(), T.light_grey)    
     _draw_bar(18, 7, GAME.player.mana.cur, GAME.player.mana.max, T.light_blue)
     out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Turns:  " + str(GAME.turns), T.light_grey)
@@ -465,11 +460,11 @@ def character_screen():
     out(2, 4,  "Class        " + _game_class[0], T.light_grey)
     out(2, 6,  "Level        " + str(GAME.player.level), T.light_grey)
     out(2, 7,  "Experience   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)
-    if GAME.player.hp_regen > 0:
-        regen =  " (+" + str(GAME.player.hp_regen) + ")"
+    if GAME.player.life_regen > 0:
+        regen =  " (+" + str(GAME.player.life_regen) + ")"
     else:
         regen = ""
-    out(2, 9,  "Health       " + str(round(GAME.player.hp)) + "/" + str(GAME.player.max_hp) + regen, T.light_grey)
+    out(2, 9,  "Life         " + GAME.player.life.to_string() + regen, T.light_grey)
     if GAME.player.mana_regen > 0:
         regen =  " (+" + str(GAME.player.mana_regen) + ")"
     else:
@@ -817,3 +812,62 @@ def anykey():
             if event.type == pygame.KEYDOWN:
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
                     return
+                    
+def rip_screen():
+    from common.calendar import Calendar
+    calendar = Calendar()
+
+    clear()
+
+    out(0, 2, "Rest in peace...", COLOR_TITLE)
+     
+    out(10,  8,  '     --------      ', T.light_grey)
+    out(10,  9,  '    /        \     ', T.light_grey)
+    out(10, 10,  '   /          \    ', T.light_grey)
+    out(10, 11,  '  /            \   ', T.light_grey)
+    out(10, 12,  ' /              \  ', T.light_grey)
+    out(10, 13,  '/                \ ', T.light_grey)
+    out(10, 14,  '|                | ', T.light_grey)
+    out(10, 15,  '|                | ', T.light_grey)
+    out(10, 16,  '|                | ', T.light_grey)
+    out(10, 17,  '|                | ', T.light_grey)
+    out(10, 18,  '|                | ', T.light_grey)
+    out(10, 19,  '|                | ', T.light_grey)
+    out(10, 20,  '|                | ', T.light_grey)
+    out(10, 21,  '|                | ', T.light_grey)
+    out(10, 22,  '|                | ', T.light_grey)
+    out(10, 23,  '|                | ', T.light_grey)
+
+    out(12,  10,  'REST', T.grey, T.black, 14)
+    out(12,  11,  'IN', T.grey, T.black, 14)
+    out(12,  12,  'PEACE', T.grey, T.black, 14)
+
+    out(12,  15,  GAME.player.name, T.yellow, T.black, 14)
+    out(12,  16,  'killed by a', T.grey, T.black, 14)
+    out(12,  17,  'fire goblin', T.grey, T.black, 14)
+
+    day, year = calendar.get_day(GAME.turns)
+
+    out(12,  20,  calendar.get_month_name(day) + ' ' + str(calendar.get_month_num(day) + 1), T.grey, T.black, 14)
+    out(12,  21,  str(year), T.grey, T.black, 14)
+
+    out(4, 23,  '___)/\/\/\/\/\/\/\/\/\/\/\(___', T.green)
+     
+    out(40, 6,  'Epitaph', COLOR_TITLE)
+     
+     
+     
+    out(0, 28, "Press ENTER to exit...", T.light_grey)
+    refresh()
+    anykey()
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    

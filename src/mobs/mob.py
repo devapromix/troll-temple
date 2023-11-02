@@ -1,27 +1,26 @@
+import tcod as T
 from common.game import *
 from common.atrib import Atrib
 from mobs.effects.effects_container import EffectsContainer
 from utils.event import Event
-
+from items.corpse import Corpse
 
 class Mob(object):
     x, y = None, None
-    glyph = UNKNOWN_GLYPH
+    glyph = "?", T.red
     map = None
-
-    hp, max_hp = 1, 1
-
     enters_walls = False
     poison = 0
     poisoned = 0
     speed = 0
     armor = 0
-    hp_regen = 1
+    life_regen = 1
     mana_regen = 0
 
     def __init__(self):
+        self.life = Atrib()
         self.mana = Atrib()
-        self.to_hp_regen = 0
+        self.to_life_regen = 0
         self.to_mana_regen = 0
         self.effects = EffectsContainer(self)
         self.confused = False
@@ -33,6 +32,7 @@ class Mob(object):
         assert self.is_alive
         self.is_alive = False
         self.on_die(self, murderer)
+        self.tile.items.append(Corpse(self))
 
     def damage(self, dmg, attacker):
         if dmg > 0:
@@ -79,19 +79,19 @@ class Mob(object):
 
     def act(self):
         self.effects.act()
-        if self.hp < self.max_hp:
-            self.to_hp_regen += self.hp_regen
-            if self.to_hp_regen > 100:
-                self.hp = min(self.max_hp, self.to_hp_regen / 100 + self.hp)
-                self.to_hp_regen %= 100
+        if self.life.cur < self.life.max:
+            self.to_life_regen += self.life_regen
+            if self.to_life_regen > 100:
+                self.life.cur = min(self.life.max, self.to_life_regen / 100 + self.life.cur)
+                self.to_life_regen %= 100
         if self.mana.cur < self.mana.max:
             self.to_mana_regen += self.mana_regen
             if self.to_mana_regen > 100:
                 self.mana.cur = min(self.mana.max, self.to_mana_regen / 100 + self.mana.cur)
                 self.to_mana_regen %= 100
         if self.poisoned > 0:
-            if self.hp > 1:
-                self.hp -= 1
+            if self.life.cur > 1:
+                self.life.modify(-1)
             self.poisoned -= 1
 
     def heartbeat(self):

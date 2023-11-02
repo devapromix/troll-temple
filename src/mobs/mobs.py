@@ -23,19 +23,19 @@ class MageMonster(Monster):
 
 class RareMonster(Monster):
     ABSTRACT = True
-    hp_regen = 5
+    life_regen = 5
     drop_rate = 30
     rarity = 15
 
 class BossMonster(Monster):
     ABSTRACT = True
-    hp_regen = 15
+    life_regen = 15
     fov_range = 7
     drop_rate = 30
 
 class FinalBossMonster(BossMonster):
     ABSTRACT = True
-    hp_regen = 20
+    life_regen = 20
     fov_range = 10
     drop_rate = 30
 

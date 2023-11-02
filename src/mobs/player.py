@@ -15,7 +15,7 @@ GAME_CLASSES = [["Fighter", FIGHTER, T.light_red],
 class Player(Mob):
     glyph = '@', T.white
     name = 'Trollhunter'
-    hp_regen = 0
+    life_regen = 0
     mana_regen = 1
     magic = 0
     radius = 0
@@ -25,13 +25,13 @@ class Player(Mob):
         super(Player, self).__init__()
         self.game_class = selected_game_class
         self.level = 1
-        self.max_hp = 40 - (self.game_class * 5)
-        self.hp = self.max_hp
+        self.life.max = 40 - (self.game_class * 5)
+        self.life.fill()
         self.mana.max = self.game_class * 5
         self.mana.fill()
         
-        self.has_hp_adv_drop = True
-        self.has_mp_adv_drop = False
+        self.has_life_adv_drop = True
+        self.has_mana_adv_drop = False
         
         self.holding_dagger = False        
 
@@ -227,9 +227,6 @@ class Player(Mob):
                 else:
                     dmg *= 2
                     message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
-
-            if dmg <= 0:
-                message('The %s shrugs off the hit.' % self.name)
             mon.damage(dmg, self)
             if rand(1, 2) == 1 and self.poison > 0 and mon.hp > 0:
                 mon.poisoned = self.poison
@@ -241,6 +238,12 @@ class Player(Mob):
     def die(self, murderer):
         super().die(murderer)
         murderer.look_normal()
+
+    def damage(self, dmg, mon):
+        self.life.modify(-dmg)
+        if self.life.cur <= 0:
+            if self.is_alive:
+                self.die(mon)
 
     def pick_up(self, item):
         if len(self.items) == INV_SIZE:
