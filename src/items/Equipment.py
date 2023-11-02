@@ -1,11 +1,12 @@
 from common.game import COLOR_MAGIC
+from common.modifiers.modifier import Modifier
 from common.utils import rand
 from .Item import Item
 
 class Equipment(Item):
     ABSTRACT = True
     magical = False
-    speed = 0
+    modifier = Modifier()
     
     def suffix(self, suffix_name):
         if not self.magical:
@@ -17,15 +18,12 @@ class Equipment(Item):
             return False
 
     def on_equip(self, player):
-        player.speed += self.speed
+        self.modifier.commit(player)
         return True
 
     def on_unequip(self, player):
-        player.speed -= self.speed
+        self.modifier.rollback(player)
 
     @property
     def mod_descr(self):
-        s = ''
-        if self.speed != 0:
-            s += ' %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
-        return s.strip()
+        return str(self.modifier).strip()

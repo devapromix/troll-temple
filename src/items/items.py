@@ -1,3 +1,5 @@
+from common.modifiers.add_max_mana import AddMaxMana
+from common.modifiers.mod import Mod
 from .LightSource import LightSource
 from .Weapon import *
 from .Weapon import Weapon
@@ -15,7 +17,7 @@ class Dagger(Weapon):
         super(Dagger, self).__init__()
         if rand(1, 5) == 1:
             if self.suffix("rogues"):
-                self.speed += 1
+                self.modifier += Mod('speed', 1)
         if rand(1, 9) == 1:
             if self.suffix("assassins"):
                 a, b, c = self.dice
@@ -29,9 +31,7 @@ class Dagger(Weapon):
 
     @property
     def mod_descr(self):    
-        s = ''
-        if self.speed != 0:
-            s += ' %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
+        s = super().mod_descr()
         if self.poison > 0:
             s += ' poisons'
         return " " + s.strip()
@@ -62,42 +62,24 @@ class UniqueDagger(EliteDagger):
 
 class Staff(Weapon):
     ABSTRACT = True
-    mana = 0
-    magic = 1
     
     def __init__(self):
         super(Staff, self).__init__()
+
+        self.modifier += Mod('magic', 1)
         if rand(1, 3) == 1:
             if self.suffix("eclipse"):
-                self.mana += rand(self.magic, self.magic * 3)
+                self.modifier += AddMaxMana(rand(self.magic, self.magic * 3))
         if rand(1, 9) == 1:
             if self.suffix("wizards"):
-                self.mana += rand(self.magic * 2, self.magic * 5)
-
-    @property
-    def mod_descr(self):    
-        s = ''
-        if self.mana != 0:
-            s += ' %s%d mana' % ('+' if self.mana > 0 else '', self.mana)
-        if self.speed != 0:
-            s += ' %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
-        if self.magic != 0:
-            s += ' %s%d magic' % ('+' if self.magic > 0 else '', self.magic)
-        return " " + s.strip()
+                self.modifier += AddMaxMana(rand(self.magic * 2, self.magic * 5))
         
     def on_equip(self, player):
         if not player.can_use_staff:
             message("You don't know how to use staves!", COLOR_ERROR)
             return False
         super(Staff, self).on_equip(player)
-        player.mana.inc(self.mana)
-        player.magic += self.magic
         return True
-    
-    def on_unequip(self, player):    
-        super(Staff, self).on_unequip(player)
-        player.mana.dec(self.mana)
-        player.magic -= self.magic
 
 class EliteStaff(Staff):
     ABSTRACT = True
@@ -111,76 +93,42 @@ class UniqueStaff(EliteStaff):
 
 class Armor(Equipment):
     ABSTRACT = True
-    armor = 0
+    armor = 10
 
     def __init__(self):
         super(Armor, self).__init__()
+        self.modifier += Mod('armor', self.armor)
         if rand(1, 5) == 1:
             if self.suffix("defense"):
-                self.armor = self.armor + rand(round(self.armor / 5), round(self.armor / 3))
+                self.modifier += Mod('armor', rand(round(self.armor / 5), round(self.armor / 3)))
         if rand(1, 11) == 1:
             if self.suffix("protection"):
-                self.armor = self.armor + rand(round(self.armor / 3), round(self.armor / 2))
-
-    @property
-    def descr(self):
-        return '%s (%s)' % (self.name, self.mod_descr)
-
-    @property
-    def mod_descr(self):
-        s = ''
-        if self.armor != 0:
-            s += ' %s%d armor' % ('+' if self.armor > 0 else '', self.armor)
-        return s.strip()
-
-    def on_equip(self, player):
-        player.armor += self.armor
-        return True
-
-    def on_unequip(self, player):
-        player.armor -= self.armor
+                self.modifier += Mod('armor', rand(round(self.armor / 3), round(self.armor / 2)))
 
 # --- CLOTH ARMOR --- #
 
 class ClothArmor(Armor):
     ABSTRACT = True
     slot = 'a'
-    mana = 0
-    magic = 1
+    mana = 10
 
     def __init__(self):
         super(ClothArmor, self).__init__()
+        self.modifier += Mod('magic', 1)
+        self.modifier += AddMaxMana(self.mana)
         if rand(1, 3) == 1:
             if self.suffix("thought"):
-                self.mana += rand(round(self.mana / 3), round(self.mana / 2))
+                self.modifier += AddMaxMana(rand(round(self.mana / 3), round(self.mana / 2)))
         if rand(1, 6) == 1:
             if self.suffix("moon"):
-                self.mana += rand(round(self.mana / 2), self.mana)
+                self.modifier += AddMaxMana(rand(round(self.mana / 2), self.mana))
 
     def on_equip(self, player):
         if not player.can_wear_cloth_armor:
             message("You don't know how to use cloth armor!", COLOR_ERROR)
             return False
         super(ClothArmor, self).on_equip(player)
-        player.mana.inc(self.mana)
         return True
-
-    def on_unequip(self, player):    
-        super(ClothArmor, self).on_unequip(player)
-        player.mana.dec(self.mana)
-
-    @property
-    def mod_descr(self):    
-        s = ''
-        if self.armor != 0:
-            s += ' %s%d armor' % ('+' if self.armor > 0 else '', self.armor)
-        if self.mana != 0:
-            s += ' %s%d mana' % ('+' if self.mana > 0 else '', self.mana)
-        if self.speed != 0:
-            s += ' %s%d speed' % ('+' if self.speed > 0 else '', self.speed)
-        if self.magic != 0:
-            s += ' %s%d magic' % ('+' if self.magic > 0 else '', self.magic)
-        return s.strip()
         
 class EliteClothArmor(ClothArmor):
     ABSTRACT = True
@@ -244,22 +192,12 @@ class Helm(Armor):
     ABSTRACT = True
     slot = 'h'
     plural = True
-    radius = 0
 
     def __init__(self):
         super(Helm, self).__init__()
         if rand(1, 5) == 1:
             if self.suffix("light"):
-                self.radius += 1
-
-    def on_equip(self, player):
-        super(Helm, self).on_equip(player)
-        player.radius += self.radius
-        return True
-
-    def on_unequip(self, player):    
-        super(Helm, self).on_unequip(player)
-        player.radius -= self.radius
+                self.modifier += Mod('radius', 1)
 
 class EliteHelm(Helm):
     ABSTRACT = True
@@ -269,7 +207,7 @@ class EliteHelm(Helm):
         super(EliteHelm, self).__init__()
         if rand(1, 9) == 1:
             if self.suffix("sun"):
-                self.radius += 2
+                self.modifier += Mod('radius', 2)
 
 class UniqueHelm(EliteHelm):
     ABSTRACT = True
@@ -290,7 +228,7 @@ class EliteBoots(Boots):
         super(EliteBoots, self).__init__()
         if rand(1, 9) == 1:
             if self.suffix("speed"):
-                self.speed += 1
+                self.modifier += Mod('speed', 1)
 
 class UniqueBoots(EliteBoots):
     ABSTRACT = True
@@ -302,29 +240,17 @@ class Shield(Armor):
     ABSTRACT = True
     slot = 'o'
     rarity = 5
-    blocking = 10
 
     def __init__(self):
         super(Shield, self).__init__()
-
-    @property
-    def mod_descr(self):    
-        s = ''
-        s += ' +%d armor' % (self.armor)
-        s += ' +%d blocking' % (self.blocking)
-        return s.strip()
+        self.modifier += Mod('blocking', 10)
 
     def on_equip(self, player):
         if not player.can_use_shield:
             message("You don't know how to use shields!", COLOR_ERROR)
             return False
         super(Shield, self).on_equip(player)
-        player.blocking += self.blocking
         return True
-    
-    def on_unequip(self, player):    
-        super(Shield, self).on_unequip(player)
-        player.blocking -= self.blocking
 
 # --- BOOK --- #
 
