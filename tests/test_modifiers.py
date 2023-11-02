@@ -78,3 +78,9 @@ def test_union_mod():
     assert isinstance(mod, AggregateModifier)
     assert len(mod.mods) == 4
 
+def test_union_the_same():
+    mod = Modifier()
+    mod += Mod('armor', 1)
+    mod += Mod('speed', 1)
+    mod += Mod('speed', 2)
+    assert len(mod) == 2

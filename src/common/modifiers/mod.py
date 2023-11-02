@@ -10,6 +10,13 @@ class Mod(Modifier):
     def descr(self):
         return ' %s%d %s' % ('+' if self.value > 0 else '', self.value, self.attr_name)
 
+    def try_union(self, other):
+        if type(self) is type(other):
+            if self.attr_name == other.attr_name:
+                self.value += other.value
+                return True
+        return False
+
     def commit(self, mob):
         setattr(mob, self.attr_name, getattr(mob, self.attr_name) + self.value)
 

@@ -20,10 +20,22 @@ class AggregateModifier(Modifier):
     def __iadd__(self, other):
         if not type(other) is Modifier:
             if isinstance(other, AggregateModifier):
-                self.mods.extend(other.mods)
+                for mod in other:
+                    self.__add(mod)
             else:
-                self.mods.append(other)
+                self.__add(other)
         return self
+
+    def __len__(self): return len(self.mods)
+    def __iter__(self): return self.mods.__iter__()
+    #def __next__(self): return self.mods.__next__()
+
+    def __add(self, new_mod):
+        for mod in self.mods:
+            if mod.try_union(new_mod):
+                return
+        self.mods.append(new_mod)
+
 
     def __isub__(self, other):
         self.mods.remove(other)

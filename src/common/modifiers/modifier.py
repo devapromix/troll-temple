@@ -19,6 +19,13 @@ class Modifier:
     def act(self, mob):
         pass
 
+    def try_union(self, other):
+        if type(self) == type(other):
+            if self.attr_name == other.attr_name:
+                self.value += other.value
+                return True
+        return False
+
     def __iadd__(self, other):
         if type(self) is Modifier:
             return other
