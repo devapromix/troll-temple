@@ -34,6 +34,13 @@ class Mob(object):
         self.is_alive = False
         self.on_die(self, murderer)
 
+    def damage(self, dmg, attacker):
+        if dmg > 0:
+            self.hp -= dmg
+            if self.hp <= 0:
+                self.hp = 0
+                self.die(attacker)
+
     @property
     def tile(self):
         return self.map.tiles[self.x][self.y]

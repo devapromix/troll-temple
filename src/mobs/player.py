@@ -227,6 +227,9 @@ class Player(Mob):
                 else:
                     dmg *= 2
                     message('You critically hit the %s (%d)!' % (mon.name, dmg), COLOR_ALERT)
+
+            if dmg <= 0:
+                message('The %s shrugs off the hit.' % self.name)
             mon.damage(dmg, self)
             if rand(1, 2) == 1 and self.poison > 0 and mon.hp > 0:
                 mon.poisoned = self.poison
@@ -235,16 +238,9 @@ class Player(Mob):
         else:
             message('You miss the %s.' % (mon.name))
 
-    def damage(self, dmg, mon):
-        if dmg <= 0:
-            message('Your armor protects you.')
-            return
-        self.hp -= dmg
-        if self.hp <= 0:
-            self.hp = 0
-            if not self.is_alive:
-                self.die(mon)
-                mon.look_normal()
+    def die(self, murderer):
+        super().die(murderer)
+        murderer.look_normal()
 
     def pick_up(self, item):
         if len(self.items) == INV_SIZE:

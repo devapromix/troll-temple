@@ -33,17 +33,12 @@ class Monster(Mob, metaclass=Register):
         message('The %s disappears!' % self.name)
         self.remove()
 
-    def damage(self, dmg, enemy):
-        if dmg <= 0:
-            message('The %s shrugs off the hit.' % self.name)
-            return
-        self.hp -= dmg
-        if self.hp <= 0:
-            if rand(1, 30) <= self.drop_rate:
-                self.drop()
-            if rand(1, 10) <= 1:
-                self.adv_drop()
-            self.die(enemy)
+    def die(self, murderer):
+        if rand(1, 30) <= self.drop_rate:
+            self.drop()
+        if rand(1, 10) <= 1:
+            self.adv_drop()
+        super().die(murderer)
 
     def drop(self):
         item = random_by_level(self.map.level, Item.ALL)()
@@ -131,6 +126,9 @@ class Monster(Mob, metaclass=Register):
                 else:
                     dmg *= 2
                     message('The %s critically hits you (%d)!' % (self.name, dmg), COLOR_ALERT)
+
+            if dmg <= 0:
+                message('Your armor protects you.')
             player.damage(dmg, self)
             if rand(1, 2) == 1 and self.poison > 0 and player.hp > 0:
                 player.poisoned = self.poison
