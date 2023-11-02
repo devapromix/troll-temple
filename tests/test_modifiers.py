@@ -1,12 +1,16 @@
+from common.game import Game
 from common.modifiers.add_armor import AddArmor
 from common.modifiers.add_max_hp import AddMaxHp
 from common.modifiers.aggregate_modifier import AggregateModifier
 from common.modifiers.fight_for_life import FightForLife
+from common.modifiers.mod import Mod
 from mobs.player import *
 import pytest
 
 
-@pytest.mark.parametrize("mod,attr_name", [(AddMaxHp(10), "max_hp"), (AddArmor(15), "armor")])
+@pytest.mark.parametrize("mod,attr_name", [(AddArmor(15), "armor"),
+                                           (Mod("armor", 15), "armor"),
+                                           (Mod('speed', 10), 'speed')])
 def test_modifier_rollback(mod, attr_name):
     mob = Player(0, FIGHTER)
 
@@ -26,10 +30,10 @@ def test_add_max_hp_commit_test():
     mod = AddMaxHp(value)
     player = Player(0, FIGHTER)
 
-    old_hp = player.max_hp
+    old_hp = player.life.cur
     mod.commit(player)
 
-    assert old_hp + value == player.max_hp
+    assert old_hp + value == player.life.max
 
 
 def test_aggregate_modifier():
@@ -38,11 +42,11 @@ def test_aggregate_modifier():
     mods = AggregateModifier(AddMaxHp(max_hp_bonus), AddArmor(armor_bonus))
     mob = Player(0, FIGHTER)
 
-    old_hp = mob.max_hp
+    old_hp = mob.life.cur
     old_armor = mob.armor
     mods.commit(mob)
 
-    assert old_hp + max_hp_bonus == mob.max_hp
+    assert old_hp + max_hp_bonus == mob.life.max
     assert old_armor + armor_bonus == mob.armor
 
 
@@ -50,10 +54,10 @@ def test_fight_for_life():
     mod = FightForLife()
     mob = Player(0, FIGHTER)
 
-    mob.hp = mob.max_hp - 1
+    mob.hp = mob.life.cur - 1
     mod.act(mob)
-    assert mob.hp == mob.max_hp - 1
+    assert mob.hp == mob.life.max - 1
 
     mob.hp = 1
     mod.act(mob)
-    assert mob.hp != 1
+    assert mob.life.cur != 1
