@@ -20,7 +20,6 @@ class Player(Mob):
     mana_regen = 1
     magic = 0
     radius = 0
-    blocking = 0
 
     def __init__(self, wizard, selected_game_class):
         super(Player, self).__init__()
