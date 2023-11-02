@@ -7,7 +7,7 @@ class AddMaxHp(Modifier):
 
     @property
     def descr(self):
-        return '+%d maximum life' % (self.value)
+        return '+%d maximum life' % self.value
 
     def commit(self, mob):
         mob.life.inc(self.value)
