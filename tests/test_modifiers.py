@@ -4,6 +4,7 @@ from common.modifiers.add_max_hp import AddMaxHp
 from common.modifiers.aggregate_modifier import AggregateModifier
 from common.modifiers.fight_for_life import FightForLife
 from common.modifiers.mod import Mod
+from common.modifiers.modifier import Modifier
 from mobs.player import *
 import pytest
 
@@ -61,3 +62,19 @@ def test_fight_for_life():
     mob.hp = 1
     mod.act(mob)
     assert mob.life.cur != 1
+
+def test_union_mod():
+    mod = Modifier()
+    mod += Modifier()
+    assert isinstance(mod, Modifier)
+
+    mod += Mod('speed', 1)
+    assert isinstance(mod, Mod)
+
+    mod += Mod('speed', 2)
+    assert isinstance(mod, AggregateModifier)
+
+    mod += AggregateModifier(Mod('armor', 3), Mod('accuracy', 15))
+    assert isinstance(mod, AggregateModifier)
+    assert len(mod.mods) == 4
+
