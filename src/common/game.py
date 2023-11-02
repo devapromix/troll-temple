@@ -44,6 +44,8 @@ INV_H = INV_SIZE + 3
 
 BOOK_SIZE = SCREEN_H - 4
 
+CRAFTBOX_SIZE = SCREEN_H - 4
+
 # --- COLOURS --- #
 
 COLOR_ITEM = T.light_grey
@@ -475,6 +477,21 @@ def spellbook(title='Spellbook', spells=None):
     refresh()
 
 
+# --- CRAFTBOX --- #
+
+def _draw_craftbox(title, recipes):
+    clear()
+    out(2, 1, title, COLOR_TITLE)
+    for i, recipe in enumerate(recipes):
+        out(3, i + 3, chr(i + ord('a')), T.light_grey)
+        out(5, i+3, recipe.descr, T.light_grey)
+
+def craftbox(title='Craftbox', recipes = None):
+    _draw_craftbox(title, recipes or GAME.player.recipes)
+    _draw_messages()
+    _draw_status()
+    refresh()   
+
 # --- CHARACTER --- #
 
 def character_screen():
@@ -799,7 +816,7 @@ def select_recipe(title, recipes):
         key = readkey()
         if key in range(pygame.K_a, pygame.K_z):
             i = key - pygame.K_a
-            if 0 <= i < len(spells):
+            if 0 <= i < len(recipes):
                 return recipes[i]
         if key in [pygame.K_ESCAPE]:
             return None
