@@ -35,6 +35,7 @@ class Player(Mob):
         
         self.holding_dagger = False        
         self.holding_bow = False        
+        self.holding_quiver = False        
 
         self.has_spellbook = False
         self.has_craftbox = False
