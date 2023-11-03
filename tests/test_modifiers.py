@@ -1,5 +1,4 @@
 from common.game import Game
-from common.modifiers.add_armor import AddArmor
 from common.modifiers.add_max_hp import AddMaxHp
 from common.modifiers.aggregate_modifier import AggregateModifier
 from common.modifiers.fight_for_life import FightForLife
@@ -9,8 +8,7 @@ from mobs.player import *
 import pytest
 
 
-@pytest.mark.parametrize("mod,attr_name", [(AddArmor(15), "armor"),
-                                           (Mod("armor", 15), "armor"),
+@pytest.mark.parametrize("mod,attr_name", [(Mod("armor", 15), "armor"),
                                            (Mod('speed', 10), 'speed')])
 def test_modifier_rollback(mod, attr_name):
     mob = Player(0, FIGHTER)

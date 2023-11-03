@@ -1,7 +1,8 @@
 from mobs.effects.uni_effect import UniEffect
 from .game import *
-from .modifiers.add_damage import AddDamage
 from .modifiers.add_confuse import AddConfuse
+from .modifiers.mod import Mod
+
 
 # --- SPELL --- #
 
@@ -93,7 +94,7 @@ class Bloodlust(Spell):
         f = super(Bloodlust, self).on_use(player)
         if f:
             message('You feel lust for blood.', COLOR_MAGIC)
-            player.effects.add(UniEffect(AddDamage(3), player.magic + 5))
+            player.effects.add(UniEffect(Mod('damage_bonus', 2), player.magic + 5))
         return f
         
 class Confuse(Spell):
