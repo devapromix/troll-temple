@@ -11,7 +11,7 @@ class Mod(Modifier):
         return ' %s%d %s' % ('+' if self.value > 0 else '', self.value, self.attr_name)
 
     def try_union(self, other):
-        if type(self) is type(other):
+        if super().try_union(other):
             if self.attr_name == other.attr_name:
                 self.value += other.value
                 return True

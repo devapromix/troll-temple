@@ -9,6 +9,12 @@ class AddMaxMana(Modifier):
     def descr(self):
         return "+%s mana" % self.value
 
+    def try_union(self, other):
+        if super().try_union(other):
+            self.value += other.value
+            return True
+        return False
+
     def commit(self, mob):
         super().commit(mob)
         mob.mana.inc(self.value)
