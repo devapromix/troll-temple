@@ -101,6 +101,27 @@ class Bow(RangedWeapon):
             if self.suffix("swiftness"):
                 self.modifier += Mod('speed', 1)
 
+    #@property
+    #def mod_descr(self):    
+        #s = super().mod_descr()
+        #if self.range > 1:
+        #    s += 'range %d' % self.range
+        #return " " + s.strip()
+
+    def on_equip(self, player):
+        if not player.can_use_bow:
+            message("You don't know how to use bows!", COLOR_ERROR)
+            return False
+        super(Bow, self).on_equip(player)
+        player.holding_bow = True
+        player.range = self.range
+        return True
+        
+    def on_unequip(self, player):
+        super(Bow, self).on_unequip(player)
+        player.holding_bow = False
+        player.range = 1
+    
 class EliteBow(Bow):
     ABSTRACT = True
     rarity = 10
@@ -115,6 +136,29 @@ class Quiver(Equipment):
     ABSTRACT = True
     slot = 'q'
     arrows = 100
+
+    @property
+    def descr(self):
+        if self.arrows_left == self.arrows:
+            s = self.name
+        else:
+            p = 100 * self.arrows_left // self.arrows
+            s = '%s (%s%%)' % (self.name, p)
+        return s + self.mod_descr
+
+    def __init__(self):
+        super(Quiver, self).__init__()
+        self.arrows_left = self.arrows
+
+    def on_equip(self, player):
+        if not player.can_use_bow:
+            message("You don't know how to use bows!", COLOR_ERROR)
+            return False
+        return True
+
+    def on_unequip(self, player):
+        pass
+        #player.change_light_range(-self.light_range)
     
 # --- ARMOR --- #
 

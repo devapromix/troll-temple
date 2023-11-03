@@ -34,6 +34,7 @@ class Player(Mob):
         self.has_mana_adv_drop = False
         
         self.holding_dagger = False        
+        self.holding_bow = False        
 
         self.has_spellbook = False
         self.has_craftbox = False
