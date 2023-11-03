@@ -318,7 +318,7 @@ def out(x, y, text, color=T.white, bkcolor=T.black, w=0):
     _txt = GAME.font.render(str(text), True, color, bkcolor)
     if x == 0:
         SCREEN.blit(_txt, (
-        int((SCREEN_W - (_txt.get_width() / GAME.font_width)) / 2) * GAME.font_width, y * GAME.font_height))
+            int((SCREEN_W - (_txt.get_width() / GAME.font_width)) / 2) * GAME.font_width, y * GAME.font_height))
     elif w != 0:
         SCREEN.blit(_txt,
                     ((x + int((w - (_txt.get_width() / GAME.font_width)) / 2)) * GAME.font_width, y * GAME.font_height))
@@ -422,7 +422,9 @@ def _draw_messages():
 
 
 def message(s, color=T.white):
-
+    if 'MESSAGES' not in globals():
+        print(s)
+        return
     s = s[0].upper() + s[1:]
     print(s)
     MESSAGES.append((True, s, color))
@@ -486,13 +488,15 @@ def _draw_craftbox(title, recipes):
     out(2, 1, title, COLOR_TITLE)
     for i, recipe in enumerate(recipes):
         out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        out(5, i+3, recipe.descr, T.light_grey)
+        out(5, i + 3, recipe.descr, T.light_grey)
 
-def craftbox(title='Craftbox', recipes = None):
+
+def craftbox(title='Craftbox', recipes=None):
     _draw_craftbox(title, recipes or GAME.player.recipes)
     _draw_messages()
     _draw_status()
-    refresh()   
+    refresh()
+
 
 # --- CHARACTER --- #
 
