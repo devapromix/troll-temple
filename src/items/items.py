@@ -63,11 +63,11 @@ class UniqueDagger(EliteDagger):
 
 class Staff(Weapon):
     ABSTRACT = True
+    magic = 1
     
     def __init__(self):
         super(Staff, self).__init__()
 
-        self.modifier += Mod('magic', 1)
         if rand(1, 3) == 1:
             if self.suffix("eclipse"):
                 self.modifier += AddMaxMana(rand(self.magic, self.magic * 3))
@@ -163,7 +163,6 @@ class Armor(Equipment):
 
     def __init__(self):
         super(Armor, self).__init__()
-        self.modifier += Mod('armor', self.armor)
         if rand(1, 5) == 1:
             if self.suffix("defense"):
                 self.modifier += Mod('armor', rand(round(self.armor / 5), round(self.armor / 3)))
@@ -176,12 +175,11 @@ class Armor(Equipment):
 class ClothArmor(Armor):
     ABSTRACT = True
     slot = 'a'
+    magic = 1
     mana = 10
 
     def __init__(self):
         super(ClothArmor, self).__init__()
-        self.modifier += Mod('magic', 1)
-        self.modifier += AddMaxMana(self.mana)
         if rand(1, 3) == 1:
             if self.suffix("thought"):
                 self.modifier += AddMaxMana(rand(round(self.mana / 3), round(self.mana / 2)))
@@ -306,10 +304,16 @@ class Shield(Armor):
     ABSTRACT = True
     slot = 'o'
     rarity = 5
+    blocking = 10
+    armor = 0
 
     def __init__(self):
         super(Shield, self).__init__()
-        self.modifier += Mod('blocking', 10)
+        if self.blocking > 0:
+            self.modifier += Mod('blocking', self.blocking)
+        if self.armor > 0:
+            self.modifier += Mod('armor', self.armor)
+
 
     def on_equip(self, player):
         if not player.can_use_shield:
