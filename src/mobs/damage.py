@@ -20,6 +20,16 @@ def check_evasion(attacker, defender):
     evasion = evasion if evasion > accuracy//20 else accuracy//20
     return rand(1, evasion + accuracy) <= evasion
 
+def block_chance(x):
+    limit = 50
+    # how much need blocking for chance = limit-1 %
+    prelimit_blocking = 100
+    return round(-(prelimit_blocking/x)+limit)
+
+
+def check_blocking(defender):
+    return defender.blocking > 0 and rand(1, 100) <= block_chance(defender.blocking)
+
 
 class Damage:
     def __init__(self, status, value):
@@ -57,11 +67,12 @@ class Damage:
         if check_evasion(attacker, defender):
             return Damage.evaded()
 
+        if check_blocking(defender):
+            return Damage.blocked()
+
         dmg = roll(*attacker.dice) + attacker.damage_bonus
         dmg = defender.calc_damage(dmg)
         if dmg > 0:
-            if defender.blocking > 0 and rand(1, 100 - defender.blocking) == 1:
-                return Damage.blocked()
             if rand(1, 20) == 1:
                 return Damage.crit(dmg * 2)
             else:
