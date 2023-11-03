@@ -32,7 +32,7 @@ class Dagger(Weapon):
 
     @property
     def mod_descr(self):    
-        s = super().mod_descr()
+        s = super().mod_descr
         if self.poison > 0:
             s += ' poisons'
         return " " + s.strip()
