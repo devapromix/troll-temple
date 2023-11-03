@@ -101,12 +101,12 @@ class Bow(RangedWeapon):
             if self.suffix("swiftness"):
                 self.modifier += Mod('speed', 1)
 
-    #@property
-    #def mod_descr(self):    
-        #s = super().mod_descr()
-        #if self.range > 1:
-        #    s += 'range %d' % self.range
-        #return " " + s.strip()
+    @property
+    def mod_descr(self):    
+        s = super().mod_descr()
+        if self.range > 1:
+            s += 'range %s' % self.range
+        return " " + s.strip()
 
     def on_equip(self, player):
         if not player.can_use_bow:
@@ -139,12 +139,7 @@ class Quiver(Equipment):
 
     @property
     def descr(self):
-        if self.arrows_left == self.arrows:
-            s = self.name
-        else:
-            p = 100 * self.arrows_left // self.arrows
-            s = '%s (%s%%)' % (self.name, p)
-        return s + self.mod_descr
+        return '%s (%s/%s)' % (self.name, self.arrows_left, self.arrows)
 
     def __init__(self):
         super(Quiver, self).__init__()
