@@ -1,5 +1,4 @@
-from common.modifiers.add_max_mana import AddMaxMana
-from common.modifiers.mod import Mod
+from common.modifiers.attrib_mod import AddMaxMana
 from .LightSource import LightSource
 from .Weapon import *
 from .Weapon import Weapon

@@ -1,6 +1,6 @@
 from common.game import Game
-from common.modifiers.add_max_hp import AddMaxHp
 from common.modifiers.aggregate_modifier import AggregateModifier
+from common.modifiers.attrib_mod import AddMaxHp
 from common.modifiers.fight_for_life import FightForLife
 from common.modifiers.mod import Mod
 from common.modifiers.modifier import Modifier
@@ -38,7 +38,7 @@ def test_add_max_hp_commit_test():
 def test_aggregate_modifier():
     max_hp_bonus = 10
     armor_bonus = 6
-    mods = AggregateModifier(AddMaxHp(max_hp_bonus), AddArmor(armor_bonus))
+    mods = AggregateModifier(AddMaxHp(max_hp_bonus), Mod('armor', armor_bonus))
     mob = Player(0, FIGHTER)
 
     old_hp = mob.life.cur

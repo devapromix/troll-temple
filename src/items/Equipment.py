@@ -1,5 +1,5 @@
 from common.game import COLOR_MAGIC
-from common.modifiers.add_max_mana import AddMaxMana
+from common.modifiers.attrib_mod import AddMaxMana
 from common.modifiers.mod import Mod
 from common.modifiers.modifier import Modifier
 from common.utils import rand
