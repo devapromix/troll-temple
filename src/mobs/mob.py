@@ -19,6 +19,7 @@ class Mob(object):
     blocking = 0
     accuracy = 100
     evasion = 10
+    range = 1
 
     def __init__(self):
         self.life = Atrib()

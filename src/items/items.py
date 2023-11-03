@@ -32,7 +32,7 @@ class Dagger(Weapon):
 
     @property
     def mod_descr(self):    
-        s = super().mod_descr()
+        s = super().mod_descr
         if self.poison > 0:
             s += ' poisons'
         return " " + s.strip()
@@ -136,10 +136,11 @@ class Quiver(Equipment):
     ABSTRACT = True
     slot = 'q'
     arrows = 100
+    damage = 1
 
     @property
     def descr(self):
-        return '%s (%s/%s)' % (self.name, self.arrows_left, self.arrows)
+        return '%s (%s/%s +%s damage)' % (self.name, self.arrows_left, self.arrows, self.damage)
 
     def __init__(self):
         super(Quiver, self).__init__()
@@ -149,11 +150,13 @@ class Quiver(Equipment):
         if not player.can_use_bow:
             message("You don't know how to use bows!", COLOR_ERROR)
             return False
+        player.holding_quiver = True
+        self.modifier += AddDamage(self.damage)
         return True
 
     def on_unequip(self, player):
-        pass
-        #player.change_light_range(-self.light_range)
+        self.modifier -= AddDamage(self.damage)
+        player.holding_quiver = False
     
 # --- ARMOR --- #
 
