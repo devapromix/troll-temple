@@ -518,13 +518,16 @@ def character_screen():
     else:
         regen = ""
     out(2, 10, "Mana         " + GAME.player.mana.to_string() + regen, T.light_grey)
-    out(2, 12, "Damage       " + describe_dice(*GAME.player.dice) + " (" + str_dice(*GAME.player.dice) + ")",
+    r = ''
+    if GAME.player.range > 1:
+        r = ' ranged'
+    out(2, 12, "Damage       " + describe_dice(*GAME.player.dice) + " (" + str_dice(*GAME.player.dice) + ")" + r,
         T.light_grey)
     out(2, 13, "Armor        " + str(GAME.player.armor), T.light_grey)
     out(2, 15, "Speed        " + str(GAME.player.speed), T.light_grey)
     out(2, 16, "Magic power  " + str(GAME.player.magic), T.light_grey)
     out(2, 17, "Light radius " + str(GAME.player.fov_range + GAME.player.radius), T.light_grey)
-    out(2, 18, "", T.light_grey)
+    out(2, 18, "Range        " + str(GAME.player.range), T.light_grey)
     out(2, 19, "", T.light_grey)
     out(2, 20, "", T.light_grey)
     out(2, 21, "", T.light_grey)
