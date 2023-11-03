@@ -102,8 +102,8 @@ class Bow(RangedWeapon):
                 self.modifier += Mod('speed', 1)
 
     @property
-    def mod_descr(self):    
-        s = super().mod_descr()
+    def mod_descr(self):
+        s = ''
         if self.range > 1:
             s += 'range %s' % self.range
         return " " + s.strip()
