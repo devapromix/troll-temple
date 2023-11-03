@@ -1,0 +1,11 @@
+Fighters are the most powerful class in the game. Thanks to strong
+armor and a large amount of life, warriors are indispensable in
+battles and can withstand the onslaught of the enemy for a long time.
+They are masters of close combat and are excellent with a sword,
+hammer or axe. With their strong blows, they can cause damage to
+several enemies at once, or they can focus on one.
+
+Weapon: short sword
+Armor:  ring mail, round shield
+
+Leather sack

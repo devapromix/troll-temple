@@ -11,7 +11,7 @@ MAGE = 4
 GAME_CLASSES = [["Fighter", FIGHTER, T.light_red],
                 ["Thief",   THIEF, T.light_yellow],
                 ["Ranger",  RANGER, T.light_green],
-                ["Mage",    MAGE, T.light_orange]]
+                ["Mage",    MAGE, T.lighter_blue]]
 
 class Player(Mob):
     glyph = '@', T.white
