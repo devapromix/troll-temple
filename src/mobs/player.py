@@ -8,10 +8,10 @@ THIEF = 2
 RANGER = 3
 MAGE = 4
 
-GAME_CLASSES = [["Fighter", FIGHTER, T.light_red],
-                ["Thief",   THIEF, T.light_yellow],
-                ["Ranger",  RANGER, T.light_green],
-                ["Mage",    MAGE, T.lighter_blue]]
+GAME_CLASSES = [["Fighter", FIGHTER, T.light_red,    "heroic_sword"],
+                ["Thief",   THIEF,   T.light_yellow, "blood_dagger"],
+                ["Ranger",  RANGER,  T.light_green,  "hunter_bow"],
+                ["Mage",    MAGE,    T.lighter_blue, "wonder_staff"]]
 
 class Player(Mob):
     glyph = '@', T.white
