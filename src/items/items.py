@@ -150,11 +150,11 @@ class Quiver(Equipment):
             message("You don't know how to use bows!", COLOR_ERROR)
             return False
         player.holding_quiver = True
-        self.modifier += AddDamage(self.damage)
+        #self.modifier += AddDamage(self.damage)
         return True
 
     def on_unequip(self, player):
-        self.modifier -= AddDamage(self.damage)
+        #self.modifier -= AddDamage(self.damage)
         player.holding_quiver = False
     
 # --- ARMOR --- #

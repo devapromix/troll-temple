@@ -271,7 +271,20 @@ class Game(object):
             new_ui_turn()
 
     def cmd_select(self):
-        pass
+        weapon = self.player.equipment['r']
+        if not weapon:
+            message('You must hold the bow in your hands.', COLOR_ERROR)
+            return
+        quiver = self.player.equipment['q']
+        if not quiver:
+            message('You must carry a quiver.', COLOR_ERROR)
+            return
+        if quiver.arrows <= 0:
+            message('You need ammunition.', COLOR_ERROR)
+            return
+        mob = look_mode(True)
+        if mob:
+            self.player.attack(mob)
 
     def cmd_wizard(self):
         if self.wizard and self.map.level < MAX_DLEVEL:
