@@ -2,6 +2,7 @@ import sys
 import pygame
 import tcod as T
 
+from graphics.scenes.choose_perk_scene import ChoosePerkScene
 from .stats import Stats
 from .utils import *
 
@@ -130,6 +131,7 @@ class Game(object):
         intro_screen()
         select_game_class_screen()
         self.start()
+        self.cmd_perks()
         self.loop()
         close()
 
@@ -245,6 +247,10 @@ class Game(object):
         item = select_item('Select an item to use, ESC to exit', self.player.items, True)
         if item:
             self.player.use(item)
+
+    def cmd_perks(self):
+        scene = ChoosePerkScene(self.player)
+        scene.show()
 
     def cmd_use_map_object(self):
         from maps.objects import MapObject
