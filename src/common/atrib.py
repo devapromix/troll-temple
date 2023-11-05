@@ -1,5 +1,5 @@
 class Atrib(object):
-    def __init__(self, max_value = 1):
+    def __init__(self, max_value=1):
         self._max_value = max_value
         self.fill()
 
