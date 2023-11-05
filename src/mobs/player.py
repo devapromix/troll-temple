@@ -1,5 +1,6 @@
 from .damage import *
 from .mob import *
+from .perks.perks_container import PerksContainer
 
 # --- CONSTANTS --- #
 
@@ -29,6 +30,7 @@ class Player(Mob):
         self.life.fill()
         self.mana.max = self.game_class * 5
         self.mana.fill()
+        self.perks = PerksContainer(self)
         
         self.has_life_adv_drop = True
         self.has_mana_adv_drop = False
