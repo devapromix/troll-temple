@@ -128,7 +128,7 @@ class Game(object):
     def play(self):
         init(self)
         title_screen()
-        intro_screen()
+        self.cmd_intro()
         select_game_class_screen()
         self.start()
         self.cmd_perks()
@@ -299,8 +299,11 @@ class Game(object):
     def cmd_look(self):
         look_mode()
 
-    def cmd_help(self):
-        intro_screen()
+    def cmd_intro(self):
+        from graphics.scenes.intro_scene import IntroScene
+        scene = IntroScene()
+        scene.show()
+
 
     def cmd_spellbook(self):
         if self.player.has_spellbook:
@@ -620,15 +623,6 @@ def title_screen():
     out_file(10, 10, '../assets/texts/temple.txt', T.light_red)
     out(35, 17, ' v.' + VERSION, T.light_green)
     out(6, 22, 'by Apromix and Gandifil', T.light_yellow)
-    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
-    refresh()
-    anykey()
-
-
-def intro_screen():
-    clear()
-    out(0, 2, "Many centuries ago...", COLOR_TITLE)
-    out_file(10, 4, '../assets/texts/help.txt', T.lighter_grey)
     out(0, 28, "Press [ENTER] to continue...", T.light_grey)
     refresh()
     anykey()
