@@ -4,15 +4,15 @@ from common.modifiers.mod import Mod
 from .perk import *
 
 
-class Vitality(Perk):
-    __name = 'Defence Art2'
+class Powerful(Perk):
+    __name = 'powerful'
     __descr = "Increase your life"
-    modifier = AddMaxHp(20)
+    modifier = AddMaxHp(5)
     max_count = 10
 
 
 class DefenceArt(Perk):
-    __name = 'Defence Art'
+    __name = 'defence art'
     __descr = "Increase common abilities to evade and to supress damage"
     modifier = AggregateModifier(
         Mod('armor', 5),
@@ -23,6 +23,7 @@ class DefenceArt(Perk):
 
 
 class Agility(Perk):
+    __name = 'Defence Art'
     __descr = "Increase speed, accuracy and evasion"
     modifier = AggregateModifier(
         Mod('speed', 1),
@@ -30,3 +31,31 @@ class Agility(Perk):
         Mod('evasion', 5)
     )
     rarity = PerkRarity.RARE
+    
+class Indomitable(Perk):
+    __name = "indomitable"
+    __descr = "Increase damage"
+    #modifier = AddDamage(1)
+    max_count = 5
+    
+class Stoneheart(Perk):
+    __name = "stoneheart"
+    __descr = "Increase armor"
+    modifier = Mod('armor', 2)
+    max_count = 10
+    
+class EagleEye(Perk): # only class ranger
+    __name = "eagle eye"
+    __descr = "Improves the viewing radius"
+    modifier = Mod('radius', 1)
+    max_count = 2
+    
+class Poisoner(Perk): # only class thief    
+    __name = "poisoner"
+    __descr = "Poisons enemies more effective"
+    modifier = Mod('poison', 1)
+    max_count = 3
+    rarity = PerkRarity.RARE
+
+
+
