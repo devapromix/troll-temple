@@ -277,7 +277,20 @@ class Game(object):
             new_ui_turn()
 
     def cmd_select(self):
-        pass
+        weapon = self.player.equipment['r']
+        if not weapon:
+            message('You must hold the bow in your hands.', COLOR_ERROR)
+            return
+        quiver = self.player.equipment['q']
+        if not quiver:
+            message('You must carry a quiver.', COLOR_ERROR)
+            return
+        if quiver.arrows <= 0:
+            message('You need ammunition.', COLOR_ERROR)
+            return
+        mob = look_mode(True)
+        if mob:
+            self.player.attack(mob)
 
     def cmd_wizard(self):
         if self.wizard and self.map.level < MAX_DLEVEL:
@@ -412,7 +425,6 @@ def _draw_status():
     out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Turns:  " + str(
         GAME.turns), T.light_grey)
 
-
 # --- MESSAGES --- #
 
 def _draw_messages():
@@ -426,17 +438,38 @@ def _draw_messages():
             color *= 0.6
         out(60, i - start + 13, s, color)
 
+def _split_message(text, width):
+    n = -1
+    lines = []
+    words = text.split()
+    def add(word):
+        if len(lines[n]) == 0:
+            lines[n] += word
+        else:
+            lines[n] += " " + word
+    def new(n):
+        lines.append("")
+        n += 1
+    new(n)
+    for i, word in enumerate(words):
+        if len(lines[n] + word) + 1 < width:
+            add(word)
+        else:
+            new(n)
+            add(word)
+    return lines
 
-def message(s, color=T.white):
+def message(s, color = T.white):
     if 'MESSAGES' not in globals():
         print(s)
         return
     s = s[0].upper() + s[1:]
-    print(s)
-    MESSAGES.append((True, s, color))
+    lines = _split_message(s, 40)
+    for i, line in enumerate(lines):
+        print(line)
+        MESSAGES.append((True, line, color))
     _draw_messages()
     refresh()
-
 
 # --- INVENTORY --- #
 
@@ -549,7 +582,7 @@ def character_screen():
 
     out(35, 3, calendar.get_time_date(GAME.turns), T.light_grey)
 
-    out(0, 28, "Press ENTER to continue...", T.light_grey)
+    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
     refresh()
     anykey()
 
@@ -573,130 +606,30 @@ def _draw_game_class_screen():
         if GAME.selected_game_class == i + 1:
             out(1, i + 3, '>', T.white)
             out(5, i + 3, game_class[0], T.white)
+            out_file(20, 3, '../assets/texts/class_' + game_class[0].lower() +'.txt', T.lighter_grey)
+            out_file(70, 14, '../assets/texts/' + game_class[3].lower() +'.txt', game_class[2])
         else:
             out(5, i + 3, game_class[0], game_class[2])
-
-    if GAME.selected_game_class == FIGHTER:
-        out(20, 3, "Fighters are the most powerful class in the game. Thanks to strong", T.white)
-        out(20, 4, "armor and a large amount of life, warriors are indispensable in", T.white)
-        out(20, 5, "battles and can withstand the onslaught of the enemy for a long time.", T.white)
-        out(20, 6, "They are masters of close combat and are excellent with a sword,", T.white)
-        out(20, 7, "hammer or axe. With their strong blows, they can cause damage to", T.white)
-        out(20, 8, "several enemies at once, or they can focus on one.", T.white)
-        out(20, 10, "Weapon: " + "short sword", T.white)
-        out(20, 11, "Armor: " + "ring mail, round shield", T.white)
-        out(20, 13, "Leather sack", T.white)
-    elif GAME.selected_game_class == THIEF:
-        out(20, 3, "Thieves specialize in one-on-one combat. They are capable of destroying", T.white)
-        out(20, 4, "an enemy with a single attack, after immobilizing him with a sudden", T.white)
-        out(20, 5, "stun or knocking him down. In addition, they have the ability to", T.white)
-        out(20, 6, "increase critical strike chance and speed. A dagger in the hands of a", T.white)
-        out(20, 7, "thief turns into a fast, deadly weapon that strikes enemies to the very", T.white)
-        out(20, 8, "heart. And only thieves can safely pick locks and bypass traps.", T.white)
-        out(20, 10, "Weapon: " + "small dagger", T.white)
-        out(20, 11, "Armor: " + "shadow armor", T.white)
-        out(20, 13, "Snakeskin knapsack, alchemy set", T.white)
-    elif GAME.selected_game_class == RANGER:
-        out(20, 3, "Rangers are incredibly destructive in combat and strike terror and fear", T.white)
-        out(20, 4, "into their enemies with their immense strength and incredible speed.", T.white)
-        out(20, 5, "Thanks to a large number of skills that attack a single target, they", T.white)
-        out(20, 6, "are able to trackdown the victim and kill them at the right moment.", T.white)
-        out(20, 7, "Enemies will meet their death by dying from a huge number of wounds", T.white)
-        out(20, 8, "and bleeding, causing damage over time.", T.white)
-        out(20, 10, "Weapon: " + "hunter bow", T.white)
-        out(20, 11, "Armor: " + "quilted armor", T.white)
-        out(20, 13, "Master's haversack, light quiver, craft box", T.white)
-    elif GAME.selected_game_class == MAGE:
-        out(20, 3, "Mages have knowledge of ancient spells and can call upon the power", T.white)
-        out(20, 4, "of the elements to help them. They are capable of dealing massive", T.white)
-        out(20, 5, "damage to a large number of enemies, as well as slowing, pinning and", T.white)
-        out(20, 6, "knocking back enemies. Magicians use staves and magical artifacts", T.white)
-        out(20, 7, "as weapons, which give them strength and unity with the energy flows", T.white)
-        out(20, 8, "of the world.", T.white)
-        out(20, 10, "Weapon: " + "short staff", T.white)
-        out(20, 11, "Armor: " + "cultist robe", T.white)
-        out(20, 13, "Linen bag, spellbook", T.white)
-
-    out(0, 28, "Press ENTER to continue...", T.light_grey)
+    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
     refresh()
-
 
 def title_screen():
     clear()
-
     out_file(5, 4, '../assets/texts/troll.txt', T.green)
-
-    out(10, 10, '##### ##### #     # ##### #     #####', T.light_red)
-    out(10, 11, '# # # #     ##   ## #   # #     #', T.light_red)
-    out(10, 12, '  #   ###   # # # # ####  #     ###', T.light_red)
-    out(10, 13, '  #   #     #  #  # #     #     #', T.light_red)
-    out(10, 14, '  #   ##### #     # #     ##### #####', T.light_red)
-
+    out_file(45, 4, '../assets/texts/lonely_mountain.txt', T.darker_yellow)
+    out_file(10, 10, '../assets/texts/temple.txt', T.light_red)
     out(35, 17, ' v.' + VERSION, T.light_green)
-
-    out(10, 22, 'by Apromix <maxwof@ukr.net>', T.light_yellow)
-
-    out(48, 4, '                        /\ ', T.darker_yellow)
-    out(48, 5, '                      _/--\ ', T.darker_yellow)
-    out(48, 6, '                     /     O ', T.darker_yellow)
-    out(48, 7, '               /\   /       \ ', T.darker_yellow)
-    out(48, 8, '             _/| \_/      _  \ ', T.darker_yellow)
-    out(48, 9, '            /     /     _/ \  \ ', T.darker_yellow)
-    out(48, 10, '         __/  ___/     /    \  ) ', T.darker_yellow)
-    out(48, 11, '        y       Λ     |      | | ', T.darker_yellow)
-    out(48, 12, '       ,       / \   /       | | ', T.darker_yellow)
-    out(48, 13, '      /        \  \  |        \( ', T.darker_yellow)
-    out(48, 14, '     /             \|          | \ ', T.darker_yellow)
-    out(45, 15, '       ,___|_  _|-----`__ |-|- __|__,---', T.darker_yellow)
-    out(45, 16, '      ._/ /                 \____/      \, ', T.darker_yellow)
-    out(45, 17, '     /  \ \                  \```\        \, ', T.darker_yellow)
-    out(45, 18, '    (__   _\                 |```|         L_, ', T.darker_yellow)
-    out(45, 19, '    /   ./ /       /\         \```\       /  _\ ', T.darker_yellow)
-    out(45, 20, '   |   /  /       /  \        |```|       \,   | ', T.darker_yellow)
-    out(45, 21, '  /  (                |       \```\       /  _/ \ ', T.darker_yellow)
-    out(45, 22, ' /                            |```|           _,| ', T.darker_yellow)
-    out(45, 23, ' |_                           \```\             \ ', T.darker_yellow)
-
-    out(0, 28, "Press ENTER to continue...", T.light_grey)
+    out(6, 22, 'by Apromix and Gandifil', T.light_yellow)
+    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
     refresh()
     anykey()
 
 
 def intro_screen():
     clear()
-
     out(0, 2, "Many centuries ago...", COLOR_TITLE)
-
-    out(13, 4, "You are a young adventurer who has entered the abandoned Old Temple in Lonely Mountain. ",
-        T.lighter_grey)
-    out(10, 5, "Many horror stories were told about this Temple at nighttime bonfires, as well as stories",
-        T.lighter_grey)
-    out(10, 6, "about a Ruby Amulet that could grant great power to its wearer. As an intrepid explorer,",
-        T.lighter_grey)
-    out(10, 7, "you grab your trusty sword and enter the Old Temple to find out what really lurks in its",
-        T.lighter_grey)
-    out(10, 8, "dark shadows. Use your wits to collect items to explore the levels of the Old Temple.", T.lighter_grey)
-    out(13, 10, "However, be aware that many dangers await you. Good luck! You will need it...", T.lighter_grey)
-
-    out(13, 13, "Keybindings:", T.lighter_grey)
-    out(15, 15, "[I] show inventory", T.lighter_grey)
-    out(15, 16, "[G] pick up an item from the floor", T.lighter_grey)
-    out(15, 17, "[D] drop an item to the floor", T.lighter_grey)
-    out(15, 18, "[L] use look mode", T.lighter_grey)
-    out(15, 19, "[S] use shoot mode", T.lighter_grey)
-    out(15, 20, "[<] go up stairs", T.lighter_grey)
-    out(15, 21, "[U] use map object (portal, shrine)", T.lighter_grey)
-    out(15, 22, "[?] show this help screen", T.lighter_grey)
-    out(15, 23, "[5] wait one turn", T.lighter_grey)
-    out(15, 24, "[M] view last messages", T.lighter_grey)
-    out(15, 25, "[Q] quit game", T.lighter_grey)
-
-    out(55, 15, "[A] open alchemyset (only thief class)", T.lighter_grey)
-    out(55, 16, "[C] open craftbox (only ranger class)", T.lighter_grey)
-    out(55, 17, "[B] open spellbook (only mage class)", T.lighter_grey)
-    out(55, 18, "[P] open character sheet", T.lighter_grey)
-
-    out(0, 28, "Press ENTER to continue...", T.light_grey)
+    out_file(10, 4, '../assets/texts/help.txt', T.lighter_grey)
+    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
     refresh()
     anykey()
 
@@ -899,22 +832,7 @@ def rip_screen():
 
     out(0, 2, "Rest in peace...", COLOR_TITLE)
 
-    out(10, 8, '     --------      ', T.light_grey)
-    out(10, 9, '    /        \     ', T.light_grey)
-    out(10, 10, '   /          \    ', T.light_grey)
-    out(10, 11, '  /            \   ', T.light_grey)
-    out(10, 12, ' /              \  ', T.light_grey)
-    out(10, 13, '/                \ ', T.light_grey)
-    out(10, 14, '|                | ', T.light_grey)
-    out(10, 15, '|                | ', T.light_grey)
-    out(10, 16, '|                | ', T.light_grey)
-    out(10, 17, '|                | ', T.light_grey)
-    out(10, 18, '|                | ', T.light_grey)
-    out(10, 19, '|                | ', T.light_grey)
-    out(10, 20, '|                | ', T.light_grey)
-    out(10, 21, '|                | ', T.light_grey)
-    out(10, 22, '|                | ', T.light_grey)
-    out(10, 23, '|                | ', T.light_grey)
+    out_file(10, 8, '../assets/texts/rip.txt', T.light_grey)
 
     out(12, 10, 'REST', T.grey, T.black, 14)
     out(12, 11, 'IN', T.grey, T.black, 14)
@@ -933,6 +851,6 @@ def rip_screen():
 
     out(40, 6, 'Epitaph', COLOR_TITLE)
 
-    out(0, 28, "Press ENTER to exit...", T.light_grey)
+    out(0, 28, "Press [ENTER] to exit...", T.light_grey)
     refresh()
     anykey()

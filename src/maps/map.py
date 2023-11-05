@@ -129,10 +129,13 @@ class Map(object):
         
     def add_shrine(self):
         x, y, _ = self.random_empty_tile()
-        if rand(1, 2) == 1:
+        i = rand(1, 3)
+        if i == 1:
+            self.place_obj(x, y, LifeShrine)
+        elif i == 2:
             self.place_obj(x, y, ManaShrine)
         else:
-            self.place_obj(x, y, LifeShrine)
+            self.place_obj(x, y, RefillingShrine)
 
 
 

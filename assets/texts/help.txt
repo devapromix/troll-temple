@@ -1,0 +1,20 @@
+You are a young adventurer who has entered the abandoned Old Temple in Lonely
+Mountain. Many horror stories were told about this Temple at nighttime bonfires,
+as well as stories about a Ruby Amulet that could grant great power to its wearer.
+As an intrepid explorer, you grab your trusty sword and enter the Old Temple to
+find out what really lurks in its dark shadows. Use your wits to collect items to
+explore the levels of the Old Temple. However, be aware that many dangers await you.
+Good luck! You will need it...
+
+Keybindings:
+[I] show inventory                        [A] open alchemyset (only thief class)
+[G] pick up an item from the floor        [C] open craftbox (only ranger class)
+[D] drop an item to the floor             [B] open spellbook (only mage class)
+[L] use look mode                         [P] open character sheet
+[S] use shoot mode
+[<] go up stairs
+[U] use map object (portal, shrine)
+[?] show this help screen
+[5] wait one turn
+[M] view last messages
+[Q] quit game

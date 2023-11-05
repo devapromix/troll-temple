@@ -1,0 +1,13 @@
+Mages have knowledge of ancient spells and can call upon the power
+of the elements to help them. They are capable of dealing massive
+damage to a large number of enemies, as well as slowing, pinning and
+knocking back enemies. Magicians use staves and magical artifacts
+as weapons, which give them strength and unity with the energy flows
+of the world.
+
+Weapon: short staff
+Armor:  cultist robe
+
+Linen bag, spellbook
+
+

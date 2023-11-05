@@ -1,0 +1,11 @@
+Thieves specialize in one-on-one combat. They are capable of destroying
+an enemy with a single attack, after immobilizing him with a sudden
+stun or knocking him down. In addition, they have the ability to
+increase critical strike chance and speed. A dagger in the hands of a
+thief turns into a fast, deadly weapon that strikes enemies to the very
+heart. And only thieves can safely pick locks and bypass traps.
+
+Weapon: small dagger
+Armor:  shadow armor
+
+Snakeskin knapsack, alchemy set

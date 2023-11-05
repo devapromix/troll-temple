@@ -71,6 +71,18 @@ class LifeShrine(MapObject):
         message('You feel healed.')
         player.life.fill()
 
+class RefillingShrine(MapObject):
+    name = "refilling shrine"
+    glyph = "&", T.lighter_green
+
+    def on_enter():
+        message('There is a refilling shrine here.')
+
+    def on_use(self, player):
+        message('You feel healed and magical energies restoring.')
+        player.life.fill()
+        player.mana.fill()
+
 
 
 
