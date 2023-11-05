@@ -1,4 +1,4 @@
-from common.game import Game
+from common.game_class import Game
 from unittest.mock import Mock, MagicMock
 
 from mobs.effects.effect import Effect

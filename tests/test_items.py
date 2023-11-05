@@ -1,4 +1,4 @@
-from common.game import Game
+from common.game_class import Game
 from items.items import ShortStaff
 from mobs.player import *
 

@@ -1,4 +1,4 @@
-from common.game import Game
+from common.game_class import Game
 from common.modifiers.aggregate_modifier import AggregateModifier
 from common.modifiers.attrib_mod import AddMaxHp
 from common.modifiers.fight_for_life import FightForLife

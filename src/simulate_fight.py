@@ -1,4 +1,4 @@
-from common.game import Game
+from common.game_class import Game
 from mobs.mobs import *
 from mobs.player import *
 

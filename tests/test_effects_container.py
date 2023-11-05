@@ -1,4 +1,4 @@
-from common.game import Game
+from common.game_class import Game
 from mobs.effects.effect import Effect
 from mobs.effects.effects_container import EffectsContainer
 from mobs.player import *

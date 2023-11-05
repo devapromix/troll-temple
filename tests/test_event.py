@@ -1,4 +1,4 @@
-from common.game import Game
+from common.game_class import Game
 
 from tests.test_effect import create_mock
 from utils.event import Event
