@@ -406,7 +406,6 @@ def _draw_status():
     out(60, 8, "Damage: " + describe_dice(*GAME.player.dice) + " Armor: " + str(GAME.player.armor) + " Turns:  " + str(
         GAME.turns), T.light_grey)
 
-
 # --- MESSAGES --- #
 
 def _draw_messages():
@@ -420,17 +419,38 @@ def _draw_messages():
             color *= 0.6
         out(60, i - start + 13, s, color)
 
+def _split_message(text, width):
+    n = -1
+    lines = []
+    words = text.split()
+    def add(word):
+        if len(lines[n]) == 0:
+            lines[n] += word
+        else:
+            lines[n] += " " + word
+    def new(n):
+        lines.append("")
+        n += 1
+    new(n)
+    for i, word in enumerate(words):
+        if len(lines[n] + word) + 1 < width:
+            add(word)
+        else:
+            new(n)
+            add(word)
+    return lines
 
-def message(s, color=T.white):
+def message(s, color = T.white):
     if 'MESSAGES' not in globals():
         print(s)
         return
     s = s[0].upper() + s[1:]
-    print(s)
-    MESSAGES.append((True, s, color))
+    lines = _split_message(s, 40)
+    for i, line in enumerate(lines):
+        print(line)
+        MESSAGES.append((True, line, color))
     _draw_messages()
     refresh()
-
 
 # --- INVENTORY --- #
 
