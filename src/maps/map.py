@@ -76,6 +76,7 @@ class Map(object):
     def populate(self):
         n_monsters = 3 + roll(2, self.level)
         n_items = roll(2, 4, 1)
+        n_chests = rand(1, self.level) * 5
         for i in range(n_monsters):
             mcls = random_by_level(self.level, Monster.ALL)
             self.place_monsters(mcls)
@@ -83,7 +84,10 @@ class Map(object):
             x, y, tile = self.random_empty_tile(no_mob=False, no_stair=True)
             item = random_by_level(self.level, Item.ALL)()
             tile.items.append(item)
+        for i in range(n_chests):
+            self.add_chest(self.level)
         self.add_shrine()
+        
 
     def flood(self, x, y, mcls, n):
         if n == 0:
@@ -125,7 +129,7 @@ class Map(object):
 
     def place_obj(self, x, y, obj):
         tile = self.tiles[x][y]
-        tile.obj = obj
+        tile.obj = obj()
         
     def add_shrine(self):
         x, y, _ = self.random_empty_tile()
@@ -136,6 +140,21 @@ class Map(object):
             self.place_obj(x, y, ManaShrine)
         else:
             self.place_obj(x, y, RefillingShrine)
+            
+    def add_chest(self, map_level):
+        x, y, _ = self.random_empty_tile()
+        i = rand(1, 20)
+        if i in [1, 11] and rand(1, map_level) == 1:
+            self.place_obj(x, y, OldTrunk)
+        elif i in [12, 17] and rand(1, (MAX_DLEVEL - map_level) + 1) == 1:
+            self.place_obj(x, y, SilverStrongbox)
+        elif i in [18, 19] and map_level in [10, 12]:
+            self.place_obj(x, y, GoldenRelicBox)
+        elif i == 20 and map_level == MAX_DLEVEL:
+            self.place_obj(x, y, RunedChest)
+        else:
+            pass
+
 
 
 

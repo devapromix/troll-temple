@@ -53,14 +53,24 @@ class Monster(Mob, metaclass=Register):
             self.die(enemy)
 
     def drop(self):
-        item = random_by_level(self.map.level, Item.ALL)()
-        self.tile.items.append(item)
-
+        from mobs.drop import Drop
+        d = Drop(self)
+        d.drop()
+        
     def adv_drop(self):
-        if self.map.player.has_life_adv_drop:
-            self.tile.items.append(HealingPotion())
-        if self.map.player.has_mana_adv_drop:
-            self.tile.items.append(ManaPotion())
+        from mobs.drop import AdvDrop
+        d = AdvDrop(self)
+        d.drop()
+
+    def rare_drop(self):
+        from mobs.drop import RareDrop
+        d = RareDrop(self)
+        d.drop()
+
+    def unique_drop(self):
+        from mobs.drop import UniqueDrop
+        d = UniqueDrop(self)
+        d.drop()
 
     def see_player(self):
         player = self.map.player

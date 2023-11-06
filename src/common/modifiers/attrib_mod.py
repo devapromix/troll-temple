@@ -33,7 +33,7 @@ class AttribMod(Modifier):
         attribute.dec(self.value)
 
 
-class AddMaxHp(AttribMod):
+class AddMaxLife(AttribMod):
 
     def __init__(self, value): super().__init__('life', value)
 

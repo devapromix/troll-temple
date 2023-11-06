@@ -44,7 +44,7 @@ class FinalBossMonster(BossMonster):
 class Rat(Monster):
     name = 'rat'
     glyph = 'r', T.light_gray
-    max_hp = 4
+    life = 4
     dice = 1, 2, 0
     multi = 4
     level = 1
@@ -54,7 +54,7 @@ class Rat(Monster):
 class Bat(FlyMonster):
     name = 'bat'
     glyph = 'b', T.darker_orange
-    max_hp = 6
+    life = 6
     speed = 3
     dice = 1, 2, 0
     multi = 3
@@ -66,7 +66,7 @@ class Bat(FlyMonster):
 class Crawler(Monster):
     name = 'crawler'
     glyph = 'c', T.light_blue
-    max_hp = 5
+    life = 5
     dice = 1, 2, 0
     multi = 3
     level = 1
@@ -78,7 +78,7 @@ class Crawler(Monster):
 class GiantSpider(Monster):
     name = 'giant spider'
     glyph = 's', T.light_gray
-    max_hp = 8
+    life = 8
     speed = 1
     dice = 1, 3, 0
     poison = 4
@@ -91,7 +91,7 @@ class GiantSpider(Monster):
 class Kobold(Monster):
     name = 'kobold'
     glyph = 'k', T.light_green
-    max_hp = 10
+    life = 10
     dice = 1, 3, 1
     speed = 1
     armor = 0
@@ -103,7 +103,7 @@ class Kobold(Monster):
 class Lizard(Monster):
     name = 'lizard'
     glyph = 'l', T.light_blue
-    max_hp = 9
+    life = 9
     dice = 1, 3, 0
     poison = 3
     armor = 1
@@ -117,7 +117,7 @@ class Lizard(Monster):
 class BlackKobold(Monster):
     name = 'black kobold'
     glyph = 'k', T.gray
-    max_hp = 12
+    life = 12
     dice = 1, 3, 1
     armor = 0
     level = 3
@@ -127,7 +127,7 @@ class BlackKobold(Monster):
 class Bloodfly(Monster):
     name = 'bloodfly'
     glyph = 'b', T.gray
-    max_hp = 16
+    life = 16
     dice = 1, 3, 0
     poison = 5
     armor = 1
@@ -138,7 +138,7 @@ class Bloodfly(Monster):
 class Goblin(Monster):
     name = 'goblin'
     glyph = 'g', T.light_blue
-    max_hp = 14
+    life = 14
     dice = 1, 3, 2
     armor = 1
     level = 3
@@ -150,7 +150,7 @@ class Goblin(Monster):
 class DarkGoblin(Monster):
     name = 'dark goblin'
     glyph = 'g', T.grey
-    max_hp = 18
+    life = 18
     dice = 2, 3, 0
     armor = 1
     level = 4
@@ -160,7 +160,7 @@ class DarkGoblin(Monster):
 class LowOrc(Monster):
     name = 'low orc'
     glyph = 'o', T.red
-    max_hp = 20
+    life = 20
     dice = 2, 3, 1
     armor = 2
     level = 4
@@ -170,7 +170,7 @@ class LowOrc(Monster):
 class CrystalSpider(Monster):
     name = 'crystal spider'
     glyph = 's', T.light_cyan
-    max_hp = 19
+    life = 19
     dice = 2, 3, 1
     poison = 7
     armor = 1
@@ -184,7 +184,7 @@ class CrystalSpider(Monster):
 class Scavenger(GhostMonster):
     name = 'scavenger'
     glyph = 's', T.light_green
-    max_hp = 25
+    life = 25
     dice = 2, 3, 2
     level = 5    
     armor = 2
@@ -194,7 +194,7 @@ class Scavenger(GhostMonster):
 class Ghost(GhostMonster):
     name = 'ghost'
     glyph = 'g', T.white
-    max_hp = 24
+    life = 24
     speed = 1
     dice = 2, 4, 0
     level = 5    
@@ -205,7 +205,7 @@ class Ghost(GhostMonster):
 class KillerBat(FlyMonster):
     name = 'killer bat'
     glyph = 'b', T.darker_orange
-    max_hp = 22
+    life = 22
     speed = 3
     dice = 3, 3, 0
     multi = 3
@@ -218,7 +218,7 @@ class KillerBat(FlyMonster):
 class RockRat(Monster):
     name = 'rock rat'
     glyph = 'r', T.light_gray
-    max_hp = 28
+    life = 28
     dice = 2, 5, 0
     multi = 3
     level = 6
@@ -228,7 +228,7 @@ class RockRat(Monster):
 class Snapper(Monster):
     name = 'snapper'
     glyph = 's', T.lighter_green
-    max_hp = 32
+    life = 32
     poison = 9
     dice = 2, 4, 1
     level = 6
@@ -238,7 +238,7 @@ class Snapper(Monster):
 class Troll(RareMonster):
     name = 'troll'
     glyph = 'T', T.light_blue
-    max_hp = 30
+    life = 30
     dice = 2, 5, 2
     level = 6    
     armor = 5
@@ -249,7 +249,7 @@ class Troll(RareMonster):
 class FlyingEye(FlyMonster):
     name = 'flying eye'
     glyph = 'e', T.light_blue
-    max_hp = 32
+    life = 32
     dice = 2, 5, 0
     multi = 3
     level = 7
@@ -259,7 +259,7 @@ class FlyingEye(FlyMonster):
 class FireSkeleton(UndeadMonster):
     name = 'fire skeleton'
     glyph = 's', T.light_red
-    max_hp = 35
+    life = 35
     dice = 2, 5, 2
     multi = 2
     level = 7
@@ -269,7 +269,7 @@ class FireSkeleton(UndeadMonster):
 class StoneShark(Monster):
     name = 'stoneshark'
     glyph = 's', T.light_grey
-    max_hp = 35
+    life = 35
     dice = 2, 6, 0
     armor = 2
     level = 7
@@ -279,7 +279,7 @@ class StoneShark(Monster):
 class Ogre(RareMonster):
     name = 'ogre'
     glyph = 'O', T.light_green
-    max_hp = 36
+    life = 36
     dice = 2, 6, 2
     armor = 7
     level = 7    
@@ -290,7 +290,7 @@ class Ogre(RareMonster):
 class Skeleton(UndeadMonster):
     name = 'skeleton'
     glyph = 's', T.light_grey
-    max_hp = 37
+    life = 37
     dice = 2, 5, 3
     multi = 2
     level = 8    
@@ -300,7 +300,7 @@ class Skeleton(UndeadMonster):
 class Zombie(UndeadMonster):
     name = 'zombie'
     glyph = 'z', T.light_green
-    max_hp = 38
+    life = 38
     dice = 2, 6, 1
     level = 8    
     dungeons = 8, 8
@@ -309,7 +309,7 @@ class Zombie(UndeadMonster):
 class BoneGolem(UndeadMonster):
     name = 'bone golem'
     glyph = 'G', T.light_grey
-    max_hp = 42
+    life = 42
     armor = 7
     dice = 3, 4, 3
     level = 8    
@@ -319,7 +319,7 @@ class BoneGolem(UndeadMonster):
 class Necromancer(MageMonster):
     name = 'necromancer'
     glyph = 'n', T.light_grey
-    max_hp = 40
+    life = 40
     dice = 3, 4, 2
     summoner = True
     level = 8    
@@ -331,7 +331,7 @@ class Necromancer(MageMonster):
 class MaddeningEye(FlyMonster):
     name = 'maddening eye'
     glyph = 'e', T.yellow
-    max_hp = 44
+    life = 44
     dice = 3, 5, 0
     armor = 1
     level = 9    
@@ -341,7 +341,7 @@ class MaddeningEye(FlyMonster):
 class Shadowbeast(UndeadMonster):
     name = 'shadowbeast'
     glyph = 's', T.light_grey
-    max_hp = 44
+    life = 44
     dice = 2, 5, 5
     armor = 2
     poison = 12
@@ -352,7 +352,7 @@ class Shadowbeast(UndeadMonster):
 class StoneGolem(RareMonster):
     name = 'stone golem'
     glyph = 'G', T.light_grey
-    max_hp = 44
+    life = 44
     armor = 10
     dice = 3, 5, 2
     level = 9    
@@ -361,7 +361,7 @@ class StoneGolem(RareMonster):
 class FireGolem(RareMonster):
     name = 'fire golem'
     glyph = 'G', T.light_red
-    max_hp = 46
+    life = 46
     armor = 10
     dice = 3, 5, 2
     level = 9    
@@ -372,7 +372,7 @@ class FireGolem(RareMonster):
 class RockRaider(Monster):
     name = 'rock raider'
     glyph = 'r', T.light_grey
-    max_hp = 48
+    life = 48
     poison = 15
     armor = 4
     dice = 2, 7, 2
@@ -383,7 +383,7 @@ class RockRaider(Monster):
 class DustDevil(Monster):
     name = 'dust devil'
     glyph = 'd', T.yellow
-    max_hp = 52
+    life = 52
     dice = 2, 8, 1
     armor = 7
     level = 10    
@@ -393,7 +393,7 @@ class DustDevil(Monster):
 class Wraith(GhostMonster):
     name = 'wraith'
     glyph = 'w', T.light_grey
-    max_hp = 50
+    life = 50
     dice = 3, 5, 2
     level = 10    
     dungeons = 10, 11
@@ -404,7 +404,7 @@ class Wraith(GhostMonster):
 class Drake(Monster):
     name = 'drake'
     glyph = 'd', T.light_green
-    max_hp = 55
+    life = 55
     dice = 2, 9, 0
     armor = 3
     level = 11    
@@ -414,7 +414,7 @@ class Drake(Monster):
 class Spectre(GhostMonster):
     name = 'spectre'
     glyph = 's', T.light_grey
-    max_hp = 54
+    life = 54
     speed = 1
     dice = 3, 6, 0
     multi = 3
@@ -425,7 +425,7 @@ class Spectre(GhostMonster):
 class Wyrm(Monster):
     name = 'wyrm'
     glyph = 'w', T.light_grey
-    max_hp = 56
+    life = 56
     dice = 3, 6, 1
     poison = 20
     armor = 5
@@ -436,7 +436,7 @@ class Wyrm(Monster):
 class ColossalHydra(RareMonster):
     name = 'colossal hydra'
     glyph = 'H', T.dark_green
-    max_hp = 58
+    life = 58
     poison = 25
     armor = 12
     dice = 4, 4, 4
@@ -448,7 +448,7 @@ class ColossalHydra(RareMonster):
 class SoulSucker(FlyMonster):
     name = 'soul sucker'
     glyph = 's', T.light_blue
-    max_hp = 60
+    life = 60
     dice = 3, 7, 0
     armor = 4
     multi = 3
@@ -459,7 +459,7 @@ class SoulSucker(FlyMonster):
 class HugeSpider(Monster):
     name = 'huge spider'
     glyph = 's', T.light_red
-    max_hp = 60
+    life = 60
     dice = 3, 6, 3
     poison = 22
     armor = 8
@@ -470,7 +470,7 @@ class HugeSpider(Monster):
 class Summoner(MageMonster):
     name = 'summoner'
     glyph = 's', T.light_blue
-    max_hp = 60
+    life = 60
     dice = 3, 6, 2
     summoner = True
     multi = 3
@@ -485,7 +485,7 @@ class FireGoblin(BossMonster):
     ABSTRACT = True
     name = 'fire goblin'
     glyph = 'G', T.light_red
-    max_hp = 20
+    life = 20
     dice = 1, 4, 3
     armor = 2
     level = 3
@@ -495,12 +495,13 @@ class FireGoblin(BossMonster):
         super(FireGoblin, self).die()
         self.tile.items.append(ScrollRedPortal())
         self.adv_drop()
+        self.rare_drop()
         
 class Werewolf(BossMonster):
     ABSTRACT = True
     name = 'werewolf'
     glyph = 'W', T.light_grey
-    max_hp = 40
+    life = 40
     dice = 2, 5, 4
     level = 6    
     armor = 5
@@ -510,12 +511,13 @@ class Werewolf(BossMonster):
         super(Werewolf, self).die()
         self.tile.items.append(ScrollGreenPortal())
         self.adv_drop()
+        self.rare_drop()
         
 class Abomination(BossMonster):
     ABSTRACT = True
     name = 'abomination'
     glyph = 'A', T.light_blue
-    max_hp = 60
+    life = 60
     dice = 2, 7, 5
     armor = 8
     poison = 20
@@ -526,6 +528,7 @@ class Abomination(BossMonster):
         super(Abomination, self).die()
         self.tile.items.append(ScrollBluePortal())
         self.adv_drop()
+        self.rare_drop()
         
 # --- FINAL BOSS --- #
 
@@ -533,7 +536,7 @@ class TrollKing(FinalBossMonster):
     ABSTRACT = True
     name = 'troll king'
     glyph = 'T', T.red
-    max_hp = 75
+    life = 75
     dice = 4, 6, 5
     armor = 10
     level = 12
@@ -543,3 +546,5 @@ class TrollKing(FinalBossMonster):
         super(TrollKing, self).die()
         self.map.player.won = True
         self.adv_drop()
+        self.rare_drop()
+        self.unique_drop()
