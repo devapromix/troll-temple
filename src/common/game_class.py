@@ -192,7 +192,9 @@ class Game(object):
         look_mode()
 
     def cmd_help(self):
-        intro_screen()
+        from graphics.scenes.intro_scene import IntroScene
+        scene = IntroScene()
+        scene.show()
 
     def cmd_spellbook(self):
         if self.player.has_spellbook:
