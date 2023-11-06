@@ -80,7 +80,6 @@ class ManaShrine(Shrine):
 class LifeShrine(Shrine):
     name = "life shrine"
     glyph = "&", T.lighter_red
-    shrine = True
 
     def on_enter(self):
         message('There is a life shrine here.')
@@ -96,7 +95,6 @@ class LifeShrine(Shrine):
 class RefillingShrine(Shrine):
     name = "refilling shrine"
     glyph = "&", T.lighter_green
-    shrine = True
 
     def on_enter(self):
         message('There is a refilling shrine here.')
@@ -124,11 +122,11 @@ class OldTrunk(Container):
         from mobs.drop import AdvDrop
         if not self.used:
             self.used = True
-            message('You open a chest.', T.yellow)
+            message('You open an old trunk.', T.yellow)
             d = AdvDrop(player)
             d.drop()
         else:
-            message('The chest is already open.', T.red)
+            message('The old trunk is already open.', T.red)
 
 class SilverStrongbox(OldTrunk):
     name = "silver strongbox"
@@ -138,6 +136,19 @@ class SilverStrongbox(OldTrunk):
     def on_enter(self):
         message('There is a silver strongbox here.')
 
+    def on_use(self, player):
+        from mobs.drop import AdvDrop, Drop
+        if not self.used:
+            self.used = True
+            message('You open a silver strongbox.', T.yellow)
+            if rand(1, 5) == 1:
+                d = AdvDrop(player)
+                d.drop()
+            d = Drop(player)
+            d.drop()
+        else:
+            message('The silver strongbox is already open.', T.red)
+
 class GoldenRelicBox(SilverStrongbox):
     name = "golden relic box"
     glyph = "=", T.gold
@@ -146,6 +157,18 @@ class GoldenRelicBox(SilverStrongbox):
     def on_enter(self):
         message('There is a golden relic box here.')
 
+    def on_use(self, player):
+        from mobs.drop import AdvDrop, RareDrop
+        if not self.used:
+            self.used = True
+            message('You open a silver strongbox.', T.yellow)
+            d = AdvDrop(player)
+            d.drop()
+            r = RareDrop(player)
+            r.drop()
+        else:
+            message('The silver strongbox is already open.', T.red)
+
 class RunedChest(GoldenRelicBox):
     name = "runed chest"
     glyph = "=", T.cyan
@@ -153,6 +176,20 @@ class RunedChest(GoldenRelicBox):
     
     def on_enter(self):
         message('There is a runed chest here.')
+
+    def on_use(self, player):
+        from mobs.drop import AdvDrop, RareDrop, UniqueDrop
+        if not self.used:
+            self.used = True
+            message('You open a silver strongbox.', T.yellow)
+            d = AdvDrop(player)
+            d.drop()
+            r = RareDrop(player)
+            r.drop()
+            u = UniqueDrop(player)
+            u.drop()
+        else:
+            message('The silver strongbox is already open.', T.red)
 
 
 
