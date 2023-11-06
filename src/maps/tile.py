@@ -23,7 +23,10 @@ class Tile(object):
         elif self.items:
             return self.items[-1].glyph
         elif self.obj:
-            return self.obj.glyph
+            if self.obj.used:
+                return self.obj.glyph[0], T.grey
+            else:
+                return self.obj.glyph
         else:
             return self.glyph
 

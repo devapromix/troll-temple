@@ -6,6 +6,7 @@ from common.game import *
 class MapObject:
     name = "unknown object"
     glyph = "?", T.red
+    used = False
     
     def on_enter(self):
         pass
@@ -86,15 +87,14 @@ class RefillingShrine(MapObject):
 class OldTrunk(MapObject):
     name = "old trunk"
     glyph = "=", T.light_orange
-    opened = False
 
     def on_enter(self):
         message('There is an old trunk here.')
 
     def on_use(self, player):
         from mobs.drop import AdvDrop
-        if not self.opened:
-            self.opened = True
+        if not self.used:
+            self.used = True
             message('You open an old trunk.', T.yellow)
             d = AdvDrop(player)
             d.drop()

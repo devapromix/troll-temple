@@ -254,7 +254,7 @@ class Game(object):
 
     def cmd_use_map_object(self):
         from maps.objects import MapObject
-        if self.player.tile.obj == None or not issubclass(self.player.tile.obj, MapObject):
+        if self.player.tile.obj == None:
             message('Stand on a map object to use.', COLOR_ERROR)
             return
         self.player.tile.obj.on_use(self.player)
