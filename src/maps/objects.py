@@ -3,11 +3,11 @@ from common.game import *
 
 # --- MAP OBJECT --- #
 
-class MapObject(object):
+class MapObject:
     name = "unknown object"
     glyph = "?", T.red
     
-    def on_enter():
+    def on_enter(self):
         pass
 
     def on_use(self, player):
@@ -19,7 +19,7 @@ class ShimmeringRedPortal(MapObject):
     name = "shimmering red portal"
     glyph = "O", T.light_red
 
-    def on_enter():
+    def on_enter(self):
         message('There is a shimmering red portal here.')
 
     def on_use(self, player):
@@ -31,7 +31,7 @@ class ShimmeringGreenPortal(MapObject):
     name = "shimmering green portal"
     glyph = "O", T.light_green
 
-    def on_enter():
+    def on_enter(self):
         message('There is a shimmering green portal here.')
 
     def on_use(self, player):
@@ -42,7 +42,7 @@ class ShimmeringBluePortal(MapObject):
     name = "shimmering blue portal"
     glyph = "O", T.light_blue
 
-    def on_enter():
+    def on_enter(self):
         message('There is a shimmering blue portal here.')
 
     def on_use(self, player):
@@ -53,7 +53,7 @@ class ManaShrine(MapObject):
     name = "mana shrine"
     glyph = "&", T.lighter_blue
 
-    def on_enter():
+    def on_enter(self):
         message('There is a mana shrine here.')
 
     def on_use(self, player):
@@ -64,7 +64,7 @@ class LifeShrine(MapObject):
     name = "life shrine"
     glyph = "&", T.lighter_red
 
-    def on_enter():
+    def on_enter(self):
         message('There is a life shrine here.')
 
     def on_use(self, player):
@@ -75,7 +75,7 @@ class RefillingShrine(MapObject):
     name = "refilling shrine"
     glyph = "&", T.lighter_green
 
-    def on_enter():
+    def on_enter(self):
         message('There is a refilling shrine here.')
 
     def on_use(self, player):
@@ -83,6 +83,23 @@ class RefillingShrine(MapObject):
         player.life.fill()
         player.mana.fill()
 
+class OldTrunk(MapObject):
+    name = "old trunk"
+    glyph = "=", T.light_orange
+    opened = False
+
+    def on_enter(self):
+        message('There is an old trunk here.')
+
+    def on_use(self, player):
+        from mobs.drop import AdvDrop
+        if not self.opened:
+            self.opened = True
+            message('You open an old trunk.', T.yellow)
+            d = AdvDrop(player)
+            d.drop()
+        else:
+            message('The old trunk is already open.', T.red)
 
 
 

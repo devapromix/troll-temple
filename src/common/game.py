@@ -128,7 +128,7 @@ class Game(object):
     def play(self):
         init(self)
         title_screen()
-        self.cmd_intro()
+        self.cmd_help()
         select_game_class_screen()
         self.start()
         self.cmd_perks()
@@ -257,7 +257,7 @@ class Game(object):
         if self.player.tile.obj == None or not issubclass(self.player.tile.obj, MapObject):
             message('Stand on a map object to use.', COLOR_ERROR)
             return
-        self.player.tile.obj.on_use(self, self.player)
+        self.player.tile.obj.on_use(self.player)
 
     def cmd_ascend(self):
         from maps.tiles import StairUpTile
@@ -299,7 +299,7 @@ class Game(object):
     def cmd_look(self):
         look_mode()
 
-    def cmd_intro(self):
+    def cmd_help(self):
         from graphics.scenes.intro_scene import IntroScene
         scene = IntroScene()
         scene.show()

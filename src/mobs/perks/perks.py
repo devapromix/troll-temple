@@ -58,11 +58,11 @@ class Poisoner(Perk): # only class thief
     rarity = PerkRarity.RARE
 
 class Bower(Perk): # only class thief    
-    __name = "bower"
-    __descr = "You can use a bow."
-    #can_use_bow = True
+    name = "bower"
+    descr = "You can use a bow."
+    #self.can_use_bow = True
     max_count = 1
-    rarity = PerkRarity.RARE
+    rarity = PerkRarity.LEGEND
 
 
 
