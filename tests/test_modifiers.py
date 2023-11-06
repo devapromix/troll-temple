@@ -1,6 +1,6 @@
 from common.game import Game
 from common.modifiers.aggregate_modifier import AggregateModifier
-from common.modifiers.attrib_mod import AddMaxHp
+from common.modifiers.attrib_mod import AddMaxLife
 from common.modifiers.fight_for_life import FightForLife
 from common.modifiers.mod import Mod
 from common.modifiers.modifier import Modifier
@@ -24,28 +24,28 @@ def test_modifier_rollback(mod, attr_name):
     assert value_after_rollback != value_after_commit
 
 
-def test_add_max_hp_commit_test():
+def test_add_max_life_commit_test():
     value = 10
-    mod = AddMaxHp(value)
+    mod = AddMaxLife(value)
     player = Player(0, FIGHTER)
 
-    old_hp = player.life.cur
+    old_life = player.life.cur
     mod.commit(player)
 
-    assert old_hp + value == player.life.max
+    assert old_life + value == player.life.max
 
 
 def test_aggregate_modifier():
-    max_hp_bonus = 10
+    max_life_bonus = 10
     armor_bonus = 6
-    mods = AggregateModifier(AddMaxHp(max_hp_bonus), Mod('armor', armor_bonus))
+    mods = AggregateModifier(AddMaxLife(max_life_bonus), Mod('armor', armor_bonus))
     mob = Player(0, FIGHTER)
 
-    old_hp = mob.life.cur
+    old_life = mob.life.cur
     old_armor = mob.armor
     mods.commit(mob)
 
-    assert old_hp + max_hp_bonus == mob.life.max
+    assert old_life + max_life_bonus == mob.life.max
     assert old_armor + armor_bonus == mob.armor
 
 
@@ -53,11 +53,11 @@ def test_fight_for_life():
     mod = FightForLife()
     mob = Player(0, FIGHTER)
 
-    mob.hp = mob.life.cur - 1
+    mob.life = mob.life.cur - 1
     mod.act(mob)
-    assert mob.hp == mob.life.max - 1
+    assert mob.life == mob.life.max - 1
 
-    mob.hp = 1
+    mob.life = 1
     mod.act(mob)
     assert mob.life.cur != 1
 
