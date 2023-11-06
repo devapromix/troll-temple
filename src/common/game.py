@@ -639,7 +639,14 @@ def describe_tile(x, y):
         tile = GAME.map.tiles[x][y]
         message('%s.' % tile.name, tile.glyph[1])
         if tile.obj:
-            message(tile.obj.name, tile.obj.glyph[1])
+            d = ""
+            s = tile.obj.name
+            if tile.obj.used:
+                d = " (opened)"
+            else:
+                d = " (locked)"
+            s += d + "."
+            message(s, tile.obj.glyph[1])
         if tile.mob:
             d = ""
             s = tile.mob.name
