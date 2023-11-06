@@ -15,7 +15,7 @@ class Powerful(Perk):
 
 class DefenceArt(Perk):
     __name = 'defence art'
-    __descr = "Increase common abilities to evade and to supress damage"
+    __descr = "Increase common abilities to evade and to supress Damage"
     modifier = AggregateModifier(
         Mod('armor', 5),
         Mod('evasion', 10),
@@ -57,7 +57,7 @@ class FightForLife(Perk):
 
 class Indomitable(Perk):
     __name = "indomitable"
-    __descr = "Increase damage"
+    __descr = "Increase Damage"
     #modifier = AddDamage(1)
     max_count = 5
 
@@ -69,7 +69,7 @@ class Stoneheart(Perk):
 
 
 class IroncladDefender(Perk):
-    __descr = "The Ironclad Defender perk transforms you into an unyielding fortress on the battlefield. With unwavering determination, you prioritize defense above all else, bolstering your resistance to damage. However, this unwavering focus on defense comes at the cost of agility and evasion"
+    __descr = "The Ironclad Defender perk transforms you into an unyielding fortress on the battlefield. With unwavering determination, you prioritize defense above all else, bolstering your resistance to Damage. However, this unwavering focus on defense comes at the cost of agility and evasion"
     modifier = AggregateModifier(
         AddMaxLife(100),
         Mod('armor', 25),
@@ -78,30 +78,30 @@ class IroncladDefender(Perk):
     )
     max_count = 1
     rarity = PerkRarity.LEGEND
-    classes = {Classes.FIGHTER.value}
+    classes = {Classes.FIGHTER}
 
-class EagleEye(Perk): # only class ranger
+class EagleEye(Perk): # only class Classes.RANGER
     __name = "eagle eye"
     __descr = "Improves the viewing radius"
     modifier = Mod('radius', 1)
     max_count = 2
-    classes = {Classes.THIEF.value}
+    classes = {Classes.THIEF}
 
-class Poisoner(Perk): # only class thief
+class Poisoner(Perk): # only class Classes.THIEF
     __name = "poisoner"
     __descr = "Poisons enemies more effective"
     modifier = Mod('poison', 1)
     max_count = 3
     rarity = PerkRarity.RARE
-    classes = {Classes.THIEF.value}
+    classes = {Classes.THIEF}
 
-class Bower(Perk): # only class thief
+class Bower(Perk): # only class Classes.THIEF
     name = "bower"
     descr = "You can use a bow."
     #self.can_use_bow = True
     max_count = 1
     rarity = PerkRarity.LEGEND
-    classes = {Classes.THIEF.value}
+    classes = {Classes.THIEF}
 
 
 

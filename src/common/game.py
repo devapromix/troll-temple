@@ -198,7 +198,7 @@ def _draw_bar(x, y, cur, max, color):
 def _draw_status():
     from mobs.player import GAME_CLASSES
     out(60, 1, "Troll Temple" + " (" + "Level: " + str(GAME.map.level) + ")", T.light_green)
-    _game_class = GAME_CLASSES[GAME.player.game_class - 1]
+    _game_class = GAME_CLASSES[GAME.player.game_class.value - 1]
     out(60, 3, GAME.player.name + " " + _game_class[0] + " Level " + str(GAME.player.level), _game_class[2])
     out(60, 5, "Exp.:   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)
     _draw_bar(18, 5, GAME.player.exp, GAME.player.max_exp(), T.light_yellow)
@@ -387,7 +387,7 @@ def _draw_game_class_screen():
     out(2, 1, "Choose your class", COLOR_TITLE)
     for i, game_class in enumerate(GAME_CLASSES):
         out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        if GAME.selected_game_class == i + 1:
+        if GAME.selected_game_class.value == i + 1:
             out(1, i + 3, '>', T.white)
             out(5, i + 3, game_class[0], T.white)
             out_file(20, 3, '../assets/texts/class_' + game_class[0].lower() +'.txt', T.lighter_grey)

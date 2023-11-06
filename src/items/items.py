@@ -135,11 +135,11 @@ class Quiver(Equipment):
     ABSTRACT = True
     slot = 'q'
     arrows = 100
-    damage = 1
+    Damage = 1
 
     @property
     def descr(self):
-        return '%s (%s/%s +%s damage)' % (self.name, self.arrows_left, self.arrows, self.damage)
+        return '%s (%s/%s +%s Damage)' % (self.name, self.arrows_left, self.arrows, self.Damage)
 
     def __init__(self):
         super(Quiver, self).__init__()
@@ -150,11 +150,11 @@ class Quiver(Equipment):
             message("You don't know how to use bows!", COLOR_ERROR)
             return False
         player.holding_quiver = True
-        #self.modifier += AddDamage(self.damage)
+        #self.modifier += AddDamage(self.Damage)
         return True
 
     def on_unequip(self, player):
-        #self.modifier -= AddDamage(self.damage)
+        #self.modifier -= AddDamage(self.Damage)
         player.holding_quiver = False
     
 # --- ARMOR --- #
@@ -357,9 +357,9 @@ class PoisonPotion(Potion):
         message("Failed attempt to make the weapon poisonous!", COLOR_ERROR)
 
     def on_use(self, player):
-        from mobs.player import THIEF
+        from mobs.player import Classes
         super(PoisonPotion, self).on_use(player)
-        if player.game_class == THIEF:
+        if player.game_class == Classes.THIEF:
             if player.holding_dagger:
                 dagger = player.equipment['w']
                 if dagger and dagger.suffix("venom"):
@@ -802,49 +802,49 @@ class LightQuiver(Quiver):
     name = 'light quiver'
     glyph = '/', T.orange
     arrows = 100
-    damage = 1
+    Damage = 1
     dungeons = 1, 1
 
 class LeatherQuiver(Quiver):
     name = 'leather quiver'
     glyph = '/', T.light_orange
     arrows = 150
-    damage = 1
+    Damage = 1
     dungeons = 1, 2
 
 class KnothideQuiver(Quiver):
     name = 'knothide quiver'
     glyph = '/', T.orange
     arrows = 200
-    damage = 2
+    Damage = 2
     dungeons = 3, 4
 
 class HuntingQuiver(Quiver):
     name = 'hunting quiver'
     glyph = '/', T.lighter_green
     arrows = 250
-    damage = 3
+    Damage = 3
     dungeons = 5, 6
 
 class QuickdrawQuiver(Quiver):
     name = 'quickdraw quiver'
     glyph = '/', T.light_grey
     arrows = 300
-    damage = 4
+    Damage = 4
     dungeons = 7, 8
 
 class RaptorHideQuiver(Quiver):
     name = 'raptor hide quiver'
     glyph = '/', T.light_green
     arrows = 350
-    damage = 5
+    Damage = 5
     dungeons = 9, 10
 
 class HeavyQuiver(Quiver):
     name = 'heavy quiver'
     glyph = '/', T.light_red
     arrows = 400
-    damage = 6
+    Damage = 6
     dungeons = 11, 12
 
 # --- SHIELDS --- #
@@ -1036,7 +1036,7 @@ class WitchRobe(ClothArmor):
     dungeons = 5, 6
 
 class MageRobe(ClothArmor):
-    name = 'mage robe'
+    name = 'Classes.MAGE robe'
     glyph = ']', T.darker_orange
     armor = 8
     mana = 12

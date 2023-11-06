@@ -10,10 +10,10 @@ from graphics.scenes.choose_perk_scene import ChoosePerkScene
 
 class Game(object):
     def __init__(self, wizard):
-        from mobs.player import FIGHTER
+        from mobs.player import Classes
         self.wizard = wizard
         self.wizard = True
-        self.selected_game_class = FIGHTER
+        self.selected_game_class = Classes.FIGHTER
         self.keydown = None
         self.stats = Stats()
 

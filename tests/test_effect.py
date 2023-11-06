@@ -15,7 +15,7 @@ class TestEffect(Effect):
 
 def test_base_effect():
     effect = TestEffect()
-    mob = Player(0, FIGHTER)
+    mob = Player(0, Classes.FIGHTER)
     effect.register(mob)
     for _ in range(0, 10):
         effect.act()

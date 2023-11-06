@@ -28,7 +28,7 @@ class Mob(object):
         self.to_mana_regen = 0
         self.effects = EffectsContainer(self)
         self.confused = False
-        self.damage_bonus = 0
+        self.Damage_bonus = 0
         self.on_die = Event()
         self.is_alive = True
 
@@ -38,7 +38,7 @@ class Mob(object):
         self.on_die(self, murderer)
         self.tile.items.append(Corpse(self))
 
-    def damage(self, dmg, attacker):
+    def Damage(self, dmg, attacker):
         if dmg > 0:
             self.life.modify(-dmg)
             if self.life.cur <= 0:
@@ -100,7 +100,7 @@ class Mob(object):
     def heartbeat(self):
         pass
 
-    def calc_damage(self, dmg):
+    def calc_Damage(self, dmg):
         if dmg < 1:
             dmg = 1
         if self.armor > 90:

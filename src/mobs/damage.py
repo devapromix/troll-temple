@@ -70,8 +70,8 @@ class Damage:
         if check_blocking(defender):
             return Damage.blocked()
 
-        dmg = roll(*attacker.dice) + attacker.damage_bonus
-        dmg = defender.calc_damage(dmg)
+        dmg = roll(*attacker.dice) + attacker.Damage_bonus
+        dmg = defender.calc_Damage(dmg)
         if dmg > 0:
             if rand(1, 20) == 1:
                 return Damage.crit(dmg * 2)

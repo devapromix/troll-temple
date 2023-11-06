@@ -2,6 +2,7 @@ from .damage import *
 from .mob import *
 from .perks.perks_container import PerksContainer
 
+
 # --- CONSTANTS --- #
 
 
@@ -12,15 +13,11 @@ class Classes(Enum):
     MAGE = 4
 
 
-FIGHTER = 1
-THIEF = 2
-RANGER = 3
-MAGE = 4
+GAME_CLASSES = [["FIGHTER", Classes.FIGHTER, T.light_red, "heroic_sword"],
+                ["THIEF", Classes.THIEF, T.light_yellow, "blood_dagger"],
+                ["RANGER", Classes.RANGER, T.light_green, "hunter_bow"],
+                ["MAGE", Classes.MAGE, T.lighter_blue, "wonder_staff"]]
 
-GAME_CLASSES = [["Fighter", FIGHTER, T.light_red,    "heroic_sword"],
-                ["Thief",   THIEF,   T.light_yellow, "blood_dagger"],
-                ["Ranger",  RANGER,  T.light_green,  "hunter_bow"],
-                ["Mage",    MAGE,    T.lighter_blue, "wonder_staff"]]
 
 class Player(Mob):
     glyph = '@', T.white
@@ -30,27 +27,27 @@ class Player(Mob):
     magic = 0
     radius = 0
 
-    def __init__(self, wizard, selected_game_class):
+    def __init__(self, wizard, selected_game_class: Classes):
         super(Player, self).__init__()
         self.game_class = selected_game_class
         self.level = 1
-        self.life.max = 40 - (self.game_class * 5)
+        self.life.max = 40 - (self.game_class.value * 5)
         self.life.fill()
-        self.mana.max = self.game_class * 5
+        self.mana.max = self.game_class.value * 5
         self.mana.fill()
         self.perks = PerksContainer(self)
-        
+
         self.has_life_adv_drop = True
         self.has_mana_adv_drop = False
-        
-        self.holding_dagger = False        
-        self.holding_bow = False        
-        self.holding_quiver = False        
+
+        self.holding_dagger = False
+        self.holding_bow = False
+        self.holding_quiver = False
 
         self.has_spellbook = False
         self.has_craftbox = False
         self.has_alchemyset = False
-        
+
         self.can_use_dagger = False
         self.can_use_staff = False
         self.can_use_shield = False
@@ -64,7 +61,7 @@ class Player(Mob):
         import common.spells as spell
         self.spells = []
         self.items = [item.Torch(), item.HealingPotion()]
-        if self.game_class == FIGHTER:
+        if self.game_class == Classes.FIGHTER:
             self.life_regen = 2
             self.mana_regen = 0
             self.magic = 0
@@ -73,7 +70,7 @@ class Player(Mob):
             self.can_wear_leather_armor = True
             self.can_wear_mail_armor = True
             self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail()]
-        elif self.game_class == THIEF:
+        elif self.game_class == Classes.THIEF:
             self.life_regen = 1
             self.mana_regen = 1
             self.magic = 0
@@ -82,7 +79,7 @@ class Player(Mob):
             self.can_use_dagger = True
             self.can_wear_leather_armor = True
             self.items += [item.HealingPotion(), item.SmallDagger(), item.ShadowArmor(), item.InstantPoisonPotion()]
-        elif self.game_class == RANGER:
+        elif self.game_class == Classes.RANGER:
             self.life_regen = 1
             self.mana_regen = 1
             self.magic = 0
@@ -100,8 +97,9 @@ class Player(Mob):
             self.has_mana_adv_drop = True
             self.has_spellbook = True
             self.can_use_staff = True
-            self.can_wear_cloth_armor = True 
-            self.items += [item.ManaPotion(), item.BookHealing(), item.ShortStaff(), item.CultistRobe(), item.ScrollConfuse(), item.ScrollBloodlust()]
+            self.can_wear_cloth_armor = True
+            self.items += [item.ManaPotion(), item.BookHealing(), item.ShortStaff(), item.CultistRobe(),
+                           item.ScrollConfuse(), item.ScrollBloodlust()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -133,21 +131,21 @@ class Player(Mob):
             self.advance()
 
     def _life_inc(self):
-        if self.game_class == FIGHTER:
+        if self.game_class == Classes.FIGHTER:
             return 4
-        elif self.game_class == THIEF:
+        elif self.game_class == Classes.THIEF:
             return 3
-        elif self.game_class == RANGER:
+        elif self.game_class == Classes.RANGER:
             return 3
         else:
             return 2
 
     def _mana_inc(self):
-        if self.game_class == FIGHTER:
+        if self.game_class == Classes.FIGHTER:
             return 1
-        elif self.game_class == THIEF:
+        elif self.game_class == Classes.THIEF:
             return 2
-        elif self.game_class == RANGER:
+        elif self.game_class == Classes.RANGER:
             return 2
         else:
             return 5
@@ -236,15 +234,15 @@ class Player(Mob):
         mon.damage(int(damage), self)
         self.use_energy()
 
-        if damage.status == DamageStatus.NORMAL:
+        if damage.status == damage.Status.NORMAL:
             message('You hit the %s (%d).' % (mon.name, int(damage)))
-        elif damage.status == DamageStatus.CRITICAL:
+        elif damage.status == damage.Status.CRITICAL:
             message('You critically hit the %s (%d)!' % (mon.name, int(damage)), COLOR_ALERT)
-        elif damage.status == DamageStatus.EVADED:
+        elif damage.status == damage.Status.EVADED:
             message('You miss the %s.' % mon.name)
-        elif damage.status == DamageStatus.BLOCKED:
+        elif damage.status == damage.Status.BLOCKED:
             message('Monster have blocked your strike')
-        elif damage.status == DamageStatus.ABSORBED:
+        elif damage.status == damage.Status.ABSORBED:
             message('Monster have too powerful armor')
 
     def die(self, murderer):
@@ -302,8 +300,6 @@ class Player(Mob):
             if light.turns_left <= 0:
                 self.extinguish(light)
 
-
-
     def resurrect(self):
         assert not self.is_alive
         self.is_alive = True
@@ -335,5 +331,3 @@ class Player(Mob):
     def teleport(self):
         x, y, _ = self.map.random_empty_tile()
         self.move(x, y)
-        
-            

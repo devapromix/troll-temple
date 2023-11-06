@@ -11,7 +11,7 @@ import pytest
 @pytest.mark.parametrize("mod,attr_name", [(Mod("armor", 15), "armor"),
                                            (Mod('speed', 10), 'speed')])
 def test_modifier_rollback(mod, attr_name):
-    mob = Player(0, FIGHTER)
+    mob = Player(0, Classes.FIGHTER)
 
     value_before_commit = getattr(mob, attr_name)
     mod.commit(mob)
@@ -27,7 +27,7 @@ def test_modifier_rollback(mod, attr_name):
 def test_add_max_life_commit_test():
     value = 10
     mod = AddMaxLife(value)
-    player = Player(0, FIGHTER)
+    player = Player(0, Classes.FIGHTER)
 
     old_life = player.life.cur
     mod.commit(player)
@@ -39,7 +39,7 @@ def test_aggregate_modifier():
     max_life_bonus = 10
     armor_bonus = 6
     mods = AggregateModifier(AddMaxLife(max_life_bonus), Mod('armor', armor_bonus))
-    mob = Player(0, FIGHTER)
+    mob = Player(0, Classes.FIGHTER)
 
     old_life = mob.life.cur
     old_armor = mob.armor
@@ -51,7 +51,7 @@ def test_aggregate_modifier():
 
 def test_fight_for_life():
     mod = FightForLife()
-    mob = Player(0, FIGHTER)
+    mob = Player(0, Classes.FIGHTER)
 
     mob.life = mob.life.cur - 1
     mod.act(mob)

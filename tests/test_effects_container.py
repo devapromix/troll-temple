@@ -11,7 +11,7 @@ class TestEffect(Effect):
 
 
 def test_effects_container_effect_lifetime():
-    mob = Player(0, FIGHTER)
+    mob = Player(0, Classes.FIGHTER)
     effects = EffectsContainer(mob)
     effect = TestEffect()
 
