@@ -1,8 +1,15 @@
 from graphics.scenes.selection_scene import SelectionScene
 from mobs.perks.perks import *
+import tcod as T
 
 
 class ChoosePerkScene(SelectionScene):
+    RARITY_COLORS = {
+        PerkRarity.USUALLY: T.light_grey,
+        PerkRarity.RARE: T.lighter_blue,
+        PerkRarity.LEGEND: T.lighter_red,
+    }
+
     def __init__(self, player):
         super().__init__("Choose your destiny", player.perks.generate_new_perks())
         self.__player = player
@@ -10,3 +17,7 @@ class ChoosePerkScene(SelectionScene):
     def show(self):
         super().show()
         self.__player.perks.teach(self.selected)
+
+    def _draw_item_name(self, x: int, y: int, item: Perk) -> None:
+        from common.game import out
+        out(x, y, item.name, self.RARITY_COLORS[item.rarity])

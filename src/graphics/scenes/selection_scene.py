@@ -14,7 +14,7 @@ class SelectionScene(Scene):
         for i, item in enumerate(self.items):
             id = chr(i + ord('a'))
             out(3, i + 3, id, Color.ITEM.value)
-            out(5, i + 3, item.name, Color.MAGIC.value)
+            self._draw_item_name(5, i + 3, item)
 
     def _check_input(self, key: int) -> bool:
         from common.game import pygame
@@ -24,4 +24,8 @@ class SelectionScene(Scene):
                 self.selected = self.items[i]
                 return True
         return False
+
+    def _draw_item_name(self, x: int, y: int, item: object) -> None:
+        from common.game import out
+        out(x, y, str(item), Color.MAGIC.value)
 
