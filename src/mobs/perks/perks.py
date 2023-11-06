@@ -1,5 +1,6 @@
 from common.modifiers.aggregate_modifier import AggregateModifier
 from common.modifiers.attrib_mod import AddMaxLife
+from common.modifiers.fight_for_life import FightForLife
 from common.modifiers.mod import Mod
 from .perk import *
 from ..player import Classes
@@ -45,6 +46,15 @@ class Hero(Perk):
     max_count = 1
     rarity = PerkRarity.LEGEND
 
+
+class FightForLife(Perk):
+    __descr = "Powerful wish to live"
+    modifier = AggregateModifier(
+        FightForLife(),
+    )
+    max_count = 1
+    rarity = PerkRarity.LEGEND
+
 class Indomitable(Perk):
     __name = "indomitable"
     __descr = "Increase damage"
@@ -56,6 +66,19 @@ class Stoneheart(Perk):
     __descr = "Increase armor"
     modifier = Mod('armor', 2)
     max_count = 10
+
+
+class IroncladDefender(Perk):
+    __descr = "The Ironclad Defender perk transforms you into an unyielding fortress on the battlefield. With unwavering determination, you prioritize defense above all else, bolstering your resistance to damage. However, this unwavering focus on defense comes at the cost of agility and evasion"
+    modifier = AggregateModifier(
+        AddMaxLife(100),
+        Mod('armor', 25),
+        Mod('evasion', -100),
+        Mod('speed', -1),
+    )
+    max_count = 1
+    rarity = PerkRarity.LEGEND
+    classes = {Classes.FIGHTER.value}
 
 class EagleEye(Perk): # only class ranger
     __name = "eagle eye"
