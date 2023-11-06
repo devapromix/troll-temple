@@ -495,6 +495,7 @@ class FireGoblin(BossMonster):
         super(FireGoblin, self).die()
         self.tile.items.append(ScrollRedPortal())
         self.adv_drop()
+        self.rare_drop()
         
 class Werewolf(BossMonster):
     ABSTRACT = True
@@ -510,6 +511,7 @@ class Werewolf(BossMonster):
         super(Werewolf, self).die()
         self.tile.items.append(ScrollGreenPortal())
         self.adv_drop()
+        self.rare_drop()
         
 class Abomination(BossMonster):
     ABSTRACT = True
@@ -526,6 +528,7 @@ class Abomination(BossMonster):
         super(Abomination, self).die()
         self.tile.items.append(ScrollBluePortal())
         self.adv_drop()
+        self.rare_drop()
         
 # --- FINAL BOSS --- #
 
@@ -543,3 +546,5 @@ class TrollKing(FinalBossMonster):
         super(TrollKing, self).die()
         self.map.player.won = True
         self.adv_drop()
+        self.rare_drop()
+        self.unique_drop()
