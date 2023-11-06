@@ -1,5 +1,5 @@
 from common.modifiers.aggregate_modifier import AggregateModifier
-from common.modifiers.attrib_mod import AddMaxHp
+from common.modifiers.attrib_mod import AddMaxLife
 from common.modifiers.mod import Mod
 from .perk import *
 
@@ -7,7 +7,7 @@ from .perk import *
 class Powerful(Perk):
     __name = 'powerful'
     __descr = "Increase your life"
-    modifier = AddMaxHp(5)
+    modifier = AddMaxLife(5)
     max_count = 10
 
 
@@ -17,7 +17,7 @@ class DefenceArt(Perk):
     modifier = AggregateModifier(
         Mod('armor', 5),
         Mod('evasion', 10),
-        AddMaxHp(10)
+        AddMaxLife(10)
     )
     max_count = 5
 
