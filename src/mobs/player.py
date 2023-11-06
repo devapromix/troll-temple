@@ -4,6 +4,14 @@ from .perks.perks_container import PerksContainer
 
 # --- CONSTANTS --- #
 
+
+class Classes(Enum):
+    FIGHTER = 1
+    THIEF = 2
+    RANGER = 3
+    MAGE = 4
+
+
 FIGHTER = 1
 THIEF = 2
 RANGER = 3
