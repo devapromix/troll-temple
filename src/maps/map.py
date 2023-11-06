@@ -129,7 +129,7 @@ class Map(object):
 
     def place_obj(self, x, y, obj):
         tile = self.tiles[x][y]
-        tile.obj = obj
+        tile.obj = obj()
         
     def add_shrine(self):
         x, y, _ = self.random_empty_tile()
