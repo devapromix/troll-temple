@@ -2,6 +2,7 @@ from common.modifiers.aggregate_modifier import AggregateModifier
 from common.modifiers.attrib_mod import AddMaxLife
 from common.modifiers.mod import Mod
 from .perk import *
+from ..player import Classes
 
 
 class Powerful(Perk):
@@ -61,6 +62,7 @@ class EagleEye(Perk): # only class ranger
     __descr = "Improves the viewing radius"
     modifier = Mod('radius', 1)
     max_count = 2
+    classes = {Classes.THIEF.value}
 
 class Poisoner(Perk): # only class thief
     __name = "poisoner"
@@ -68,6 +70,7 @@ class Poisoner(Perk): # only class thief
     modifier = Mod('poison', 1)
     max_count = 3
     rarity = PerkRarity.RARE
+    classes = {Classes.THIEF.value}
 
 class Bower(Perk): # only class thief
     name = "bower"
@@ -75,6 +78,7 @@ class Bower(Perk): # only class thief
     #self.can_use_bow = True
     max_count = 1
     rarity = PerkRarity.LEGEND
+    classes = {Classes.THIEF.value}
 
 
 
