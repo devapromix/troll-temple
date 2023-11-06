@@ -21,6 +21,11 @@ class Perk(object, metaclass=Register):
     classes = {}
 
     @property
+    @classmethod
+    def name(cls):
+        return cls.__name__ if cls.__name is None else cls.__name
+
+    @property
     def name(self):
         return type(self).__name__ if self.__name is None else self.__name
 
