@@ -7,6 +7,7 @@ class MapObject:
     name = "unknown object"
     glyph = "?", T.red
     used = False
+    container = False
     
     def on_enter(self):
         pass
@@ -87,6 +88,7 @@ class RefillingShrine(MapObject):
 class OldTrunk(MapObject):
     name = "old trunk"
     glyph = "=", T.light_orange
+    container = True
 
     def on_enter(self):
         message('There is an old trunk here.')
@@ -95,12 +97,32 @@ class OldTrunk(MapObject):
         from mobs.drop import AdvDrop
         if not self.used:
             self.used = True
-            message('You open an old trunk.', T.yellow)
+            message('You open a chest.', T.yellow)
             d = AdvDrop(player)
             d.drop()
         else:
-            message('The old trunk is already open.', T.red)
+            message('The chest is already open.', T.red)
 
+class SilverStrongbox(OldTrunk):
+    name = "silver strongbox"
+    glyph = "=", T.silver
+    
+    def on_enter(self):
+        message('There is a silver strongbox here.')
+
+class GoldenRelicBox(SilverStrongbox):
+    name = "golden relic box"
+    glyph = "=", T.gold
+    
+    def on_enter(self):
+        message('There is a golden relic box here.')
+
+class RunedChest(GoldenRelicBox):
+    name = "runed chest"
+    glyph = "=", T.cyan
+    
+    def on_enter(self):
+        message('There is a runed chest here.')
 
 
 
