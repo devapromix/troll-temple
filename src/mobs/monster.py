@@ -57,10 +57,9 @@ class Monster(Mob, metaclass=Register):
         self.tile.items.append(item)
 
     def adv_drop(self):
-        if self.map.player.has_life_adv_drop:
-            self.tile.items.append(HealingPotion())
-        if self.map.player.has_mana_adv_drop:
-            self.tile.items.append(ManaPotion())
+        from mobs.drop import AdvDrop
+        d = AdvDrop(self)
+        d.drop()
 
     def see_player(self):
         player = self.map.player
