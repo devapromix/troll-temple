@@ -76,7 +76,7 @@ class Map(object):
     def populate(self):
         n_monsters = 3 + roll(2, self.level)
         n_items = roll(2, 4, 1)
-        n_chests = rand(1, self.level) * 30
+        n_chests = rand(1, self.level) * 5
         for i in range(n_monsters):
             mcls = random_by_level(self.level, Monster.ALL)
             self.place_monsters(mcls)
@@ -143,13 +143,18 @@ class Map(object):
             
     def add_chest(self, map_level):
         x, y, _ = self.random_empty_tile()
-        i = rand(1, 1)
-        if i == 1:
+        i = rand(1, 20)
+        if i in [1, 11] and rand(1, map_level) == 1:
             self.place_obj(x, y, OldTrunk)
-        #elif i == 2:
-        #    self.place_obj(x, y, ManaShrine)
-        #else:
-        #    self.place_obj(x, y, RefillingShrine)
+        elif i in [12, 17] and rand(1, (MAX_DLEVEL - map_level) + 1) == 1:
+            self.place_obj(x, y, SilverStrongbox)
+        elif i in [18, 19] and map_level in [10, 12]:
+            self.place_obj(x, y, GoldenRelicBox)
+        elif i == 20 and map_level == MAX_DLEVEL:
+            self.place_obj(x, y, RunedChest)
+        else:
+            pass
+
 
 
 
