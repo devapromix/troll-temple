@@ -1316,6 +1316,12 @@ class ScrollBluePortal(Scroll):
     name = 'scroll of blue portal'
     spell = BluePortal
         
+class ScrollWhitePortal(Scroll):
+    ABSTRACT = True
+    glyph = '?', T.white
+    name = 'scroll of white portal'
+    spell = WhitePortal
+        
 class ScrollHealing(Scroll):
     glyph = '?', T.pink
     name = 'scroll of healing'

@@ -544,7 +544,8 @@ class TrollKing(FinalBossMonster):
 
     def die(self):
         super(TrollKing, self).die()
-        self.map.player.won = True
+        self.tile.items.append(ScrollWhitePortal())
+        self.adv_drop()
         self.adv_drop()
         self.rare_drop()
         self.unique_drop()

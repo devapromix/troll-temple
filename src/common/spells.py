@@ -64,6 +64,18 @@ class BluePortal(Spell):
             GAME.map.place_obj(player.x, player.y, ShimmeringBluePortal)
         return f
 
+class WhitePortal(Spell):
+    name = "white portal"
+    mana = 2
+
+    def on_use(self, player):
+        f = super(WhitePortal, self).on_use(player)
+        if f:
+            from maps.objects import ShimmeringWhitePortal
+            message('A shimmering white portal has opened.', COLOR_MAGIC)
+            GAME.map.place_obj(player.x, player.y, ShimmeringWhitePortal)
+        return f
+
 class Heal(Spell):
     name = 'heal'
     mana = 12

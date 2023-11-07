@@ -59,6 +59,17 @@ class ShimmeringBluePortal(ShimmeringPortal):
         message("You entered the shimmering blue portal and found yourself in a new place!", T.yellow)
         super().on_use(player)
        
+class ShimmeringWhitePortal(ShimmeringPortal):
+    name = "shimmering white portal"
+    glyph = "O", T.white
+
+    def on_enter(self):
+        message('There is a shimmering white portal here.')
+
+    def on_use(self, player):
+        message("You entered the shimmering white portal and instantly materialized in town!", T.yellow)
+        self.map.player.won = True
+       
 class Shrine(MapObject):
     shrine = True
     

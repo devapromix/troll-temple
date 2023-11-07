@@ -69,7 +69,7 @@ class Player(Mob):
             self.can_use_shield = True
             self.can_wear_leather_armor = True
             self.can_wear_mail_armor = True
-            self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail()]
+            self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail(), item.ScrollWhitePortal()]
         elif self.game_class == Classes.THIEF:
             self.life_regen = 1
             self.mana_regen = 1
