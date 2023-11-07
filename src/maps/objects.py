@@ -67,10 +67,12 @@ class ShimmeringWhitePortal(ShimmeringPortal):
         message('There is a shimmering white portal here.')
 
     def on_use(self, player):
+        from graphics.scenes.final_scene import FinalScene
         message("You entered the shimmering white portal and instantly materialized in town!", T.yellow)
-        prompt('Congratulations! You have won. Press ENTER', [pygame.K_RETURN])
-        raise Quit()
-       
+        prompt('Congratulations! You have won. Press [ENTER] to exit...', [pygame.K_RETURN])
+        scene = FinalScene(player)
+        scene.show()
+        
 class Shrine(MapObject):
     shrine = True
     
