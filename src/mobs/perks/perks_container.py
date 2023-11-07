@@ -17,7 +17,7 @@ class PerksContainer:
         self.__player = player
         self.__perks = dict()
 
-    def generate_new_perks(self) -> list[Perk]:
+    def generate_new_perks(self) -> List[Perk]:
         filtered_by_class = list(filter(lambda x: self.__check_perk(x), Perk.ALL))
         filtered_by_class = [ChoiceBox(obj=cls, weight=self.RARITY_CHANCES[cls.rarity]) for cls in filtered_by_class]
         return [weighted_choice(filtered_by_class)() for _ in range(self.NEW_PERKS_COUNT)]

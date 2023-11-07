@@ -1,5 +1,5 @@
 from random import randint
-from typing import NamedTuple
+from typing import NamedTuple, List
 
 
 class ChoiceBox(NamedTuple):
@@ -10,7 +10,7 @@ class ChoiceBox(NamedTuple):
 '''Analog of random.choice(), but use additional parameter ('weight'), which customize chance of random'''
 
 
-def weighted_choice(boxes: list[ChoiceBox]) -> object:
+def weighted_choice(boxes: List[ChoiceBox]) -> object:
     all_weight = sum([box.weight for box in boxes])
     number = randint(0, all_weight - 1)
     for (obj, weight) in boxes:
