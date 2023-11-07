@@ -17,7 +17,7 @@ class Perk(object, metaclass=Register):
     rarity = PerkRarity.USUALLY
     max_count = 10
     __name = None
-    __descr = ""
+    _descr = "Unknown"
     classes = {}
 
     @property
@@ -31,7 +31,7 @@ class Perk(object, metaclass=Register):
 
     @property
     def descr(self):
-        return self.__descr
+        return self.__class__._descr
 
     def __repr__(self):
         return self.name

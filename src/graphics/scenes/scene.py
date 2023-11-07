@@ -1,3 +1,5 @@
+
+
 class Scene:
     def show(self) -> None:
         from common.game import readkey

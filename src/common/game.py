@@ -569,6 +569,7 @@ def select_game_class():
                         GAME.selected_game_class = GAME_CLASSES[i][1]
                         _draw_game_class_screen()
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
+                    pygame.event.clear()
                     return
 
 
@@ -593,7 +594,8 @@ def readkey():
         if event.type == pygame.QUIT:
             pygame.event.clear()
             close()
-        if event.type == pygame.KEYUP:
+        if event.type == pygame.KEYDOWN:
+            pygame.event.clear()
             return event.key
 
 
