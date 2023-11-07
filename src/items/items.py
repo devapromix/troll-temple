@@ -1208,6 +1208,13 @@ class DragonboneLegionArmor(UniqueMailArmor):
     armor = 40
     dungeons = 11, 12
 
+# --- AMULET --- #
+
+class RubyAmulet(Item):
+    ABSTRACT = True
+    name = 'ruby amulet'
+    glyph = '\'', T.red
+
 # --- BOOKS --- #
 
 class BookHealing(Book):
