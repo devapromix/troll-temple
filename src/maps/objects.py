@@ -68,7 +68,8 @@ class ShimmeringWhitePortal(ShimmeringPortal):
 
     def on_use(self, player):
         message("You entered the shimmering white portal and instantly materialized in town!", T.yellow)
-        self.map.player.won = True
+        prompt('Congratulations! You have won. Press ENTER', [pygame.K_RETURN])
+        raise Quit()
        
 class Shrine(MapObject):
     shrine = True

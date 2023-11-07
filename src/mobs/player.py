@@ -109,7 +109,6 @@ class Player(Mob):
         self.armor = 0
         self.exp = 0
         self.kills = 0
-        self.won = False
         self.wizard = wizard
 
     @property

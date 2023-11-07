@@ -66,11 +66,6 @@ class Game(object):
                         'Game over: %s. Press ENTER' % self.stats.player_last_death_reason,
                         [pygame.K_RETURN])
                     raise Quit()
-                if self.player.won:
-                    prompt(
-                        'Congratulations! You have won. Press ENTER',
-                        [pygame.K_RETURN])
-                    raise Quit()
                 while self.player.action_turns > 0:
                     for i in pygame.event.get():
                         if i.type == pygame.KEYUP:
@@ -146,10 +141,10 @@ class Game(object):
 
     def cmd_use_map_object(self):
         from maps.objects import MapObject
-        if self.player.tile.obj == None or not issubclass(self.player.tile.obj, MapObject):
+        if self.player.tile.obj == None:
             message('Stand on a map object to use.', COLOR_ERROR)
             return
-        self.player.tile.obj.on_use(self, self.player)
+        self.player.tile.obj.on_use(self.player)
 
     def cmd_ascend(self):
         from maps.tiles import StairUpTile
