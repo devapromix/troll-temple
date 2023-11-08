@@ -129,6 +129,25 @@ def out(x, y, text, color=T.white, bkcolor=T.black, w=0):
         SCREEN.blit(_txt, (x * GAME.font_width, y * GAME.font_height))
 
 
+def out_text(x: int, y: int, width: int, text, color=T.white, bkcolor=T.black, w=0):
+    last_space = 1
+    last_drawed = -1
+    line_count = 0
+    for i, char in enumerate(text):
+        if char == ' ':
+            last_space = i
+        if i - last_drawed >= width:
+            out(x, y + line_count, text[last_drawed + 1: last_space], color, bkcolor)
+            line_count += 1
+            last_drawed = last_space
+
+    if len(text) > last_drawed:
+        out(x, y + line_count, text[last_drawed + 1:], color, bkcolor)
+        line_count += 1
+
+    return line_count
+
+
 def out_file(x, y, filepath, color=T.white, bkcolor=T.black, w=0):
     with open(filepath, 'r') as f:
         for i, line in enumerate(f.readlines()):

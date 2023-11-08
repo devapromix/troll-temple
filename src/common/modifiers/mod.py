@@ -8,7 +8,7 @@ class Mod(Modifier):
 
     @property
     def descr(self):
-        return ' %s%d %s' % ('+' if self.value > 0 else '', self.value, self.attr_name)
+        return '%s%d %s' % ('+' if self.value > 0 else '', self.value, self.attr_name)
 
     def try_union(self, other):
         if super().try_union(other):
