@@ -6,7 +6,8 @@ from utils.random_help import *
 
 
 class PerksContainer:
-    NEW_PERKS_COUNT = 5
+    NEW_PERKS_COUNT = 3
+    NEW_PERKS_COUNT_WIZARD = 10
     RARITY_CHANCES = {
         PerkRarity.USUALLY: 4,
         PerkRarity.RARE: 2,
@@ -20,7 +21,8 @@ class PerksContainer:
     def generate_new_perks(self) -> List[Perk]:
         filtered_by_class = list(filter(lambda x: self.__check_perk(x), Perk.ALL))
         boxes = [ChoiceBox(obj=cls, weight=self.RARITY_CHANCES[cls.rarity]) for cls in filtered_by_class]
-        sample = weighted_sample(boxes, self.NEW_PERKS_COUNT)
+        sample = weighted_sample(boxes, self.NEW_PERKS_COUNT
+        if not self.__player.wizard else self.NEW_PERKS_COUNT_WIZARD)
         return [x() for x in sample]
 
     def teach(self, perk: Perk) -> None:
