@@ -24,7 +24,8 @@ class ChoosePerkScene(SelectionScene):
         out(x, y, item.name, self.RARITY_COLORS[item.rarity])
 
     def _draw_selected_info(self, item: Perk) -> None:
-        from common.game import out
+        from common.game import out, out_text
         DESCR_LINE_X = 25
-        out(DESCR_LINE_X, 3, item.descr, Color.ITEM.value)
-        out(DESCR_LINE_X, 5, item.modifier.descr, Color.MAGIC.value)
+        DESCR_LINE_WIDTH = 60
+        line_count = out_text(DESCR_LINE_X, 3, DESCR_LINE_WIDTH, item.descr, Color.ITEM.value)
+        out_text(DESCR_LINE_X, 4 + line_count, DESCR_LINE_WIDTH, item.modifier.descr, Color.MAGIC.value)
