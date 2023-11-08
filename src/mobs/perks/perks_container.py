@@ -9,8 +9,8 @@ class PerksContainer:
     NEW_PERKS_COUNT = 3
     NEW_PERKS_COUNT_WIZARD = 10
     RARITY_CHANCES = {
-        PerkRarity.USUALLY: 4,
-        PerkRarity.RARE: 2,
+        PerkRarity.USUALLY: 8,
+        PerkRarity.RARE: 4,
         PerkRarity.LEGEND: 1,
     }
 
