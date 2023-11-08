@@ -3,7 +3,7 @@ import tcod as T
 
 from common.game import init, title_screen, intro_screen, select_game_class_screen, close, message, COLOR_ERROR, \
     draw_all, prompt, new_ui_turn, Quit, DELAY, decode_walk_key, decode_interface_key, select_item, look_mode, \
-    MAX_DLEVEL, select_spell, select_recipe, character_screen, rip_screen
+    MAX_DLEVEL, select_spell, select_recipe, character_screen
 from common.stats import Stats
 from graphics.scenes.choose_perk_scene import ChoosePerkScene
 
@@ -212,9 +212,13 @@ class Game(object):
 
     def cmd_test(self):
         if self.wizard:
-            rip_screen()
+            from graphics.scenes.rip_scene import RipScene
+            scene = RipScene(self.turns, self.player)
+            scene.show()
 
     def welcome(self):
         message("Brave adventurer, you are now lost in the underground corridors of the Old Temple.", T.yellow)
         message("There is no way to return to your homeland.", T.yellow)
         message("How long can you survive?", T.yellow)
+
+

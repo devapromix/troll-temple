@@ -321,6 +321,13 @@ def craftbox(title='Craftbox', recipes=None):
     refresh()
 
 
+def draw_statistics(y):
+    out(40, y, "Statistics", COLOR_TITLE)
+    out(40, y + 2, "Turns        " + str(GAME.turns), T.light_grey)
+    out(40, y + 3, "Kills        " + str(GAME.player.kills), T.light_grey)
+    if GAME.wizard:
+        out(40, y + 6, "Deaths       " + str(GAME.stats.player_death_count), T.light_grey)
+        
 # --- CHARACTER --- #
 
 def character_screen():
@@ -359,12 +366,9 @@ def character_screen():
     out(2, 20, "", T.light_grey)
     out(2, 21, "", T.light_grey)
     out(2, 22, "", T.light_grey)
-    out(2, 24, "Turns        " + str(GAME.turns), T.light_grey)
-    out(2, 25, "Kills        " + str(GAME.player.kills), T.light_grey)
-    if GAME.wizard:
-        out(2, 26, "Deaths       " + str(GAME.stats.player_death_count), T.light_grey)
 
-    out(35, 3, calendar.get_time_date(GAME.turns), T.light_grey)
+    out(40, 3, calendar.get_time_date(GAME.turns), T.light_grey)
+    draw_statistics(5)
 
     out(0, 28, "Press [ENTER] to continue...", T.light_grey)
     refresh()
@@ -610,33 +614,4 @@ def anykey():
                     return
 
 
-def rip_screen():
-    from common.calendar import Calendar
-    calendar = Calendar()
 
-    clear()
-
-    out(0, 2, "Rest in peace...", COLOR_TITLE)
-
-    out_file(10, 8, '../assets/texts/rip.txt', T.light_grey)
-
-    out(12, 10, 'REST', T.grey, T.black, 14)
-    out(12, 11, 'IN', T.grey, T.black, 14)
-    out(12, 12, 'PEACE', T.grey, T.black, 14)
-
-    out(12, 15, GAME.player.name, T.yellow, T.black, 14)
-    out(12, 16, 'killed by a', T.grey, T.black, 14)
-    out(12, 17, 'fire goblin', T.grey, T.black, 14)
-
-    day, year = calendar.get_day(GAME.turns)
-
-    out(12, 20, calendar.get_month_name(day) + ' ' + str(calendar.get_month_num(day) + 1), T.grey, T.black, 14)
-    out(12, 21, str(year), T.grey, T.black, 14)
-
-    out(4, 23, '___)/\/\/\/\/\/\/\/\/\/\/\(___', T.green)
-
-    out(40, 6, 'Epitaph', COLOR_TITLE)
-
-    out(0, 28, "Press [ENTER] to exit...", T.light_grey)
-    refresh()
-    anykey()
