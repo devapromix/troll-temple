@@ -19,8 +19,9 @@ class PerksContainer:
 
     def generate_new_perks(self) -> List[Perk]:
         filtered_by_class = list(filter(lambda x: self.__check_perk(x), Perk.ALL))
-        filtered_by_class = [ChoiceBox(obj=cls, weight=self.RARITY_CHANCES[cls.rarity]) for cls in filtered_by_class]
-        return [weighted_choice(filtered_by_class)() for _ in range(self.NEW_PERKS_COUNT)]
+        boxes = [ChoiceBox(obj=cls, weight=self.RARITY_CHANCES[cls.rarity]) for cls in filtered_by_class]
+        sample = weighted_sample(boxes, self.NEW_PERKS_COUNT)
+        return [x() for x in sample]
 
     def teach(self, perk: Perk) -> None:
         assert self.__check_perk(perk)
