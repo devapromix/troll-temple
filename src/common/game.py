@@ -328,53 +328,6 @@ def draw_statistics(y):
     if GAME.wizard:
         out(40, y + 6, "Deaths       " + str(GAME.stats.player_death_count), T.light_grey)
         
-# --- CHARACTER --- #
-
-def character_screen():
-    from mobs.player import GAME_CLASSES
-    from common.calendar import Calendar
-    calendar = Calendar()
-    clear()
-    _game_class = GAME_CLASSES[GAME.player.game_class - 1]
-    out(2, 1, GAME.player.name, COLOR_TITLE)
-
-    out(2, 3, "Race         " + "Human", T.light_grey)
-    out(2, 4, "Class        " + _game_class[0], T.light_grey)
-    out(2, 6, "Level        " + str(GAME.player.level), T.light_grey)
-    out(2, 7, "Experience   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)
-    if GAME.player.life_regen > 0:
-        regen = " (+" + str(GAME.player.life_regen) + ")"
-    else:
-        regen = ""
-    out(2, 9, "Life         " + GAME.player.life.to_string() + regen, T.light_grey)
-    if GAME.player.mana_regen > 0:
-        regen = " (+" + str(GAME.player.mana_regen) + ")"
-    else:
-        regen = ""
-    out(2, 10, "Mana         " + GAME.player.mana.to_string() + regen, T.light_grey)
-    r = ''
-    if GAME.player.range > 1:
-        r = ' ranged'
-    out(2, 12, "Damage       " + describe_dice(*GAME.player.dice) + " (" + str_dice(*GAME.player.dice) + ")" + r,
-        T.light_grey)
-    out(2, 13, "Armor        " + str(GAME.player.armor), T.light_grey)
-    out(2, 15, "Speed        " + str(GAME.player.speed), T.light_grey)
-    out(2, 16, "Magic power  " + str(GAME.player.magic), T.light_grey)
-    out(2, 17, "Light radius " + str(GAME.player.fov_range + GAME.player.radius), T.light_grey)
-    out(2, 18, "Range        " + str(GAME.player.range), T.light_grey)
-    out(2, 19, "", T.light_grey)
-    out(2, 20, "", T.light_grey)
-    out(2, 21, "", T.light_grey)
-    out(2, 22, "", T.light_grey)
-
-    out(40, 3, calendar.get_time_date(GAME.turns), T.light_grey)
-    draw_statistics(5)
-
-    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
-    refresh()
-    anykey()
-
-
 # --- UI --- #
 
 def draw_all():

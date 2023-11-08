@@ -3,7 +3,7 @@ import tcod as T
 
 from common.game import init, title_screen, intro_screen, select_game_class_screen, close, message, COLOR_ERROR, \
     draw_all, prompt, new_ui_turn, Quit, DELAY, decode_walk_key, decode_interface_key, select_item, look_mode, \
-    MAX_DLEVEL, select_spell, select_recipe, character_screen
+    MAX_DLEVEL, select_spell, select_recipe
 from common.stats import Stats
 from graphics.scenes.choose_perk_scene import ChoosePerkScene
 
@@ -208,7 +208,9 @@ class Game(object):
             message("You don't have a craftbox!", COLOR_ERROR)
 
     def cmd_character(self):
-        character_screen()
+        from graphics.scenes.character_scene import CharacterScene
+        scene = CharacterScene(self.turns, self.player)
+        scene.show()
 
     def cmd_test(self):
         if self.wizard:
