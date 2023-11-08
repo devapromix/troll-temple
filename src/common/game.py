@@ -357,22 +357,6 @@ def draw_all():
     refresh()
 
 
-def _draw_game_class_screen():
-    from mobs.player import GAME_CLASSES
-    clear()
-    out(2, 1, "Choose your class", COLOR_TITLE)
-    for i, game_class in enumerate(GAME_CLASSES):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        if GAME.selected_game_class.value == i + 1:
-            out(1, i + 3, '>', T.white)
-            out(5, i + 3, game_class[0], T.white)
-            out_file(20, 3, '../assets/texts/class_' + game_class[0].lower() +'.txt', T.lighter_grey)
-            out_file(70, 14, '../assets/texts/' + game_class[3].lower() +'.txt', game_class[2])
-        else:
-            out(5, i + 3, game_class[0], game_class[2])
-    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
-    refresh()
-
 def title_screen():
     clear()
     out_file(5, 4, '../assets/texts/troll.txt', T.green)
@@ -392,13 +376,6 @@ def intro_screen():
     out(0, 28, "Press [ENTER] to continue...", T.light_grey)
     refresh()
     anykey()
-
-
-def select_game_class_screen():
-    clear()
-    _draw_game_class_screen()
-    select_game_class()
-
 
 def describe_tile(x, y):
     if GAME.map.is_visible(x, y):
@@ -529,25 +506,6 @@ def select_recipe(title, recipes):
         if key in [pygame.K_ESCAPE]:
             return None
     return None
-
-
-def select_game_class():
-    from mobs.player import GAME_CLASSES
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.event.clear()
-                close()
-            if event.type == pygame.KEYDOWN:
-                if event.key in range(pygame.K_a, pygame.K_z):
-                    i = event.key - pygame.K_a
-                    if 0 <= i < len(GAME_CLASSES):
-                        GAME.selected_game_class = GAME_CLASSES[i][1]
-                        _draw_game_class_screen()
-                if pygame.key.get_pressed()[pygame.K_RETURN]:
-                    pygame.event.clear()
-                    return
-
 
 def prompt(s, choices=None):
     if s != "":
