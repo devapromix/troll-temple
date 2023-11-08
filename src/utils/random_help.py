@@ -24,7 +24,7 @@ def weighted_choice(boxes: List[ChoiceBox]) -> object:
     return boxes[choice_index].obj
 
 
-def weighted_sample(boxes: List[ChoiceBox], count: int) -> List[object | type]:
+def weighted_sample(boxes: List[ChoiceBox], count: int) -> List[object]:
     if len(boxes) > count:
         results = []
         for i in range(count):

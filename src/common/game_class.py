@@ -1,7 +1,7 @@
 import pygame
 import tcod as T
 
-from common.game import init, title_screen, close, message, COLOR_ERROR, \
+from common.game import init, close, message, COLOR_ERROR, \
     draw_all, prompt, new_ui_turn, Quit, DELAY, decode_walk_key, decode_interface_key, select_item, look_mode, \
     MAX_DLEVEL, select_spell, select_recipe
 from common.stats import Stats
@@ -20,8 +20,10 @@ class Game(object):
     def play(self):
         from graphics.scenes.choose_game_class_scene import ChooseGameClassScene
         from graphics.scenes.intro_scene import IntroScene
+        from graphics.scenes.title_scene import TitleScene
         init(self)
-        title_screen()
+        scene = TitleScene()
+        scene.show()
         scene = IntroScene()
         scene.show()
         scene = ChooseGameClassScene(self)

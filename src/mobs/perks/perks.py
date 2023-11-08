@@ -80,24 +80,25 @@ class IroncladDefender(Perk):
     rarity = PerkRarity.LEGEND
     classes = {Classes.FIGHTER}
 
-class EagleEye(Perk): # only class Classes.RANGER
-    __name = "eagle eye"
-    _descr = "Improves the viewing radius"
+class EagleEye(Perk):
+    name = "eagle eye"
+    descr = "The eagle eye allows you to increase the distance from which you can shoot at a target"
     modifier = Mod('radius', 1)
     max_count = 2
-    classes = {Classes.THIEF}
+    rarity = PerkRarity.RARE
+    classes = {Classes.RANGER}
 
-class Poisoner(Perk): # only class Classes.THIEF
-    __name = "poisoner"
-    _descr = "Poisons enemies more effective"
+class Poisoner(Perk):
+    name = "poisoner"
+    descr = "You discover new alchemy poisons and poison your enemies more effectively"
     modifier = Mod('poison', 1)
     max_count = 3
     rarity = PerkRarity.RARE
     classes = {Classes.THIEF}
 
-class Bower(Perk): # only class Classes.THIEF
+class Bower(Perk):
     name = "bower"
-    _descr = "You can use a bow."
+    descr = "You can use a bow and hit your enemies with it"
     #self.can_use_bow = True
     max_count = 1
     rarity = PerkRarity.LEGEND
