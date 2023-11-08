@@ -114,9 +114,6 @@ class Quit(Exception):
 
 # --- GAME --- #
 
-
-# --- GAME --- #
-
 def out(x, y, text, color=T.white, bkcolor=T.black, w=0):
     _txt = GAME.font.render(str(text), True, color, bkcolor)
     if x == 0:
@@ -364,15 +361,6 @@ def title_screen():
     out_file(10, 10, '../assets/texts/temple.txt', T.light_red)
     out(35, 17, ' v.' + VERSION, T.light_green)
     out(6, 22, 'by Apromix and Gandifil', T.light_yellow)
-    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
-    refresh()
-    anykey()
-
-
-def intro_screen():
-    clear()
-    out(0, 2, "Many centuries ago...", COLOR_TITLE)
-    out_file(10, 4, '../assets/texts/help.txt', T.lighter_grey)
     out(0, 28, "Press [ENTER] to continue...", T.light_grey)
     refresh()
     anykey()
