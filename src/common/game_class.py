@@ -1,9 +1,9 @@
 import pygame
 import tcod as T
 
-from common.game import init, title_screen, intro_screen, select_game_class_screen, close, message, COLOR_ERROR, \
+from common.game import init, title_screen, intro_screen, close, message, COLOR_ERROR, \
     draw_all, prompt, new_ui_turn, Quit, DELAY, decode_walk_key, decode_interface_key, select_item, look_mode, \
-    MAX_DLEVEL, select_spell, select_recipe, character_screen, rip_screen
+    MAX_DLEVEL, select_spell, select_recipe
 from common.stats import Stats
 from graphics.scenes.choose_perk_scene import ChoosePerkScene
 
@@ -18,10 +18,12 @@ class Game(object):
         self.stats = Stats()
 
     def play(self):
+        from graphics.scenes.choose_game_class_scene import ChooseGameClassScene
         init(self)
         title_screen()
         intro_screen()
-        select_game_class_screen()
+        scene = ChooseGameClassScene(self)
+        scene.show()
         self.start()
         self.cmd_perks()
         self.loop()
@@ -208,13 +210,19 @@ class Game(object):
             message("You don't have a craftbox!", COLOR_ERROR)
 
     def cmd_character(self):
-        character_screen()
+        from graphics.scenes.character_scene import CharacterScene
+        scene = CharacterScene(self.turns, self.player)
+        scene.show()
 
     def cmd_test(self):
         if self.wizard:
-            rip_screen()
+            from graphics.scenes.rip_scene import RipScene
+            scene = RipScene(self.turns, self.player)
+            scene.show()
 
     def welcome(self):
         message("Brave adventurer, you are now lost in the underground corridors of the Old Temple.", T.yellow)
         message("There is no way to return to your homeland.", T.yellow)
         message("How long can you survive?", T.yellow)
+
+

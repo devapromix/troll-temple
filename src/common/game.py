@@ -340,56 +340,13 @@ def craftbox(title='Craftbox', recipes=None):
     refresh()
 
 
-# --- CHARACTER --- #
-
-def character_screen():
-    from mobs.player import GAME_CLASSES
-    from common.calendar import Calendar
-    calendar = Calendar()
-    clear()
-    _game_class = GAME_CLASSES[GAME.player.game_class - 1]
-    out(2, 1, GAME.player.name, COLOR_TITLE)
-
-    out(2, 3, "Race         " + "Human", T.light_grey)
-    out(2, 4, "Class        " + _game_class[0], T.light_grey)
-    out(2, 6, "Level        " + str(GAME.player.level), T.light_grey)
-    out(2, 7, "Experience   " + str(GAME.player.exp) + "/" + str(GAME.player.max_exp()), T.light_grey)
-    if GAME.player.life_regen > 0:
-        regen = " (+" + str(GAME.player.life_regen) + ")"
-    else:
-        regen = ""
-    out(2, 9, "Life         " + GAME.player.life.to_string() + regen, T.light_grey)
-    if GAME.player.mana_regen > 0:
-        regen = " (+" + str(GAME.player.mana_regen) + ")"
-    else:
-        regen = ""
-    out(2, 10, "Mana         " + GAME.player.mana.to_string() + regen, T.light_grey)
-    r = ''
-    if GAME.player.range > 1:
-        r = ' ranged'
-    out(2, 12, "Damage       " + describe_dice(*GAME.player.dice) + " (" + str_dice(*GAME.player.dice) + ")" + r,
-        T.light_grey)
-    out(2, 13, "Armor        " + str(GAME.player.armor), T.light_grey)
-    out(2, 15, "Speed        " + str(GAME.player.speed), T.light_grey)
-    out(2, 16, "Magic power  " + str(GAME.player.magic), T.light_grey)
-    out(2, 17, "Light radius " + str(GAME.player.fov_range + GAME.player.radius), T.light_grey)
-    out(2, 18, "Range        " + str(GAME.player.range), T.light_grey)
-    out(2, 19, "", T.light_grey)
-    out(2, 20, "", T.light_grey)
-    out(2, 21, "", T.light_grey)
-    out(2, 22, "", T.light_grey)
-    out(2, 24, "Turns        " + str(GAME.turns), T.light_grey)
-    out(2, 25, "Kills        " + str(GAME.player.kills), T.light_grey)
+def draw_statistics(y):
+    out(40, y, "Statistics", COLOR_TITLE)
+    out(40, y + 2, "Turns        " + str(GAME.turns), T.light_grey)
+    out(40, y + 3, "Kills        " + str(GAME.player.kills), T.light_grey)
     if GAME.wizard:
-        out(2, 26, "Deaths       " + str(GAME.stats.player_death_count), T.light_grey)
-
-    out(35, 3, calendar.get_time_date(GAME.turns), T.light_grey)
-
-    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
-    refresh()
-    anykey()
-
-
+        out(40, y + 6, "Deaths       " + str(GAME.stats.player_death_count), T.light_grey)
+        
 # --- UI --- #
 
 def draw_all():
@@ -399,22 +356,6 @@ def draw_all():
     _draw_status()
     refresh()
 
-
-def _draw_game_class_screen():
-    from mobs.player import GAME_CLASSES
-    clear()
-    out(2, 1, "Choose your class", COLOR_TITLE)
-    for i, game_class in enumerate(GAME_CLASSES):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        if GAME.selected_game_class.value == i + 1:
-            out(1, i + 3, '>', T.white)
-            out(5, i + 3, game_class[0], T.white)
-            out_file(20, 3, '../assets/texts/class_' + game_class[0].lower() +'.txt', T.lighter_grey)
-            out_file(70, 14, '../assets/texts/' + game_class[3].lower() +'.txt', game_class[2])
-        else:
-            out(5, i + 3, game_class[0], game_class[2])
-    out(0, 28, "Press [ENTER] to continue...", T.light_grey)
-    refresh()
 
 def title_screen():
     clear()
@@ -435,13 +376,6 @@ def intro_screen():
     out(0, 28, "Press [ENTER] to continue...", T.light_grey)
     refresh()
     anykey()
-
-
-def select_game_class_screen():
-    clear()
-    _draw_game_class_screen()
-    select_game_class()
-
 
 def describe_tile(x, y):
     if GAME.map.is_visible(x, y):
@@ -573,25 +507,6 @@ def select_recipe(title, recipes):
             return None
     return None
 
-
-def select_game_class():
-    from mobs.player import GAME_CLASSES
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.event.clear()
-                close()
-            if event.type == pygame.KEYDOWN:
-                if event.key in range(pygame.K_a, pygame.K_z):
-                    i = event.key - pygame.K_a
-                    if 0 <= i < len(GAME_CLASSES):
-                        GAME.selected_game_class = GAME_CLASSES[i][1]
-                        _draw_game_class_screen()
-                if pygame.key.get_pressed()[pygame.K_RETURN]:
-                    pygame.event.clear()
-                    return
-
-
 def prompt(s, choices=None):
     if s != "":
         message(s, T.green)
@@ -629,33 +544,4 @@ def anykey():
                     return
 
 
-def rip_screen():
-    from common.calendar import Calendar
-    calendar = Calendar()
 
-    clear()
-
-    out(0, 2, "Rest in peace...", COLOR_TITLE)
-
-    out_file(10, 8, '../assets/texts/rip.txt', T.light_grey)
-
-    out(12, 10, 'REST', T.grey, T.black, 14)
-    out(12, 11, 'IN', T.grey, T.black, 14)
-    out(12, 12, 'PEACE', T.grey, T.black, 14)
-
-    out(12, 15, GAME.player.name, T.yellow, T.black, 14)
-    out(12, 16, 'killed by a', T.grey, T.black, 14)
-    out(12, 17, 'fire goblin', T.grey, T.black, 14)
-
-    day, year = calendar.get_day(GAME.turns)
-
-    out(12, 20, calendar.get_month_name(day) + ' ' + str(calendar.get_month_num(day) + 1), T.grey, T.black, 14)
-    out(12, 21, str(year), T.grey, T.black, 14)
-
-    out(4, 23, '___)/\/\/\/\/\/\/\/\/\/\/\(___', T.green)
-
-    out(40, 6, 'Epitaph', COLOR_TITLE)
-
-    out(0, 28, "Press [ENTER] to exit...", T.light_grey)
-    refresh()
-    anykey()
