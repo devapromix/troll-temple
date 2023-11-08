@@ -7,7 +7,7 @@ class AggregateModifier(Modifier):
 
     @property
     def descr(self):
-        return ''.join(mod.descr for mod in self.mods)
+        return ' '.join(mod.descr for mod in self.mods)
 
     def commit(self, mob):
         for mod in self.mods:
