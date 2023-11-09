@@ -32,7 +32,11 @@ class RipScene:
 
         out(40, 6, 'Epitaph', Color.TITLE.value)
         out_file(40, 8, '../assets/texts/epitaph.txt', Color.ITEM.value)
-        draw_statistics(15)
+
+        out(40, 13, 'You were killed by a fire goblin on level 1', Color.ITEM.value)
+        out(40, 14, 'of the Old Temple.', Color.ITEM.value)
+
+        draw_statistics(16)
 
         out(0, 28, "Press [ENTER] to exit...", Color.ITEM.value)
         refresh()
