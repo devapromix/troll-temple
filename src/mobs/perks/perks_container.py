@@ -20,6 +20,8 @@ class PerksContainer:
 
     def generate_new_perks(self) -> List[Perk]:
         filtered_by_class = list(filter(lambda x: self.__check_perk(x), Perk.ALL))
+        if self.__player.level % 5 == 0 and self.__player.level != 1:
+            filtered_by_class = list(filter(lambda x: x.rarity == PerkRarity.LEGEND, filtered_by_class))
         boxes = [ChoiceBox(obj=cls, weight=self.RARITY_CHANCES[cls.rarity]) for cls in filtered_by_class]
         sample = weighted_sample(boxes, self.NEW_PERKS_COUNT
         if not self.__player.wizard else self.NEW_PERKS_COUNT_WIZARD)
@@ -34,4 +36,3 @@ class PerksContainer:
     def __check_perk(self, perk: Perk) -> bool:
         current = self.__perks.get(perk.name, 0)
         return (len(perk.classes) == 0 or self.__player.game_class in perk.classes) and current < perk.max_count and perk.level_requirement <= self.__player.level
-
