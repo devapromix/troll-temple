@@ -213,6 +213,14 @@ class Game(object):
         else:
             message("You don't have a craftbox!", COLOR_ERROR)
 
+    def cmd_alchemyset(self):
+        if self.player.has_alchemyset:
+            recipe = select_recipe('Select a recipe to craft, ESC to exit', self.player.recipes)
+            if recipe:
+                self.player.craft(recipe)
+        else:
+            message("You don't have an alchemyset!", COLOR_ERROR)
+
     def cmd_character(self):
         from graphics.scenes.character_scene import CharacterScene
         scene = CharacterScene(self.turns, self.player)

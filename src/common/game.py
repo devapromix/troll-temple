@@ -82,6 +82,7 @@ KEYS = [
     ([pygame.K_b], 'spellbook'),
     ([pygame.K_s], 'select'),
     ([pygame.K_c], 'craftbox'),
+    ([pygame.K_a], 'alchemyset'),
     ([pygame.K_d], 'drop'),
     ([pygame.K_t], 'test'),
     ([pygame.K_l], 'look'),
@@ -337,6 +338,25 @@ def craftbox(title='Craftbox', recipes=None):
     refresh()
 
 
+# --- ALCHEMYSET --- #
+
+def _draw_alchemyset(title, recipes):
+    clear()
+    out(2, 1, title, COLOR_TITLE)
+    for i, recipe in enumerate(recipes):
+        out(3, i + 3, chr(i + ord('a')), T.light_grey)
+        out(5, i + 3, recipe.descr, T.light_grey)
+
+
+def alchemyset(title='Alchemyset', recipes=None):
+    _draw_alchemyset(title, recipes or GAME.player.recipes)
+    _draw_messages()
+    _draw_status()
+    refresh()
+
+
+# --- UI --- #
+
 def draw_statistics(y):
     out(40, y, "Statistics", COLOR_TITLE)
     out(40, y + 2, "Turns        " + str(GAME.turns), T.light_grey)
@@ -344,8 +364,6 @@ def draw_statistics(y):
     if GAME.wizard:
         out(40, y + 6, "Deaths       " + str(GAME.stats.player_death_count), T.light_grey)
         
-# --- UI --- #
-
 def draw_all():
     clear()
     _draw_map()
