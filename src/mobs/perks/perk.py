@@ -16,6 +16,7 @@ class Perk(object, metaclass=Register):
     modifier = Modifier()
     rarity = PerkRarity.USUALLY
     max_count = 10
+    level_requirement = 0
     __name = None
     _descr = "Unknown"
     classes = {}
@@ -38,3 +39,13 @@ class Perk(object, metaclass=Register):
 
     def use(self, mob):
         self.modifier.commit(mob)
+
+
+class RarePerk(Perk):
+    rarity = PerkRarity.RARE
+    level_requirement = 3
+
+class LegendPerk(Perk):
+    rarity = PerkRarity.LEGEND
+    max_count = 1
+    level_requirement = 5

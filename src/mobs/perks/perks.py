@@ -34,7 +34,7 @@ class Agility(Perk):
     rarity = PerkRarity.RARE
 
 
-class Hero(Perk):
+class Hero(LegendPerk):
     _descr = "You feel how Gods like your actions. All things in world help you. All base attributes increased"
     modifier = AggregateModifier(
         Mod('speed', 1),
@@ -43,17 +43,13 @@ class Hero(Perk):
         Mod('armor', 5),
         AddMaxLife(20),
     )
-    max_count = 1
-    rarity = PerkRarity.LEGEND
 
 
-class FightForLife(Perk):
+class FightForLife(LegendPerk):
     _descr = "Powerful wish to live"
     modifier = AggregateModifier(
         FightForLife(),
     )
-    max_count = 1
-    rarity = PerkRarity.LEGEND
 
 class Indomitable(Perk):
     __name = "indomitable"
@@ -68,7 +64,7 @@ class Stoneheart(Perk):
     max_count = 10
 
 
-class IroncladDefender(Perk):
+class IroncladDefender(LegendPerk):
     _descr = "The Ironclad Defender perk transforms you into an unyielding fortress on the battlefield. With unwavering determination, you prioritize defense above all else, bolstering your resistance to Damage. However, this unwavering focus on defense comes at the cost of agility and evasion"
     modifier = AggregateModifier(
         AddMaxLife(100),
@@ -76,8 +72,6 @@ class IroncladDefender(Perk):
         Mod('evasion', -100),
         Mod('speed', -1),
     )
-    max_count = 1
-    rarity = PerkRarity.LEGEND
     classes = {Classes.FIGHTER}
 
 class EagleEye(Perk): # only class Classes.RANGER
@@ -95,12 +89,10 @@ class Poisoner(Perk): # only class Classes.THIEF
     rarity = PerkRarity.RARE
     classes = {Classes.THIEF}
 
-class Bower(Perk): # only class Classes.THIEF
+class Bower(LegendPerk): # only class Classes.THIEF
     name = "bower"
     _descr = "You can use a bow."
     #self.can_use_bow = True
-    max_count = 1
-    rarity = PerkRarity.LEGEND
     classes = {Classes.THIEF}
 
 
