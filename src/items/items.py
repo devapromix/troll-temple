@@ -136,6 +136,7 @@ class Quiver(Equipment):
     slot = 'q'
     arrows = 100
     Damage = 1
+    description = 'Can be shot using a bow.'
 
     @property
     def descr(self):
@@ -1339,6 +1340,7 @@ class ScrollHealing(Scroll):
 class ScrollTeleport(Scroll):
     glyph = '?', T.lighter_blue
     name = 'scroll of teleportation'
+    description = 'Teleports you to another place in the level.'
     spell = Teleport
     dungeons = 2, 12
     rarity = 1
