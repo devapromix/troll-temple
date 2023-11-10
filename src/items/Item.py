@@ -9,6 +9,7 @@ class Item(object, metaclass=Register):
     ABSTRACT = True
     common = 10
     name = "unknown item"
+    description = ''
 
     glyph = "?", T.red
     color = COLOR_ITEM

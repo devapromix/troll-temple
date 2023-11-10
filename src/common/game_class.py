@@ -1,7 +1,7 @@
 import pygame
 import tcod as T
 
-from common.game import init, title_screen, intro_screen, close, message, COLOR_ERROR, \
+from common.game import init, close, message, COLOR_ERROR, \
     draw_all, prompt, new_ui_turn, Quit, DELAY, decode_walk_key, decode_interface_key, select_item, look_mode, \
     MAX_DLEVEL, select_spell, select_recipe
 from common.stats import Stats
@@ -19,9 +19,13 @@ class Game(object):
 
     def play(self):
         from graphics.scenes.choose_game_class_scene import ChooseGameClassScene
+        from graphics.scenes.intro_scene import IntroScene
+        from graphics.scenes.title_scene import TitleScene
         init(self)
-        title_screen()
-        intro_screen()
+        scene = TitleScene()
+        scene.show()
+        scene = IntroScene()
+        scene.show()
         scene = ChooseGameClassScene(self)
         scene.show()
         self.start()
@@ -208,6 +212,14 @@ class Game(object):
                 self.player.craft(recipe)
         else:
             message("You don't have a craftbox!", COLOR_ERROR)
+
+    def cmd_alchemyset(self):
+        if self.player.has_alchemyset:
+            recipe = select_recipe('Select a recipe to craft, ESC to exit', self.player.recipes)
+            if recipe:
+                self.player.craft(recipe)
+        else:
+            message("You don't have an alchemyset!", COLOR_ERROR)
 
     def cmd_character(self):
         from graphics.scenes.character_scene import CharacterScene
