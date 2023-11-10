@@ -157,6 +157,9 @@ class Player(Mob):
         self.mana.inc(self._mana_inc())
         self.mana.fill()
 
+        from graphics.scenes.choose_perk_scene import ChoosePerkScene
+        ChoosePerkScene(self).show()
+
         message('Congratulations! You advance to level %d.' % self.level,
                 COLOR_ALERT)
 

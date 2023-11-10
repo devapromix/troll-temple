@@ -29,7 +29,7 @@ class Game(object):
         scene = ChooseGameClassScene(self)
         scene.show()
         self.start()
-        self.cmd_perks()
+        ChoosePerkScene(self.player).show()
         self.loop()
         close()
 
@@ -140,10 +140,6 @@ class Game(object):
         item = select_item('Select an item to use, ESC to exit', self.player.items, True)
         if item:
             self.player.use(item)
-
-    def cmd_perks(self):
-        scene = ChoosePerkScene(self.player)
-        scene.show()
 
     def cmd_use_map_object(self):
         from maps.objects import MapObject
