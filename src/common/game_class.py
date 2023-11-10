@@ -228,8 +228,8 @@ class Game(object):
 
     def cmd_test(self):
         if self.wizard:
-            from graphics.scenes.rip_scene import RipScene
-            scene = RipScene(self.turns, self.player)
+            from graphics.scenes.final_scene import FinalScene
+            scene = FinalScene(self.player)
             scene.show()
 
     def welcome(self):

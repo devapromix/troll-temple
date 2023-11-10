@@ -7,7 +7,7 @@ class FinalScene(SinglePageScene):
         super().__init__()
         self.player = player
 
-    def show(self):
+    def _draw_content(self) -> None:
         from common.game import out_file, out
         out(0, 2, "The end...", Color.TITLE.value)
         out_file(10, 4, '../assets/texts/final.txt', Color.ITEM.value)
