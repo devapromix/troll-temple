@@ -1,16 +1,17 @@
 import tcod as T
+from .single_page_scene import SinglePageScene
 from graphics.color import Color
 
-class RipScene:
+class RipScene(SinglePageScene):
     def __init__(self, turns, player):
+        super().__init__()
         self.turns = turns
         self.player = player
 
-    def show(self):
-        from common.game import clear, out_file, refresh, out, anykey, Quit, COLOR_TITLE, draw_statistics
+    def _draw_content(self) -> None:
+        from common.game import out_file, out, anykey, COLOR_TITLE, draw_statistics
         from common.calendar import Calendar
         calendar = Calendar()
-        clear()
 
         out(0, 2, "Rest in peace...", Color.TITLE.value)
         out_file(10, 8, '../assets/texts/rip.txt', Color.ITEM.value)
@@ -39,6 +40,8 @@ class RipScene:
         draw_statistics(16)
 
         out(0, 28, "Press [ENTER] to exit...", Color.ITEM.value)
-        refresh()
-        anykey()
+
+    def _check_input(self, key: int) -> bool:
+        from common.game import Quit
+        super()._check_input(key)
         raise Quit()
