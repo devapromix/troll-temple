@@ -6,17 +6,19 @@ class SelectionScene(Scene):
     def __init__(self, title, items: list, focusable: bool = False):
         super().__init__()
         self.items = items
-        self.selected = None
         self.title = title
         self.focusable = focusable
-        if self.focusable:
-            self.selected = items[0]
+        self.selected_index = 0 if self.focusable else None
+
+    @property
+    def selected(self):
+        return self.items[self.selected_index] if self.selected_index is not None else None
 
     def _draw_content(self) -> None:
         from common.game import out
         out(2, 1, self.title, Color.TITLE.value)
         for i, item in enumerate(self.items):
-            if self.focusable and self.selected == item:
+            if self.focusable and self.selected_index == i:
                 out(1, i + 3, '>', Color.ITEM.value)
                 self._draw_selected_info(item)
             id = chr(i + ord('a'))
@@ -31,10 +33,19 @@ class SelectionScene(Scene):
         if key in range(pygame.K_a, pygame.K_z):
             i = key - pygame.K_a
             if 0 <= i < len(self.items):
-                self.selected = self.items[i]
+                self.selected_index = i
                 if not self.focusable:
                     self.exit()
             return True
+
+        if self.selected is not None:
+            if key == pygame.K_UP:
+                self.selected_index = self.selected_index - 1 if self.selected_index != 0 else len(self.items) - 1
+                return True
+            if key == pygame.K_DOWN:
+                self.selected_index = self.selected_index + 1 if self.selected_index != len(self.items) - 1\
+                    else 0
+                return True
 
         if key == pygame.K_RETURN:
             if self.focusable:
