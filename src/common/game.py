@@ -518,7 +518,8 @@ def prompt(s, choices=None):
 
 
 def readkey():
-    for event in pygame.event.get():
+    while True:
+        event = pygame.event.wait()
         if event.type == pygame.QUIT:
             pygame.event.clear()
             close()
