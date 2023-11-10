@@ -57,6 +57,7 @@ class Game(object):
         self.start_map(self.map.level + 1)
 
     def loop(self):
+        from graphics.scenes.rip_scene import RipScene
         draw_all()
         try:
             while True:
@@ -71,7 +72,8 @@ class Game(object):
                     prompt(
                         'Game over: %s. Press ENTER' % self.stats.player_last_death_reason,
                         [pygame.K_RETURN])
-                    raise Quit()
+                    scene = RipScene(self.turns, self.player)
+                    scene.show()
                 while self.player.action_turns > 0:
                     for i in pygame.event.get():
                         if i.type == pygame.KEYUP:
@@ -160,8 +162,10 @@ class Game(object):
         self.ascend()
 
     def cmd_quit(self):
+        from graphics.scenes.rip_scene import RipScene
         if prompt('Quit? (Y/N)', [pygame.K_y, pygame.K_n]) == pygame.K_y:
-            raise Quit()
+            scene = RipScene(self.turns, self.player)
+            scene.show()
         else:
             new_ui_turn()
 
