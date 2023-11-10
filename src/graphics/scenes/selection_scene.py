@@ -4,6 +4,7 @@ from ..color import Color
 
 class SelectionScene(Scene):
     def __init__(self, title, items: list, focusable: bool = False):
+        super().__init__()
         self.items = items
         self.selected = None
         self.title = title
@@ -26,14 +27,20 @@ class SelectionScene(Scene):
 
     def _check_input(self, key: int) -> bool:
         from common.game import pygame
+
         if key in range(pygame.K_a, pygame.K_z):
             i = key - pygame.K_a
             if 0 <= i < len(self.items):
                 self.selected = self.items[i]
-                return not self.focusable
+                if not self.focusable:
+                    self.exit()
+            return True
+
         if key == pygame.K_RETURN:
             if self.focusable:
-                return True
+                self.exit()
+            return True
+
         return False
 
     def _draw_item_name(self, x: int, y: int, item: object) -> None:
