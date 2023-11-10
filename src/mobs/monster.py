@@ -127,16 +127,16 @@ class Monster(Mob, metaclass=Register):
 
     def attack_player(self):
         mon = self.map.player
-        damage = damage.calculate(self, mon)
+        damage = Damage.calculate(self, mon)
         mon.damage(int(damage), self)
 
-        if damage.status == damage.Status.NORMAL:
+        if damage.status == damage.status.NORMAL:
             message('The %s hits you (%d).' % (self.name, int(damage)))
-        elif damage.status == damage.Status.CRITICAL:
+        elif damage.status == damage.status.CRITICAL:
             message('The %s critically hits you (%d)!' % (self.name, int(damage)), COLOR_ALERT)
-        elif damage.status == damage.Status.EVADED:
+        elif damage.status == damage.status.EVADED:
             message('The %s misses you.' % self.name)
-        elif damage.status == damage.Status.BLOCKED:
+        elif damage.status == damage.status.BLOCKED:
             message("You block the attack.")
-        elif damage.status == damage.Status.ABSORBED:
+        elif damage.status == damage.status.ABSORBED:
             message('Your armor protects you.')
