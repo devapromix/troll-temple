@@ -395,7 +395,7 @@ class Wraith(GhostMonster):
     glyph = 'w', T.light_grey
     life = 50
     dice = 3, 5, 2
-    level = 10    
+    level = 10
     dungeons = 10, 11
     rarity = 1
 
