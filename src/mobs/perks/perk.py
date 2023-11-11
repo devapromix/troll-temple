@@ -42,10 +42,13 @@ class Perk(object, metaclass=Register):
 
 
 class RarePerk(Perk):
+    ABSTRACT = True
     rarity = PerkRarity.RARE
     level_requirement = 3
 
+
 class LegendPerk(Perk):
+    ABSTRACT = True
     rarity = PerkRarity.LEGEND
     max_count = 1
     level_requirement = 5
