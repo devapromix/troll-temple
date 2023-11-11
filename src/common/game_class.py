@@ -22,12 +22,11 @@ class Game(object):
         from graphics.scenes.intro_scene import IntroScene
         from graphics.scenes.title_scene import TitleScene
         init(self)
-        scene = TitleScene()
-        scene.show()
-        scene = IntroScene()
-        scene.show()
+        TitleScene().show()
+        IntroScene().show()
         scene = ChooseGameClassScene(self)
         scene.show()
+        self.selected_game_class = scene.selected[1]
         self.start()
         ChoosePerkScene(self.player).show()
         self.loop()
