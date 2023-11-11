@@ -1,5 +1,6 @@
 from .scene import Scene
 from ..color import Color
+import tcod as T
 
 
 class SelectionScene(Scene):
@@ -19,7 +20,7 @@ class SelectionScene(Scene):
         out(2, 1, self.title, Color.TITLE.value)
         for i, item in enumerate(self.items):
             if self.focusable and self.selected_index == i:
-                out(1, i + 3, '>', Color.ITEM.value)
+                out(1, i + 3, '>', T.white)
                 self._draw_selected_info(item)
             id = chr(i + ord('a'))
             out(3, i + 3, id, Color.ITEM.value)
