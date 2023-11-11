@@ -7,14 +7,14 @@ from ..player import Classes
 
 
 class Powerful(Perk):
-    __name = 'powerful'
+    _name = 'powerful'
     _descr = "Increase your life"
     modifier = AddMaxLife(5)
     max_count = 10
 
 
 class DefenceArt(Perk):
-    __name = 'defence art'
+    _name = 'defence art'
     _descr = "Increase common abilities to evade and to supress Damage"
     modifier = AggregateModifier(
         Mod('armor', 5),
@@ -52,20 +52,22 @@ class FightForLife(LegendPerk):
     )
 
 class Indomitable(Perk):
-    __name = "indomitable"
+    _name = "indomitable"
     _descr = "Increase Damage"
     #modifier = AddDamage(1)
     max_count = 5
 
 class Stoneheart(Perk):
-    __name = "stoneheart"
+    _name = "stoneheart"
     _descr = "Increase armor"
     modifier = Mod('armor', 2)
     max_count = 10
 
 
 class IroncladDefender(LegendPerk):
-    _descr = "The Ironclad Defender perk transforms you into an unyielding fortress on the battlefield. With unwavering determination, you prioritize defense above all else, bolstering your resistance to Damage. However, this unwavering focus on defense comes at the cost of agility and evasion"
+    _descr = ("The Ironclad Defender perk transforms you into an unyielding fortress on the battlefield. "
+              "With unwavering determination, you prioritize defense above all else, "
+              "bolstering your resistance to Damage. However, this unwavering focus on defense comes at the cost of agility and evasion")
     modifier = AggregateModifier(
         AddMaxLife(100),
         Mod('armor', 25),
@@ -75,14 +77,14 @@ class IroncladDefender(LegendPerk):
     classes = {Classes.FIGHTER}
 
 class EagleEye(Perk): # only class Classes.RANGER
-    __name = "eagle eye"
+    _name = "eagle eye"
     _descr = "The eagle eye allows you to increase the distance from which you can shoot at a target"
     modifier = Mod('radius', 1)
     max_count = 2
     classes = {Classes.THIEF}
 
 class Poisoner(Perk): # only class Classes.THIEF
-    __name = "poisoner"
+    _name = "poisoner"
     _descr = "You discover new alchemy poisons and poison your enemies more effectively"
     modifier = Mod('poison', 1)
     max_count = 3
@@ -90,7 +92,7 @@ class Poisoner(Perk): # only class Classes.THIEF
     classes = {Classes.THIEF}
 
 class Bower(LegendPerk): # only class Classes.THIEF
-    __name = "bower"
+    _name = "bower"
     _descr = "You can use a bow and hit your enemies with it"
     #self.can_use_bow = True
     classes = {Classes.THIEF}

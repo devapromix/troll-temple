@@ -17,22 +17,18 @@ class Perk(object, metaclass=Register):
     rarity = PerkRarity.USUALLY
     max_count = 10
     level_requirement = 0
-    __name = None
+    _name = None
     _descr = "Unknown"
     classes = {}
 
-    @property
     @classmethod
-    def name(cls):
-        return cls.__name__ if cls.__name is None else cls.__name
-
     @property
-    def name(self):
-        return type(self).__name__ if self.__name is None else self.__name
+    def name(cls):
+        return cls.__name__ if cls._name is None else cls._name
 
     @property
     def descr(self):
-        return self.__class__._descr
+        return self._descr
 
     def __repr__(self):
         return self.name
