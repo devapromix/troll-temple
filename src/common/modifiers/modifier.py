@@ -29,5 +29,7 @@ class Modifier:
         if isinstance(other, AggregateModifier):
             other += self
             return other
+        elif type(other) is Modifier:
+            return self
         else:
             return AggregateModifier(self, other)
