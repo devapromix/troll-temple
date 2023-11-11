@@ -22,8 +22,13 @@ class Scene:
     def _draw_content(self) -> None:
         raise NotImplementedError()
 
-    ''' Process input's keys from user. Return True if key was caught.'''
     def _check_input(self, key: int) -> bool:
+        """
+        Process input's keys from user.
+
+        :return: True if key was caught.
+        """
+
         raise NotImplementedError()
 
     ''' Stop showing of this scene'''
