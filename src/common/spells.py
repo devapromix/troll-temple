@@ -106,7 +106,7 @@ class Bloodlust(Spell):
         f = super(Bloodlust, self).on_use(player)
         if f:
             message('You feel lust for blood.', COLOR_MAGIC)
-            player.effects.add(UniEffect(Mod('Damage_bonus', 2), player.magic + 5))
+            player.effects.add(UniEffect(Mod('damage_bonus', 2), player.magic + 5))
         return f
         
 class Confuse(Spell):

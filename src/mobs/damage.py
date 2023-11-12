@@ -32,7 +32,7 @@ def check_blocking(defender):
 
 
 class Damage:
-    def __init__(self, status, value):
+    def __init__(self, status: DamageStatus, value: int):
         self.status = status
         self.value = value
 
@@ -70,7 +70,7 @@ class Damage:
         if check_blocking(defender):
             return Damage.blocked()
 
-        dmg = roll(*attacker.dice) + attacker.Damage_bonus
+        dmg = roll(*attacker.dice) + attacker.damage_bonus
         dmg = defender.calc_Damage(dmg)
         if dmg > 0:
             if rand(1, 20) == 1:
@@ -79,3 +79,4 @@ class Damage:
                 return Damage.normal(dmg)
         else:
             return Damage.absorbed()
+

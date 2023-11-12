@@ -47,11 +47,6 @@ class Monster(Mob, metaclass=Register):
         message('The %s disappears!' % self.name)
         self.remove()
 
-    def damage(self, dmg, enemy):
-        self.life.modify(-dmg)
-        if self.life.cur <= 0:
-            self.die(enemy)
-
     def drop(self):
         from mobs.drop import Drop
         d = Drop(self)
@@ -131,7 +126,7 @@ class Monster(Mob, metaclass=Register):
     def attack_player(self):
         mon = self.map.player
         damage = Damage.calculate(self, mon)
-        mon.damage(int(damage), self)
+        mon.damage(damage, self)
 
         if damage.status == damage.status.NORMAL:
             message('The %s hits you (%d).' % (self.name, int(damage)))
