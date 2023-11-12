@@ -7,9 +7,9 @@ from graphics.color import Color
 from graphics.scenes.selection_scene import SelectionScene
 
 class InventoryScene(SelectionScene):
-    def __init__(self, game):
-        super().__init__("Select an item", GAME.player.items, True)
-        self.game = game
+    def __init__(self, player):
+        super().__init__("INVENTORY Press [ENTER] to use, [TAB] to drop, [ESC] to exit", player.items, True)
+        self.player = player
 
     def _item_color(self, item, color):
         if item.color != Color.ITEM.value:
@@ -24,8 +24,7 @@ class InventoryScene(SelectionScene):
     def _draw_item_name(self, x: int, y: int, item: object) -> None:
         c, color = item.glyph
         s = item.descr
-        k = ''
-        if GAME.player.has_equipped(item):
+        if self.player.has_equipped(item):
             color = self._item_color(item, Color.SELECT.value)
             out(2, y, '*', color)
         if item == self.selected:
@@ -34,4 +33,28 @@ class InventoryScene(SelectionScene):
             self._draw_item(x, y, c, s, color)
 
     def _draw_selected_info(self, item: object) -> None:
-        pass
+        out_file(81, 1, '../assets/texts/' + item.art + '.txt', item.glyph[1])
+
+    def _check_input(self, key: int) -> bool:
+        from common.game import pygame
+        if super()._check_input(key, False):
+            return True
+            
+        if key == pygame.K_RETURN:
+            if self.focusable:
+                item = self.selected
+                if item:
+                    self.player.use(item)
+                    self.exit()
+            return True
+        
+        if key == pygame.K_ESCAPE:
+            self.exit()
+            return True
+        
+        if key == pygame.K_TAB:
+            print("Tab")
+            return True
+        
+        return False
+            
