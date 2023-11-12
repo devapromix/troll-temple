@@ -42,6 +42,7 @@ class Mob(object):
 
     def damage(self, dmg: Damage, attacker):
         dmg.attacker = attacker
+        dmg.defender = self
         self.on_damage(dmg)
         self.life.modify(-dmg.value)
         if self.life.cur <= 0:
