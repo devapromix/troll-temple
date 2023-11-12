@@ -18,13 +18,18 @@ class Perk(object, metaclass=Register):
     max_count = 10
     level_requirement = 0
     _name = None
+    name = __name__ if _name is None else _name
     _descr = "Unknown"
     classes = {}
 
-    @classmethod
     @property
+    @classmethod
     def name(cls):
         return cls.__name__ if cls._name is None else cls._name
+
+    @property
+    def name(self):
+        return type(self).__name__ if self._name is None else self._name
 
     @property
     def descr(self):
