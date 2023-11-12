@@ -1,5 +1,5 @@
 from common.modifiers.aggregate_modifier import AggregateModifier
-from common.modifiers.attrib_mod import AddMaxLife
+from common.modifiers.attrib_mod import *
 from common.modifiers.fight_for_life import FightForLife
 from common.modifiers.mod import Mod
 from .perk import *
