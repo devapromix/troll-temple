@@ -73,7 +73,10 @@ class Monster(Mob, metaclass=Register):
         d.drop()
 
     def see_player(self):
+        from mobs.player import Invisibility
         player = self.map.player
+        if player.invisibility != Invisibility.NONE:
+            return None
         fov_range = self.fov_range + player.light_range/2
         if T.map_is_in_fov(self.map.fov_map, self.x, self.y):
             d = dist(self.x, self.y, player.x, player.y)

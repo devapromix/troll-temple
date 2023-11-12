@@ -68,6 +68,8 @@ class ShimmeringWhitePortal(ShimmeringPortal):
 
     def on_use(self, player):
         from graphics.scenes.final_scene import FinalScene
+        from mobs.player import Invisibility
+        player.invisibility = Invisibility.FULL
         message("You entered the shimmering white portal and instantly materialized in town!", T.yellow)
         prompt('Congratulations! You have won. Press [ENTER] to exit...', [pygame.K_RETURN])
         scene = FinalScene(player)

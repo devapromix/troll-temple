@@ -19,6 +19,7 @@ class LightSource(Item):
 
     def on_equip(self, player):
         player.change_light_range(self.light_range)
+        player.visibility()
         return True
 
     def on_unequip(self, player):

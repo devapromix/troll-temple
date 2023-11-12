@@ -5,6 +5,10 @@ from .perks.perks_container import PerksContainer
 
 # --- CONSTANTS --- #
 
+class Invisibility(Enum):
+    FULL = 0
+    SHADOW = 1
+    NONE = 2
 
 class Classes(Enum):
     FIGHTER = 1
@@ -107,6 +111,7 @@ class Player(Mob):
         self.fov_range = 3
         self.light_range = 0
         self.action_turns = 1
+        self.invisibility = Invisibility.NONE
         self.armor = 0
         self.exp = 0
         self.kills = 0
@@ -247,6 +252,7 @@ class Player(Mob):
             message('Monster have blocked your strike')
         elif damage.status == damage.status.ABSORBED:
             message('Monster have too powerful armor')
+        self.visibility()
 
     def die(self, murderer):
         super().die(murderer)
@@ -334,3 +340,10 @@ class Player(Mob):
     def teleport(self):
         x, y, _ = self.map.random_empty_tile()
         self.move(x, y)
+        
+    def visibility(self):
+        self.invisibility = Invisibility.NONE
+        message("You come out of the shadows!")
+        
+
+        

@@ -195,6 +195,17 @@ class Game(object):
         from graphics.scenes.intro_scene import IntroScene
         scene = IntroScene()
         scene.show()
+        
+    def cmd_invisibility(self):
+        from mobs.player import Invisibility, Classes
+        if self.player.game_class != Classes.THIEF:
+            message("Only a thief can use this ability!", COLOR_ERROR)
+            return
+        if self.player.invisibility == Invisibility.NONE:
+            self.player.invisibility = Invisibility.SHADOW
+            message("You hide in the shadows!")
+        else:
+            self.player.visibility()
 
     def cmd_spellbook(self):
         if self.player.has_spellbook:

@@ -11,7 +11,7 @@ Keybindings:
 [G] pick up an item from the floor        [C] open craftbox (only ranger class)
 [D] drop an item to the floor             [B] open spellbook (only mage class)
 [L] use look mode                         [P] open character sheet
-[S] use shoot mode
+[S] use shoot mode                        [T] invisibility (only thief class)
 [<] go up stairs
 [U] use map object (portal, shrine)
 [?] show this help screen

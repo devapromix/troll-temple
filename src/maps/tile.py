@@ -13,7 +13,12 @@ class Tile(object):
 
     @property
     def visible_glyph(self):
-        if self.mob:
+        from common.game import GAME
+        from mobs.player import Invisibility
+        player = GAME.player
+        if self.mob and not (self.mob == player and player.invisibility == Invisibility.FULL):
+            if self.mob == player and player.invisibility == Invisibility.SHADOW:
+                return self.mob.glyph[0], T.darkest_grey
             if self.mob.poisoned > 0:
                 return self.mob.glyph[0], T.lighter_green
             elif self.mob.confused:
