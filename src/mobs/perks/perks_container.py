@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from random import randrange, choice
+from typing import Type
 
 from mobs.perks.perk import *
 from mobs.perks.perks import *
@@ -33,6 +36,6 @@ class PerksContainer:
         self.__perks[perk.name] = current + 1
         perk.use(self.__player)
 
-    def __check_perk(self, perk: Perk) -> bool:
+    def __check_perk(self, perk: Perk | Type) -> bool:
         current = self.__perks.get(perk.name, 0)
         return (len(perk.classes) == 0 or self.__player.game_class in perk.classes) and current < perk.max_count and perk.level_requirement <= self.__player.level
