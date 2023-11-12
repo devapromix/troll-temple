@@ -234,7 +234,7 @@ class Player(Mob):
 
     def attack(self, mon):
         damage = Damage.calculate(self, mon)
-        mon.damage(int(damage), self)
+        mon.damage(damage, self)
         self.use_energy()
 
         if damage.status == damage.status.NORMAL:
@@ -251,12 +251,6 @@ class Player(Mob):
     def die(self, murderer):
         super().die(murderer)
         murderer.look_normal()
-
-    def damage(self, dmg, mon):
-        self.life.modify(-dmg)
-        if self.life.cur <= 0:
-            if self.is_alive:
-                self.die(mon)
 
     def pick_up(self, item):
         if len(self.items) == INV_SIZE:
