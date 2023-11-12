@@ -93,7 +93,7 @@ class UniqueStaff(EliteStaff):
 
 class Bow(RangedWeapon):
     ABSTRACT = True
-    
+
     def __init__(self):
         super(Bow, self).__init__()
         if rand(1, 7) == 1:
@@ -115,12 +115,12 @@ class Bow(RangedWeapon):
         player.holding_bow = True
         player.range = self.range
         return True
-        
+
     def on_unequip(self, player):
         super(Bow, self).on_unequip(player)
         player.holding_bow = False
         player.range = 1
-    
+
 class EliteBow(Bow):
     ABSTRACT = True
     rarity = 10

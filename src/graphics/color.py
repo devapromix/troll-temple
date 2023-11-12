@@ -8,6 +8,7 @@ class Color(Enum):
     ALERT = T.light_yellow
     ERROR = T.lighter_red
     MAGIC = T.lighter_blue
+    SELECT = T.white
 
 
 
