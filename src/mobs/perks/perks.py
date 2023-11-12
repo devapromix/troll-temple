@@ -1,5 +1,5 @@
 from common.modifiers.aggregate_modifier import AggregateModifier
-from common.modifiers.attrib_mod import AddMaxLife
+from common.modifiers.attrib_mod import *
 from common.modifiers.fight_for_life import FightForLife
 from common.modifiers.mod import Mod
 from .perk import *
@@ -76,14 +76,14 @@ class IroncladDefender(LegendPerk):
     )
     classes = {Classes.FIGHTER}
 
-class EagleEye(Perk): # only class Classes.RANGER
+class EagleEye(Perk):
     _name = "eagle eye"
     _descr = "The eagle eye allows you to increase the distance from which you can shoot at a target"
     modifier = Mod('radius', 1)
     max_count = 2
-    classes = {Classes.THIEF}
+    classes = {Classes.RANGER}
 
-class Poisoner(Perk): # only class Classes.THIEF
+class Poisoner(Perk):
     _name = "poisoner"
     _descr = "You discover new alchemy poisons and poison your enemies more effectively"
     modifier = Mod('poison', 1)
@@ -91,11 +91,21 @@ class Poisoner(Perk): # only class Classes.THIEF
     rarity = PerkRarity.RARE
     classes = {Classes.THIEF}
 
-class Bower(LegendPerk): # only class Classes.THIEF
+class Bower(LegendPerk):
     _name = "bower"
     _descr = "You can use a bow and hit your enemies with it"
     #self.can_use_bow = True
     classes = {Classes.THIEF}
+
+class InnerReserves(Perk):
+    _name = 'Inner Reserves'
+    _descr = "Increase your mana and life"
+    modifier = AggregateModifier(
+        AddMaxLife(2),
+        AddMaxMana(7)
+    )
+    max_count = 10
+    classes = {Classes.MAGE}
 
 
 

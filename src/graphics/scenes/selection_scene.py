@@ -28,7 +28,7 @@ class SelectionScene(Scene):
         if self.focusable:
             out(0, 28, "Press [ENTER] to continue...", Color.ITEM.value)
 
-    def _check_input(self, key: int) -> bool:
+    def _check_input(self, key: int, ret_flag: bool = True) -> bool:
         from common.game import pygame
 
         if key in range(pygame.K_a, pygame.K_z):
@@ -48,7 +48,7 @@ class SelectionScene(Scene):
                     else 0
                 return True
 
-        if key == pygame.K_RETURN:
+        if ret_flag and key == pygame.K_RETURN:
             if self.focusable:
                 self.exit()
             return True

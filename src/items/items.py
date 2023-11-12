@@ -12,6 +12,7 @@ from common.spells import *
 class Dagger(Weapon):
     ABSTRACT = True
     poison = 0
+    art = 'dagger'
 
     def __init__(self):
         super(Dagger, self).__init__()
@@ -63,6 +64,7 @@ class UniqueDagger(EliteDagger):
 class Staff(Weapon):
     ABSTRACT = True
     magic = 1
+    art = 'staff'
     
     def __init__(self):
         super(Staff, self).__init__()
@@ -93,7 +95,7 @@ class UniqueStaff(EliteStaff):
 
 class Bow(RangedWeapon):
     ABSTRACT = True
-    
+
     def __init__(self):
         super(Bow, self).__init__()
         if rand(1, 7) == 1:
@@ -115,12 +117,12 @@ class Bow(RangedWeapon):
         player.holding_bow = True
         player.range = self.range
         return True
-        
+
     def on_unequip(self, player):
         super(Bow, self).on_unequip(player)
         player.holding_bow = False
         player.range = 1
-    
+
 class EliteBow(Bow):
     ABSTRACT = True
     rarity = 10
@@ -343,6 +345,7 @@ class CraftItem(Item):
 
 class Potion(Item):
     ABSTRACT = True
+    art = 'potion'
 
     def on_use(self, player):
         message('You drink the %s.' % self.name)
@@ -378,6 +381,7 @@ class PoisonPotion(Potion):
 
 class Scroll(Item):
     ABSTRACT = True
+    art = 'scroll'
 
     def on_use(self, player):
         if self.spell.on_use(self.spell(), player):
