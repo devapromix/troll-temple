@@ -239,7 +239,7 @@ class Player(Mob):
 
     def attack(self, mon):
         damage = Damage.calculate(self, mon)
-        mon.damage(damage, self)
+        mon.damage(damage)
         self.use_energy()
 
         if damage.status == damage.status.NORMAL:
@@ -254,9 +254,9 @@ class Player(Mob):
             message('Monster have too powerful armor')
         self.visibility()
 
-    def die(self, murderer):
-        super().die(murderer)
-        murderer.look_normal()
+    def die(self, damage):
+        super().die(damage)
+        damage.attacker.look_normal()
 
     def pick_up(self, item):
         if len(self.items) == INV_SIZE:

@@ -1,7 +1,6 @@
 import tcod as T
 from common.game import *
 from common.atrib import Atrib
-from mobs.damage import Damage
 from mobs.effects.effects_container import EffectsContainer
 from utils.event import Event
 from items.corpse import Corpse
@@ -34,19 +33,17 @@ class Mob(object):
         self.on_damage = Event()
         self.is_alive = True
 
-    def die(self, murderer):
+    def die(self, damage):
         assert self.is_alive
         self.is_alive = False
-        self.on_die(self, murderer)
+        self.on_die(damage)
         self.tile.items.append(Corpse(self))
 
-    def damage(self, dmg: Damage, attacker):
-        dmg.attacker = attacker
-        dmg.defender = self
+    def damage(self, dmg):
         self.on_damage(dmg)
         self.life.modify(-dmg.value)
         if self.life.cur <= 0:
-            self.die(attacker)
+            self.die(dmg)
 
     @property
     def tile(self):
@@ -104,7 +101,7 @@ class Mob(object):
     def heartbeat(self):
         pass
 
-    def calc_Damage(self, dmg):
+    def calc_damage(self, dmg):
         if dmg < 1:
             dmg = 1
         if self.armor > 90:

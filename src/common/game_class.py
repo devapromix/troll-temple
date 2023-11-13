@@ -35,7 +35,7 @@ class Game(object):
     def start(self):
         from mobs.player import Player
         self.player = Player(self.wizard, self.selected_game_class)
-        self.player.on_die += lambda p, m: self.player_died(p, m)
+        self.player.on_die += lambda damage: self.player_died(damage.defender, damage.attacker)
         self.turns = 0
         self.welcome()
         self.start_map(1)

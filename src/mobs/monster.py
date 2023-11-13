@@ -30,18 +30,18 @@ class Monster(Mob, metaclass=Register):
         except AttributeError:
             pass
 
-    def die(self, murderer):
+    def die(self, damage):
         if rand(1, 30) <= self.drop_rate:
             self.drop()
         if rand(1, 10) <= 1:
             self.adv_drop()
-        super().die(murderer)
+        super().die(damage)
         self.look_normal()
         if self.map.is_visible(self.x, self.y):
             message('The %s dies!' % self.name)
         self.remove()
-        murderer.kills += 1
-        murderer.add_exp(self)
+        damage.attacker.kills += 1
+        damage.attacker.add_exp(self)
 
     def disappear(self):
         message('The %s disappears!' % self.name)
@@ -126,7 +126,7 @@ class Monster(Mob, metaclass=Register):
     def attack_player(self):
         mon = self.map.player
         damage = Damage.calculate(self, mon)
-        mon.damage(damage, self)
+        mon.damage(damage)
 
         if damage.status == damage.status.NORMAL:
             message('The %s hits you (%d).' % (self.name, int(damage)))

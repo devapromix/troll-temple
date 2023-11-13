@@ -3,6 +3,7 @@ from common.modifiers.attrib_mod import *
 from common.modifiers.add_damage import *
 from common.modifiers.fight_for_life import FightForLife
 from common.modifiers.mod import Mod
+from common.modifiers.reflection import Reflection
 from .perk import *
 from ..player import Classes
 
@@ -33,6 +34,28 @@ class Agility(Perk):
         Mod('evasion', 5)
     )
     rarity = PerkRarity.RARE
+
+
+class ContrImpulse(Perk):
+    _descr = "Let you reflect a small portion of incoming damage back to the attacker with low chance"
+    modifier = AggregateModifier(
+        Reflection(20, 20)
+    )
+    max_count = 2
+    classes = {Classes.FIGHTER}
+
+
+class ParryMaster(LegendPerk):
+    _descr = ("Become a master of the blade. This advanced skill allows you to deflect incoming attacks with precise "
+              "timing, turning the tables on your adversaries. Parry Master not only reduces incoming damage but also "
+              "increase portions of it, which reflect back to the attacker. Your exceptional parrying skills can punish"
+              " those who dare to challenge you")
+    modifier = AggregateModifier(
+        Reflection(50, 50),
+        Mod('armor', 15),
+        Mod('blocking', 15),
+    )
+    classes = {Classes.FIGHTER}
 
 
 class Hero(LegendPerk):
