@@ -3,8 +3,8 @@ from .modifier import Modifier
 
 class AttribMod(Modifier):
     DESCRIPTIONS = {
-        'life': '+%d max life',
-        'mana': '+%d max mana'
+        'life': '+%d life',
+        'mana': '+%d mana'
     }
 
     def __init__(self, attr_name, value):

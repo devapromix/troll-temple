@@ -1,5 +1,6 @@
 from common.modifiers.aggregate_modifier import AggregateModifier
 from common.modifiers.attrib_mod import *
+from common.modifiers.add_damage import *
 from common.modifiers.fight_for_life import FightForLife
 from common.modifiers.mod import Mod
 from .perk import *
@@ -53,8 +54,8 @@ class FightForLife(LegendPerk):
 
 class Indomitable(Perk):
     _name = "indomitable"
-    _descr = "Increase Damage"
-    #modifier = AddDamage(1)
+    _descr = "Increase damage"
+    modifier = DamageMod(1)
     max_count = 5
 
 class Stoneheart(Perk):

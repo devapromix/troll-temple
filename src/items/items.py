@@ -1,4 +1,5 @@
 from common.modifiers.attrib_mod import *
+from common.modifiers.add_damage import *
 from .LightSource import LightSource
 from .Weapon import *
 from .Weapon import Weapon
@@ -102,7 +103,7 @@ class Sword(Weapon):
 
         if rand(1, 3) == 1:
             if self.suffix("vigor"):
-                self.modifier += AddMaxLife(rand(1, 5) + int(dungeons[0]))
+                self.modifier += AddMaxLife(rand(1, 5) + int(self.dungeons[0]))
 
 class EliteSword(Sword):
     ABSTRACT = True
@@ -165,10 +166,10 @@ class Quiver(Equipment):
 
     @property
     def descr(self):
-        return '%s (%s/%s +%s Damage)' % (self.name, self.arrows_left, self.arrows, self.Damage)
+        return '%s (%s/%s +%s damage)' % (self.name, self.arrows_left, self.arrows, self.Damage)
 
     def __init__(self):
-        super(Quiver, self).__init__()
+        super().__init__()
         self.arrows_left = self.arrows
 
     def on_equip(self, player):
@@ -176,11 +177,11 @@ class Quiver(Equipment):
             message("You don't know how to use bows!", COLOR_ERROR)
             return False
         player.holding_quiver = True
-        #self.modifier += AddDamage(self.Damage)
+        self.modifier += DamageMod(self.Damage)
         return True
 
     def on_unequip(self, player):
-        #self.modifier -= AddDamage(self.Damage)
+        self.modifier -= DamageMod(self.Damage)
         player.holding_quiver = False
     
 # --- ARMOR --- #
