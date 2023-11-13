@@ -124,9 +124,11 @@ class Monster(Mob, metaclass=Register):
             self.walk_randomly()
 
     def attack_player(self):
-        mon = self.map.player
-        damage = Damage.calculate(self, mon)
-        mon.damage(damage)
+        self.attack(self.map.player)
+
+    def attack(self, mob):
+        damage = Damage.calculate(self, mob)
+        mob.damage(damage)
 
         if damage.status == damage.status.NORMAL:
             message('The %s hits you (%d).' % (self.name, int(damage)))
