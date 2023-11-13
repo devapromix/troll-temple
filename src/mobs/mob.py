@@ -5,6 +5,7 @@ from mobs.effects.effects_container import EffectsContainer
 from utils.event import Event
 from items.corpse import Corpse
 
+
 class Mob(object):
     x, y = None, None
     glyph = "?", T.red
@@ -41,9 +42,10 @@ class Mob(object):
 
     def damage(self, dmg):
         self.on_damage(dmg)
-        self.life.modify(-dmg.value)
-        if self.life.cur <= 0:
-            self.die(dmg)
+        if self.is_alive:
+            self.life.modify(-dmg.value)
+            if self.life.cur <= 0:
+                self.die(dmg)
 
     @property
     def tile(self):
