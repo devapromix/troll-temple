@@ -1,4 +1,4 @@
-from common.modifiers.attrib_mod import AddMaxMana
+from common.modifiers.attrib_mod import *
 from .LightSource import LightSource
 from .Weapon import *
 from .Weapon import Weapon
@@ -91,10 +91,32 @@ class UniqueStaff(EliteStaff):
     ABSTRACT = True
     rarity = 15
 
+# --- SWORD --- #
+
+class Sword(Weapon):
+    ABSTRACT = True
+    art = 'sword'
+
+    def __init__(self):
+        super().__init__()
+
+        if rand(1, 3) == 1:
+            if self.suffix("vigor"):
+                self.modifier += AddMaxLife(rand(1, 5) + int(dungeons[0]))
+
+class EliteSword(Sword):
+    ABSTRACT = True
+    rarity = 10
+
+class UniqueSword(EliteSword):
+    ABSTRACT = True
+    rarity = 15
+
 # --- BOW --- #
 
 class Bow(RangedWeapon):
     ABSTRACT = True
+    art = 'bow'
 
     def __init__(self):
         super(Bow, self).__init__()
@@ -136,6 +158,7 @@ class UniqueBow(EliteBow):
 class Quiver(Equipment):
     ABSTRACT = True
     slot = 'q'
+    art = 'quiver'
     arrows = 100
     Damage = 1
     description = 'Can be shot using a bow.'
@@ -165,6 +188,7 @@ class Quiver(Equipment):
 class Armor(Equipment):
     ABSTRACT = True
     armor = 10
+    art = 'armor'
 
     def __init__(self):
         super(Armor, self).__init__()
@@ -182,6 +206,7 @@ class ClothArmor(Armor):
     slot = 'a'
     magic = 1
     mana = 10
+    art = 'robe'
 
     def __init__(self):
         super(ClothArmor, self).__init__()
@@ -311,6 +336,7 @@ class Shield(Armor):
     rarity = 5
     blocking = 10
     armor = 0
+    art = 'shield'
 
     def __init__(self):
         super(Shield, self).__init__()
@@ -331,6 +357,7 @@ class Shield(Armor):
 
 class Book(Item):
     ABSTRACT = True
+    art = 'book'
 
     def on_use(self, player):
         if player.try_learn_spell(self.spell):
@@ -356,6 +383,7 @@ class Potion(Item):
 class PoisonPotion(Potion):
     ABSTRACT = True
     poison = 1
+    art = 'poison'
 
     def _failed(self):
         message("Failed attempt to make the weapon poisonous!", COLOR_ERROR)
@@ -391,6 +419,7 @@ class Scroll(Item):
 
 class Torch(LightSource):
     name = 'torch'
+    art = 'torch'
     glyph = '|', T.dark_orange
     dungeons = 1, 12
     turns = 150
@@ -398,14 +427,15 @@ class Torch(LightSource):
 
 class Lamp(LightSource):
     name = 'lamp'
+    art = 'lamp'
     glyph = 'o', T.dark_yellow
     dungeons = 4, 12
     rarity = 5
     turns = 300
     light_range = 8
 
-class Lamp2(LightSource):
-    name = 'lamp2'
+class OldLamp(Lamp):
+    name = 'old lamp'
     glyph = '0', T.light_yellow
     dungeons = 8, 12
     rarity = 15
@@ -444,6 +474,7 @@ class Rondel(Dagger):
 
 class BloodDagger(Dagger):
     name = 'blood dagger'
+    art = 'blood_dagger'
     glyph = '(', T.red
     speed = 1
     dice = 4, 4, 0
@@ -538,55 +569,56 @@ class LegendaryMallet(UniqueWeapon):
 
 # --- SWORDS --- #
 
-class ShortSword(Weapon):
+class ShortSword(Sword):
     name = 'short sword'
-    glyph = '(', T.lighter_blue
+    glyph = '(', T.lighter_green
     dice = 1, 3, 0
     dungeons = 1, 2
 
-class Falchion(Weapon):
+class Falchion(Sword):
     name = 'falchion'
-    glyph = '(', T.lighter_blue
+    glyph = '(', T.yellow
     dice = 1, 6, 1
     dungeons = 3, 4
 
-class BroadSword(Weapon):
+class BroadSword(Sword):
     name = 'broad sword'
     glyph = '(', T.lighter_blue
     dice = 2, 4, 2
     dungeons = 5, 6
 
-class CrusaderSword(Weapon):
+class CrusaderSword(Sword):
     name = 'crusader sword'
     glyph = '(', T.lighter_green
     dice = 2, 5, 4
     dungeons = 7, 8
 
-class HeroicSword(Weapon):
+class HeroicSword(Sword):
     name = 'heroic sword'
+    art = 'heroic_sword'
     glyph = '(', T.light_blue
     dice = 3, 5, 3
     dungeons = 9, 10
 
-class WarSword(Weapon):
+class WarSword(Sword):
     name = 'war sword'
     glyph = '(', T.lighter_blue
     dice = 3, 6, 3
     dungeons = 11, 12
 
-class RuneSword(EliteWeapon):
+class RuneSword(EliteSword):
     name = 'rune sword'
     glyph = '(', T.dark_orange
     dice = 2, 5, 6
     dungeons = 7, 9
 
-class MithrilSword(EliteWeapon):
+class MithrilSword(EliteSword):
     name = 'mithril sword'
     glyph = '(', T.light_sky
     dice = 3, 5, 6
     dungeons = 9, 11
 
-class AncientSword(UniqueWeapon):
+class AncientSword(UniqueSword):
     name = 'ancient sword'
     glyph = '(', T.cyan
     speed = 1
@@ -750,6 +782,7 @@ class FireStaff(Staff):
 
 class WonderStaff(Staff):
     name = 'wonder staff'
+    art = 'wonder_staff'
     glyph = '/', T.pink
     speed = -1
     magic = 5
