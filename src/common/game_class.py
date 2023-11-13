@@ -3,7 +3,7 @@ import tcod as T
 
 from common.game import init, close, message, COLOR_ERROR, \
     draw_all, prompt, new_ui_turn, Quit, DELAY, decode_walk_key, decode_interface_key, select_item, look_mode, \
-    MAX_DLEVEL, select_spell, select_recipe
+    MAX_DLEVEL, select_spell, select_recipe, COLOR_ALERT
 from common.stats import Stats
 from graphics.scenes.choose_perk_scene import ChoosePerkScene
 
@@ -35,6 +35,7 @@ class Game(object):
     def start(self):
         from mobs.player import Player
         self.player = Player(self.wizard, self.selected_game_class)
+        self.player.on_damage += lambda dmg: self.__player_damaged(dmg)
         self.player.on_die += lambda damage: self.player_died(damage.defender, damage.attacker)
         self.turns = 0
         self.welcome()
@@ -246,5 +247,18 @@ class Game(object):
         message("Brave adventurer, you are now lost in the underground corridors of the Old Temple.", T.yellow)
         message("There is no way to return to your homeland.", T.yellow)
         message("How long can you survive?", T.yellow)
+
+    def __player_damaged(self, damage):
+        name = damage.attacker.name
+        if damage.status == damage.status.NORMAL:
+            message('The %s hits you (%d).' % (name, int(damage)))
+        elif damage.status == damage.status.CRITICAL:
+            message('The %s critically hits you (%d)!' % (name, int(damage)), COLOR_ALERT)
+        elif damage.status == damage.status.EVADED:
+            message('The %s misses you.' % name)
+        elif damage.status == damage.status.BLOCKED:
+            message("You block the attack.")
+        elif damage.status == damage.status.ABSORBED:
+            message('Your armor protects you.')
 
 
