@@ -11,12 +11,8 @@ class DamageMod(Modifier):
         
     def commit(self, mob):
         super().commit(mob)
-        a, b, c = mob.dice
-        c += self.value
-        mob.dice = a, b, c
+        mob.bonus_damage += self.value
         
     def rollback(self, mob):
         super().rollback(mob)
-        a, b, c = mob.dice
-        c -= self.value
-        mob.dice = a, b, c
+        mob.bonus_damage -= self.value
