@@ -239,20 +239,8 @@ class Player(Mob):
             self.use_energy()
 
     def attack(self, mon):
-        damage = Damage.calculate(self, mon)
-        mon.damage(damage)
+        super().attack(mon)
         self.use_energy()
-
-        if damage.status == damage.status.NORMAL:
-            message('You hit the %s (%d).' % (mon.name, int(damage)))
-        elif damage.status == damage.status.CRITICAL:
-            message('You critically hit the %s (%d)!' % (mon.name, int(damage)), COLOR_ALERT)
-        elif damage.status == damage.status.EVADED:
-            message('You miss the %s.' % mon.name)
-        elif damage.status == damage.status.BLOCKED:
-            message('Monster have blocked your strike')
-        elif damage.status == damage.status.ABSORBED:
-            message('Monster have too powerful armor')
         self.visibility()
 
     def die(self, damage):

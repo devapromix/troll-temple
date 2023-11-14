@@ -32,6 +32,7 @@ class Mob(object):
         self.damage_bonus = 0
         self.on_die = Event()
         self.on_damage = Event()
+        self.on_strike = Event()
         self.is_alive = True
 
     def die(self, damage):
@@ -46,6 +47,12 @@ class Mob(object):
             self.life.modify(-dmg.value)
             if self.life.cur <= 0:
                 self.die(dmg)
+
+    def attack(self, mob):
+        from mobs.damage import Damage
+        damage = Damage.calculate(self, mob)
+        mob.damage(damage)
+        self.on_strike(damage)
 
     @property
     def tile(self):
