@@ -36,6 +36,7 @@ class Game(object):
         from mobs.player import Player
         self.player = Player(self.wizard, self.selected_game_class)
         self.player.on_damage += lambda dmg: self.__player_damaged(dmg)
+        self.player.on_strike += lambda dmg: self.__player_striked(dmg)
         self.player.on_die += lambda damage: self.player_died(damage.defender, damage.attacker)
         self.turns = 0
         self.welcome()
@@ -260,5 +261,18 @@ class Game(object):
             message("You block the attack.")
         elif damage.status == damage.status.ABSORBED:
             message('Your armor protects you.')
+
+    def __player_striked(self, damage):
+        mon = damage.defender
+        if damage.status == damage.status.NORMAL:
+            message('You hit the %s (%d).' % (mon.name, int(damage)))
+        elif damage.status == damage.status.CRITICAL:
+            message('You critically hit the %s (%d)!' % (mon.name, int(damage)), COLOR_ALERT)
+        elif damage.status == damage.status.EVADED:
+            message('You miss the %s.' % mon.name)
+        elif damage.status == damage.status.BLOCKED:
+            message('Monster have blocked your strike')
+        elif damage.status == damage.status.ABSORBED:
+            message('Monster have too powerful armor')
 
 

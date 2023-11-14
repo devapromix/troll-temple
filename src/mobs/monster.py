@@ -126,6 +126,3 @@ class Monster(Mob, metaclass=Register):
     def attack_player(self):
         self.attack(self.map.player)
 
-    def attack(self, mob):
-        damage = Damage.calculate(self, mob)
-        mob.damage(damage)
