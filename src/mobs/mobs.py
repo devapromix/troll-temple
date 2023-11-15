@@ -550,7 +550,7 @@ class TrollKing(FinalBossMonster):
 
     def die(self, dmg):
         from items.amulets import RubyAmulet
-        from common.game import prompt
+        from common.game import prompt, new_ui_turn
         super().die(dmg)
         self.tile.items.append(ScrollWhitePortal())
         self.tile.items.append(RubyAmulet())
@@ -560,3 +560,4 @@ class TrollKing(FinalBossMonster):
         if prompt('You have defeated the Troll King! Press [ENTER] to continue...', [pygame.K_RETURN]) == pygame.K_RETURN:
             self.info_scene.message("You have defeated True Evil!", "You have come a long way and defeated the terrible tyrant Troll King! Now all the magical power of the Ruby Amulet is in your hands and the White Portal will show you the way home...")
             self.info_scene.show()
+            new_ui_turn()
