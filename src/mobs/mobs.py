@@ -1,4 +1,6 @@
+import pygame
 from .monster import *
+from graphics.scenes.info_scene import InfoScene
 
 class FlyMonster(Monster):
     ABSTRACT = True
@@ -542,10 +544,19 @@ class TrollKing(FinalBossMonster):
     level = 12
     dungeons = 12, 12
 
-    def die(self):
-        super(TrollKing, self).die()
+    def __init__(self):
+        super().__init__()
+        self.info_scene = InfoScene()
+
+    def die(self, dmg):
+        from items.amulets import RubyAmulet
+        from common.game import prompt
+        super().die(dmg)
         self.tile.items.append(ScrollWhitePortal())
         self.tile.items.append(RubyAmulet())
         self.adv_drop()
         self.rare_drop()
         self.unique_drop()
+        if prompt('You have defeated the Troll King!: Press [ENTER] to continue...', [pygame.K_RETURN]) == pygame.K_RETURN:
+            self.info_scene.message("You have defeated True Evil!", "You have come a long way and defeated the terrible tyrant Troll King! Now all the magical power of the Ruby Amulet is in your hands!..")
+            self.info_scene.show()
