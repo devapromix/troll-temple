@@ -74,7 +74,7 @@ class Player(Mob):
             self.can_use_shield = True
             self.can_wear_leather_armor = True
             self.can_wear_mail_armor = True
-            self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail(), item.ScrollWhitePortal()]
+            self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail()]
         elif self.game_class == Classes.THIEF:
             self.life_regen = 1
             self.mana_regen = 1
@@ -103,8 +103,7 @@ class Player(Mob):
             self.has_spellbook = True
             self.can_use_staff = True
             self.can_wear_cloth_armor = True
-            self.items += [item.ManaPotion(), item.BookHealing(), item.ShortStaff(), item.CultistRobe(),
-                           item.ScrollConfuse(), item.ScrollBloodlust()]
+            self.items += [item.ManaPotion(), item.BookHealing(), item.ShortStaff(), item.CultistRobe()]
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
@@ -325,8 +324,9 @@ class Player(Mob):
         self.move(x, y)
         
     def visibility(self):
-        self.invisibility = Invisibility.NONE
-        message("You come out of the shadows!")
+        if self.invisibility != Invisibility.NONE:
+            self.invisibility = Invisibility.NONE
+            message("You come out of the shadows!")
         
 
         
