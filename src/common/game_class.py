@@ -11,11 +11,13 @@ from graphics.scenes.choose_perk_scene import ChoosePerkScene
 class Game(object):
     def __init__(self, wizard):
         from mobs.player import Classes
+        from graphics.scenes.info_scene import InfoScene
         self.wizard = wizard
         self.wizard = True
         self.selected_game_class = Classes.FIGHTER
         self.keydown = None
         self.stats = Stats()
+        self.info_scene = InfoScene()
 
     def play(self):
         from graphics.scenes.choose_game_class_scene import ChooseGameClassScene
@@ -29,6 +31,8 @@ class Game(object):
         self.selected_game_class = scene.selected[1]
         self.start()
         ChoosePerkScene(self.player).show()
+        self.info_scene.message("Welcome to the Old Temple!", "Brave adventurer, you are lost in the underground corridors of the Old Temple. It is very dangerous for a lonely traveler here. There is no way to return home. How long can you survive?")
+        self.info_scene.show()
         self.loop()
         close()
 
@@ -39,7 +43,6 @@ class Game(object):
         self.player.on_strike += lambda dmg: self.__player_striked(dmg)
         self.player.on_die += lambda damage: self.player_died(damage.defender, damage.attacker)
         self.turns = 0
-        self.welcome()
         self.start_map(1)
 
     def player_died(self, player, murderer):
@@ -153,13 +156,13 @@ class Game(object):
 
     def cmd_ascend(self):
         from maps.tiles import StairUpTile
-        if not isinstance(self.player.tile, StairUpTile):
+        if not self.wizard and not isinstance(self.player.tile, StairUpTile):
             message('Stand on a up stairway to ascend.', COLOR_ERROR)
             return
-        message('You take a moment to rest, and recover your strength.', T.yellow)
         self.player.heal(int(self.player.life.max / 2))
         self.player.mana.fill()
-        message('After a rare moment of peace, you ascend higher into the heart of the Temple...', T.yellow)
+        self.info_scene.message("You rise higher and higher in the heart of the mountain...", "You take a moment to rest, and recover your strength... After a rare moment of peace, you ascend higher into the heart of the Old Temple...")
+        self.info_scene.show()
         self.ascend()
 
     def cmd_quit(self):
@@ -187,8 +190,8 @@ class Game(object):
             self.player.attack(mob)
 
     def cmd_wizard(self):
-        if self.wizard and self.map.level < MAX_DLEVEL:
-            self.start_map(self.map.level + 1)
+        if self.wizard:
+            self.cmd_ascend()
 
     def cmd_look(self):
         look_mode()
@@ -243,11 +246,6 @@ class Game(object):
             from graphics.scenes.inventory_scene import InventoryScene
             scene = InventoryScene(self.player)
             scene.show()
-
-    def welcome(self):
-        message("Brave adventurer, you are now lost in the underground corridors of the Old Temple.", T.yellow)
-        message("There is no way to return to your homeland.", T.yellow)
-        message("How long can you survive?", T.yellow)
 
     def __player_damaged(self, damage):
         name = damage.attacker.name
