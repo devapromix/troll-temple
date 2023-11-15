@@ -493,8 +493,8 @@ class FireGoblin(BossMonster):
     level = 3
     dungeons = 3, 3
 
-    def die(self):
-        super(FireGoblin, self).die()
+    def die(self, dmg):
+        super().die(dmg)
         self.tile.items.append(ScrollRedPortal())
         self.adv_drop()
         self.rare_drop()
@@ -509,8 +509,8 @@ class Werewolf(BossMonster):
     armor = 5
     dungeons = 6, 6
 
-    def die(self):
-        super(Werewolf, self).die()
+    def die(self, dmg):
+        super().die(dmg)
         self.tile.items.append(ScrollGreenPortal())
         self.adv_drop()
         self.rare_drop()
@@ -526,8 +526,8 @@ class Abomination(BossMonster):
     level = 9    
     dungeons = 9, 9
 
-    def die(self):
-        super(Abomination, self).die()
+    def die(self, dmg):
+        super().die(dmg)
         self.tile.items.append(ScrollBluePortal())
         self.adv_drop()
         self.rare_drop()
@@ -557,6 +557,6 @@ class TrollKing(FinalBossMonster):
         self.adv_drop()
         self.rare_drop()
         self.unique_drop()
-        if prompt('You have defeated the Troll King!: Press [ENTER] to continue...', [pygame.K_RETURN]) == pygame.K_RETURN:
-            self.info_scene.message("You have defeated True Evil!", "You have come a long way and defeated the terrible tyrant Troll King! Now all the magical power of the Ruby Amulet is in your hands!..")
+        if prompt('You have defeated the Troll King! Press [ENTER] to continue...', [pygame.K_RETURN]) == pygame.K_RETURN:
+            self.info_scene.message("You have defeated True Evil!", "You have come a long way and defeated the terrible tyrant Troll King! Now all the magical power of the Ruby Amulet is in your hands and the White Portal will show you the way home...")
             self.info_scene.show()
