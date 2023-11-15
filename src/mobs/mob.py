@@ -23,6 +23,8 @@ class Mob(object):
     accuracy = 100
     evasion = 10
     range = 1
+    reflect_damage_bonus = 0
+    reflect_chance_bonus = 0
 
     def __init__(self):
         self.life = Atrib()

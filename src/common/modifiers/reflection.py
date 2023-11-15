@@ -26,10 +26,13 @@ class Reflection(Modifier):
 
     def __mod_damaged(self, damage: Damage):
         if damage.value > 0:
-            if rand(0, 99) < self.chance_percent:
+            chance_percent = self.chance_percent + damage.defender.reflect_chance_bonus
+            if rand(0, 99) < chance_percent:
+
                 reflected_damage = copy(damage)
                 reflected_damage.attacker, reflected_damage.defender = damage.defender, damage.attacker
-                reflected_damage.value = damage.raw_value * self.value_percent // 100
+                value_percent = self.value_percent + damage.defender.reflect_damage_bonus
+                reflected_damage.value = damage.raw_value * value_percent // 100
                 damage.attacker.damage(reflected_damage)
                 from mobs.player import Player
                 if type(damage.defender) == Player:
