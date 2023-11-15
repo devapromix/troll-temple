@@ -108,6 +108,7 @@ class Player(Mob):
 
         self.equipment = dict((slot, None) for slot in INVENTORY_SLOTS)
         self.speed = 0
+        self.bonus_damage = 0
         self.fov_range = 3
         self.light_range = 0
         self.action_turns = 1
@@ -124,7 +125,7 @@ class Player(Mob):
             a, b, c = weapon.dice
         else:
             a, b, c = 1, 3, 0
-        return a, b, c
+        return a, b, self.bonus_damage + c
 
     def max_exp(self):
         return (self.level * 9) + ((self.level - 1) * self.level)

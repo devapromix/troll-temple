@@ -75,6 +75,14 @@ class FightForLife(LegendPerk):
         FightForLife(),
     )
 
+class PoisonResistance(Perk):
+    _name = 'Poison resistance'
+    _descr = 'The character is immune to poison.'
+    max_count = 1
+    ### player.immune = True
+    rarity = PerkRarity.RARE
+    classes = {Classes.THIEF}
+
 class Indomitable(Perk):
     _name = "indomitable"
     _descr = "Increase damage"

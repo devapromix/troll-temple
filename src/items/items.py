@@ -161,12 +161,12 @@ class Quiver(Equipment):
     slot = 'q'
     art = 'quiver'
     arrows = 100
-    Damage = 1
+    damage = 1
     description = 'Can be shot using a bow.'
 
     @property
     def descr(self):
-        return '%s (%s/%s +%s damage)' % (self.name, self.arrows_left, self.arrows, self.Damage)
+        return '%s (%s/%s +%s damage)' % (self.name, self.arrows_left, self.arrows, self.damage)
 
     def __init__(self):
         super().__init__()
@@ -177,11 +177,11 @@ class Quiver(Equipment):
             message("You don't know how to use bows!", COLOR_ERROR)
             return False
         player.holding_quiver = True
-        self.modifier += DamageMod(self.Damage)
+        self.modifier += DamageMod(self.damage)
         return True
 
     def on_unequip(self, player):
-        self.modifier -= DamageMod(self.Damage)
+        self.modifier -= DamageMod(self.damage)
         player.holding_quiver = False
     
 # --- ARMOR --- #
@@ -841,49 +841,49 @@ class LightQuiver(Quiver):
     name = 'light quiver'
     glyph = '/', T.orange
     arrows = 100
-    Damage = 1
+    damage = 1
     dungeons = 1, 1
 
 class LeatherQuiver(Quiver):
     name = 'leather quiver'
     glyph = '/', T.light_orange
     arrows = 150
-    Damage = 1
+    damage = 1
     dungeons = 1, 2
 
 class KnothideQuiver(Quiver):
     name = 'knothide quiver'
     glyph = '/', T.orange
     arrows = 200
-    Damage = 2
+    damage = 2
     dungeons = 3, 4
 
 class HuntingQuiver(Quiver):
     name = 'hunting quiver'
     glyph = '/', T.lighter_green
     arrows = 250
-    Damage = 3
+    damage = 3
     dungeons = 5, 6
 
 class QuickdrawQuiver(Quiver):
     name = 'quickdraw quiver'
     glyph = '/', T.light_grey
     arrows = 300
-    Damage = 4
+    damage = 4
     dungeons = 7, 8
 
 class RaptorHideQuiver(Quiver):
     name = 'raptor hide quiver'
     glyph = '/', T.light_green
     arrows = 350
-    Damage = 5
+    damage = 5
     dungeons = 9, 10
 
 class HeavyQuiver(Quiver):
     name = 'heavy quiver'
     glyph = '/', T.light_red
     arrows = 400
-    Damage = 6
+    damage = 6
     dungeons = 11, 12
 
 # --- SHIELDS --- #
