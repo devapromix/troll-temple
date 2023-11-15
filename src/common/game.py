@@ -32,6 +32,7 @@ INVENTORY_SLOTS = {
     'r': 'ranged weapon',
     'q': 'quiver',
     'h': 'being worn',
+    'n': 'being worn',
     'a': 'being worn',
     'b': 'being worn',
 }
