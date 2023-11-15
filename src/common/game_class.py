@@ -74,7 +74,7 @@ class Game(object):
                             draw_all()
                             continue
                     prompt(
-                        'Game over: %s. Press ENTER' % self.stats.player_last_death_reason,
+                        'Game over: %s. Press [ENTER] to exit...' % self.stats.player_last_death_reason,
                         [pygame.K_RETURN])
                     scene = RipScene(self.turns, self.player)
                     scene.show()
