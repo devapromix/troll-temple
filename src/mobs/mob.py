@@ -1,3 +1,5 @@
+from typing import Dict
+
 import tcod as T
 from common.game import *
 from common.atrib import Atrib
@@ -34,6 +36,7 @@ class Mob(object):
         self.on_damage = Event()
         self.on_strike = Event()
         self.is_alive = True
+        self.tags: Dict = dict()
 
     def die(self, damage):
         assert self.is_alive
@@ -51,8 +54,8 @@ class Mob(object):
     def attack(self, mob):
         from mobs.damage import Damage
         damage = Damage.calculate(self, mob)
-        mob.damage(damage)
         self.on_strike(damage)
+        mob.damage(damage)
 
     @property
     def tile(self):
