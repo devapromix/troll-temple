@@ -1,9 +1,10 @@
 from copy import copy
 
 from common.game import message
-from common.modifiers.modifier import Modifier
 from common.utils import rand
-from mobs.damage import Damage
+from mobs.damage import *
+from .modifier import Modifier
+from .tag_mod import Tag
 
 
 class Reflection(Modifier):
@@ -27,8 +28,8 @@ class Reflection(Modifier):
     def __mod_damaged(self, damage: Damage):
         if damage.value > 0:
             chance_percent = self.chance_percent + damage.defender.reflect_chance_bonus
-            if rand(0, 99) < chance_percent:
-
+            if ((Tag.BlockedAlwaysReflect in damage.defender.tags and damage.status == DamageStatus.BLOCKED)
+                    or rand(0, 99) < chance_percent):
                 reflected_damage = copy(damage)
                 reflected_damage.attacker, reflected_damage.defender = damage.defender, damage.attacker
                 value_percent = self.value_percent + damage.defender.reflect_damage_bonus
