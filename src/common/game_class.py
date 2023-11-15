@@ -196,6 +196,29 @@ class Game(object):
         scene = IntroScene()
         scene.show()
         
+    def cmd_finditem(self):
+        from mobs.player import Classes
+        from items.corpse import Corpse
+        from mobs.drop import AdvDrop
+        from common.utils import rand
+        if self.player.game_class != Classes.FIGHTER:
+            message("Only a fighter can use this ability!", COLOR_ERROR)
+            return
+        tile = self.player.tile
+        if tile.items == []:
+            message('There is no corpse here to examine.', COLOR_ERROR)
+        else:
+            for item in tile.items:
+                if isinstance(item, Corpse):
+                    tile.items.remove(item)
+                    if rand(1, 4) == 1:
+                        d = AdvDrop(self.player)
+                        d.drop()
+                        message("You found something.")
+                    else:
+                        message("You didn't find anything.")
+                    self.player.use_energy()
+        
     def cmd_invisibility(self):
         from mobs.player import Invisibility, Classes
         if self.player.game_class != Classes.THIEF:

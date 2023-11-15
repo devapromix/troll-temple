@@ -7,14 +7,14 @@ explore the levels of the Old Temple. However, be aware that many dangers await 
 Good luck! You will need it...
 
 Keybindings:
-[I] show inventory                        [A] open alchemyset (only thief class)
-[G] pick up an item from the floor        [C] open craftbox (only ranger class)
-[Q] quit game                             [B] open spellbook (only mage class)
-[L] use look mode                         [P] open character sheet
-[S] use shoot mode                        [T] invisibility (only thief class)
-[<] go up stairs
+[I] show inventory                        [F] find item (only fighter class)
+[G] pick up an item from the floor        [A] open alchemyset (only thief class)
+[Q] quit game                             [T] invisibility (only thief class)
+[L] use look mode                         [C] open craftbox (only ranger class)
+[S] use shoot mode                        [B] open spellbook (only mage class)
+[<] go up stairs                          
 [U] use map object (portal, shrine)
 [?] show this help screen
 [5] wait one turn
 [M] view last messages
-
+[P] open character sheet
