@@ -84,6 +84,7 @@ KEYS = [
     ([pygame.K_s], 'select'),
     ([pygame.K_t], 'invisibility'),
     ([pygame.K_f], 'finditem'),
+    ([pygame.K_o], 'conjure_mana_orb'),
     ([pygame.K_c], 'craftbox'),
     ([pygame.K_a], 'alchemyset'),
     ([pygame.K_z], 'test'),

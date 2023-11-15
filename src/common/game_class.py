@@ -219,6 +219,20 @@ class Game(object):
                         message("You didn't find anything.")
                     self.player.use_energy()
         
+    def cmd_conjure_mana_orb(self):
+        from mobs.player import Classes
+        from items.mana_orb import ManaOrb
+        if self.player.game_class != Classes.MAGE:
+            message("Only a mage can use this ability!", COLOR_ERROR)
+            return
+        self.need_mana = 15
+        if self.player.mana.cur < self.need_mana:
+            message('Need more mana!', COLOR_ERROR)
+            return
+        message('You have conjure a mana orb.')
+        self.player.mana.modify(-self.need_mana)
+        self.player.tile.items.append(ManaOrb())
+        
     def cmd_invisibility(self):
         from mobs.player import Invisibility, Classes
         if self.player.game_class != Classes.THIEF:
