@@ -5,12 +5,14 @@ from common.modifiers.attrib_mod import *
 class Amulet(Equipment):
     ABSTRACT = True
     slot = 'n'
+    art = 'amulet'
     glyph = '\'', T.gold
     magical = True
 
 class RubyAmulet(Amulet):
     ABSTRACT = True
     name = 'ruby amulet'
+    art = 'ruby_amulet'
     glyph = '\'', T.red
     magical = True
 
