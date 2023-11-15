@@ -53,7 +53,11 @@ class InventoryScene(SelectionScene):
             return True
         
         if key == pygame.K_TAB:
-            print("Tab")
+            if self.focusable:
+                item = self.selected
+                if item:
+                    self.player.drop(item)
+                    self.exit()
             return True
         
         return False

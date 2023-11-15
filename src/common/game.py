@@ -85,7 +85,6 @@ KEYS = [
     ([pygame.K_t], 'invisibility'),
     ([pygame.K_c], 'craftbox'),
     ([pygame.K_a], 'alchemyset'),
-    ([pygame.K_d], 'drop'),
     ([pygame.K_z], 'test'),
     ([pygame.K_l], 'look'),
     ([pygame.K_w], 'wizard'),

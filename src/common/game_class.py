@@ -137,11 +137,6 @@ class Game(object):
                 else:
                     break
 
-    def cmd_drop(self):
-        item = select_item('Select an item to drop, ESC to exit', self.player.items)
-        if item:
-            self.player.drop(item)
-
     def cmd_inventory(self):
         from graphics.scenes.inventory_scene import InventoryScene
         scene = InventoryScene(self.player)
