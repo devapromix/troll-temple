@@ -51,8 +51,8 @@ class Mob(object):
     def attack(self, mob):
         from mobs.damage import Damage
         damage = Damage.calculate(self, mob)
-        mob.damage(damage)
         self.on_strike(damage)
+        mob.damage(damage)
 
     @property
     def tile(self):
