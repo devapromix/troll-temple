@@ -44,7 +44,7 @@ class Game(object):
         self.player.on_strike += lambda dmg: self.__player_striked(dmg)
         self.player.on_die += lambda damage: self.player_died(damage.defender, damage.attacker)
         self.final_boss = TrollKing()
-        self.final_boss.on_die = self.final_boss_died()
+        self.final_boss.on_die += lambda damage: self.final_boss_died()
         self.turns = 0
         self.start_map(1)
 
