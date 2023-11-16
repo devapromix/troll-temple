@@ -1,4 +1,6 @@
 import sys
+from typing import List
+
 import pygame
 import tcod as T
 
@@ -130,6 +132,10 @@ def out(x, y, text, color=T.white, bkcolor=T.black, w=0):
     else:
         SCREEN.blit(_txt, (x * GAME.font_width, y * GAME.font_height))
 
+
+def out_list(x: int, y: int, text: List[str], color=T.white, bkcolor=T.black, w=0) -> None:
+    for i, line in enumerate(text):
+        out(x, y+i, line, color, bkcolor, w)
 
 def out_text(x: int, y: int, width: int, text, color=T.white, bkcolor=T.black, w=0):
     last_space = 1
