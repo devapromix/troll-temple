@@ -67,8 +67,7 @@ class DebugScene(Scene):
     def _draw_content(self) -> None:
         from common.game import out, out_list
 
-
-        line = Line(1, 1)
+        line = Line(1, 0)
         auto_complete_list = self.__auto_complete_list_command
         lower_auto_complete_list = [x.lower() for x in auto_complete_list]
         line.print(self.command, T.lighter_green if self.command.lower() in lower_auto_complete_list else T.lighter_red)
@@ -76,19 +75,24 @@ class DebugScene(Scene):
             line.print(' ')
             auto_complete_list = self.__auto_complete_list_arg(i)
             lower_auto_complete_list = [x.lower() for x in auto_complete_list]
-            line.print(arg, T.lighter_green if arg.lower() in lower_auto_complete_list else T.lighter_red)
+            line.print(arg, T.lighter_blue if arg.lower() in lower_auto_complete_list else T.lighter_red)
         if self.has_space:
             line.print(' ')
         line.print('_')
 
         auto_complete_list = self.__auto_complete_list
         if len(auto_complete_list) > 0:
-            out(1, 2, auto_complete_list[0], T.lighter_blue, T.darker_grey)
-            out_list(1, 3, auto_complete_list[1:], T.lighter_blue)
+            out(1, 1, auto_complete_list[0], T.lighter_blue, T.darker_grey)
+            out_list(1, 2, auto_complete_list[1:], T.lighter_blue)
+
+        from common.game import out_file
+        out_file(50, 0, '../assets/texts/debug_help.txt', T.white)
 
     def _check_input(self, key: int) -> bool:
         if key == pygame.K_RETURN:
-            self.__current_command.run(*self.args)
+            command = self.__current_command
+            if command is not None:
+                self.__current_command.run(*self.args)
             self.exit()
             return True
         if key == pygame.K_SPACE:
@@ -138,7 +142,8 @@ class DebugScene(Scene):
         return [x for x in names if self.command.lower() in x.lower()]
 
     def __auto_complete_list_arg(self, index: int) -> List[str]:
-        names = self.__current_command.auto_complete_arg(self.args[index], index)
+        command = self.__current_command
+        names = command.auto_complete_arg(self.args[index], index) if command is not None else []
         return [x for x in names if self.args[index].lower() in x.lower()]
 
     def __complete(self) -> None:
