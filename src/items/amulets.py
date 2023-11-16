@@ -1,4 +1,6 @@
 import tcod as T
+
+from common.modifiers.mod import Mod
 from items.Equipment import Equipment
 from common.modifiers.attrib_mod import *
 
@@ -19,4 +21,16 @@ class RubyAmulet(Amulet):
     def __init__(self):
         super().__init__()
         self.modifier += AddMaxLife(75)
+
+
+class MirrorAmulet(Amulet):
+    ABSTRACT = True
+    name = 'mirror amulet'
+    art = 'mirror_amulet'
+    glyph = '\'', T.red
+    magical = True
+
+    def __init__(self):
+        super().__init__()
+        self.modifier += Mod('reflect_damage_bonus', 75)
 

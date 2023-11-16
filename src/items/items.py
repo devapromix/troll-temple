@@ -1,5 +1,6 @@
 from common.modifiers.attrib_mod import *
 from common.modifiers.add_damage import *
+from common.modifiers.reflection import Reflection
 from .LightSource import LightSource
 from .Weapon import *
 from .Weapon import Weapon
@@ -902,6 +903,15 @@ class SkullShield(Shield):
     blocking = 15
     dungeons = 3, 4
 
+
+class SpikedShield(Shield):
+    name = 'spiked shield'
+    glyph = '0', T.light_grey
+    armor = 2
+    blocking = 25
+    modifier = Reflection(10, 40)
+    dungeons = 3, 4
+
 class KnightShield(Shield):
     name = 'knight shield'
     glyph = '0', T.light_orange
@@ -929,6 +939,15 @@ class RuneShield(Shield):
     armor = 12
     blocking = 35
     dungeons = 11, 12
+
+
+class PerseusShield(Shield):
+    name = "Perseus's shield"
+    glyph = '0', T.dark_orange
+    blocking = 15
+    modifier = Reflection(60, 60)
+    dungeons = 9, 10, 11, 12
+
 
 # --- HELMS --- #
 
