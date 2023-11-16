@@ -90,6 +90,7 @@ KEYS = [
     ([pygame.K_z], 'test'),
     ([pygame.K_l], 'look'),
     ([pygame.K_w], 'wizard'),
+    ([pygame.K_d], 'debug'),
 ]
 
 LOOK_KEYS = WALK_KEYS + KEYS[:1] + [([pygame.K_ESCAPE], 'quit'), ([pygame.K_s], 'select')]
@@ -322,7 +323,6 @@ def spellbook(title='Spellbook', spells=None):
     _draw_messages()
     _draw_status()
     refresh()
-
 
 # --- CRAFTBOX --- #
 
