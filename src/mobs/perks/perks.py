@@ -3,7 +3,6 @@ from common.modifiers.attrib_mod import *
 from common.modifiers.add_damage import *
 from common.modifiers.fight_for_life import FightForLife
 from common.modifiers.mod import Mod
-from common.modifiers.reflection import Reflection
 from .perk import *
 from ..player import Classes
 

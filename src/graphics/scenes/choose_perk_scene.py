@@ -1,6 +1,6 @@
 from graphics.color import Color
 from graphics.scenes.selection_scene import SelectionScene
-from mobs.perks.perks import *
+from mobs.perks.perk import *
 import tcod as T
 
 

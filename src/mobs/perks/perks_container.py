@@ -4,7 +4,6 @@ from random import randrange, choice
 from typing import Type
 
 from mobs.perks.perk import *
-from mobs.perks.perks import *
 from utils.random_help import *
 
 
@@ -22,6 +21,8 @@ class PerksContainer:
         self.__perks = dict()
 
     def generate_new_perks(self) -> List[Perk]:
+        import mobs.perks.fighter_perks
+        import mobs.perks.perks
         filtered_by_class = list(filter(lambda x: self.__check_perk(x), Perk.ALL))
         if self.__player.level % 5 == 0 and self.__player.level != 1:
             filtered_by_class = list(filter(lambda x: x.rarity == PerkRarity.LEGEND, filtered_by_class))
