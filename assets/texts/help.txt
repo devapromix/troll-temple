@@ -13,7 +13,7 @@ Keybindings:
 [L] use look mode                         [C] open craftbox (only ranger class)
 [S] use shoot mode                        [B] open spellbook (only mage class)
 [<] go up stairs                          [O] conjure mana orb (only mage class)
-[U] use map object (portal, shrine)
+[U] use map object (portal, shrine)       [V] crippling blow (only ranger class)
 [?] show this help screen
 [5] wait one turn
 [M] view last messages
