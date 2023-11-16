@@ -184,6 +184,11 @@ class Game(object):
         if mob:
             self.player.attack(mob)
 
+    def cmd_debug(self):
+        if self.player.wizard:
+            from graphics.scenes.debug_scene import DebugScene
+            DebugScene().show()
+
     def cmd_wizard(self):
         if self.wizard:
             self.cmd_ascend()
