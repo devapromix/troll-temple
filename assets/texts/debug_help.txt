@@ -1,0 +1,5 @@
+DEBUG CONSOLE
+
+Keybindings:
+[ENTER] start command
+[TAB] accept auto-complete
