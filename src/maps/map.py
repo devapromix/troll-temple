@@ -32,7 +32,7 @@ class Map(object):
             self.place_monsters(Werewolf)
         elif self.level == 9:
             self.place_monsters(Abomination)
-        elif self.level == MAX_DLEVEL:
+        elif self.level == 1:#MAX_DLEVEL:
             self.place_monsters(TrollKing)
 
     def find_tile(self, func):
