@@ -29,6 +29,18 @@ class GetCommand(DebugCommand):
         pass
 
 
+class SpawnCommand(DebugCommand):
+    def run(self, *args):
+        name = args[0]
+
+        from mobs.mob import Mob
+        import mobs.mobs
+        for cls in Mob.ALL:
+            if cls.__name__.lower() == name.lower():
+                from common.game import GAME
+                GAME.map.place_monsters(cls)
+
+
 class DebugScene(Scene):
     def __init__(self):
         super().__init__()
