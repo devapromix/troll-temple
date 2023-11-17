@@ -222,20 +222,14 @@ class Game(object):
         self.ability.use()
 
     def cmd_invisibility(self):
-        from mobs.player import Invisibility, Classes
-        if self.player.game_class != Classes.THIEF:
-            message("Only a thief can use this ability!", COLOR_ERROR)
-            return
-        if self.player.invisibility == Invisibility.NONE:
-            self.need_mana = 6
-            if self.player.mana.cur < self.need_mana:
-                message("Need more mana!", COLOR_ERROR)
-                return
-            self.player.invisibility = Invisibility.SHADOW
-            message("You hide in the shadows!")
-            self.player.mana.modify(-self.need_mana)
-        else:
-            self.player.visibility()
+        from mobs.abilities.stealth import Stealth
+        self.ability = Stealth(self.player)
+        self.ability.use()
+
+    def cmd_crippling_blow(self):
+        from mobs.abilities.crippling_blow import CripplingBlow
+        self.ability = CripplingBlow(self.player)
+        self.ability.use()
 
     def cmd_spellbook(self):
         if self.player.has_spellbook:
@@ -261,22 +255,6 @@ class Game(object):
         else:
             message("You don't have an alchemyset!", COLOR_ERROR)
 
-    def cmd_crippling_blow(self):
-        from mobs.player import Classes
-        from common.game import MIN_SPEED
-        if self.player.game_class != Classes.RANGER:
-            message("Only a ranger can use this ability!", COLOR_ERROR)
-            return
-        self.need_mana = 4
-        if self.player.mana.cur < self.need_mana:
-            message("Need more mana!", COLOR_ERROR)
-            return
-        mob = look_mode(True)
-        if mob:
-            mob.speed = MIN_SPEED
-            self.player.mana.modify(-self.need_mana)
-            message("You slowed down the %s" % mob.name)
-            
     def cmd_character(self):
         from graphics.scenes.character_scene import CharacterScene
         scene = CharacterScene(self.turns, self.player)
