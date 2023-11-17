@@ -59,7 +59,7 @@ def test_fight_for_life():
 
     mob.life = 1
     mod.act(mob)
-    assert mob.life.cur != 1
+    assert mob.life.real != 1
 
 def test_union_mod():
     mod = Modifier()
