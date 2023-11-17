@@ -835,6 +835,13 @@ class HunterBow(Bow):
     dice = 1, 2, 0
     dungeons = 1, 2
 
+class CedarBow(Bow):
+    name = 'cedar bow'
+    glyph = '}', T.light_orange
+    range = 4
+    dice = 1, 6, 0
+    dungeons = 3, 4
+
 # --- QUIVERS --- #
 
 class LightQuiver(Quiver):
@@ -903,14 +910,13 @@ class SkullShield(Shield):
     blocking = 15
     dungeons = 3, 4
 
-
 class SpikedShield(Shield):
     name = 'spiked shield'
     glyph = '0', T.light_grey
     armor = 2
     blocking = 25
     modifier = Reflection(10, 40)
-    dungeons = 3, 4
+    dungeons = 3, 5
 
 class KnightShield(Shield):
     name = 'knight shield'
@@ -940,13 +946,12 @@ class RuneShield(Shield):
     blocking = 35
     dungeons = 11, 12
 
-
 class PerseusShield(Shield):
     name = "Perseus's shield"
     glyph = '0', T.dark_orange
     blocking = 15
     modifier = Reflection(60, 60)
-    dungeons = 9, 10, 11, 12
+    dungeons = 8, 12
 
 
 # --- HELMS --- #
