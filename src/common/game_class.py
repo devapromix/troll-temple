@@ -54,7 +54,7 @@ class Game(object):
         message('You die...', COLOR_ERROR)
 
     def final_boss_died(self):
-        print('+++++++++++++++++++++++++++++++++++++++++++++++++')
+        print('+++++++++++++++++++++++++++++++fix me!++++++++++++++++++++++++++++++++++++++++++++++++++')
         if prompt('You have defeated the Troll King! Press [ENTER] to continue...', [pygame.K_RETURN]) == pygame.K_RETURN:
             self.info_scene.message("You have defeated True Evil!", "You have come a long way and defeated the terrible tyrant Troll King! Now all the magical power of the Ruby Amulet is in your hands and the White Portal will show you the way home...")
             self.info_scene.show()
@@ -211,34 +211,10 @@ class Game(object):
         scene = IntroScene()
         scene.show()
         
-    def cmd_finditem(self):
-        from mobs.player import Classes
-        from items.corpse import Corpse
-        from mobs.drop import AdvDrop
-        from common.utils import rand
-        if self.player.game_class != Classes.FIGHTER:
-            message("Only a fighter can use this ability!", COLOR_ERROR)
-            return
-        tile = self.player.tile
-        if tile.items == []:
-            message('There is no corpse here to examine.', COLOR_ERROR)
-        else:
-            for item in tile.items:
-                if isinstance(item, Corpse):
-                    self.need_mana = 2
-                    if self.player.mana.cur < self.need_mana:
-                        message("Need more mana!", COLOR_ERROR)
-                        return
-                    tile.items.remove(item)
-                    self.player.mana.modify(-self.need_mana)
-                    if rand(1, 4) == 1:
-                        d = AdvDrop(self.player)
-                        d.drop()
-                        message("You found something.")
-                    else:
-                        message("You didn't find anything.")
-                    self.player.use_energy()
-                    break
+    def cmd_find_item(self):
+        from mobs.abilities.find_item import FindItem
+        self.ability = FindItem(self.player)
+        self.ability.use()
         
     def cmd_conjure_mana_orb(self):
         from mobs.player import Classes
