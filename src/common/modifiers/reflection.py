@@ -28,13 +28,13 @@ class Reflection(Modifier):
     def __mod_damaged(self, damage: Damage):
         if damage.value > 0:
             chance_percent = self.chance_percent + damage.defender.reflect_chance_bonus
-            if ((Tag.BlockedAlwaysReflect in damage.defender.tags and damage.status == DamageStatus.BLOCKED)
+            if ((Tag.BlockedAlwaysReflect in damage.defender.tags.keys() and damage.status == DamageStatus.BLOCKED)
                     or rand(0, 99) < chance_percent):
                 reflected_damage = copy(damage)
                 reflected_damage.attacker, reflected_damage.defender = damage.defender, damage.attacker
                 value_percent = self.value_percent + damage.defender.reflect_damage_bonus
                 reflected_damage.value = damage.raw_value * value_percent // 100
-                damage.attacker.damage(reflected_damage)
                 from mobs.player import Player
                 if type(damage.defender) == Player:
                     message("You return damage back!")
+                damage.attacker.damage(reflected_damage)
