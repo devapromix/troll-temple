@@ -13,7 +13,6 @@ class ConjureManaOrb(Ability):
         from common.game import message
         if super().use():
             return
-
         message('You have conjure a mana orb.')
         self.player.mana.modify(-self.need_mana)
         self.player.tile.items.append(ManaOrb())
