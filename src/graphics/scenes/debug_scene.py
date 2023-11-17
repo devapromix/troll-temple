@@ -56,6 +56,15 @@ class SpawnCommand(DebugCommand):
         return [cls.__name__ for cls in Monster.ALL if value.lower() in cls.__name__.lower()]
 
 
+class LevelUpCommand(DebugCommand):
+    def run(self, *args):
+        from common.game import GAME
+        GAME.player.advance()
+
+    def auto_complete_arg(self, value: str, index: int) -> List[str]:
+        return []
+
+
 class DebugScene(Scene):
     def __init__(self):
         super().__init__()
