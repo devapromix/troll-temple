@@ -233,6 +233,7 @@ class Game(object):
                     else:
                         message("You didn't find anything.")
                     self.player.use_energy()
+                    break
         
     def cmd_conjure_mana_orb(self):
         from mobs.player import Classes
