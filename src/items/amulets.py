@@ -24,11 +24,12 @@ class RubyAmulet(Amulet):
 
 
 class MirrorAmulet(Amulet):
-    ABSTRACT = True
     name = 'mirror amulet'
     art = 'mirror_amulet'
-    glyph = '\'', T.red
+    glyph = '\'', T.green
     magical = True
+    dungeons = 10, 12
+    rarity = 20
 
     def __init__(self):
         super().__init__()

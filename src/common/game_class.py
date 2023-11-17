@@ -54,6 +54,7 @@ class Game(object):
         message('You die...', COLOR_ERROR)
 
     def final_boss_died(self):
+        print('+++++++++++++++++++++++++++++++++++++++++++++++++')
         if prompt('You have defeated the Troll King! Press [ENTER] to continue...', [pygame.K_RETURN]) == pygame.K_RETURN:
             self.info_scene.message("You have defeated True Evil!", "You have come a long way and defeated the terrible tyrant Troll King! Now all the magical power of the Ruby Amulet is in your hands and the White Portal will show you the way home...")
             self.info_scene.show()
