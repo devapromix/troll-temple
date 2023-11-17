@@ -11,9 +11,9 @@ Keybindings:
 [G] pick up an item from the floor        [A] open alchemyset (only thief class)
 [Q] quit game                             [T] invisibility (only thief class)
 [L] use look mode                         [C] open craftbox (only ranger class)
-[S] use shoot mode                        [B] open spellbook (only mage class)
+[S] use shoot mode                        [V] crippling blow (only ranger class)
 [<] go up stairs                          [O] conjure mana orb (only mage class)
-[U] use map object (portal, shrine)       [V] crippling blow (only ranger class)
+[U] use map object (portal, shrine)       [B] open spellbook (only mage class)
 [?] show this help screen
 [5] wait one turn
 [M] view last messages

@@ -7,5 +7,6 @@ several enemies at once, or they can focus on one.
 
 Weapon: short sword
 Armor:  ring mail, round shield
+Ability: find item
 
 Leather sack

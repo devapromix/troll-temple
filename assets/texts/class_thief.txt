@@ -7,5 +7,6 @@ heart. And only thieves can safely pick locks and bypass traps.
 
 Weapon: small dagger
 Armor:  shadow armor
+Abilities: pick lock, invisibility
 
 Snakeskin knapsack, alchemy set

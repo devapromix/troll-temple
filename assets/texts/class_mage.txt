@@ -6,7 +6,8 @@ as weapons, which give them strength and unity with the energy flows
 of the world.
 
 Weapon: short staff
-Armor:  cultist robe
+Armor: cultist robe
+Ability: conjure mana orb
 
 Linen bag, spellbook
 

@@ -225,7 +225,12 @@ class Game(object):
         else:
             for item in tile.items:
                 if isinstance(item, Corpse):
+                    self.need_mana = 2
+                    if self.player.mana.cur < self.need_mana:
+                        message("Need more mana!", COLOR_ERROR)
+                        return
                     tile.items.remove(item)
+                    self.player.mana.modify(-self.need_mana)
                     if rand(1, 4) == 1:
                         d = AdvDrop(self.player)
                         d.drop()
@@ -255,8 +260,13 @@ class Game(object):
             message("Only a thief can use this ability!", COLOR_ERROR)
             return
         if self.player.invisibility == Invisibility.NONE:
+            self.need_mana = 6
+            if self.player.mana.cur < self.need_mana:
+                message("Need more mana!", COLOR_ERROR)
+                return
             self.player.invisibility = Invisibility.SHADOW
             message("You hide in the shadows!")
+            self.player.mana.modify(-self.need_mana)
         else:
             self.player.visibility()
 
@@ -284,6 +294,22 @@ class Game(object):
         else:
             message("You don't have an alchemyset!", COLOR_ERROR)
 
+    def cmd_crippling_blow(self):
+        from mobs.player import Classes
+        from common.game import MIN_SPEED
+        if self.player.game_class != Classes.RANGER:
+            message("Only a ranger can use this ability!", COLOR_ERROR)
+            return
+        self.need_mana = 4
+        if self.player.mana.cur < self.need_mana:
+            message("Need more mana!", COLOR_ERROR)
+            return
+        mob = look_mode(True)
+        if mob:
+            mob.speed = MIN_SPEED
+            self.player.mana.modify(-self.need_mana)
+            message("You slowed down the %s" % mob.name)
+            
     def cmd_character(self):
         from graphics.scenes.character_scene import CharacterScene
         scene = CharacterScene(self.turns, self.player)
