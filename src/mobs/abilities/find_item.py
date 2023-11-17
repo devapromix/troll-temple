@@ -1,24 +1,19 @@
 from graphics.color import Color
+from mobs.abilities.ability import Ability
 
 class FindItem(Ability):
     def __init__(self, player):
         from mobs.player import Classes
-        self.player = player
+        super().__init__(player)
         self.game_class = Classes.FIGHTER
         self.need_mana = 2
         
     def use(self):
-        from mobs.player import GAME_CLASSES
         from items.corpse import Corpse
         from mobs.drop import AdvDrop
         from common.utils import rand
         from common.game import message
-        super().use()
-        if self.player.game_class != self.game_class:
-            message("Only a %s can use this ability!" % GAME_CLASSES[self.game_class], Color.ERROR.value)
-            return
-        if self.player.mana.cur < self.need_mana:
-            message("Need more mana!", Color.ERROR.value)
+        if super().use():
             return
         tile = self.player.tile
         if tile.items == []:
