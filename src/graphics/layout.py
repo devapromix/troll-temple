@@ -28,6 +28,6 @@ class Layout:
         self._length = 0
         return self.line_count
 
-    def print_line(self, text: str, color=T.white, bkcolor=T.black) -> None:
-        self.print(text, color, bkcolor)
+    def print_line(self, text: str, color=None, background_color=None) -> None:
+        self.print(text, color, background_color)
         self.next()
