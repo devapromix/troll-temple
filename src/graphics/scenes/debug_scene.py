@@ -5,7 +5,6 @@ import pygame
 
 from common.utils import Register
 from graphics.layout import Layout
-from graphics.line import Line
 from graphics.point import Point
 from graphics.scenes.scene import Scene
 import tcod as T
@@ -14,6 +13,7 @@ import tcod as T
 class DebugCommand(metaclass=Register):
     ALL = []
     ABSTRACT = True
+    args_count = 0
 
     @abstractmethod
     def run(self, **kwargs):
@@ -25,6 +25,8 @@ class DebugCommand(metaclass=Register):
 
 
 class GetCommand(DebugCommand):
+    args_count = 1
+
     def run(self, *args):
         item_name = args[0]
 
@@ -38,15 +40,19 @@ class GetCommand(DebugCommand):
     def auto_complete_arg(self, value: str, index: int) -> List[str]:
         import items.Item
         import items.items
-        return [cls.__name__ for cls in items.Item.Item.ALL if value.lower() in cls.__name__.lower()]
+        if index == 0:
+            return [cls.__name__ for cls in items.Item.Item.ALL if value.lower() in cls.__name__.lower()]
+        else:
+            return []
 
 
 class SpawnCommand(DebugCommand):
+    args_count = 1
+
     def run(self, *args):
         name = args[0]
 
         from mobs.monster import Monster
-        import mobs.mobs
         for cls in Monster.ALL:
             if cls.__name__.lower() == name.lower():
                 from common.game import GAME
@@ -54,8 +60,10 @@ class SpawnCommand(DebugCommand):
 
     def auto_complete_arg(self, value: str, index: int) -> List[str]:
         from mobs.monster import Monster
-        import mobs.mobs
-        return [cls.__name__ for cls in Monster.ALL if value.lower() in cls.__name__.lower()]
+        if index == 0:
+            return [cls.__name__ for cls in Monster.ALL if value.lower() in cls.__name__.lower()]
+        else:
+            return []
 
 
 class LevelUpCommand(DebugCommand):
@@ -88,6 +96,8 @@ class DebugScene(Scene):
         line.print('_')
 
         if len(auto_complete_list) > 0:
+            line.offset = len(' '.join(self.__args[:-1]))
+            line.offset = line.offset + 1 if line.offset > 0 else 0
             line.color = T.lighter_blue
             line.next()
             for i, text in enumerate(auto_complete_list):
@@ -98,10 +108,7 @@ class DebugScene(Scene):
 
     def _check_input(self, key: int) -> bool:
         if key == pygame.K_RETURN:
-            command = self.__current_command
-            if command is not None:
-                self.__current_command.run(*self.__args[1:])
-            self.exit()
+            self.__run()
             return True
         if key == pygame.K_SPACE:
             self.text += ' '
@@ -131,6 +138,12 @@ class DebugScene(Scene):
             return True
         return False
 
+    def __run(self):
+        command = self.__current_command
+        if command is not None:
+            self.__current_command.run(*self.__args[1:])
+        self.exit()
+
     @property
     def __current_command(self) -> DebugCommand:
         for cls in DebugCommand.ALL:
@@ -139,36 +152,22 @@ class DebugScene(Scene):
 
     def __auto_complete_list(self, index: int) -> List[str]:
         if index > 0:
-            return self.__auto_complete_list_arg(len(self.__args) - 1)
+            index1 = len(self.__args) - 1
+            command = self.__current_command
+            names = command.auto_complete_arg(self.__args[index1], index1 - 1) if command is not None else []
+            return [x for x in names if self.__args[index1].lower() in x.lower()]
         else:
-            return self.__auto_complete_list_command
-
-    @property
-    def __auto_complete_list_command(self) -> List[str]:
-        names = map(lambda x: x.__name__[:-len("command")], DebugCommand.ALL)
-        return [x for x in names if self.__args[0].lower() in x.lower()]
-
-    def __auto_complete_list_arg(self, index: int) -> List[str]:
-        command = self.__current_command
-        names = command.auto_complete_arg(self.__args[index], index - 1) if command is not None else []
-        return [x for x in names if self.__args[index].lower() in x.lower()]
+            names1 = map(lambda x: x.__name__[:-len("command")], DebugCommand.ALL)
+            return [x1 for x1 in names1 if self.__args[0].lower() in x1.lower()]
 
     def __complete(self) -> None:
         auto_complete_list = self.__args_complete[-1]
         if len(auto_complete_list) > 0:
             self.__args[-1] = auto_complete_list[self.__selected_index]
             self.__deparse()
-
-    def set_current(self, value: str) -> None:
-        if len(self.__args) > 0:
-            self.__args[-1] = value
-        else:
-            self.command = value
-
-    def get_current(self) -> str:
-        return self.__args[- 1] if len(self.__args) > 0 else self.command
-
-    current = property(get_current, set_current)
+            command = self.__current_command
+            if command is not None and len(self.__args) == command.args_count + 1:
+                self.__run()
 
     def __parse(self):
         self.__args = self.text.split(' ')
