@@ -25,6 +25,8 @@ class ReflectiveMastery(Perk):
         Mod('reflect_damage_bonus', 10),
         Mod('reflect_chance_bonus', 5),
     )
+    max_count = 2
+    classes = {Classes.FIGHTER}
 
 
 class DefiantRiposte(RarePerk):
@@ -36,6 +38,22 @@ class DefiantRiposte(RarePerk):
         TagMod(Tag.BlockedAlwaysReflect),
     )
     max_count = 1
+    classes = {Classes.FIGHTER}
+
+
+class Impale(RarePerk):
+    _descr = ("A more powerful attack with an increased chance of breaking through the target's defense. "
+              "Can only be used with swords and spears.")
+    # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    max_count = 1
+    classes = {Classes.FIGHTER}
+
+
+class CriticalStrike(RarePerk):
+    _descr = ("Grants a chance to do double physical damage with your attacks.)
+    # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    max_count = 1
+    classes = {Classes.FIGHTER}
 
 
 class ParryMaster(LegendPerk):
@@ -62,5 +80,21 @@ class IroncladDefender(LegendPerk):
         Mod('speed', -1),
     )
     classes = {Classes.FIGHTER}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
