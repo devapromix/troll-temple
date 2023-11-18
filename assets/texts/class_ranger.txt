@@ -7,6 +7,6 @@ and bleeding, causing damage over time.
 
 Weapon: hunter bow
 Armor:  quilted armor
-Ability: crippling blow
+Abilities: leather armors, ranged weapons, craft, crippling blow
 
 Master's haversack, light quiver, craft box

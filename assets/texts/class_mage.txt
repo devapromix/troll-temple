@@ -7,7 +7,7 @@ of the world.
 
 Weapon: short staff
 Armor: cultist robe
-Ability: conjure mana orb
+Abilities: cloth armors, staves, wizardry, conjure mana orb
 
 Linen bag, spellbook
 
