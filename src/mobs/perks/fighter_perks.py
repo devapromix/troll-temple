@@ -50,7 +50,7 @@ class Impale(RarePerk):
 
 
 class CriticalStrike(RarePerk):
-    _descr = ("Grants a chance to do double physical damage with your attacks.)
+    _descr = "Grants a chance to do double physical damage with your attacks."
     # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     max_count = 1
     classes = {Classes.FIGHTER}
