@@ -15,6 +15,7 @@ class Mob(object):
     enters_walls = False
     poison = 0
     poisoned = 0
+    immune = False
     speed = 0
     armor = 0
     life_regen = 1

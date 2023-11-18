@@ -16,7 +16,7 @@ class Powerful(Perk):
 
 class DefenceArt(Perk):
     _name = 'defence art'
-    _descr = "Increase common abilities to evade and to supress Damage"
+    _descr = "Increase common abilities to evade and to supress damage."
     modifier = AggregateModifier(
         Mod('armor', 5),
         Mod('evasion', 10),
@@ -25,14 +25,14 @@ class DefenceArt(Perk):
     max_count = 5
 
 
-class Agility(Perk):
+class Agility(RarePerk):
     _descr = "Increase speed, accuracy and evasion"
     modifier = AggregateModifier(
         Mod('speed', 1),
         Mod('accuracy', 50),
         Mod('evasion', 5)
     )
-    rarity = PerkRarity.RARE
+    max_count = 1
 
 
 class Hero(LegendPerk):
@@ -53,19 +53,12 @@ class FightForLife(LegendPerk):
     )
 
 
-class PoisonResistance(Perk):
-    _name = 'Poison resistance'
-    _descr = 'The character is immune to poison.'
-    max_count = 1
-    ### player.immune = True
-    rarity = PerkRarity.RARE
-    classes = {Classes.THIEF}
-
 class Indomitable(Perk):
     _name = "indomitable"
     _descr = "Increase damage"
     modifier = DamageMod(1)
     max_count = 5
+
 
 class Stoneheart(Perk):
     _name = "stoneheart"
@@ -74,29 +67,8 @@ class Stoneheart(Perk):
     max_count = 10
 
 
-class EagleEye(Perk):
-    _name = "eagle eye"
-    _descr = "The eagle eye allows you to increase the distance from which you can shoot at a target"
-    modifier = Mod('radius', 1)
-    max_count = 2
-    classes = {Classes.RANGER}
-
-class Poisoner(Perk):
-    _name = "poisoner"
-    _descr = "You discover new alchemy poisons and poison your enemies more effectively"
-    modifier = Mod('poison', 1)
-    max_count = 3
-    rarity = PerkRarity.RARE
-    classes = {Classes.THIEF}
-
-class Bower(LegendPerk):
-    _name = "bower"
-    _descr = "You can use a bow and hit your enemies with it"
-    #self.can_use_bow = True
-    classes = {Classes.THIEF}
-
 class InnerReserves(Perk):
-    _name = 'Inner Reserves'
+    _name = 'inner reserves'
     _descr = "Increase your mana and life"
     modifier = AggregateModifier(
         AddMaxLife(2),
