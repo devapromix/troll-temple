@@ -38,23 +38,26 @@ class Game(object):
 
     def start(self):
         from mobs.player import Player
-        from mobs.mobs import TrollKing
         self.player = Player(self.wizard, self.selected_game_class)
         self.player.on_damage += lambda dmg: self.__player_damaged(dmg)
         self.player.on_strike += lambda dmg: self.__player_striked(dmg)
         self.player.on_die += lambda damage: self.player_died(damage.defender, damage.attacker)
-        self.final_boss = TrollKing()
-        self.final_boss.on_die += lambda damage: self.final_boss_died()
         self.turns = 0
         self.start_map(1)
+        self.final_boss()
 
     def player_died(self, player, murderer):
         self.stats.player_death_count += 1
         self.stats.player_last_death_reason = 'killed by %s' % (murderer.name)
         message('You die...', COLOR_ERROR)
 
+    def final_boss(self):
+        from mobs.mobs import TrollKing
+        for mob in self.map.mobs:
+            if isinstance(mob, TrollKing):
+                mob.on_die += lambda damage: self.final_boss_died()
+
     def final_boss_died(self):
-        print('+++++++++++++++++++++++++++++++fix me!++++++++++++++++++++++++++++++++++++++++++++++++++')
         if prompt('You have defeated the Troll King! Press [ENTER] to continue...', [pygame.K_RETURN]) == pygame.K_RETURN:
             self.info_scene.message("You have defeated True Evil!", "You have come a long way and defeated the terrible tyrant Troll King! Now all the magical power of the Ruby Amulet is in your hands and the White Portal will show you the way home...")
             self.info_scene.show()
@@ -65,6 +68,7 @@ class Game(object):
         self.map = Map(level)
         x, y, _ = self.map.random_empty_tile()
         self.player.put(self.map, x, y)
+
 
     def ascend(self):
         self.turns += 1
