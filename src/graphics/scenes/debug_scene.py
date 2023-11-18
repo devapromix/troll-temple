@@ -4,7 +4,9 @@ from typing import List
 import pygame
 
 from common.utils import Register
+from graphics.layout import Layout
 from graphics.line import Line
+from graphics.point import Point
 from graphics.scenes.scene import Scene
 import tcod as T
 
@@ -76,7 +78,7 @@ class DebugScene(Scene):
     def _draw_content(self) -> None:
         from common.game import out, out_list
 
-        line = Line(1, 0)
+        line = Layout(Point(1, 0))
         auto_complete_list = self.__auto_complete_list_command
         lower_auto_complete_list = [x.lower() for x in auto_complete_list]
         line.print(self.command, T.lighter_green if self.command.lower() in lower_auto_complete_list else T.lighter_red)
@@ -89,9 +91,10 @@ class DebugScene(Scene):
             line.print(' ')
         line.print('_')
 
-        auto_complete_list = self.__auto_complete_list
         if len(auto_complete_list) > 0:
-            out(1, 1, auto_complete_list[0], T.lighter_blue, T.darker_grey)
+            line.color = T.lighter_blue
+            line.next()
+            line.print(auto_complete_list[0], background_color=T.darker_grey)
             out_list(1, 2, auto_complete_list[1:], T.lighter_blue)
 
         from common.game import out_file
