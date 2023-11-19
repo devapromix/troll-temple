@@ -3,8 +3,9 @@ import tcod as T
 
 from common.game import init, close, message, COLOR_ERROR, \
     draw_all, prompt, new_ui_turn, Quit, DELAY, decode_walk_key, decode_interface_key, select_item, look_mode, \
-    MAX_DLEVEL, select_spell, select_recipe, COLOR_ALERT
+    MAX_DLEVEL, select_spell, select_recipe, COLOR_ALERT, SCREEN_W, SCREEN_H, TITLE, VERSION
 from common.stats import Stats
+from graphics.window import Window
 
 
 class Game(object):
@@ -17,6 +18,12 @@ class Game(object):
         self.keydown = None
         self.stats = Stats()
         self.info_scene = InfoScene()
+
+        pygame.init()
+        font = pygame.font.Font("../assets/fonts/UbuntuMono-R.ttf", 16)
+        window = Window(SCREEN_W, SCREEN_H, font)
+        window.title = TITLE + " v." + VERSION + " [WIZARD]" if self.wizard else ""
+        window.icon = "../assets/icons/game.ico"
 
     def play(self):
         from graphics.scenes.choose_game_class_scene import ChooseGameClassScene

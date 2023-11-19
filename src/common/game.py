@@ -127,14 +127,8 @@ class Quit(Exception):
 def init(game):
     global MESSAGES, GAME
     MESSAGES = []
-    pygame.init()
 
     GAME = game
-    GAME.font = pygame.font.Font("../assets/fonts/UbuntuMono-R.ttf", 16)
-
-    window = Window(SCREEN_W, SCREEN_H, GAME.font)
-    window.title = TITLE + " v." + VERSION + " [WIZARD]" if GAME.wizard else ""
-    window.icon = "../assets/icons/game.ico"
 
 
 def close():
@@ -495,6 +489,3 @@ def anykey():
             if event.type == pygame.KEYDOWN:
                 if pygame.key.get_pressed()[pygame.K_RETURN]:
                     return
-
-
-
