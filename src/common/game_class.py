@@ -2,8 +2,9 @@ import pygame
 import tcod as T
 
 from common.game import init, close, message, COLOR_ERROR, \
-    draw_all, prompt, new_ui_turn, Quit, DELAY, decode_walk_key, decode_interface_key, select_item, look_mode, \
-    MAX_DLEVEL, select_spell, select_recipe, COLOR_ALERT, SCREEN_W, SCREEN_H, TITLE, VERSION
+    draw_all, prompt, new_ui_turn, Quit, decode_walk_key, decode_interface_key, select_item, look_mode, \
+    MAX_DLEVEL, select_spell, select_recipe, COLOR_ALERT
+from common.constants import VERSION, SCREEN_W, SCREEN_H, DELAY, TITLE
 from common.stats import Stats
 from graphics.window import Window
 

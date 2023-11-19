@@ -1,7 +1,9 @@
 import tcod as T
 from maps.tiles import *
 from common.utils import *
-from common.game import MAP_W, MAP_H, MAX_DLEVEL
+from common.game import MAX_DLEVEL
+from common.constants import MAP_W, MAP_H
+
 
 class MapGenerator(object):
 

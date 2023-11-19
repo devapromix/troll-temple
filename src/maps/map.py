@@ -1,8 +1,5 @@
-import tcod as T
 from mobs.mobs import *
 from items.items import *
-from common.game import *
-from common.utils import *
 from maps.objects import *
 
 class Map(object):

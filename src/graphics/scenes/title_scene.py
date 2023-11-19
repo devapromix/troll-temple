@@ -4,7 +4,7 @@ from graphics.color import Color
 
 class TitleScene(SinglePageScene):
     def _draw_content(self) -> None:
-        from common.game import VERSION
+        from common.constants import VERSION
         from graphics.window import out_file, out
         out_file(5, 4, '../assets/texts/troll.txt', T.green)
         out_file(45, 4, '../assets/texts/lonely_mountain.txt', T.darker_yellow)

@@ -1,27 +1,10 @@
 import sys
-from typing import List
-
-import pygame
-import tcod as T
 
 from graphics.window import *
+from .constants import SCREEN_W, SCREEN_H, MAP_W, MAP_H, BUFFER_H
 from .utils import *
 
 # --- CONSTANTS --- #
-
-VERSION = '0.8'
-
-SCREEN_W = 100
-SCREEN_H = 30
-
-MAP_W = 60 - 2
-MAP_H = SCREEN_H - 2
-
-DELAY = 100
-
-BUFFER_H = SCREEN_H // 2 + 1
-
-TITLE = 'Troll Temple'
 
 MAX_SPEED = 5
 MIN_SPEED = -4
@@ -132,6 +115,7 @@ def init(game):
 
 
 def close():
+    global GAME
     GAME = None
     pygame.quit()
     sys.exit()
@@ -140,7 +124,6 @@ def close():
 # --- UI --- #
 
 def _draw_map():
-    # SCREEN.blit(GAME.duneon_tileset, (0,0))
     player = GAME.player
     for x in range(MAP_W):
         for y in range(MAP_H):

@@ -1,0 +1,11 @@
+TITLE = 'Troll Temple'
+VERSION = '0.8'
+
+SCREEN_W = 100
+SCREEN_H = 30
+
+MAP_W = 60 - 2
+MAP_H = SCREEN_H - 2
+
+DELAY = 100
+BUFFER_H = SCREEN_H // 2 + 1
