@@ -31,9 +31,9 @@ class Player(Mob):
     magic = 0
     radius = 0
 
-    def __init__(self, wizard, selected_game_class: Classes):
+    def __init__(self, wizard, game_class: Classes):
         super(Player, self).__init__()
-        self.game_class = selected_game_class
+        self.game_class = game_class
         self.level = 1
         self.life.max = 40 - (self.game_class.value * 5)
         self.life.fill()

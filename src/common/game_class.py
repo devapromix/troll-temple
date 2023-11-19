@@ -11,10 +11,8 @@ from graphics.window import Window
 
 class Game(object):
     def __init__(self, wizard):
-        from mobs.player import Classes
         from graphics.scenes.info_scene import InfoScene
         self.wizard = wizard
-        self.selected_game_class = Classes.FIGHTER
         self.keydown = None
         self.stats = Stats()
         self.info_scene = InfoScene()
@@ -26,15 +24,11 @@ class Game(object):
         window.icon = "../assets/icons/game.ico"
 
     def play(self):
-        from graphics.scenes.choose_game_class_scene import ChooseGameClassScene
         from graphics.scenes.intro_scene import IntroScene
         from graphics.scenes.title_scene import TitleScene
         init(self)
         TitleScene().show()
         IntroScene().show()
-        scene = ChooseGameClassScene(self)
-        scene.show()
-        self.selected_game_class = scene.selected[1]
         self.start()
         from graphics.scenes.choose_perk_scene import ChoosePerkScene
         ChoosePerkScene(self.player).show()
@@ -44,8 +38,12 @@ class Game(object):
         close()
 
     def start(self):
+        from graphics.scenes.choose_game_class_scene import ChooseGameClassScene
+        scene = ChooseGameClassScene(self)
+        scene.show()
+
         from mobs.player import Player
-        self.player = Player(self.wizard, self.selected_game_class)
+        self.player = Player(self.wizard, scene.selected[1])
         self.player.on_damage += lambda dmg: self.__player_damaged(dmg)
         self.player.on_strike += lambda dmg: self.__player_striked(dmg)
         self.player.on_die += lambda damage: self.player_died(damage.defender, damage.attacker)
