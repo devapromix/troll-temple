@@ -4,6 +4,7 @@ from typing import List
 import pygame
 import tcod as T
 
+from graphics.window import *
 from .utils import *
 
 # --- CONSTANTS --- #
@@ -122,71 +123,18 @@ class Quit(Exception):
 
 # --- GAME --- #
 
-def out(x, y, text, color=T.white, bkcolor=T.black, w=0):
-    _txt = GAME.font.render(str(text), True, color, bkcolor)
-    if x == 0:
-        SCREEN.blit(_txt, (
-            int((SCREEN_W - (_txt.get_width() / GAME.font_width)) / 2) * GAME.font_width, y * GAME.font_height))
-    elif w != 0:
-        SCREEN.blit(_txt,
-                    ((x + int((w - (_txt.get_width() / GAME.font_width)) / 2)) * GAME.font_width, y * GAME.font_height))
-    else:
-        SCREEN.blit(_txt, (x * GAME.font_width, y * GAME.font_height))
-
-
-def out_list(x: int, y: int, text: List[str], color=T.white, bkcolor=T.black, w=0) -> None:
-    for i, line in enumerate(text):
-        out(x, y+i, line, color, bkcolor, w)
-
-def out_text(x: int, y: int, width: int, text, color=T.white, bkcolor=T.black, w=0):
-    last_space = 1
-    last_drawed = -1
-    line_count = 0
-    for i, char in enumerate(text):
-        if char == ' ':
-            last_space = i
-        if i - last_drawed >= width:
-            out(x, y + line_count, text[last_drawed + 1: last_space], color, bkcolor)
-            line_count += 1
-            last_drawed = last_space
-
-    if len(text) > last_drawed:
-        out(x, y + line_count, text[last_drawed + 1:], color, bkcolor)
-        line_count += 1
-
-    return line_count
-
-
-def out_file(x, y, filepath, color=T.white, bkcolor=T.black, w=0):
-    with open(filepath, 'r') as f:
-        for i, line in enumerate(f.readlines()):
-            out(x, y + i, line.rstrip(), color, bkcolor, w)
-
-
-def clear():
-    SCREEN.fill(T.black)
-
-
-def refresh():
-    pygame.display.flip()
-
 
 def init(game):
-    global MESSAGES, GAME, SCREEN
-    GAME = game
+    global MESSAGES, GAME
     MESSAGES = []
     pygame.init()
-    # GAME.duneon_tileset = pygame.image.load("../assets/images/dungeon.png")
+
+    GAME = game
     GAME.font = pygame.font.Font("../assets/fonts/UbuntuMono-R.ttf", 16)
-    _txt = GAME.font.render("W", True, T.white)
-    GAME.font_width = _txt.get_width()
-    GAME.font_height = _txt.get_height() + 1
-    SCREEN = pygame.display.set_mode((SCREEN_W * GAME.font_width, SCREEN_H * GAME.font_height))
-    wiz_str = ""
-    if GAME.wizard:
-        wiz_str = " [WIZARD]"
-    pygame.display.set_caption(TITLE + " v." + VERSION + wiz_str)
-    pygame.display.set_icon(pygame.image.load("../assets/icons/game.ico"))
+
+    window = Window(SCREEN_W, SCREEN_H, GAME.font)
+    window.title = TITLE + " v." + VERSION + " [WIZARD]" if GAME.wizard else ""
+    window.icon = "../assets/icons/game.ico"
 
 
 def close():
@@ -281,7 +229,7 @@ def message(s, color = T.white):
         print(line)
         MESSAGES.append((True, line, color))
     _draw_messages()
-    refresh()
+    Window.instance().refresh()
 
 # --- INVENTORY --- #
 
@@ -293,7 +241,7 @@ def _item_color(item, color):
 
 
 def _draw_items(title, items):
-    clear()
+    Window.instance().clear()
     out(2, 1, title, COLOR_TITLE)
     for i, item in enumerate(items):
         out(3, i + 3, chr(i + ord('a')), COLOR_ITEM)
@@ -312,13 +260,13 @@ def draw_inventory(title='Inventory', items=None, flag=False):
     _draw_items(title, items or GAME.player.items)
     _draw_messages()
     _draw_status()
-    refresh()
+    Window.instance().refresh()
 
 
 # --- SPELLBOOK --- #
 
 def _draw_spellbook(title, spells):
-    clear()
+    Window.instance().clear()
     out(2, 1, title, COLOR_TITLE)
     for i, spell in enumerate(spells):
         out(3, i + 3, chr(i + ord('a')), T.light_grey)
@@ -329,12 +277,12 @@ def spellbook(title='Spellbook', spells=None):
     _draw_spellbook(title, spells or GAME.player.spells)
     _draw_messages()
     _draw_status()
-    refresh()
+    Window.instance().refresh()
 
 # --- CRAFTBOX --- #
 
 def _draw_craftbox(title, recipes):
-    clear()
+    Window.instance().clear()
     out(2, 1, title, COLOR_TITLE)
     for i, recipe in enumerate(recipes):
         out(3, i + 3, chr(i + ord('a')), T.light_grey)
@@ -345,13 +293,13 @@ def craftbox(title='Craftbox', recipes=None):
     _draw_craftbox(title, recipes or GAME.player.recipes)
     _draw_messages()
     _draw_status()
-    refresh()
+    Window.instance().refresh()
 
 
 # --- ALCHEMYSET --- #
 
 def _draw_alchemyset(title, recipes):
-    clear()
+    Window.instance().clear()
     out(2, 1, title, COLOR_TITLE)
     for i, recipe in enumerate(recipes):
         out(3, i + 3, chr(i + ord('a')), T.light_grey)
@@ -362,7 +310,7 @@ def alchemyset(title='Alchemyset', recipes=None):
     _draw_alchemyset(title, recipes or GAME.player.recipes)
     _draw_messages()
     _draw_status()
-    refresh()
+    Window.instance().refresh()
 
 
 # --- UI --- #
@@ -375,11 +323,11 @@ def draw_statistics(y):
         out(40, y + 6, "Deaths       " + str(GAME.stats.player_death_count), T.light_grey)
         
 def draw_all():
-    clear()
+    Window.instance().clear()
     _draw_map()
     _draw_messages()
     _draw_status()
-    refresh()
+    Window.instance().refresh()
 
 def describe_tile(x, y):
     if GAME.map.is_visible(x, y):
@@ -439,11 +387,11 @@ def look_mode(shoot=False):
             if map.is_visible(x, y):
                 char, color = tile.visible_glyph
                 out(x + 1, y + 1, char, T.black, T.lighter_gray)
-            refresh()
+            Window.instance().refresh()
             describe_tile(x, y)
 
             _draw_messages()
-            refresh()
+            Window.instance().refresh()
 
             while MESSAGES and MESSAGES[-1][0]:
                 MESSAGES.pop()

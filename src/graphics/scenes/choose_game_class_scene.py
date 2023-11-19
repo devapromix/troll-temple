@@ -1,8 +1,7 @@
 import pygame
 import tcod as T
 
-from common.game import out_file, out
-from common.utils import *
+from graphics.window import *
 from graphics.color import Color
 from graphics.scenes.selection_scene import SelectionScene
 from mobs.player import GAME_CLASSES

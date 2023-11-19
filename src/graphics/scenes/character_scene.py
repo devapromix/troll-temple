@@ -7,11 +7,12 @@ class CharacterScene:
         self.player = player
 
     def show(self):
-        from common.game import clear, out_file, refresh, out, anykey, COLOR_TITLE, draw_statistics
+        from common.game import anykey, COLOR_TITLE, draw_statistics
+        from graphics.window import out_file, out, Window
         from mobs.player import GAME_CLASSES
         from common.calendar import Calendar
         calendar = Calendar()
-        clear()
+        Window.instance().clear()
 
         self.game_class = GAME_CLASSES[self.player.game_class.value - 1]
         out(2, 1, self.player.name, COLOR_TITLE)
@@ -48,7 +49,7 @@ class CharacterScene:
         draw_statistics(5)
 
         out(0, 28, "Press [ENTER] to continue...", T.light_grey)
-        refresh()
+        Window.instance().refresh()
         anykey()
 
 

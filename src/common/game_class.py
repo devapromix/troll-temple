@@ -5,7 +5,6 @@ from common.game import init, close, message, COLOR_ERROR, \
     draw_all, prompt, new_ui_turn, Quit, DELAY, decode_walk_key, decode_interface_key, select_item, look_mode, \
     MAX_DLEVEL, select_spell, select_recipe, COLOR_ALERT
 from common.stats import Stats
-from graphics.scenes.choose_perk_scene import ChoosePerkScene
 
 
 class Game(object):
@@ -30,6 +29,7 @@ class Game(object):
         scene.show()
         self.selected_game_class = scene.selected[1]
         self.start()
+        from graphics.scenes.choose_perk_scene import ChoosePerkScene
         ChoosePerkScene(self.player).show()
         self.info_scene.message("Welcome to the Old Temple!", "Brave adventurer, you are lost in the underground corridors of the Old Temple. It is very dangerous for a lonely traveler here. There is no way to return home. How long can you survive?")
         self.info_scene.show()

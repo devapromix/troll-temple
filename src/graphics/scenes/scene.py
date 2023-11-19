@@ -1,3 +1,4 @@
+from graphics.window import Window
 
 
 class Scene:
@@ -14,10 +15,9 @@ class Scene:
                 return
 
     def __draw(self) -> None:
-        from common.game import clear, refresh
-        clear()
+        Window.instance().clear()
         self._draw_content()
-        refresh()
+        Window.instance().refresh()
 
     def _draw_content(self) -> None:
         raise NotImplementedError()

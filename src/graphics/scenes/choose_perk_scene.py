@@ -20,11 +20,11 @@ class ChoosePerkScene(SelectionScene):
         self.__player.perks.teach(self.selected)
 
     def _draw_item_name(self, x: int, y: int, item: Perk) -> None:
-        from common.game import out
+        from graphics.window import out
         out(x, y, item.name(), self.RARITY_COLORS[item.rarity], T.darker_grey if item == self.selected else T.black)
 
     def _draw_selected_info(self, item: Perk) -> None:
-        from common.game import out, out_text
+        from graphics.window import out_text
         DESCR_LINE_X = 25
         DESCR_LINE_WIDTH = 60
         line_count = out_text(DESCR_LINE_X, 3, DESCR_LINE_WIDTH, item.descr, Color.ITEM.value)

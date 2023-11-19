@@ -16,7 +16,7 @@ class SelectionScene(Scene):
         return self.items[self.selected_index] if self.selected_index is not None else None
 
     def _draw_content(self) -> None:
-        from common.game import out
+        from graphics.window import out
         out(2, 1, self.title, Color.TITLE.value)
         for i, item in enumerate(self.items):
             if self.focusable and self.selected_index == i:
