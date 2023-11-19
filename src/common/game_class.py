@@ -14,7 +14,6 @@ class Game(object):
         from mobs.player import Classes
         from graphics.scenes.info_scene import InfoScene
         self.wizard = wizard
-        self.wizard = True
         self.selected_game_class = Classes.FIGHTER
         self.keydown = None
         self.stats = Stats()
