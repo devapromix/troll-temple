@@ -253,9 +253,9 @@ class Game(object):
 
     def cmd_alchemy_set(self):
         if self.player.has_alchemyset:
-            recipe = select_recipe('Select a recipe to craft, ESC to exit', self.player.recipes)
-            if recipe:
-                self.player.craft(recipe)
+            from graphics.scenes.alchemy_set_scene import AlchemySetScene
+            scene = AlchemySetScene(self.player)
+            scene.show()
         else:
             message("You don't have an alchemy set!", COLOR_ERROR)
 

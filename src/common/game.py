@@ -208,40 +208,6 @@ def message(s, color = T.white):
     _draw_messages()
     Window.instance().refresh()
 
-# --- CRAFTBOX --- #
-
-def _draw_craftbox(title, recipes):
-    Window.instance().clear()
-    out(2, 1, title, COLOR_TITLE)
-    for i, recipe in enumerate(recipes):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        out(5, i + 3, recipe.descr, T.light_grey)
-
-
-def craftbox(title='Craftbox', recipes=None):
-    _draw_craftbox(title, recipes or GAME.player.recipes)
-    _draw_messages()
-    _draw_status()
-    Window.instance().refresh()
-
-
-# --- ALCHEMYSET --- #
-
-def _draw_alchemyset(title, recipes):
-    Window.instance().clear()
-    out(2, 1, title, COLOR_TITLE)
-    for i, recipe in enumerate(recipes):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        out(5, i + 3, recipe.descr, T.light_grey)
-
-
-def alchemyset(title='Alchemyset', recipes=None):
-    _draw_alchemyset(title, recipes or GAME.player.recipes)
-    _draw_messages()
-    _draw_status()
-    Window.instance().refresh()
-
-
 # --- UI --- #
 
 def draw_statistics(y):
