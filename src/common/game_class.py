@@ -237,9 +237,9 @@ class Game(object):
 
     def cmd_spellbook(self):
         if self.player.has_spellbook:
-            spell = select_spell('Select a spell to cast, ESC to exit', self.player.spells)
-            if spell:
-                self.player.use_spell(spell)
+            from graphics.scenes.spellbook_scene import SpellbookScene
+            scene = SpellbookScene(self.player)
+            scene.show()
         else:
             message("You don't have a spellbook!", COLOR_ERROR)
 

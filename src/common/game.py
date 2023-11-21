@@ -208,22 +208,6 @@ def message(s, color = T.white):
     _draw_messages()
     Window.instance().refresh()
 
-# --- SPELLBOOK --- #
-
-def _draw_spellbook(title, spells):
-    Window.instance().clear()
-    out(2, 1, title, COLOR_TITLE)
-    for i, spell in enumerate(spells):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        out(5, i + 3, spell.descr, T.light_grey)
-
-
-def spellbook(title='Spellbook', spells=None):
-    _draw_spellbook(title, spells or GAME.player.spells)
-    _draw_messages()
-    _draw_status()
-    Window.instance().refresh()
-
 # --- CRAFTBOX --- #
 
 def _draw_craftbox(title, recipes):
@@ -363,18 +347,10 @@ def look_mode(shoot=False):
 
 # --- KEYS --- #
 
-def select_spell(title, spells):
-    spells = spells[:BOOK_SIZE]
-    spellbook(title, spells)
-    while True:
-        key = readkey()
-        if key in range(pygame.K_a, pygame.K_z):
-            i = key - pygame.K_a
-            if 0 <= i < len(spells):
-                return spells[i]
-        if key in [pygame.K_ESCAPE]:
-            return None
-    return None
+
+
+
+
 
 
 def select_recipe(title, recipes):

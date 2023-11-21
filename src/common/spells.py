@@ -1,5 +1,6 @@
 from mobs.effects.uni_effect import UniEffect
 from .game import *
+from graphics.color import Color
 from .modifiers.add_confuse import AddConfuse
 from .modifiers.mod import Mod
 
@@ -11,7 +12,7 @@ class Spell(object, metaclass=Register):
     ABSTRACT = True
 
     def __init__(self):
-        pass
+        self.color = Color.MAGIC.value
 
     @property
     def descr(self):
