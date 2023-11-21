@@ -11,5 +11,4 @@ class TitleScene(SinglePageScene):
         out_file(10, 10, '../assets/texts/temple.txt', T.light_red)
         out(35, 17, ' v.' + VERSION, T.light_green)
         out(6, 22, 'by Apromix and Gandifil', T.light_yellow)
-        out(0, 28, "Press [ENTER] to continue...", Color.ITEM.value)
 

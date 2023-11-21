@@ -13,4 +13,3 @@ class InfoScene(SinglePageScene):
         out_file(35, 5, '../assets/texts/lonely_mountain.txt', T.darker_yellow)
         out(0, 2, self.title, Color.TITLE.value)
         out_text(10, 5, 40, self.msg, Color.ITEM.value)
-        out(0, 28, "Press [ENTER] to continue...", Color.ITEM.value)

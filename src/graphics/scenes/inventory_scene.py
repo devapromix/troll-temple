@@ -10,6 +10,7 @@ class InventoryScene(SelectionScene):
     def __init__(self, player):
         super().__init__("INVENTORY Press [ENTER] to use, [TAB] to drop, [ESC] to exit", player.items, True)
         self.player = player
+        self.has_footer = False
 
     def _item_color(self, item, color):
         if item.color != Color.ITEM.value:

@@ -3,6 +3,7 @@ from graphics.window import Window
 
 class Scene:
     def __init__(self):
+        self.has_footer = True
         self.__is_exit = False
 
     def show(self) -> None:
@@ -15,9 +16,13 @@ class Scene:
                 return
 
     def __draw(self) -> None:
-        Window.instance().clear()
+        window = Window.instance()
+        window.clear()
         self._draw_content()
-        Window.instance().refresh()
+        if self.has_footer:
+            from graphics.color import Color
+            window.out(0, 28, "Press [ENTER] to continue...", Color.ITEM.value)
+        window.refresh()
 
     def _draw_content(self) -> None:
         raise NotImplementedError()

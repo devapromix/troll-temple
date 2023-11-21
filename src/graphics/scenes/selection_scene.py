@@ -9,6 +9,7 @@ class SelectionScene(Scene):
         self.items = items
         self.title = title
         self.focusable = focusable
+        self.has_footer = focusable
         self.selected_index = 0 if self.focusable else None
 
     @property
@@ -25,8 +26,6 @@ class SelectionScene(Scene):
             id = chr(i + ord('a'))
             out(3, i + 3, id, Color.ITEM.value)
             self._draw_item_name(5, i + 3, item)
-        if self.focusable:
-            out(0, 28, "Press [ENTER] to continue...", Color.ITEM.value)
 
     def _check_input(self, key: int, ret_flag: bool = True) -> bool:
         from common.game import pygame
