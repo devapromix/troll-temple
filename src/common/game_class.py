@@ -266,8 +266,7 @@ class Game(object):
 
     def cmd_character(self):
         from graphics.scenes.character_scene import CharacterScene
-        scene = CharacterScene(self.turns, self.player)
-        scene.show()
+        CharacterScene(self.turns, self.player).show()
 
     def cmd_test(self):
         if self.wizard:
