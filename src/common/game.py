@@ -72,8 +72,8 @@ KEYS = [
     ([pygame.K_t], 'invisibility'),
     ([pygame.K_f], 'find_item'),
     ([pygame.K_o], 'conjure_mana_orb'),
-    ([pygame.K_c], 'craftbox'),
-    ([pygame.K_a], 'alchemyset'),
+    ([pygame.K_c], 'craft_box'),
+    ([pygame.K_a], 'alchemy_set'),
     ([pygame.K_z], 'test'),
     ([pygame.K_l], 'look'),
     ([pygame.K_w], 'wizard'),
@@ -346,25 +346,6 @@ def look_mode(shoot=False):
 
 
 # --- KEYS --- #
-
-
-
-
-
-
-
-def select_recipe(title, recipes):
-    recipes = recipes[:CRAFTBOX_SIZE]
-    craftbox(title, recipes)
-    while True:
-        key = readkey()
-        if key in range(pygame.K_a, pygame.K_z):
-            i = key - pygame.K_a
-            if 0 <= i < len(recipes):
-                return recipes[i]
-        if key in [pygame.K_ESCAPE]:
-            return None
-    return None
 
 def prompt(s, choices=None):
     if s != "":

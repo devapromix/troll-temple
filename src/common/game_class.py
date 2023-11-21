@@ -3,7 +3,7 @@ import tcod as T
 
 from common.game import init, close, message, COLOR_ERROR, \
     draw_all, prompt, new_ui_turn, Quit, decode_walk_key, decode_interface_key, look_mode, \
-    MAX_DLEVEL, select_spell, select_recipe, COLOR_ALERT
+    MAX_DLEVEL, COLOR_ALERT
 from common.constants import VERSION, SCREEN_W, SCREEN_H, DELAY, TITLE
 from common.stats import Stats
 from graphics.window import Window
@@ -243,21 +243,21 @@ class Game(object):
         else:
             message("You don't have a spellbook!", COLOR_ERROR)
 
-    def cmd_craftbox(self):
+    def cmd_craft_box(self):
         if self.player.has_craftbox:
-            recipe = select_recipe('Select a recipe to craft, ESC to exit', self.player.recipes)
-            if recipe:
-                self.player.craft(recipe)
+            from graphics.scenes.craft_box_scene import CraftBoxScene
+            scene = CraftBoxScene(self.player)
+            scene.show()
         else:
-            message("You don't have a craftbox!", COLOR_ERROR)
+            message("You don't have a craft box!", COLOR_ERROR)
 
-    def cmd_alchemyset(self):
+    def cmd_alchemy_set(self):
         if self.player.has_alchemyset:
             recipe = select_recipe('Select a recipe to craft, ESC to exit', self.player.recipes)
             if recipe:
                 self.player.craft(recipe)
         else:
-            message("You don't have an alchemyset!", COLOR_ERROR)
+            message("You don't have an alchemy set!", COLOR_ERROR)
 
     def cmd_character(self):
         from graphics.scenes.character_scene import CharacterScene

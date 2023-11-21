@@ -8,9 +8,9 @@ Good luck! You will need it...
 
 Keybindings:
 [I] show inventory                        [F] find item (only fighter class)
-[G] pick up an item from the floor        [A] open alchemyset (only thief class)
+[G] pick up an item from the floor        [A] open alchemy set (only thief class)
 [Q] quit game                             [T] invisibility (only thief class)
-[L] use look mode                         [C] open craftbox (only ranger class)
+[L] use look mode                         [C] open craft box (only ranger class)
 [S] use shoot mode                        [V] crippling blow (only ranger class)
 [<] go up stairs                          [O] conjure mana orb (only mage class)
 [U] use map object (portal, shrine)       [B] open spellbook (only mage class)

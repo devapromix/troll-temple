@@ -65,6 +65,7 @@ class Player(Mob):
         from items.amulets import MirrorAmulet
         self.spells = []
         self.recipes = []
+        self.plans = []
         self.items = [item.Torch(), item.HealingPotion()]
         if self.game_class == Classes.FIGHTER:
             self.life_regen = 2
