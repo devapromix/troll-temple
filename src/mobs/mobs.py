@@ -19,6 +19,7 @@ class GhostMonster(UndeadMonster):
 class MageMonster(Monster):
     ABSTRACT = True
     mana_regen = 10
+    magic = 5
     fov_range = 10
     drop_rate = 20
 
@@ -37,7 +38,7 @@ class BossMonster(Monster):
 class FinalBossMonster(BossMonster):
     ABSTRACT = True
     life_regen = 20
-    fov_range = 10
+    fov_range = 8
     drop_rate = 30
 
 # --- MONSTERS #1 --- #
@@ -323,6 +324,7 @@ class Necromancer(MageMonster):
     life = 40
     dice = 3, 4, 2
     summoner = True
+    magic = 9
     level = 8    
     dungeons = 8, 8
     rarity = 5
@@ -474,6 +476,7 @@ class Summoner(MageMonster):
     life = 60
     dice = 3, 6, 2
     summoner = True
+    magic = 12
     multi = 3
     armor = 5
     level = 12    

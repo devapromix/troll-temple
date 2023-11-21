@@ -13,6 +13,7 @@ class Mob(object):
     glyph = "?", T.red
     map = None
     enters_walls = False
+    magic = 0
     poison = 0
     poisoned = 0
     immune = False
@@ -105,6 +106,7 @@ class Mob(object):
                 self.to_life_regen %= 100
         if self.mana.cur < self.mana.max:
             self.to_mana_regen += self.mana_regen
+            self.to_mana_regen += self.magic
             if self.to_mana_regen > 100:
                 self.mana.cur = min(self.mana.max, self.to_mana_regen / 100 + self.mana.cur)
                 self.to_mana_regen %= 100
