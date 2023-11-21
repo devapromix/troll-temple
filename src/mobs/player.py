@@ -28,7 +28,6 @@ class Player(Mob):
     name = 'Trollhunter'
     life_regen = 0
     mana_regen = 1
-    magic = 0
     radius = 0
 
     def __init__(self, wizard, game_class: Classes):
@@ -66,11 +65,11 @@ class Player(Mob):
         from items.amulets import MirrorAmulet
         self.spells = []
         self.recipes = []
+        self.plans = []
         self.items = [item.Torch(), item.HealingPotion()]
         if self.game_class == Classes.FIGHTER:
             self.life_regen = 2
             self.mana_regen = 0
-            self.magic = 0
             self.radius = 0
             self.can_use_shield = True
             self.can_wear_leather_armor = True
@@ -80,7 +79,6 @@ class Player(Mob):
         elif self.game_class == Classes.THIEF:
             self.life_regen = 1
             self.mana_regen = 1
-            self.magic = 0
             self.radius = 0
             self.has_alchemyset = True
             self.can_use_dagger = True
@@ -89,7 +87,6 @@ class Player(Mob):
         elif self.game_class == Classes.RANGER:
             self.life_regen = 1
             self.mana_regen = 1
-            self.magic = 0
             self.radius = 1
             self.has_craftbox = True
             self.can_use_bow = True
@@ -155,7 +152,7 @@ class Player(Mob):
         elif self.game_class == Classes.RANGER:
             return 2
         else:
-            return 5
+            return self.magic + 5
 
     def advance(self):
         self.level += 1

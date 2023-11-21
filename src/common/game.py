@@ -72,8 +72,8 @@ KEYS = [
     ([pygame.K_t], 'invisibility'),
     ([pygame.K_f], 'find_item'),
     ([pygame.K_o], 'conjure_mana_orb'),
-    ([pygame.K_c], 'craftbox'),
-    ([pygame.K_a], 'alchemyset'),
+    ([pygame.K_c], 'craft_box'),
+    ([pygame.K_a], 'alchemy_set'),
     ([pygame.K_z], 'test'),
     ([pygame.K_l], 'look'),
     ([pygame.K_w], 'wizard'),
@@ -208,88 +208,6 @@ def message(s, color = T.white):
     _draw_messages()
     Window.instance().refresh()
 
-# --- INVENTORY --- #
-
-def _item_color(item, color):
-    if item.color != COLOR_ITEM:
-        return item.color
-    else:
-        return color
-
-
-def _draw_items(title, items):
-    Window.instance().clear()
-    out(2, 1, title, COLOR_TITLE)
-    for i, item in enumerate(items):
-        out(3, i + 3, chr(i + ord('a')), COLOR_ITEM)
-        c, color = item.glyph
-        out(5, i + 3, chr(ord(c)), color)
-        s = item.descr
-        if GAME.player.has_equipped(item):
-            color = _item_color(item, T.white)
-            out(1, i + 3, '*', T.white)
-        else:
-            color = _item_color(item, COLOR_ITEM)
-        out(7, i + 3, s, color)
-
-
-def draw_inventory(title='Inventory', items=None, flag=False):
-    _draw_items(title, items or GAME.player.items)
-    _draw_messages()
-    _draw_status()
-    Window.instance().refresh()
-
-
-# --- SPELLBOOK --- #
-
-def _draw_spellbook(title, spells):
-    Window.instance().clear()
-    out(2, 1, title, COLOR_TITLE)
-    for i, spell in enumerate(spells):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        out(5, i + 3, spell.descr, T.light_grey)
-
-
-def spellbook(title='Spellbook', spells=None):
-    _draw_spellbook(title, spells or GAME.player.spells)
-    _draw_messages()
-    _draw_status()
-    Window.instance().refresh()
-
-# --- CRAFTBOX --- #
-
-def _draw_craftbox(title, recipes):
-    Window.instance().clear()
-    out(2, 1, title, COLOR_TITLE)
-    for i, recipe in enumerate(recipes):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        out(5, i + 3, recipe.descr, T.light_grey)
-
-
-def craftbox(title='Craftbox', recipes=None):
-    _draw_craftbox(title, recipes or GAME.player.recipes)
-    _draw_messages()
-    _draw_status()
-    Window.instance().refresh()
-
-
-# --- ALCHEMYSET --- #
-
-def _draw_alchemyset(title, recipes):
-    Window.instance().clear()
-    out(2, 1, title, COLOR_TITLE)
-    for i, recipe in enumerate(recipes):
-        out(3, i + 3, chr(i + ord('a')), T.light_grey)
-        out(5, i + 3, recipe.descr, T.light_grey)
-
-
-def alchemyset(title='Alchemyset', recipes=None):
-    _draw_alchemyset(title, recipes or GAME.player.recipes)
-    _draw_messages()
-    _draw_status()
-    Window.instance().refresh()
-
-
 # --- UI --- #
 
 def draw_statistics(y):
@@ -394,47 +312,6 @@ def look_mode(shoot=False):
 
 
 # --- KEYS --- #
-
-def select_item(title, items, flag=False):
-    items = items[:INV_SIZE]
-    draw_inventory(title, items, flag)
-    while True:
-        key = readkey()
-        if key in range(pygame.K_a, pygame.K_z):
-            i = key - pygame.K_a
-            if 0 <= i < len(items):
-                return items[i]
-        if key in [pygame.K_ESCAPE]:
-            return None
-    return None
-
-
-def select_spell(title, spells):
-    spells = spells[:BOOK_SIZE]
-    spellbook(title, spells)
-    while True:
-        key = readkey()
-        if key in range(pygame.K_a, pygame.K_z):
-            i = key - pygame.K_a
-            if 0 <= i < len(spells):
-                return spells[i]
-        if key in [pygame.K_ESCAPE]:
-            return None
-    return None
-
-
-def select_recipe(title, recipes):
-    recipes = recipes[:CRAFTBOX_SIZE]
-    craftbox(title, recipes)
-    while True:
-        key = readkey()
-        if key in range(pygame.K_a, pygame.K_z):
-            i = key - pygame.K_a
-            if 0 <= i < len(recipes):
-                return recipes[i]
-        if key in [pygame.K_ESCAPE]:
-            return None
-    return None
 
 def prompt(s, choices=None):
     if s != "":
