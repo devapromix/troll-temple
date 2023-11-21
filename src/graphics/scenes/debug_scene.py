@@ -75,6 +75,15 @@ class LevelUpCommand(DebugCommand):
         return []
 
 
+class AscendCommand(DebugCommand):
+    def run(self, *args):
+        from common.game import GAME
+        GAME.ascend()
+
+    def auto_complete_arg(self, value: str, index: int) -> List[str]:
+        return []
+
+
 class DebugScene(Scene):
     def __init__(self):
         super().__init__()
