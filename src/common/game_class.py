@@ -2,7 +2,7 @@ import pygame
 import tcod as T
 
 from common.game import init, close, message, COLOR_ERROR, \
-    draw_all, prompt, new_ui_turn, Quit, decode_walk_key, decode_interface_key, select_item, look_mode, \
+    draw_all, prompt, new_ui_turn, Quit, decode_walk_key, decode_interface_key, look_mode, \
     MAX_DLEVEL, select_spell, select_recipe, COLOR_ALERT
 from common.constants import VERSION, SCREEN_W, SCREEN_H, DELAY, TITLE
 from common.stats import Stats
@@ -147,14 +147,9 @@ class Game(object):
         elif len(tile.items) == 1:
             self.player.pick_up(tile.items[0])
         else:
-            while True and tile.items:
-                item = select_item('Select an item to pick up, ESC to exit',
-                                   tile.items)
-                if item:
-                    self.player.pick_up(item)
-                    draw_all()
-                else:
-                    break
+            from graphics.scenes.pick_up_scene import PickUpScene
+            scene = PickUpScene(self.player, tile)
+            scene.show()
 
     def cmd_inventory(self):
         from graphics.scenes.inventory_scene import InventoryScene
