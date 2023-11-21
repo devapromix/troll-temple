@@ -1,3 +1,5 @@
+from typing import Optional
+
 from .scene import Scene
 from ..color import Color
 import tcod as T
@@ -10,10 +12,13 @@ class SelectionScene(Scene):
         self.title = title
         self.focusable = focusable
         self.has_footer = focusable
-        self.selected_index = 0 if self.focusable else None
+        self.selected_index: Optional[int] = 0 if len(items) > 0 and self.focusable else None
 
     @property
-    def selected(self):
+    def selected(self) -> Optional[object]:
+        """
+        :return: current item selected by user inside scene
+        """
         return self.items[self.selected_index] if self.selected_index is not None else None
 
     def _draw_content(self) -> None:
