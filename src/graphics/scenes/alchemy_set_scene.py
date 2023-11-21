@@ -4,8 +4,9 @@ from graphics.scenes.selection_scene import SelectionScene
 
 class AlchemySetScene(SelectionScene):
     def __init__(self, player):
-        super().__init__("ALCHEMYSET Press [ENTER] to create, [ESC] to exit", player.recipes, True)
+        super().__init__("ALCHEMY SET Press [ENTER] to create a potion, [ESC] to exit", player.recipes, True)
         self.player = player
+        self.has_footer = False
 
     def _draw_item_name(self, x: int, y: int, recipe: object) -> None:
         out(x, y, recipe.descr, recipe.color)

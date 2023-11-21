@@ -4,7 +4,8 @@ from graphics.scenes.selection_scene import SelectionScene
 
 class SpellbookScene(SelectionScene):
     def __init__(self, player):
-        super().__init__("SPELLBOOK Press [ENTER] to read, [ESC] to exit", player.spells, True)
+        super().__init__("SPELLBOOK Press [ENTER] to read spell, [ESC] to exit", player.spells, True)
+        self.has_footer = False
         self.player = player
 
     def _draw_item_name(self, x: int, y: int, spell: object) -> None:

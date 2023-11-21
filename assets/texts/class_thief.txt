@@ -10,4 +10,4 @@ Armor:  shadow armor
 Abilities: leather armors, daggers, alchemy, poison use, pick lock,
            invisibility
 
-Snakeskin knapsack, alchemy set
+Snakeskin knapsack, alchemy set, thieve's tools

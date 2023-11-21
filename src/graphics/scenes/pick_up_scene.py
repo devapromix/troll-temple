@@ -11,6 +11,7 @@ class PickUpScene(SelectionScene):
         super().__init__("Press [ENTER] to pick up, [ESC] to exit", tile.items, True)
         self.player = player
         self.tile = tile
+        self.has_footer = False
 
     def _item_color(self, item, color):
         if item.color != Color.ITEM.value:
