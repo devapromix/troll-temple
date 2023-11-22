@@ -145,19 +145,19 @@ class Map(object):
                 self.place_obj(x, y, CopperTrunk)
             else:
                 self.place_obj(x, y, WoodenBox)
-        elif map_level in [2, 4]:
+        elif map_level in [2, 3, 4]:
             i = rand(1, 7)
             if i == 1:
                 self.place_obj(x, y, SilverStrongbox)
             else:
                 self.place_obj(x, y, CopperTrunk)
-        elif map_level in [5, 8]:
+        elif map_level in [5, 6, 7, 8]:
             i = rand(1, 5)
             if i == 1:
                 self.place_obj(x, y, CopperTrunk)
             else:
                 self.place_obj(x, y, SilverStrongbox)
-        elif map_level in [9, 11]:
+        elif map_level in [9, 10, 11]:
             i = rand(1, 4)
             if i == 1:
                 self.place_obj(x, y, GoldenRelicBox)

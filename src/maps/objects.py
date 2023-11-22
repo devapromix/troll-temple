@@ -168,8 +168,8 @@ class WoodenBox(Container):
     locked = False
 
     def on_drop(self, player):
-        from mobs.drop import AdvDrop
-        d = AdvDrop(player)
+        from mobs.drop import SimpleDrop
+        d = SimpleDrop(player)
         d.drop()
 
 class CopperTrunk(Container):
