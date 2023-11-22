@@ -235,6 +235,11 @@ class Game(object):
         self.ability = CripplingBlow(self.player)
         self.ability.use()
 
+    def cmd_skinning(self):
+        from mobs.abilities.skinning import Skinning
+        self.ability = Skinning(self.player)
+        self.ability.use()
+        
     def cmd_spellbook(self):
         if self.player.has_spellbook:
             from graphics.scenes.spellbook_scene import SpellbookScene

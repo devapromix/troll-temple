@@ -19,7 +19,7 @@ class SpellbookScene(SelectionScene):
             if self.focusable:
                 spell = self.selected
                 if spell:
-                    self.player.use_spell(spell)
+                    self.player.cast(spell)
                     self.exit()
             return True
         

@@ -217,7 +217,7 @@ class Player(Mob):
         else:
             self.equip(item)
 
-    def use_spell(self, spell):
+    def cast(self, spell):
         if spell.on_use(self):
             self.use_energy()
 
@@ -328,4 +328,10 @@ class Player(Mob):
             message("You come out of the shadows!")
         
 
+    def create(self, recipe):
+        pass
+
+
+    def craft(self, plan):
+        pass
         

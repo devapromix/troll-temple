@@ -46,6 +46,7 @@ class FinalBossMonster(BossMonster):
 class Rat(Monster):
     name = 'rat'
     glyph = 'r', T.light_gray
+    has_skin = True
     life = 4
     dice = 1, 2, 0
     multi = 4
@@ -56,6 +57,7 @@ class Rat(Monster):
 class Bat(FlyMonster):
     name = 'bat'
     glyph = 'b', T.darker_orange
+    has_skin = True
     life = 6
     speed = 3
     dice = 1, 2, 0
@@ -93,6 +95,7 @@ class GiantSpider(Monster):
 class Kobold(Monster):
     name = 'kobold'
     glyph = 'k', T.light_green
+    has_skin = True
     life = 10
     dice = 1, 3, 1
     speed = 1
@@ -105,6 +108,7 @@ class Kobold(Monster):
 class Lizard(Monster):
     name = 'lizard'
     glyph = 'l', T.light_blue
+    has_skin = True
     life = 9
     dice = 1, 3, 0
     poison = 3
@@ -119,6 +123,7 @@ class Lizard(Monster):
 class BlackKobold(Monster):
     name = 'black kobold'
     glyph = 'k', T.gray
+    has_skin = True
     life = 12
     dice = 1, 3, 1
     armor = 0
@@ -140,6 +145,7 @@ class Bloodfly(Monster):
 class Goblin(Monster):
     name = 'goblin'
     glyph = 'g', T.light_blue
+    has_skin = True
     life = 14
     dice = 1, 3, 2
     armor = 1
@@ -152,6 +158,7 @@ class Goblin(Monster):
 class DarkGoblin(Monster):
     name = 'dark goblin'
     glyph = 'g', T.grey
+    has_skin = True
     life = 18
     dice = 2, 3, 0
     armor = 1
@@ -162,6 +169,7 @@ class DarkGoblin(Monster):
 class LowOrc(Monster):
     name = 'low orc'
     glyph = 'o', T.red
+    has_skin = True
     life = 20
     dice = 2, 3, 1
     armor = 2
@@ -207,6 +215,7 @@ class Ghost(GhostMonster):
 class KillerBat(FlyMonster):
     name = 'killer bat'
     glyph = 'b', T.darker_orange
+    has_skin = True
     life = 22
     speed = 3
     dice = 3, 3, 0
@@ -220,6 +229,7 @@ class KillerBat(FlyMonster):
 class RockRat(Monster):
     name = 'rock rat'
     glyph = 'r', T.light_gray
+    has_skin = True
     life = 28
     dice = 2, 5, 0
     multi = 3
@@ -230,6 +240,7 @@ class RockRat(Monster):
 class Snapper(Monster):
     name = 'snapper'
     glyph = 's', T.lighter_green
+    has_skin = True
     life = 32
     poison = 9
     dice = 2, 4, 1
@@ -240,6 +251,7 @@ class Snapper(Monster):
 class Troll(RareMonster):
     name = 'troll'
     glyph = 'T', T.light_blue
+    has_skin = True
     life = 30
     dice = 2, 5, 2
     level = 6    
@@ -281,6 +293,7 @@ class StoneShark(Monster):
 class Ogre(RareMonster):
     name = 'ogre'
     glyph = 'O', T.light_green
+    has_skin = True
     life = 36
     dice = 2, 6, 2
     armor = 7
@@ -344,6 +357,7 @@ class MaddeningEye(FlyMonster):
 class Shadowbeast(UndeadMonster):
     name = 'shadowbeast'
     glyph = 's', T.light_grey
+    has_skin = True
     life = 44
     dice = 2, 5, 5
     armor = 2
@@ -375,6 +389,7 @@ class FireGolem(RareMonster):
 class RockRaider(Monster):
     name = 'rock raider'
     glyph = 'r', T.light_grey
+    has_skin = True
     life = 48
     poison = 15
     armor = 4
@@ -386,6 +401,7 @@ class RockRaider(Monster):
 class DustDevil(Monster):
     name = 'dust devil'
     glyph = 'd', T.yellow
+    has_skin = True
     life = 52
     dice = 2, 8, 1
     armor = 7
@@ -407,6 +423,7 @@ class Wraith(GhostMonster):
 class Drake(Monster):
     name = 'drake'
     glyph = 'd', T.light_green
+    has_skin = True
     life = 55
     dice = 2, 9, 0
     armor = 3
@@ -428,6 +445,7 @@ class Spectre(GhostMonster):
 class Wyrm(Monster):
     name = 'wyrm'
     glyph = 'w', T.light_grey
+    has_skin = True
     life = 56
     dice = 3, 6, 1
     poison = 20
@@ -439,6 +457,7 @@ class Wyrm(Monster):
 class ColossalHydra(RareMonster):
     name = 'colossal hydra'
     glyph = 'H', T.dark_green
+    has_skin = True
     life = 58
     poison = 25
     armor = 12
@@ -489,6 +508,7 @@ class FireGoblin(BossMonster):
     ABSTRACT = True
     name = 'fire goblin'
     glyph = 'G', T.light_red
+    has_skin = True
     life = 20
     dice = 1, 4, 3
     armor = 2
@@ -505,6 +525,7 @@ class Werewolf(BossMonster):
     ABSTRACT = True
     name = 'werewolf'
     glyph = 'W', T.light_grey
+    has_skin = True
     life = 40
     dice = 2, 5, 4
     level = 6    
@@ -540,6 +561,7 @@ class TrollKing(FinalBossMonster):
     ABSTRACT = True
     name = 'troll king'
     glyph = 'T', T.red
+    has_skin = True
     life = 75
     dice = 4, 6, 5
     armor = 10

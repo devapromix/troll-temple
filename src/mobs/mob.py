@@ -27,6 +27,7 @@ class Mob(object):
     range = 1
     reflect_damage_bonus = 0
     reflect_chance_bonus = 0
+    has_skin = False
 
     def __init__(self):
         self.life = Atrib()

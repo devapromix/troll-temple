@@ -12,9 +12,9 @@ Keybindings:
 [Q] quit game                             [T] invisibility (only thief class)
 [L] use look mode                         [C] open craft box (only ranger class)
 [S] use shoot mode                        [V] crippling blow (only ranger class)
-[<] go up stairs                          [O] conjure mana orb (only mage class)
+[<] go up stairs                          [Z] skinning (only ranger class)
 [U] use map object (portal, shrine)       [B] open spellbook (only mage class)
-[?] show this help screen
+[?] show this help screen                 [O] conjure mana orb (only mage class)
 [5] wait one turn
 [M] view last messages
 [P] open character sheet

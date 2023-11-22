@@ -375,6 +375,7 @@ class CraftItem(Item):
 class Potion(Item):
     ABSTRACT = True
     art = 'potion'
+    max_amount = 10
 
     def on_use(self, player):
         message('You drink the %s.' % self.name)
