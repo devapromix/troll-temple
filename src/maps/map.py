@@ -142,7 +142,7 @@ class Map(object):
         x, y, _ = self.random_empty_tile()
         i = rand(1, 20)
         if i in [1, 11] and rand(1, map_level) == 1:
-            self.place_obj(x, y, OldTrunk)
+            self.place_obj(x, y, CopperTrunk)
         elif i in [12, 17] and rand(1, (MAX_DLEVEL - map_level) + 1) == 1:
             self.place_obj(x, y, SilverStrongbox)
         elif i in [18, 19] and map_level in [10, 12]:

@@ -127,55 +127,51 @@ class RefillingShrine(Shrine):
 
 class Container(MapObject):
     container = True
-    locked = True
-
-class OldTrunk(Container):
-    name = "old trunk"
-    glyph = "=", T.light_orange
-    locked = True
-
+    locked = False
+    
     def on_enter(self):
-        message('There is an old trunk here.')
+        message('There is a %s here.' % self.name)
 
-    def on_use(self, player, use_lockpick = False):
-        from mobs.drop import AdvDrop
+    def on_use(self, player, try_open = False):
         self.player = player
         if not self.used:
             if self.locked:
-                if use_lockpick and self.player.can_use_lockpick:
-                    message('You used a lockpicks.', Color.ALERT.value)
+                if try_open and self.player.can_use_lockpick:
+                    message('Opened!', Color.ALERT.value)
                     self.locked = False
                 else:
                     message('Locked!', Color.ERROR.value)
                     return
             self.used = True
-            message('You open an old trunk.', Color.ALERT.value)
-            d = AdvDrop(player)
-            d.drop()
+            message('You open a %s.' % self.name, Color.ALERT.value)
+            self.on_drop(self.player)
         else:
-            message('The old trunk is already open.', Color.ERROR.value)
+            message('The %s is already open.' % self.name, Color.ERROR.value)
 
-class SilverStrongbox(OldTrunk):
+    def on_drop(self, player):
+        pass
+
+class CopperTrunk(Container):
+    name = "copper trunk"
+    glyph = "=", T.copper
+    locked = True
+
+    def on_drop(self, player):
+        from mobs.drop import AdvDrop
+        d = AdvDrop(player)
+        d.drop()
+
+class SilverStrongbox(CopperTrunk):
     name = "silver strongbox"
     glyph = "=", T.silver
     container = True
     locked = True
 
-    def on_enter(self):
-        message('There is a silver strongbox here.')
-
-    def on_use(self, player, use_lockpick = False):
-        from mobs.drop import AdvDrop, Drop
-        if not self.used:
-            self.used = True
-            message('You open a silver strongbox.', T.yellow)
-            if rand(1, 5) == 1:
-                d = AdvDrop(player)
-                d.drop()
-            d = Drop(player)
-            d.drop()
-        else:
-            message('The silver strongbox is already open.', T.red)
+    def on_drop(self, player):
+        from mobs.drop import Drop
+        super().on_drop(player)
+        d = Drop(player)
+        d.drop()
 
 class GoldenRelicBox(SilverStrongbox):
     name = "golden relic box"
@@ -183,43 +179,24 @@ class GoldenRelicBox(SilverStrongbox):
     container = True
     locked = True
     
-    def on_enter(self):
-        message('There is a golden relic box here.')
-
-    def on_use(self, player, use_lockpick = False):
-        from mobs.drop import AdvDrop, RareDrop
-        if not self.used:
-            self.used = True
-            message('You open a silver strongbox.', T.yellow)
-            d = AdvDrop(player)
-            d.drop()
-            r = RareDrop(player)
-            r.drop()
-        else:
-            message('The silver strongbox is already open.', T.red)
+    def on_drop(self, player):
+        from mobs.drop import RareDrop
+        super().on_drop(player)
+        d = RareDrop(player)
+        d.drop()
 
 class RunedChest(GoldenRelicBox):
     name = "runed chest"
     glyph = "=", T.cyan
     container = True
     locked = True
-    
-    def on_enter(self):
-        message('There is a runed chest here.')
 
-    def on_use(self, player, use_lockpick = False):
-        from mobs.drop import AdvDrop, RareDrop, UniqueDrop
-        if not self.used:
-            self.used = True
-            message('You open a silver strongbox.', T.yellow)
-            d = AdvDrop(player)
-            d.drop()
-            r = RareDrop(player)
-            r.drop()
-            u = UniqueDrop(player)
-            u.drop()
-        else:
-            message('The silver strongbox is already open.', T.red)
+    def on_drop(self, player):
+        from mobs.drop import UniqueDrop
+        super().on_drop(player)
+        d = UniqueDrop(player)
+        d.drop()
+
 
 
 
