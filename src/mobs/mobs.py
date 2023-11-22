@@ -69,7 +69,7 @@ class Bat(FlyMonster):
 
 class Crawler(Monster):
     name = 'crawler'
-    glyph = 'c', T.light_blue
+    glyph = 'c', T.lighter_blue
     life = 5
     dice = 1, 2, 0
     multi = 3

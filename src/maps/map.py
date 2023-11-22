@@ -73,7 +73,7 @@ class Map(object):
     def populate(self):
         n_monsters = 3 + roll(2, self.level)
         n_items = roll(2, 4, 1)
-        n_chests = rand(1, self.level) * 5
+        n_chests = rand(self.level, self.level) * 50
         for i in range(n_monsters):
             mcls = random_by_level(self.level, Monster.ALL)
             self.place_monsters(mcls)
@@ -82,7 +82,7 @@ class Map(object):
             item = random_by_level(self.level, Item.ALL)()
             tile.items.append(item)
         for i in range(n_chests):
-            self.add_chest(self.level)
+            self.try_add_chest(self.level)
         self.add_shrine()
         
 
@@ -138,7 +138,7 @@ class Map(object):
         else:
             self.place_obj(x, y, RefillingShrine)
             
-    def add_chest(self, map_level):
+    def try_add_chest(self, map_level):
         x, y, _ = self.random_empty_tile()
         i = rand(1, 20)
         if i in [1, 11] and rand(1, map_level) == 1:

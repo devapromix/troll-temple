@@ -1,5 +1,6 @@
 import tcod as T
 from common.game import *
+from graphics.color import Color
 
 # --- MAP OBJECT --- #
 
@@ -126,33 +127,44 @@ class RefillingShrine(Shrine):
 
 class Container(MapObject):
     container = True
+    locked = True
 
 class OldTrunk(Container):
     name = "old trunk"
     glyph = "=", T.light_orange
+    locked = True
 
     def on_enter(self):
         message('There is an old trunk here.')
 
-    def on_use(self, player):
+    def on_use(self, player, use_lockpick = False):
         from mobs.drop import AdvDrop
+        self.player = player
         if not self.used:
+            if self.locked:
+                if use_lockpick and self.player.can_use_lockpick:
+                    message('You used a lockpicks.', Color.ALERT.value)
+                    self.locked = False
+                else:
+                    message('Locked!', Color.ERROR.value)
+                    return
             self.used = True
-            message('You open an old trunk.', T.yellow)
+            message('You open an old trunk.', Color.ALERT.value)
             d = AdvDrop(player)
             d.drop()
         else:
-            message('The old trunk is already open.', T.red)
+            message('The old trunk is already open.', Color.ERROR.value)
 
 class SilverStrongbox(OldTrunk):
     name = "silver strongbox"
     glyph = "=", T.silver
     container = True
-    
+    locked = True
+
     def on_enter(self):
         message('There is a silver strongbox here.')
 
-    def on_use(self, player):
+    def on_use(self, player, use_lockpick = False):
         from mobs.drop import AdvDrop, Drop
         if not self.used:
             self.used = True
@@ -169,11 +181,12 @@ class GoldenRelicBox(SilverStrongbox):
     name = "golden relic box"
     glyph = "=", T.gold
     container = True
+    locked = True
     
     def on_enter(self):
         message('There is a golden relic box here.')
 
-    def on_use(self, player):
+    def on_use(self, player, use_lockpick = False):
         from mobs.drop import AdvDrop, RareDrop
         if not self.used:
             self.used = True
@@ -189,11 +202,12 @@ class RunedChest(GoldenRelicBox):
     name = "runed chest"
     glyph = "=", T.cyan
     container = True
+    locked = True
     
     def on_enter(self):
         message('There is a runed chest here.')
 
-    def on_use(self, player):
+    def on_use(self, player, use_lockpick = False):
         from mobs.drop import AdvDrop, RareDrop, UniqueDrop
         if not self.used:
             self.used = True

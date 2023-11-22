@@ -10,11 +10,10 @@ Keybindings:
 [I] show inventory                        [F] find item (only fighter class)
 [G] pick up an item from the floor        [A] open alchemy set (only thief class)
 [Q] quit game                             [T] invisibility (only thief class)
-[L] use look mode                         [C] open craft box (only ranger class)
+[L] use look mode                         [K] lockpicking (only thief class)
 [S] use shoot mode                        [V] crippling blow (only ranger class)
 [<] go up stairs                          [Z] skinning (only ranger class)
-[U] use map object (portal, shrine)       [B] open spellbook (only mage class)
+[U] use map object (portal, shrine)       [C] open craft box (only ranger class)
 [?] show this help screen                 [O] conjure mana orb (only mage class)
-[5] wait one turn
-[M] view last messages
-[P] open character sheet
+[5] wait one turn                         [B] open spellbook (only mage class)
+[P] open character sheet                  

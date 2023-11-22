@@ -51,6 +51,8 @@ class Player(Mob):
         self.has_craftbox = False
         self.has_alchemyset = False
 
+        self.can_use_lockpick = False
+
         self.can_use_dagger = False
         self.can_use_staff = False
         self.can_use_shield = False
@@ -82,6 +84,7 @@ class Player(Mob):
             self.radius = 0
             self.has_alchemyset = True
             self.can_use_dagger = True
+            self.can_use_lockpick = True
             self.can_wear_leather_armor = True
             self.items += [item.HealingPotion(), item.SmallDagger(), item.ShadowArmor(), item.InstantPoisonPotion()]
         elif self.game_class == Classes.RANGER:

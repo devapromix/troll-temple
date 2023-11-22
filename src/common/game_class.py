@@ -240,6 +240,11 @@ class Game(object):
         self.ability = Skinning(self.player)
         self.ability.use()
         
+    def cmd_lockpicking(self):
+        from mobs.abilities.lockpicking import Lockpicking
+        self.ability = Lockpicking(self.player)
+        self.ability.use()
+        
     def cmd_spellbook(self):
         if self.player.has_spellbook:
             from graphics.scenes.spellbook_scene import SpellbookScene
