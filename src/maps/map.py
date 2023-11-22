@@ -73,7 +73,6 @@ class Map(object):
     def populate(self):
         n_monsters = 3 + roll(2, self.level)
         n_items = roll(2, 4, 1)
-        n_chests = rand(self.level, self.level) * 50
         for i in range(n_monsters):
             mcls = random_by_level(self.level, Monster.ALL)
             self.place_monsters(mcls)
@@ -81,8 +80,8 @@ class Map(object):
             x, y, tile = self.random_empty_tile(no_mob=False, no_stair=True)
             item = random_by_level(self.level, Item.ALL)()
             tile.items.append(item)
-        for i in range(n_chests):
-            self.try_add_chest(self.level)
+        for i in range(5):
+            self.add_chest(self.level)
         self.add_shrine()
         
 
@@ -138,19 +137,38 @@ class Map(object):
         else:
             self.place_obj(x, y, RefillingShrine)
             
-    def try_add_chest(self, map_level):
+    def add_chest(self, map_level):
         x, y, _ = self.random_empty_tile()
-        i = rand(1, 20)
-        if i in [1, 11] and rand(1, map_level) == 1:
-            self.place_obj(x, y, CopperTrunk)
-        elif i in [12, 17] and rand(1, (MAX_DLEVEL - map_level) + 1) == 1:
-            self.place_obj(x, y, SilverStrongbox)
-        elif i in [18, 19] and map_level in [10, 12]:
-            self.place_obj(x, y, GoldenRelicBox)
-        elif i == 20 and map_level == MAX_DLEVEL:
-            self.place_obj(x, y, RunedChest)
-        else:
-            pass
+        if map_level == 1:
+            i = rand(1, 4)
+            if i == 1:
+                self.place_obj(x, y, CopperTrunk)
+            else:
+                self.place_obj(x, y, WoodenBox)
+        elif map_level in [2, 4]:
+            i = rand(1, 7)
+            if i == 1:
+                self.place_obj(x, y, SilverStrongbox)
+            else:
+                self.place_obj(x, y, CopperTrunk)
+        elif map_level in [5, 8]:
+            i = rand(1, 5)
+            if i == 1:
+                self.place_obj(x, y, CopperTrunk)
+            else:
+                self.place_obj(x, y, SilverStrongbox)
+        elif map_level in [9, 11]:
+            i = rand(1, 4)
+            if i == 1:
+                self.place_obj(x, y, GoldenRelicBox)
+            else:
+                self.place_obj(x, y, SilverStrongbox)
+        elif map_level == MAX_DLEVEL:
+            i = rand(1, 3)
+            if i == 1:
+                self.place_obj(x, y, RunedChest)
+            else:
+                self.place_obj(x, y, GoldenRelicBox)
 
 
 

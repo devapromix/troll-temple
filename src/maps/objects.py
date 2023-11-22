@@ -150,6 +150,27 @@ class Container(MapObject):
 
     def on_drop(self, player):
         pass
+        
+    def get_key(self):
+        return None
+
+    def open(self, key, player):
+        if isinstance(key, self.get_key()):
+            self.locked = False
+            message('Opened!', Color.ALERT.value)
+            self.on_use(player)
+        else:
+            message('Need another key!', Color.ERROR.value)
+
+class WoodenBox(Container):
+    name = "wooden box"
+    glyph = "=", T.orange
+    locked = False
+
+    def on_drop(self, player):
+        from mobs.drop import AdvDrop
+        d = AdvDrop(player)
+        d.drop()
 
 class CopperTrunk(Container):
     name = "copper trunk"
@@ -160,6 +181,10 @@ class CopperTrunk(Container):
         from mobs.drop import AdvDrop
         d = AdvDrop(player)
         d.drop()
+
+    def get_key(self):
+        from items.keys import CopperKey
+        return CopperKey
 
 class SilverStrongbox(CopperTrunk):
     name = "silver strongbox"
@@ -173,6 +198,10 @@ class SilverStrongbox(CopperTrunk):
         d = Drop(player)
         d.drop()
 
+    def get_key(self):
+        from items.keys import SilverKey
+        return SilverKey
+
 class GoldenRelicBox(SilverStrongbox):
     name = "golden relic box"
     glyph = "=", T.gold
@@ -185,6 +214,10 @@ class GoldenRelicBox(SilverStrongbox):
         d = RareDrop(player)
         d.drop()
 
+    def get_key(self):
+        from items.keys import GoldenKey
+        return GoldenKey
+
 class RunedChest(GoldenRelicBox):
     name = "runed chest"
     glyph = "=", T.cyan
@@ -196,6 +229,10 @@ class RunedChest(GoldenRelicBox):
         super().on_drop(player)
         d = UniqueDrop(player)
         d.drop()
+
+    def get_key(self):
+        from items.keys import RunedKey
+        return RunedKey
 
 
 
