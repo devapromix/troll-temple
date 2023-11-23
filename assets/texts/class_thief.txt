@@ -7,7 +7,7 @@ heart. And only thieves can safely pick locks and bypass traps.
 
 Weapon: small dagger
 Armor:  shadow armor
-Abilities: leather armors, daggers, alchemy, poison use, lockpicking,
+Abilities: leather armors, daggers, alchemy, poison use, thievery,
            invisibility
 
-Snakeskin knapsack, alchemy set, thieve's tools
+Snakeskin knapsack, alchemy set, thievery kit

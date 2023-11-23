@@ -7,6 +7,7 @@ several enemies at once, or they can focus on one.
 
 Weapon: short sword
 Armor:  ring mail, round shield
-Abilities: mail armors, leather armors, use shields, find item
+Abilities: mail armors, leather armors, use shields, find item,
+           bash chests
 
 Leather sack

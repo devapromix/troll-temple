@@ -244,6 +244,11 @@ class Game(object):
         from mobs.abilities.lockpicking import Lockpicking
         self.ability = Lockpicking(self.player)
         self.ability.use()
+
+    def cmd_bash_chests(self):
+        from mobs.abilities.bash_chests import BashChests
+        self.ability = BashChests(self.player)
+        self.ability.use()
         
     def cmd_spellbook(self):
         if self.player.has_spellbook:

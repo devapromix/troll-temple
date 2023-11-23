@@ -128,6 +128,7 @@ class RefillingShrine(Shrine):
 class Container(MapObject):
     container = True
     locked = False
+    broken = False
     
     def on_enter(self):
         message('There is a %s here.' % self.name)
@@ -161,6 +162,14 @@ class Container(MapObject):
             self.on_use(player)
         else:
             message('Need another key!', Color.ERROR.value)
+            
+    def bash(self, player):
+            self.locked = False
+            self.broken = True
+            message('You broke the %s.' % self.name, Color.ALERT.value)
+            player.tile.obj = None
+            self.on_drop(player)
+        
 
 class WoodenBox(Container):
     name = "wooden box"

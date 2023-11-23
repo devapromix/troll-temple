@@ -76,6 +76,7 @@ KEYS = [
     ([pygame.K_k], 'lockpicking'),
     ([pygame.K_c], 'craft_box'),
     ([pygame.K_a], 'alchemy_set'),
+    ([pygame.K_n], 'bash_chests'),
     ([pygame.K_z], 'test'),
     ([pygame.K_l], 'look'),
     ([pygame.K_w], 'wizard'),
