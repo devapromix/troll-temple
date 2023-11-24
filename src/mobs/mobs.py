@@ -32,7 +32,15 @@ class RareMonster(Monster):
 class Dragon(RareMonster):
     ABSTRACT = True
     life_regen = 25
+    mana_regen = 10
+    fov_range = 7
+    drop_rate = 30
     has_skin = True
+
+class RareDragon(Dragon):
+    ABSTRACT = True
+    life_regen = 30
+    rarity = 25
 
 class BossMonster(Monster):
     ABSTRACT = True
@@ -158,7 +166,17 @@ class BlackKobold(Monster):
     dungeons = 3, 4
     rarity = 1
 
-class Bloodfly(Monster):
+class Scorpion(Monster):
+    name = 'scorpion'
+    glyph = 's', T.orange
+    life = 15
+    dice = 1, 3, 0
+    poison = 6
+    level = 3
+    dungeons = 3, 4
+    rarity = 1
+
+class Bloodfly(FlyMonster):
     name = 'bloodfly'
     glyph = 'b', T.gray
     life = 16
@@ -358,11 +376,21 @@ class StoneShark(Monster):
     dungeons = 7, 8
     rarity = 1
 
+class Vampire(RareMonster):
+    name = 'vampire'
+    glyph = 'V', T.grey
+    life = 32
+    dice = 2, 5, 2
+    armor = 3
+    level = 7
+    dungeons = 7, 9
+    rarity = 10
+
 class Ogre(RareMonster):
     name = 'ogre'
     glyph = 'O', T.light_green
     has_skin = True
-    life = 36
+    life = 40
     dice = 2, 6, 2
     armor = 7
     level = 7    
@@ -559,7 +587,7 @@ class SoulSucker(FlyMonster):
 
 class HugeSpider(Monster):
     name = 'huge spider'
-    glyph = 's', T.light_red
+    glyph = 's', T.light_grey
     life = 60
     dice = 3, 6, 3
     poison = 22
@@ -567,6 +595,16 @@ class HugeSpider(Monster):
     level = 12    
     dungeons = 12, 12
     rarity = 1
+
+class Manticore(RareMonster):
+    name = 'manticore'
+    glyph = 'M', T.light_red
+    has_skin = True
+    life = 65
+    dice = 3, 6, 2
+    armor = 10
+    level = 12    
+    dungeons = 12, 12
 
 class Summoner(MageMonster):
     name = 'summoner'
@@ -586,7 +624,7 @@ class Summoner(MageMonster):
 class WhiteDragon(Dragon):
     name = 'white dragon'
     glyph = 'D', T.white
-    life = 75
+    life = 85
     dice = 3, 6, 1
     armor = 12
     level = 12    
@@ -595,7 +633,7 @@ class WhiteDragon(Dragon):
 class BlueDragon(Dragon):
     name = 'blue dragon'
     glyph = 'D', T.light_blue
-    life = 70
+    life = 90
     dice = 3, 5, 3
     armor = 5
     level = 12    
@@ -604,7 +642,7 @@ class BlueDragon(Dragon):
 class GreenDragon(Dragon):
     name = 'green dragon'
     glyph = 'D', T.light_green
-    life = 65
+    life = 75
     dice = 3, 5, 3
     poison = 25
     armor = 7
@@ -613,7 +651,7 @@ class GreenDragon(Dragon):
 
 class RedDragon(Dragon):
     name = 'red dragon'
-    glyph = 'D', T.light_gred
+    glyph = 'D', T.light_red
     life = 70
     dice = 3, 6, 4
     armor = 8
@@ -623,9 +661,18 @@ class RedDragon(Dragon):
 class GoldDragon(Dragon):
     name = 'gold dragon'
     glyph = 'D', T.gold
-    life = 70
+    life = 80
     dice = 3, 6, 2
     armor = 10
+    level = 12    
+    dungeons = 12, 12
+
+class AncientBlackDragon(RareDragon):
+    name = 'ancient black dragon'
+    glyph = 'D', T.dark_grey
+    life = 100
+    dice = 3, 7, 1
+    armor = 15
     level = 12    
     dungeons = 12, 12
 
