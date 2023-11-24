@@ -29,6 +29,11 @@ class RareMonster(Monster):
     drop_rate = 30
     rarity = 15
 
+class Dragon(RareMonster):
+    ABSTRACT = True
+    life_regen = 25
+    has_skin = True
+
 class BossMonster(Monster):
     ABSTRACT = True
     life_regen = 15
@@ -77,6 +82,16 @@ class Crawler(Monster):
     dungeons = 1, 2
     rarity = 1
 
+class GiantAnt(Monster):
+    name = 'giant ant'
+    glyph = 'a', T.orange
+    life = 4
+    dice = 1, 2, 0
+    multi = 4
+    level = 1
+    dungeons = 1, 2
+    rarity = 1
+
 # --- MONSTERS #2 --- #
 
 class GiantSpider(Monster):
@@ -118,6 +133,18 @@ class Lizard(Monster):
     dungeons = 2, 3
     rarity = 1
 
+class Viper(Monster):
+    name = 'viper'
+    glyph = 'v', T.light_green
+    has_skin = True
+    life = 7
+    dice = 1, 3, 0
+    poison = 7
+    multi = 4
+    level = 2
+    dungeons = 2, 3
+    rarity = 1
+
 # --- MONSTERS #3 --- #
 
 class BlackKobold(Monster):
@@ -153,6 +180,17 @@ class Goblin(Monster):
     dungeons = 3, 4
     rarity = 1
 
+class Hobgoblin(Monster):
+    name = 'hobgoblin'
+    glyph = 'h', T.light_green
+    has_skin = True
+    life = 15
+    dice = 1, 4, 2
+    armor = 1
+    level = 3
+    dungeons = 3, 4
+    rarity = 1
+
 # --- MONSTERS #4 --- #
 
 class DarkGoblin(Monster):
@@ -173,6 +211,15 @@ class LowOrc(Monster):
     life = 20
     dice = 2, 3, 1
     armor = 2
+    level = 4
+    dungeons = 4, 5
+    rarity = 1
+
+class DustElemental(MageMonster):
+    name = 'dust elemental'
+    glyph = 'e', T.green
+    life = 15
+    dice = 2, 3, 0
     level = 4
     dungeons = 4, 5
     rarity = 1
@@ -224,6 +271,17 @@ class KillerBat(FlyMonster):
     dungeons = 5, 7
     rarity = 1
 
+class BearMan(Monster):
+    name = 'bear man'
+    glyph = 'b', T.dark_orange
+    has_skin = True
+    life = 25
+    dice = 2, 4, 1
+    armor = 2
+    level = 4
+    dungeons = 5, 6
+    rarity = 1
+
 # --- MONSTERS #6 --- #
 
 class RockRat(Monster):
@@ -247,6 +305,16 @@ class Snapper(Monster):
     level = 6
     dungeons = 6, 8
     rarity = 1
+
+class HillGiant(RareMonster):
+    name = 'hill giant'
+    glyph = 'G', T.gray
+    has_skin = True
+    life = 28
+    dice = 2, 5, 1
+    level = 6    
+    armor = 4
+    dungeons = 6, 7
 
 class Troll(RareMonster):
     name = 'troll'
@@ -409,6 +477,17 @@ class DustDevil(Monster):
     dungeons = 10, 11
     rarity = 1
 
+class SpikedDevil(Monster):
+    name = 'spiked devil'
+    glyph = 'd', T.grey
+    has_skin = True
+    life = 54
+    dice = 2, 8, 1
+    armor = 6
+    level = 10    
+    dungeons = 10, 11
+    rarity = 1
+
 class Wraith(GhostMonster):
     name = 'wraith'
     glyph = 'w', T.light_grey
@@ -501,6 +580,54 @@ class Summoner(MageMonster):
     level = 12    
     dungeons = 12, 12
     rarity = 5
+
+# --- DRAGONS --- #
+
+class WhiteDragon(Dragon):
+    name = 'white dragon'
+    glyph = 'D', T.white
+    life = 75
+    dice = 3, 6, 1
+    armor = 12
+    level = 12    
+    dungeons = 12, 12
+
+class BlueDragon(Dragon):
+    name = 'blue dragon'
+    glyph = 'D', T.light_blue
+    life = 70
+    dice = 3, 5, 3
+    armor = 5
+    level = 12    
+    dungeons = 12, 12
+
+class GreenDragon(Dragon):
+    name = 'green dragon'
+    glyph = 'D', T.light_green
+    life = 65
+    dice = 3, 5, 3
+    poison = 25
+    armor = 7
+    level = 12    
+    dungeons = 12, 12
+
+class RedDragon(Dragon):
+    name = 'red dragon'
+    glyph = 'D', T.light_gred
+    life = 70
+    dice = 3, 6, 4
+    armor = 8
+    level = 12    
+    dungeons = 12, 12
+
+class GoldDragon(Dragon):
+    name = 'gold dragon'
+    glyph = 'D', T.gold
+    life = 70
+    dice = 3, 6, 2
+    armor = 10
+    level = 12    
+    dungeons = 12, 12
 
 # --- BOSSES --- #
 
