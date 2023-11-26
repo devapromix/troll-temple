@@ -1,5 +1,6 @@
 from mobs.mobs import *
 from items.items import *
+from items.keys import *
 from maps.objects import *
 
 class Map(object):
@@ -83,6 +84,9 @@ class Map(object):
         for i in range(5):
             self.add_chest(self.level)
         self.add_shrine()
+        self.place_item(CopperKey)
+        if map_level == 2:    
+            self.place_item(SilverKey)
         
 
     def flood(self, x, y, mcls, n):
@@ -123,6 +127,10 @@ class Map(object):
     def in_map(self, x, y):
         return 0 <= x < MAP_W and 0 <= y < MAP_H
 
+    def place_item(self, item):
+        x, y, tile = self.random_empty_tile()
+        tile.items.append(item())
+            
     def place_obj(self, x, y, obj):
         tile = self.tiles[x][y]
         tile.obj = obj()
