@@ -30,7 +30,7 @@ class Map(object):
             self.place_monsters(Werewolf)
         elif self.level == 9:
             self.place_monsters(Abomination)
-        elif self.level == 1:#MAX_DLEVEL:
+        elif self.level == MAX_DLEVEL:
             self.place_monsters(TrollKing)
 
     def find_tile(self, func):
@@ -84,10 +84,16 @@ class Map(object):
         for i in range(5):
             self.add_chest(self.level)
         self.add_shrine()
-        self.place_item(CopperKey)
-        if map_level == 2:    
+        self.place_item(Torch)
+        self.place_item(HealingPotion)
+        if self.level == 1:
+            self.place_item(CopperKey)
+        elif self.level == 2:
             self.place_item(SilverKey)
-        
+        elif self.level == 5:
+            self.place_item(GoldenKey)
+        elif self.level == 11:
+            self.place_item(RunedKey)
 
     def flood(self, x, y, mcls, n):
         if n == 0:
@@ -172,7 +178,7 @@ class Map(object):
             else:
                 self.place_obj(x, y, SilverStrongbox)
         elif map_level == MAX_DLEVEL:
-            i = rand(1, 3)
+            i = rand(1, 5)
             if i == 1:
                 self.place_obj(x, y, RunedChest)
             else:
