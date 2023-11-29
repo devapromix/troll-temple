@@ -11,9 +11,8 @@ class Amulet(Equipment):
     art = 'amulet'
     glyph = '\'', T.gold
 
-class SimpleAmulet(Amulet):
+class RavenAmulet(Amulet):
     name = 'amulet'
-    dungeons = 10, 12
     dungeons = 1, 4
     rarity = 10
     
@@ -30,6 +29,24 @@ class SimpleAmulet(Amulet):
             if self.suffix("sun"):
                 self.modifier += AddMaxMana(rand(5, 9))
 
+class WispAmulet(Amulet):
+    name = 'amulet'
+    dungeons = 5, 8
+    rarity = 15
+    
+    def __init__(self):
+        super().__init__()
+        v = rand(1, 3) 
+        if v == 1:
+            if self.suffix("mirros"):
+                self.modifier += Mod('reflect_damage_bonus', 25)
+        elif v == 2:
+            if self.suffix("tiger"):
+                self.modifier += AddMaxLife(rand(10, 25))
+        else:
+            if self.suffix("star"):
+                self.modifier += AddMaxMana(rand(12, 30))
+
 class RubyAmulet(Amulet):
     ABSTRACT = True
     name = 'ruby amulet'
@@ -42,17 +59,5 @@ class RubyAmulet(Amulet):
         self.modifier += AddMaxLife(75)
 
 
-
-
-class MirrorAmulet(Amulet):
-    name = 'mirror amulet'
-    art = 'mirror_amulet'
-    glyph = '\'', T.green
-    magical = True
-    dungeons = 10, 12
-    rarity = 20
-
-    def __init__(self):
-        super().__init__()
-        self.modifier += Mod('reflect_damage_bonus', 75)
+       
 
