@@ -64,7 +64,7 @@ class Player(Mob):
 
         import items.items as item
         import common.spells as spell
-        from items.amulets import RavenAmulet, WispAmulet
+        from items.amulets import RavenAmulet, WispAmulet, WardAmulet
         self.spells = []
         self.recipes = []
         self.plans = []
@@ -77,7 +77,7 @@ class Player(Mob):
             self.can_wear_leather_armor = True
             self.can_wear_mail_armor = True
             self.items += [item.HealingPotion(), item.ShortSword(), item.RoundShield(), item.RingMail()]
-            self.items += [RavenAmulet(), WispAmulet()]
+            self.items += [RavenAmulet(), WispAmulet(), WardAmulet()]
         elif self.game_class == Classes.THIEF:
             self.life_regen = 1
             self.mana_regen = 1
