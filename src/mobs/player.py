@@ -64,11 +64,12 @@ class Player(Mob):
 
         import items.items as item
         import common.spells as spell
+        from items.light_sources import Torch
         from items.amulets import RavenAmulet, WispAmulet, WardAmulet
         self.spells = []
         self.recipes = []
         self.plans = []
-        self.items = [item.Torch(), item.HealingPotion()]
+        self.items = [Torch(), item.HealingPotion()]
         if self.game_class == Classes.FIGHTER:
             self.life_regen = 2
             self.mana_regen = 0

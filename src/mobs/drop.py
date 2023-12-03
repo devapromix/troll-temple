@@ -1,4 +1,5 @@
 from items.items import *
+from items.light_sources import *
 from common.utils import random_by_level, rand
 
 

@@ -1,7 +1,6 @@
 from common.modifiers.attrib_mod import *
 from common.modifiers.add_damage import *
 from common.modifiers.reflection import Reflection
-from .LightSource import LightSource
 from .Weapon import *
 from .Weapon import Weapon
 from .ranged_weapon import RangedWeapon
@@ -417,33 +416,6 @@ class Scroll(Item):
     def on_use(self, player):
         if self.spell.on_use(self.spell(), player):
             player.items.remove(self)
-
-# --- LIGHT SOURCES --- # 
-
-class Torch(LightSource):
-    name = 'torch'
-    art = 'torch'
-    glyph = '|', T.dark_orange
-    dungeons = 1, 12
-    turns = 150
-    light_range = 6
-
-class Lamp(LightSource):
-    name = 'lamp'
-    art = 'lamp'
-    glyph = 'o', T.dark_yellow
-    dungeons = 4, 12
-    rarity = 5
-    turns = 300
-    light_range = 8
-
-class OldLamp(Lamp):
-    name = 'old lamp'
-    glyph = '0', T.light_yellow
-    dungeons = 8, 12
-    rarity = 15
-    turns = 500
-    light_range = 10
 
 # --- DAGGERS --- #
 

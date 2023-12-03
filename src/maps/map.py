@@ -1,5 +1,6 @@
 from mobs.mobs import *
 from items.items import *
+from items.light_sources import *
 from items.keys import *
 from maps.objects import *
 
