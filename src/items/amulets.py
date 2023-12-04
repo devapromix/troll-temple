@@ -1,8 +1,7 @@
 import tcod as T
-
+from items.Equipment import Equipment
 from common.modifiers.mod import Mod
 from common.utils import rand
-from items.Equipment import Equipment
 from common.modifiers.attrib_mod import *
 
 class Amulet(Equipment):
@@ -13,8 +12,7 @@ class Amulet(Equipment):
 
 class RavenAmulet(Amulet):
     name = 'amulet'
-    dungeons = 1, 4
-    rarity = 10
+    ABSTRACT = True
     
     def __init__(self):
         super().__init__()
@@ -38,8 +36,7 @@ class RavenAmulet(Amulet):
 
 class WispAmulet(Amulet):
     name = 'amulet'
-    dungeons = 5, 8
-    rarity = 15
+    ABSTRACT = True
     
     def __init__(self):
         super().__init__()
@@ -59,8 +56,7 @@ class WispAmulet(Amulet):
 
 class WardAmulet(Amulet):
     name = 'amulet'
-    dungeons = 9, 12
-    rarity = 20
+    ABSTRACT = True
     
     def __init__(self):
         super().__init__()
