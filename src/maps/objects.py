@@ -164,6 +164,9 @@ class Container(MapObject):
             message('Need another key!', Color.ERROR.value)
             
     def bash(self, player):
+            if not self.locked:
+                message('The %s is already open.' % self.name, Color.ERROR.value)
+                return
             self.locked = False
             self.broken = True
             message('You broke the %s.' % self.name, Color.ALERT.value)

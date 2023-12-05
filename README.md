@@ -1,8 +1,8 @@
-***** ****   ***  *     *       ***** ***** *     * ***** *     *****
-* * * *   * *   * *     *       * * * *     **   ** *   * *     *
-  *   ****  *   * *     *         *   ***   * * * * ****  *     ***
-  *   * *   *   * *     *         *   *     *  *  * *     *     *
-  *   *  *   ***  ***** *****     *   ***** *     * *     ***** *****
+OOOOO OOOO   OOO  O     O       OOOOO OOOOO O     O OOOOO O     OOOOO
+O O O O   O O   O O     O       O O O O     OO   OO O   O O     O
+  O   OOOO  O   O O     O         O   OOO   O O O O OOOO  O     OOO
+  O   O O   O   O O     O         O   O     O  O  O O     O     O
+  O   O  O   OOO  OOOOO OOOOO     O   OOOOO O     O O     OOOOO OOOOO
 
                            /\ 
                          _/--\ 
@@ -23,7 +23,6 @@
    |   /  /       /  \        |```|       \,   | 
   /  (           /    |       \```\       /  _/ \ 
  /              /             |```|           _,| 
- |_                           \```\             \ 
 
 Roguelike game in fantasy world.
 
@@ -50,19 +49,7 @@ Good luck! You will need it...
 [?] show this help screen                 [O] conjure mana orb (only mage class)
 [5] wait one turn                         [B] open spellbook (only mage class)
 
- .   . .   .
-    . ^.
-.  ,<(O)>,    .
-,    .\\.       ,
-    .  )) .
- .    //
-  .  ((      ,
-      \\
-      ||
-      ||
-      //
-     ||
-     ||
+
 
 
 
