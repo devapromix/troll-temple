@@ -1,3 +1,4 @@
+import tcod as T
 from items.Item import Item
 
 class LightSource(Item):
