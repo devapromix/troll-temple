@@ -18,7 +18,9 @@ class Game(object):
         self.info_scene = InfoScene()
 
         pygame.init()
-        font = pygame.font.Font("../assets/fonts/UbuntuMono-R.ttf", 16)
+        #font = pygame.font.Font("../assets/fonts/UbuntuMono-R.ttf", 16)
+        #font = pygame.font.Font("../assets/fonts/rainyhearts.ttf", 16)
+        font = pygame.font.Font("../assets/fonts/alagard.ttf", 16)
         window = Window(SCREEN_W, SCREEN_H, font)
         window.title = TITLE + " v." + VERSION + " [WIZARD]" if self.wizard else ""
         window.icon = "../assets/icons/game.ico"
