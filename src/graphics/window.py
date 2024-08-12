@@ -81,6 +81,10 @@ def out_text(x: int, y: int, width: int, text, color=T.white, bkcolor=T.black, w
     return line_count
 
 
+def get_scr():
+    return Window.instance().screen
+
+
 def out_file(x, y, filepath, color=T.white, bkcolor=T.black, w=0):
     with open(filepath, 'r') as f:
         for i, line in enumerate(f.readlines()):
