@@ -419,6 +419,13 @@ class Scroll(Item):
 
 # --- DAGGERS --- #
 
+class Shiv(Dagger):
+    name = 'Shiv'
+    glyph = '(', T.light_grey
+    speed = 0
+    dice = 1, 2, 0
+    dungeons = 1, 1
+
 class SmallDagger(Dagger):
     name = 'small dagger'
     glyph = '(', T.light_grey
